@@ -169,7 +169,7 @@ NeoSSNetFactory --> ModelConfig
 NeoSSNetFactory --> NeoSSNetPipeline
 ResultRepository ..> Recording
 @enduml
-\end{verbatim}\end{minipage}}
+\end{verbatim}\end{minipage}
   \caption{Core class diagram placeholder.}
 \end{figure}
 \subsection{ERD}
@@ -302,7 +302,7 @@ class NeoSSNetPipeline {
 SeparationService --> SeparationStrategy
 SeparationStrategy <|.. NeoSSNetPipeline
 @enduml
-\end{verbatim}\end{minipage}}
+\end{verbatim}\end{minipage}
   \caption{Strategy pattern class diagram placeholder.}
 \end{figure}
 \begin{figure}[h]
@@ -320,7 +320,7 @@ NeoSSNetPipeline --> SeparationService : heart, lung
 SeparationService -> ResultRepository : saveResult()
 SeparationService --> Controller : return results
 @enduml
-\end{verbatim}\end{minipage}}
+\end{verbatim}\end{minipage}
   \caption{Strategy pattern workflow UML placeholder.}
 \end{figure}
 \subsubsection*{Sample Potential Code}
@@ -373,7 +373,7 @@ PipelineFactory <|-- NeoSSNetFactory
 NeoSSNetFactory --> ModelConfig
 NeoSSNetFactory --> NeoSSNetPipeline
 @enduml
-\end{verbatim}\end{minipage}}
+\end{verbatim}\end{minipage}
   \caption{Abstract Factory pattern class diagram placeholder.}
 \end{figure}
 \subsubsection*{Sample Potential Code}
@@ -423,7 +423,7 @@ SeparationService -> NotificationCenter : notifyResultReady(recordingId, resultI
 NotificationCenter -> UIObserver : onResultReady()
 NotificationCenter -> AuditLogger : onResultReady()
 @enduml
-\end{verbatim}\end{minipage}}
+\end{verbatim}\end{minipage}
   \caption{Observer pattern UML placeholder.}
 \end{figure}
 \subsubsection*{Sample Potential Code}
