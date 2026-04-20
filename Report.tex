@@ -1,0 +1,486 @@
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[none]{hyphenat}
+
+\sloppy
+\geometry{margin=1in}
+\onehalfspacing
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\lstdefinestyle{pystyle}{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{green!40!black},
+  showstringspaces=false,
+  frame=single,
+  breaklines=true
+}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\Large CSE 6234 Software Design Assignment (30\%) -- TERM 2610\\[0.5em]
+Software Design Proposal and Design Pattern Documentation\\[1.5em]}
+{\Huge\bfseries Development of a Machine Learning-Based System\\[0.3em]
+for Cardiopulmonary Sound Separation\par}
+\vspace{1.5cm}
+{\Large Title Option: HealthTech\\[0.5em]
+Project Type: Application-Based\\[0.3em]
+Specialization: Software Engineering\\[0.3em]
+Focus: Prototype / Proof of Concept\par}
+\vfill
+{\large Prepared by Group: [GroupName]\\[0.3em]
+Tutorial Class: [TutorialCode]\\[0.3em]
+Date: \today\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+
+\begin{abstract}
+This report presents the software design of an application-based machine learning system for cardiopulmonary sound separation. The system focuses on a NeoSSNet-only architecture in which a mixed chest sound recording is processed by a Python-based workflow to produce separated heart and lung signals. The project is limited to sound separation and does not include disease diagnosis. The design is grounded in three recent and strongly related papers: NeoSSNet as the core separation model, a deep learning review in heart sound analysis, and a review of heart--lung sound separation methods. Based on these works, the proposed prototype adopts a maintainable software structure with clearly separated service, configuration, persistence, and notification responsibilities. The report also documents UML placeholders, design requirements, and design patterns that support a reusable proof-of-concept implementation aligned with the assignment requirements.
+\end{abstract}
+
+\clearpage
+\pagenumbering{arabic}
+
+\section{Introduction}
+
+\subsection{Project Overview}
+This project designs a software engineering prototype for cardiopulmonary sound separation using a NeoSSNet-based machine learning pipeline. The aim is not to create a diagnostic system, but to develop a maintainable Python application that accepts a mixed chest sound recording and returns separated heart and lung audio signals.
+
+\subsection{Problem Statement}
+Cardiopulmonary recordings usually contain heart sounds and lung sounds at the same time, and these signals overlap in both time and frequency. Traditional signal processing methods often lose important information or perform poorly when overlap and noise are high.\citep{sun2024review}
+Recent deep learning studies show that learned representations can improve performance in biomedical sound analysis, especially when the underlying signals are complex and noisy. However, most published work focuses on algorithm development rather than the design of reusable application-based software systems that can operationalise a separation model in a structured workflow.\citep{zhao2024deep,poh2024neossnet}
+
+\subsection{Project Objectives}
+The project is guided by the following objectives:
+\begin{enumerate}[nosep]
+  \item Study existing techniques for cardiopulmonary sound separation, with emphasis on NeoSSNet and recent deep learning approaches.
+  \item Design and develop a Python-based machine learning system that performs cardiopulmonary sound separation using a NeoSSNet pipeline.
+  \item Implement and test the prototype using public cardiopulmonary datasets.
+  \item Evaluate the performance of the system using appropriate sound separation metrics and document the design clearly.
+\end{enumerate}
+\subsection{Literature Review}
+\textbf{Difficulty of heart--lung sound separation.} Cardiopulmonary recordings are difficult to separate because heart sounds and lung sounds are mixed within the same signal and may overlap in frequency, while environmental noise further distorts the recording. Sun et al. (2024) review the research progress of heart--lung sound separation and show that classical techniques such as filtering, adaptive noise cancellation, and blind source separation have important limitations under strong overlap and noisy recording conditions.\citep{sun2024review} Their review also highlights a clear shift in the field towards deep learning-based separation because learned models can capture signal structure more effectively than handcrafted approaches.\citep{sun2024review}
+\noindent\textbf{Deep learning as the methodological foundation.} Zhao et al. (2024) provide a broad review of deep learning in heart sound analysis, covering CNNs, RNNs, transformers, and hybrid models applied to segmentation, classification, denoising, and related tasks.\citep{zhao2024deep} The review supports the use of deep neural architectures in this project because it shows that waveform-based and time--frequency-based models can outperform traditional methods when supported by proper preprocessing and data management. At the same time, the authors note several practical issues, including limited labelled datasets, deployment challenges, and the need for software-oriented implementations that support real use cases rather than only laboratory experiments.\citep{zhao2024deep}
+\noindent\textbf{NeoSSNet as the core model for this project.} Poh et al. (2024) propose NeoSSNet, a real-time neonatal chest sound separation model inspired by Conv-TasNet. The architecture uses a 1D convolutional encoder, a convolution--transformer mask generator, and a 1D transposed convolutional decoder to reconstruct separate heart and lung waveforms from a single mixed recording.\citep{poh2024neossnet} The paper is highly relevant because it directly addresses the same separation task targeted by this project and reports stronger objective separation performance together with significantly faster computation time than earlier approaches.\citep{poh2024neossnet}
+\noindent\textbf{Research gap and project positioning.} Although the recent literature demonstrates that deep learning-based separation is effective, the studies mainly focus on experimental model design and evaluation. They provide limited discussion of maintainable software architecture, modular services, and reusable workflows that expose separation as a software capability.\citep{sun2024review,zhao2024deep,poh2024neossnet} Therefore, this project is positioned as a software engineering prototype that implements NeoSSNet within a structured Python system, focusing only on cardiopulmonary sound separation and excluding diagnosis.
+\subsection{Project and System Scope}
+The scope of the project is limited to a proof-of-concept software prototype.
+\begin{itemize}[nosep]
+  \item The system will use NeoSSNet as the only separation model.
+  \item The system will take a mixed cardiopulmonary recording as input and output separated heart and lung signals.
+  \item The system will use public datasets for implementation and evaluation.
+  \item The system will focus only on sound separation and will not perform disease classification or diagnosis.
+  \item The system will be constrained by available data, development time, and prototype-level implementation resources.
+\end{itemize}
+\section{System Overview}
+\subsection{Generic Use Case}
+The primary use case is ``Separate Cardiopulmonary Sounds.'' The user uploads a mixed chest sound recording, starts the separation process, views the resulting separated signals, and downloads the generated output files.
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE GENERIC USE CASE DIAGRAM HERE (PlantUML):}
+\begin{verbatim}
+@startuml
+left to right direction
+actor User
+rectangle "Cardiopulmonary Sound Separation System" {
+  usecase "Upload Recording" as UC1
+  usecase "Run Separation" as UC2
+  usecase "View Results" as UC3
+  usecase "Download Separated Audio" as UC4
+}
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+UC2 ..> UC1 : <<include>>
+UC3 ..> UC2 : <<extend>>
+UC4 ..> UC3 : <<extend>>
+@enduml
+\end{verbatim}\end{minipage}
+  \caption{Generic use case diagram placeholder.}
+\end{figure}
+\subsection{Class Diagrams}
+The main software components are designed around a NeoSSNet-only architecture. The central classes are \texttt{Recording}, \texttt{SeparationService}, \texttt{NeoSSNetPipeline}, \texttt{ModelConfig}, \texttt{NeoSSNetFactory}, \texttt{ResultRepository}, and \texttt{NotificationCenter}. In this design, \texttt{SeparationService} coordinates preprocessing, model loading, inference, result storage, and notification.
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE CLASS DIAGRAM HERE (PlantUML):}
+\begin{verbatim}
+@startuml
+skinparam classAttributeIconSize 0
+class Recording {
+  +recordingId
+  +filePath
+  +samplingRate
+  +duration
+}
+class SeparationService {
+  +processRecording()
+}
+class NeoSSNetPipeline {
+  +separate()
+}
+class ModelConfig {
+  +configId
+  +name
+  +version
+  +params
+}
+class NeoSSNetFactory {
+  +createPipeline()
+}
+class ResultRepository {
+  +saveResult()
+  +getResult()
+}
+class NotificationCenter {
+  +attach()
+  +notifyResultReady()
+}
+SeparationService --> Recording
+SeparationService --> NeoSSNetFactory
+SeparationService --> NeoSSNetPipeline
+SeparationService --> ResultRepository
+SeparationService --> NotificationCenter
+NeoSSNetFactory --> ModelConfig
+NeoSSNetFactory --> NeoSSNetPipeline
+ResultRepository ..> Recording
+@enduml
+\end{verbatim}\end{minipage}}
+  \caption{Core class diagram placeholder.}
+\end{figure}
+\subsection{ERD}
+The ERD captures the persistence requirements of the prototype. A user may upload multiple recordings, each recording may produce one or more separation results over time, and each result is linked to a NeoSSNet configuration entry.
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE ERD HERE (PlantUML):}
+\begin{verbatim}
+@startuml
+entity User {
+  *UserID : int
+  --
+  Name : string
+  Role : string
+  Email : string
+}
+entity Recording {
+  *RecordingID : int
+  --
+  UserID : int
+  Timestamp : datetime
+  Duration : float
+  SamplingRate : int
+  FilePath : string
+}
+entity ModelConfig {
+  *ConfigID : int
+  --
+  Name : string
+  Version : string
+  ParamsJSON : text
+}
+entity SeparationResult {
+  *ResultID : int
+  --
+  RecordingID : int
+  ConfigID : int
+  HeartPath : string
+  LungPath : string
+  SDR : float
+  SISDR : float
+}
+User ||--o{ Recording
+Recording ||--o{ SeparationResult
+ModelConfig ||--o{ SeparationResult
+@enduml
+\end{verbatim}\end{minipage}
+  \caption{ERD placeholder.}
+\end{figure}
+\subsection{Object Diagrams}
+An example runtime object diagram shows one user, one uploaded recording, one NeoSSNet configuration, one instantiated pipeline, and one separation result generated by the system.
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE OBJECT DIAGRAM HERE (PlantUML):}
+\begin{verbatim}
+@startuml
+object user1 : User {
+  UserID = 1
+  Name = "Researcher"
+}
+object rec42 : Recording {
+  RecordingID = 42
+  Duration = 10.0
+  SamplingRate = 4000
+}
+object cfgNeo : ModelConfig {
+  ConfigID = 7
+  Name = "NeoSSNet"
+  Version = "1.0"
+}
+object pipeNeo : NeoSSNetPipeline
+object res77 : SeparationResult {
+  ResultID = 77
+  SDR = 14.8
+}
+user1 -- rec42
+rec42 -- res77
+cfgNeo -- res77
+pipeNeo -- rec42
+@enduml
+\end{verbatim}\end{minipage}
+  \caption{Object diagram placeholder.}
+\end{figure}
+\section{Requirements}
+\subsection{Software Design Concepts and Design Principles}
+The system is designed using the principles of abstraction, modularity, separation of concerns, and maintainability. The core separation logic is encapsulated inside a dedicated NeoSSNet pipeline component, while service, repository, configuration, and notification responsibilities are separated into their own components. This organisation makes the prototype easier to test, maintain, and extend in future work.
+\subsubsection*{Functional Requirements}
+\begin{itemize}[nosep]
+  \item The system shall allow a user to upload a mixed chest sound recording.
+  \item The system shall preprocess the uploaded audio before inference.
+  \item The system shall execute the NeoSSNet pipeline to separate heart and lung sounds.
+  \item The system shall store the separated output files and related metadata.
+  \item The system shall allow the user to view and download the separated heart and lung audio results.
+\end{itemize}
+\subsubsection*{Non-Functional Requirements}
+\begin{itemize}[nosep]
+  \item \textbf{Maintainability:} The code shall be organised into clear layers and modules.
+  \item \textbf{Extensibility:} The architecture shall allow future enhancement of the NeoSSNet pipeline and surrounding services.
+  \item \textbf{Performance:} The system should complete inference within practical prototype limits, consistent with the real-time orientation of NeoSSNet.\citep{poh2024neossnet}
+  \item \textbf{Reproducibility:} Configuration settings and datasets shall be documented so experiments can be repeated.
+  \item \textbf{Usability:} The prototype shall provide a simple workflow for uploading recordings and obtaining separated results.
+\end{itemize}
+\subsubsection*{Design Principles}
+\begin{itemize}[nosep]
+  \item \textbf{Single Responsibility Principle:} Each class handles a specific function, such as separation, persistence, or notification.
+  \item \textbf{Dependency Inversion Principle:} High-level workflow logic depends on well-defined components rather than tightly coupled implementation details.
+  \item \textbf{Separation of Concerns:} Audio handling, model inference, persistence, and notification are kept in distinct modules.
+  \item \textbf{Modularity:} The NeoSSNet processing flow is packaged as a dedicated component that can be maintained independently.
+\end{itemize}
+\section{Proposed Design Patterns}
+This assignment requires three design patterns. Even though the current prototype uses only NeoSSNet, the selected patterns still improve structure, clarity, and maintainability by separating algorithm execution, controlled object creation, and event notification.
+\subsection{Design Pattern 1: Strategy}
+\subsubsection*{Function or Software Component Affected}
+The Strategy pattern is applied between \texttt{SeparationService} and \texttt{NeoSSNetPipeline}. In this project, there is only one concrete strategy, but the pattern is still useful because it isolates the separation behaviour from the service workflow.
+\subsubsection*{Workflow / Data Flow}
+The controller sends a request to \texttt{SeparationService}. The service prepares the recording, delegates the actual separation work to \texttt{NeoSSNetPipeline}, receives the heart and lung outputs, and then stores and returns the results.
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE CLASS DIAGRAM HERE (STRATEGY) (PlantUML):}
+\begin{verbatim}
+@startuml
+skinparam classAttributeIconSize 0
+class SeparationService
+interface SeparationStrategy {
+  +separate()
+}
+class NeoSSNetPipeline {
+  +separate()
+}
+SeparationService --> SeparationStrategy
+SeparationStrategy <|.. NeoSSNetPipeline
+@enduml
+\end{verbatim}\end{minipage}}
+  \caption{Strategy pattern class diagram placeholder.}
+\end{figure}
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE UML NOTATION HERE (ACTIVITY/SEQUENCE) (PlantUML):}
+\begin{verbatim}
+@startuml
+actor Controller
+participant SeparationService
+participant NeoSSNetPipeline
+participant ResultRepository
+Controller -> SeparationService : processRecording(recording)
+SeparationService -> NeoSSNetPipeline : separate(waveform, sr)
+NeoSSNetPipeline --> SeparationService : heart, lung
+SeparationService -> ResultRepository : saveResult()
+SeparationService --> Controller : return results
+@enduml
+\end{verbatim}\end{minipage}}
+  \caption{Strategy pattern workflow UML placeholder.}
+\end{figure}
+\subsubsection*{Sample Potential Code}
+\begin{lstlisting}[style=pystyle,caption={Strategy-style separation abstraction.}]
+from abc import ABC, abstractmethod
+import numpy as np
+
+class SeparationStrategy(ABC):
+    @abstractmethod
+    def separate(self, waveform: np.ndarray, sr: int):
+        raise NotImplementedError
+
+class NeoSSNetPipeline(SeparationStrategy):
+    def __init__(self, model):
+        self.model = model
+
+    def separate(self, waveform: np.ndarray, sr: int):
+        heart, lung = self.model.forward_separate(waveform, sr)
+        return heart, lung
+\end{lstlisting}
+\subsubsection*{Benefits}
+\begin{itemize}[nosep]
+  \item Keeps the service workflow independent from the internal details of NeoSSNet inference.
+  \item Improves readability by separating orchestration logic from algorithm execution.
+\end{itemize}
+\subsubsection*{Limitations}
+\begin{itemize}[nosep]
+  \item In the current prototype, there is only one concrete strategy, so the full flexibility of the pattern is not yet used.
+\end{itemize}
+\subsection{Design Pattern 2: Abstract Factory}
+\subsubsection*{Function or Software Component Affected}
+The Abstract Factory pattern is applied through a factory component responsible for creating and configuring the NeoSSNet pipeline from a stored model configuration.
+\subsubsection*{Workflow / Data Flow}
+The service reads the stored model configuration, passes it to the factory, and receives a ready-to-use \texttt{NeoSSNetPipeline}. The factory is responsible for loading checkpoints and constructing the pipeline consistently.
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE CLASS DIAGRAM HERE (ABSTRACT FACTORY) (PlantUML):}
+\begin{verbatim}
+@startuml
+skinparam classAttributeIconSize 0
+abstract class PipelineFactory {
+  +createPipeline(config)
+}
+class NeoSSNetFactory {
+  +createPipeline(config)
+}
+class NeoSSNetPipeline
+class ModelConfig
+PipelineFactory <|-- NeoSSNetFactory
+NeoSSNetFactory --> ModelConfig
+NeoSSNetFactory --> NeoSSNetPipeline
+@enduml
+\end{verbatim}\end{minipage}}
+  \caption{Abstract Factory pattern class diagram placeholder.}
+\end{figure}
+\subsubsection*{Sample Potential Code}
+\begin{lstlisting}[style=pystyle,caption={Factory for creating the NeoSSNet pipeline.}]
+from abc import ABC, abstractmethod
+
+class ModelConfig:
+    def __init__(self, name: str, version: str, params: dict):
+        self.name = name
+        self.version = version
+        self.params = params
+
+class PipelineFactory(ABC):
+    @abstractmethod
+    def create_pipeline(self, config: ModelConfig):
+        raise NotImplementedError
+
+class NeoSSNetFactory(PipelineFactory):
+    def create_pipeline(self, config: ModelConfig):
+        model = load_neossnet_model(config.params["checkpoint_path"])
+        return NeoSSNetPipeline(model)
+\end{lstlisting}
+\subsubsection*{Benefits}
+\begin{itemize}[nosep]
+  \item Centralises model-loading logic and keeps configuration handling out of the service layer.
+  \item Supports cleaner construction of the NeoSSNet processing pipeline.\citep{poh2024neossnet}
+\end{itemize}
+\subsubsection*{Limitations}
+\begin{itemize}[nosep]
+  \item The pattern may seem heavy for a small prototype, but it improves clarity when model loading and configuration become more complex.
+\end{itemize}
+\subsection{Design Pattern 3: Observer}
+\subsubsection*{Function or Software Component Affected}
+The Observer pattern is applied through \texttt{NotificationCenter}, which notifies interested components when a separation result is ready.
+\subsubsection*{Workflow / Data Flow}
+After \texttt{SeparationService} stores a completed result, it invokes \texttt{NotificationCenter}. The notification centre then updates registered observers such as the user interface, logging component, or audit trail component.
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE UML NOTATION HERE (SEQUENCE/STATE DIAGRAM) (PlantUML):}
+\begin{verbatim}
+@startuml
+participant SeparationService
+participant NotificationCenter
+participant UIObserver
+participant AuditLogger
+SeparationService -> NotificationCenter : notifyResultReady(recordingId, resultId)
+NotificationCenter -> UIObserver : onResultReady()
+NotificationCenter -> AuditLogger : onResultReady()
+@enduml
+\end{verbatim}\end{minipage}}
+  \caption{Observer pattern UML placeholder.}
+\end{figure}
+\subsubsection*{Sample Potential Code}
+\begin{lstlisting}[style=pystyle,caption={Observer pattern for result notifications.}]
+from abc import ABC, abstractmethod
+
+class ResultObserver(ABC):
+    @abstractmethod
+    def on_result_ready(self, recording_id: str, result_id: str):
+        pass
+
+class NotificationCenter:
+    def __init__(self):
+        self._observers = []
+
+    def attach(self, observer: ResultObserver):
+        self._observers.append(observer)
+
+    def notify_result_ready(self, recording_id: str, result_id: str):
+        for observer in self._observers:
+            observer.on_result_ready(recording_id, result_id)
+\end{lstlisting}
+\subsubsection*{Benefits}
+\begin{itemize}[nosep]
+  \item Decouples the main separation workflow from UI updates and logging functions.
+  \item Supports cleaner extension of non-core services such as monitoring and audit logging.
+\end{itemize}
+\subsubsection*{Limitations}
+\begin{itemize}[nosep]
+  \item Additional observer logic requires careful error handling to avoid failures in notification channels.
+\end{itemize}
+\section{Conclusion and Suggestions}
+This report redesigned the assignment around a NeoSSNet-only architecture to ensure full consistency between the project title, literature review, software design, and implementation scope. The design uses three recent and highly relevant papers to justify the need for deep learning-based cardiopulmonary sound separation and to motivate the use of NeoSSNet as the core model.\citep{poh2024neossnet,zhao2024deep,sun2024review}
+The resulting system structure is suitable for a software engineering final year project because it focuses on a practical application problem while still demonstrating modular design, requirement analysis, UML-based modelling, and pattern-based architecture. Future work may extend the system with a richer interface, larger datasets, deployment support, or downstream diagnostic modules, but the current prototype remains strictly limited to cardiopulmonary sound separation.
+\section*{Program Screenshots and Code Explanation (Placeholders)}
+\addcontentsline{toc}{section}{Program Screenshots and Code Explanation (Placeholders)}
+In the final implementation, screenshots should be inserted to show the working prototype, including the audio upload interface, separation result page, and visualisation of the separated heart and lung signals.
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE SCREENSHOT HERE: Main upload page of the NeoSSNet-based application.}\end{minipage}}
+  \caption{Application upload screen placeholder.}
+\end{figure}
+\begin{figure}[h]
+  \centering
+  \fbox{\begin{minipage}{0.9\textwidth}\textbf{PLACE SCREENSHOT HERE: Output page with mixed waveform, heart output, and lung output.}\end{minipage}}
+  \caption{Application results screen placeholder.}
+\end{figure}
+The code explanation should map each software component to the implemented architecture:
+\begin{itemize}[nosep]
+  \item The controller handles user requests and audio uploads.
+  \item \texttt{SeparationService} coordinates preprocessing, inference, persistence, and notification.
+  \item \texttt{NeoSSNetFactory} creates a configured \texttt{NeoSSNetPipeline} from stored settings.
+  \item \texttt{NeoSSNetPipeline} loads the trained model and performs sound separation.
+  \item \texttt{ResultRepository} stores file paths and evaluation metrics.
+  \item \texttt{NotificationCenter} updates the interface when results are ready.
+\end{itemize}
+\clearpage
+\bibliographystyle{apalike}
+\bibliography{MyBib}
+\end{document}
