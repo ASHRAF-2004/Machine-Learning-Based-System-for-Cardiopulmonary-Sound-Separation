@@ -5,6 +5,23 @@ This project is a C++20 software design prototype for cardiopulmonary sound sepa
 - Abstract Factory pattern (`PipelineFactory` -> `NeoSSNetFactory`)
 - Observer pattern (`NotificationCenter` + `UIObserver`/`AuditObserver`)
 
+## Design Patterns Used (and Why)
+
+1. **Strategy Pattern**
+   - `SeparationStrategy` defines a common separation interface, while `NeoSSNetStrategy` provides a concrete algorithm implementation.
+   - `SeparationService` can call `separate(...)` without depending on one hard-coded algorithm class.
+   - Benefit: easy to swap in future models (e.g., another neural architecture) with minimal service-layer changes.
+
+2. **Abstract Factory Pattern**
+   - `PipelineFactory` abstracts creation of strategy objects and `NeoSSNetFactory` creates the concrete `NeoSSNetStrategy`.
+   - `SeparationService` asks a factory for a strategy instead of constructing algorithm classes directly.
+   - Benefit: centralizes creation logic and supports future families of pipeline components.
+
+3. **Observer Pattern**
+   - `NotificationCenter` stores multiple `ResultObserver` subscribers and broadcasts `onResultReady(...)` events.
+   - `UIObserver` and `AuditObserver` react independently when separation results are produced.
+   - Benefit: decouples result-processing flow from side effects like UI updates and audit logging.
+
 ## Project Layout
 
 - `src/main.cpp`: Crow app entrypoint.
