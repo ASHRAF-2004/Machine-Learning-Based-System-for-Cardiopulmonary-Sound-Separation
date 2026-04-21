@@ -1,0 +1,15 @@
+{
+  "name": "neossnet-cardiopulmonary-separation",
+  "version-string": "0.1.0",
+  "dependencies": [
+    "crow",
+    "nlohmann-json",
+    "sqlite3",
+    "sqlite-modern-cpp",
+    "libsndfile",
+    "fftw3",
+    "onnxruntime",
+    "spdlog",
+    "gtest"
+  ]
+}
