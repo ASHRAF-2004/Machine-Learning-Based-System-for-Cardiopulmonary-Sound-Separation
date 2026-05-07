@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app.database.db import DATABASE_PATH, PROJECT_ROOT
+from app.routers.models import router as models_router
 from app.routers.results import router as results_router
 from app.routers.separation import router as separation_router
 from app.routers.upload import router as upload_router
@@ -27,6 +28,7 @@ app.mount(
 )
 
 app.include_router(upload_router)
+app.include_router(models_router)
 app.include_router(separation_router)
 app.include_router(results_router)
 

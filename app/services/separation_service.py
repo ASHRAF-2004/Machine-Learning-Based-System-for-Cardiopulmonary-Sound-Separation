@@ -11,8 +11,14 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.database.db import PROJECT_ROOT
-from app.ml.neossnet_inference import run_neossnet_inference
-from app.models.db_models import Model, SeparationJob, SeparationResult, UploadedAudio
+from app.models.db_models import SeparationJob, SeparationResult, UploadedAudio
+from app.services.model_factory import SeparationAlgorithmFactory
+from app.services.model_service import (
+    ActiveModelNotFoundError,
+    ModelConfigurationError,
+    ModelNotFoundError,
+    get_model_for_separation,
+)
 
 
 HEART_OUTPUT_DIR = PROJECT_ROOT / "storage" / "outputs" / "heart"
@@ -24,10 +30,6 @@ class SeparationError(Exception):
 
 
 class UploadedAudioNotFoundError(SeparationError):
-    pass
-
-
-class ActiveModelNotFoundError(SeparationError):
     pass
 
 
@@ -65,22 +67,6 @@ def get_uploaded_audio(db: Session, audio_id: int) -> UploadedAudio:
     return uploaded_audio
 
 
-def get_active_model(db: Session) -> Model:
-    model = (
-        db.query(Model)
-        .filter(Model.is_active == 1)
-        .order_by(Model.model_id.desc())
-        .first()
-    )
-    if model is None:
-        raise ActiveModelNotFoundError("No active NeoSSNet model is configured.")
-    if not model.checkpoint_path or not model.config_path:
-        raise ActiveModelNotFoundError(
-            "Active model must have checkpoint_path and config_path."
-        )
-    return model
-
-
 def create_running_job(db: Session, uploaded_audio_id: int, model_id: int) -> SeparationJob:
     job = SeparationJob(
         uploaded_audio_id=uploaded_audio_id,
@@ -107,16 +93,23 @@ def mark_job_failed(
     db.commit()
 
 
-def separate_uploaded_audio(db: Session, audio_id: int) -> SeparationResponse:
+def separate_uploaded_audio(
+    db: Session,
+    audio_id: int,
+    model_id: int | None = None,
+) -> SeparationResponse:
     uploaded_audio = get_uploaded_audio(db, audio_id)
-    model = get_active_model(db)
+    model = get_model_for_separation(db, model_id)
+    algorithm = SeparationAlgorithmFactory.create(model)
 
     input_path = resolve_project_path(uploaded_audio.stored_path)
     if not input_path.is_file():
         raise FileNotFoundError(f"Uploaded WAV file is missing: {input_path}")
 
     model_path = resolve_project_path(model.checkpoint_path)
-    model_config_path = resolve_project_path(model.config_path)
+    model_config_path = (
+        resolve_project_path(model.config_path) if model.config_path else None
+    )
 
     job = create_running_job(
         db=db,
@@ -131,7 +124,7 @@ def separate_uploaded_audio(db: Session, audio_id: int) -> SeparationResponse:
 
     start_time = time.perf_counter()
     try:
-        inference_result = run_neossnet_inference(
+        inference_result = algorithm.separate(
             input_wav_path=input_path,
             model_path=model_path,
             model_config_path=model_config_path,

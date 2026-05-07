@@ -311,6 +311,46 @@ h3 {
     font-size: 13px;
 }
 
+.model-field {
+    display: grid;
+    gap: 7px;
+}
+
+.model-field span {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.model-field select {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 12px;
+}
+
+.model-field select:focus-visible {
+    border-color: var(--accent);
+    outline: 3px solid rgba(14, 118, 110, 0.14);
+}
+
+.model-field select:disabled {
+    color: var(--muted);
+    opacity: 0.72;
+}
+
+.model-field small {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
 .primary-button,
 .secondary-button,
 .icon-button {

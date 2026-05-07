@@ -2,6 +2,7 @@ const state = {
     selectedFile: null,
     latestUpload: null,
     latestResult: null,
+    modelsAvailable: false,
 };
 
 const elements = {
@@ -12,6 +13,8 @@ const elements = {
     fileInput: document.querySelector("#audioFile"),
     fileLabel: document.querySelector("#fileLabel"),
     dropZone: document.querySelector("#dropZone"),
+    modelSelect: document.querySelector("#modelSelect"),
+    modelHelp: document.querySelector("#modelHelp"),
     runButton: document.querySelector("#runButton"),
     statusMessage: document.querySelector("#statusMessage"),
     progressBar: document.querySelector("#progressBar"),
@@ -53,6 +56,9 @@ function setStatus(message, type = "neutral") {
 function setBusy(isBusy) {
     elements.runButton.disabled = isBusy;
     elements.fileInput.disabled = isBusy;
+    if (elements.modelSelect) {
+        elements.modelSelect.disabled = isBusy || !state.modelsAvailable;
+    }
 }
 
 function formatMs(value) {
@@ -169,8 +175,58 @@ async function uploadFile(file) {
     return upload;
 }
 
-async function separateAudio(audioId) {
-    return parseResponse(await fetch(`/separate/${audioId}`, {
+function modelLabel(model) {
+    const version = model.version ? ` ${model.version}` : "";
+    return `${model.model_name}${version} (${model.architecture})`;
+}
+
+async function loadModels() {
+    if (!elements.modelSelect) {
+        return;
+    }
+
+    try {
+        const models = await parseResponse(await fetch("/models"));
+        elements.modelSelect.innerHTML = "";
+
+        if (!models.length) {
+            state.modelsAvailable = false;
+            elements.modelSelect.disabled = true;
+            elements.modelSelect.append(new Option("Default active model", ""));
+            elements.modelHelp.textContent = "No models are listed. The backend will use its active model.";
+            return;
+        }
+
+        models.forEach((model) => {
+            const option = new Option(modelLabel(model), model.model_id);
+            option.selected = Boolean(model.is_active);
+            elements.modelSelect.append(option);
+        });
+
+        state.modelsAvailable = true;
+        elements.modelSelect.disabled = false;
+        const selected = models.find((model) => model.is_active) || models[0];
+        elements.modelSelect.value = String(selected.model_id);
+        elements.modelHelp.textContent = "NeoSSNet is the current working separation model.";
+    } catch (error) {
+        state.modelsAvailable = false;
+        elements.modelSelect.disabled = true;
+        elements.modelSelect.innerHTML = "";
+        elements.modelSelect.append(new Option("Default active model", ""));
+        elements.modelHelp.textContent = "Model list unavailable. Separation will use the active backend model.";
+    }
+}
+
+function selectedModelId() {
+    if (!state.modelsAvailable || !elements.modelSelect?.value) {
+        return null;
+    }
+    return elements.modelSelect.value;
+}
+
+async function separateAudio(audioId, modelId = null) {
+    const suffix = modelId ? `?model_id=${encodeURIComponent(modelId)}` : "";
+    return parseResponse(await fetch(`/separate/${audioId}${suffix}`, {
         method: "POST",
     }));
 }
@@ -296,8 +352,9 @@ async function handleSubmit(event) {
 
         setProgress(52);
         elements.jobStatus.textContent = "running";
-        setStatus("Running NeoSSNet inference...");
-        const separation = await separateAudio(upload.audio_id);
+        const modelId = selectedModelId();
+        setStatus(modelId ? "Running selected separation model..." : "Running active separation model...");
+        const separation = await separateAudio(upload.audio_id, modelId);
 
         setProgress(82);
         setStatus("Loading separated outputs...");
@@ -368,5 +425,6 @@ elements.dropZone.addEventListener("drop", (event) => {
 });
 
 checkHealth();
+loadModels();
 refreshHistory();
 setActiveNav(window.location.hash);

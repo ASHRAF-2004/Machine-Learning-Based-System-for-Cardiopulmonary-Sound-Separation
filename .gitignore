@@ -2,7 +2,9 @@
 # Python
 # =========================
 __pycache__/
+**/__pycache__/
 *.py[cod]
+*.pyc
 *.pyo
 *.pyd
 .pytest_cache/
@@ -41,7 +43,11 @@ database/*.sqlite3
 # Runtime storage
 # =========================
 storage/uploads/*
+storage/uploads/raw/*
+storage/uploads/temp/*
 storage/outputs/*
+storage/outputs/heart/*
+storage/outputs/lung/*
 storage/logs/*
 storage/**/*.log
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cardiopulmonary Sound Separation</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}?v=3">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}?v=4">
 </head>
 <body>
     <header class="app-header">
@@ -57,6 +57,14 @@
                             </span>
                             <span class="drop-title" id="fileLabel">Choose a WAV file</span>
                             <span class="drop-meta">Mono or stereo WAV accepted</span>
+                        </label>
+
+                        <label class="model-field" for="modelSelect">
+                            <span>Separation model</span>
+                            <select id="modelSelect" name="model_id" disabled>
+                                <option value="">Default active model</option>
+                            </select>
+                            <small id="modelHelp">Loading available models...</small>
                         </label>
 
                         <button class="primary-button" id="runButton" type="submit">
@@ -140,6 +148,6 @@
         </section>
     </main>
 
-    <script src="{{ url_for('static', path='js/main.js') }}?v=3"></script>
+    <script src="{{ url_for('static', path='js/main.js') }}?v=4"></script>
 </body>
 </html>
