@@ -1,0 +1,50 @@
+sequenceDiagram
+  autonumber
+  actor User
+  participant UI as Browser UI
+  participant UploadAPI as Upload Router
+  participant SepAPI as Separation Router
+  participant Service as SeparationService
+  participant Storage as Local Storage
+  participant DB as SQLite Database
+  participant ML as NeoSSNet Inference
+  participant ResultAPI as Result Router
+
+  User->>UI: Choose mixed WAV file
+  UI->>UploadAPI: POST /upload
+  UploadAPI->>UploadAPI: Validate file type, size, and WAV readability
+
+  alt Invalid upload
+    UploadAPI->>DB: Insert system_log error
+    UploadAPI-->>UI: 400 validation error
+    UI-->>User: Show clear upload error
+  else Valid upload
+    UploadAPI->>Storage: Save WAV to storage/uploads/raw
+    Storage-->>UploadAPI: Return stored_path
+    UploadAPI->>DB: Insert uploaded_audio row
+    UploadAPI->>DB: Insert system_log info
+    UploadAPI-->>UI: Return uploaded_audio_id
+
+    UI->>SepAPI: POST /separate/{audio_id}
+    SepAPI->>Service: Start separation for uploaded audio
+    Service->>DB: Read upload metadata and active model
+    Service->>DB: Create separation_job with running status
+    Service->>Storage: Read uploaded mixed WAV
+    Service->>ML: Preprocess waveform and run NeoSSNet
+    ML-->>Service: Return heart and lung waveforms
+    Service->>Storage: Save heart WAV and lung WAV outputs
+    Storage-->>Service: Return output file paths
+    Service->>DB: Insert separation_result paths
+    Service->>DB: Insert evaluation_metric rows when available
+    Service->>DB: Update separation_job to completed
+    Service-->>SepAPI: Return job_id and result status
+    SepAPI-->>UI: Separation completed
+
+    UI->>ResultAPI: GET /result/{job_id}
+    ResultAPI->>DB: Read job, result, metrics, and logs
+    ResultAPI-->>UI: Return result metadata and playback links
+    UI->>ResultAPI: GET /download/{job_id}/{type}
+    ResultAPI->>Storage: Resolve heart or lung output file
+    ResultAPI-->>UI: Stream/download WAV file
+    UI-->>User: Preview and download separated audio
+  end

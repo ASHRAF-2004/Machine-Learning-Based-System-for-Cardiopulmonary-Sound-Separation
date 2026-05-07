@@ -1,0 +1,38 @@
+@startuml
+' Strategy Pattern template diagram.
+' Suggested LaTeX placement: normal page.
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class Client
+
+class Context {
+  -strategy : Strategy
+  +setStrategy(strategy)
+  +execute()
+}
+
+interface Strategy {
+  +algorithm()
+}
+
+class ConcreteStrategyA {
+  +algorithm()
+}
+
+class ConcreteStrategyB {
+  +algorithm()
+}
+
+Client --> Context
+Context o--> Strategy
+ConcreteStrategyA ..|> Strategy
+ConcreteStrategyB ..|> Strategy
+
+note right of Strategy
+  Concrete strategies implement the same interface
+  so the context can switch algorithms.
+end note
+
+@enduml

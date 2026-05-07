@@ -1,0 +1,67 @@
+@startuml
+' Object diagram showing one completed separation example.
+' Suggested LaTeX placement: normal page.
+
+skinparam object {
+  BackgroundColor #FFFDF7
+  BorderColor #6B4F1D
+}
+skinparam shadowing false
+
+object "audio1 : UploadedAudio" as audio1 {
+  uploaded_audio_id = 101
+  original_filename = "sample_mix.wav"
+  stored_path = "storage/uploads/raw/sample_mix.wav"
+  sample_rate_hz = 4000
+  channels = 1
+  duration_sec = 10.0
+}
+
+object "model1 : Model" as model1 {
+  model_id = 1
+  model_name = "NeoSSNet"
+  version = "v1"
+  framework = "PyTorch"
+  checkpoint_path = "storage/ml_models/model_best.pt"
+  config_path = "storage/ml_models/model.yaml"
+  is_active = true
+}
+
+object "job1 : SeparationJob" as job1 {
+  job_id = 501
+  status = "completed"
+  processing_time_ms = 1820
+  requested_at = "2026-04-29 12:00:00"
+}
+
+object "result1 : SeparationResult" as result1 {
+  result_id = 801
+  heart_file_path = "storage/outputs/heart/job_501_heart.wav"
+  lung_file_path = "storage/outputs/lung/job_501_lung.wav"
+  output_sample_rate_hz = 4000
+}
+
+object "metric1 : EvaluationMetric" as metric1 {
+  metric_name = "SI-SDR"
+  metric_scope = "overall"
+  metric_value = "TODO"
+}
+
+object "log1 : SystemLog" as log1 {
+  log_level = "INFO"
+  source_component = "separation_service"
+  event_type = "job_completed"
+}
+
+audio1 -- job1 : uploaded_audio_id
+model1 -- job1 : model_id
+job1 -- result1 : job_id
+result1 -- metric1 : result_id
+job1 -- log1 : job_id
+
+note bottom
+  Example values are illustrative for the report.
+  They show object relationships, not fixed production data.
+end note
+
+@enduml

@@ -1,0 +1,309 @@
+\chapter{Proposed Design Patterns}
+\sloppy
+
+This chapter proposes three design patterns for the cardiopulmonary sound separation system. The patterns are presented as practical backend design structures for the FastAPI, SQLite, local storage, and NeoSSNet pipeline. Each pattern is linked to a specific project problem so that the design remains useful for implementation and explanation during the final presentation.
+
+The class and method names used in this chapter represent the proposed backend design. During implementation, they should be kept aligned with the final source code while preserving the same responsibilities and pattern roles.
+
+\section{Facade Pattern}
+
+The Facade Pattern is proposed to provide a simple interface over the separation workflow, which contains several lower-level operations such as audio preprocessing, model inference, file storage, database updates, and logging \parencite{gamma1994designpatterns}.
+
+\subsection{Pattern Type}
+
+The Facade Pattern is a structural design pattern. It focuses on arranging classes so that a client can access a complex subsystem through a simpler and more stable interface.
+
+\subsection{Problem}
+
+The separation endpoint should not directly coordinate every step of the backend workflow. If the FastAPI router directly calls the audio preprocessor, NeoSSNet inference class, storage utilities, database session, and logging logic, the route becomes difficult to read, test, and modify. This would also make the design harder to explain because web routing logic and machine learning workflow logic would be mixed in one place.
+
+\subsection{Solution}
+
+The proposed solution is to introduce \texttt{SeparationService} as the facade. The router calls one high-level method, such as \texttt{run\_separation(audio\_id)}, while the service coordinates the subsystem classes internally. This keeps the router focused on request handling and keeps the separation workflow inside a dedicated service layer.
+
+\subsection{Structure}
+
+The template structure below shows how a facade sits between a client and a group of subsystem classes. The client depends on the facade instead of depending on each subsystem class directly.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\textwidth]{facade_template.png}
+  \caption{Facade Pattern Template Structure}
+  \label{fig:facade-template}
+\end{figure}
+
+\begin{enumerate}
+  \item \textbf{Client:} The external caller that needs to use the subsystem. In this project, the client is mainly the FastAPI router that receives a separation request.
+  \item \textbf{Facade:} The simplified interface used by the client. In this project, \texttt{SeparationService} hides the detailed separation steps behind one service method.
+  \item \textbf{Additional Facade:} An optional second facade can be used when the subsystem grows. For example, a future \texttt{ModelManagementService} could hide model loading and model version selection if that logic becomes large.
+  \item \textbf{Complex Subsystem:} The lower-level classes that perform the actual work. In this project, these include audio preprocessing, NeoSSNet inference, storage handling, database updates, and system logging.
+\end{enumerate}
+
+\subsection{Project Application}
+
+\subsubsection{i. Function or Software Component Affected}
+
+The affected component is the backend separation workflow, especially the service layer that connects the FastAPI separation route to the audio and machine learning components. The proposed main class is \texttt{SeparationService}. The route module may be named \texttt{separation.py} or another consistent router name in the final implementation.
+
+\subsubsection{ii. Description of Workflow or Data Flow}
+
+The router receives a request to separate an uploaded WAV file. It passes the uploaded audio identifier to \texttt{SeparationService}. The service loads the upload metadata from SQLite, reads the audio file from local storage, preprocesses it into the expected model input format, runs NeoSSNet inference, saves the separated heart and lung audio files, updates the separation result in SQLite, and writes important processing events to the log.
+
+\subsubsection{iii. Sample Class Diagram}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{facade_project.png}
+  \caption{Facade Pattern Project Class Diagram}
+  \label{fig:facade-project}
+\end{figure}
+
+\subsubsection{iv. Sample Other UML Notation}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{facade_sequence.png}
+  \caption{Facade Pattern Sequence Diagram}
+  \label{fig:facade-sequence}
+\end{figure}
+
+\subsubsection{v. Sample Potential Code}
+
+\begin{verbatim}
+class SeparationService:
+    def __init__(
+        self,
+        preprocessor,
+        inference,
+        storage,
+        repository,
+        logger,
+    ):
+        self.preprocessor = preprocessor
+        self.inference = inference
+        self.storage = storage
+        self.repository = repository
+        self.logger = logger
+
+    def run_separation(self, audio_id: int) -> int:
+        upload = self.repository.get_uploaded_audio(audio_id)
+        waveform = self.preprocessor.load_and_prepare(upload.file_path)
+        heart, lung = self.inference.separate(waveform)
+        output_paths = self.storage.save_outputs(audio_id, heart, lung)
+        job_id = self.repository.save_result(audio_id, output_paths)
+        self.logger.info(job_id, "Separation completed")
+        return job_id
+\end{verbatim}
+
+The code sample is illustrative and should be aligned with the final backend method names during implementation.
+
+\subsubsection{vi. Benefits}
+
+The facade makes the route simpler, improves separation of concerns, and makes the workflow easier to test as one service operation. It also improves presentation clarity because the main separation process can be explained as a single service call that coordinates several internal components.
+
+\subsubsection{vii. Limitations}
+
+The main limitation is that the facade can become too large if every processing rule is placed inside \texttt{SeparationService}. The implementation should keep detailed work inside subsystem classes and use the facade mainly for orchestration.
+
+\section{Strategy Pattern}
+
+The Strategy Pattern is proposed to keep the separation algorithm interchangeable behind a common interface. This is useful because the project currently focuses on NeoSSNet, but future versions may compare another PyTorch model, an ONNX-exported model, or a simple baseline method \parencite{gamma1994designpatterns}.
+
+\subsection{Pattern Type}
+
+The Strategy Pattern is a behavioral design pattern. It focuses on defining a family of algorithms and allowing the context object to use them through a shared interface.
+
+\subsection{Problem}
+
+The system should not hardcode NeoSSNet-specific logic throughout the service layer. If model-specific preprocessing, inference, and output handling are tightly coupled to the route or service, future experiments become harder. Even for a student project, keeping the algorithm boundary clear makes the design easier to test and explain.
+
+\subsection{Solution}
+
+The proposed solution is to define a \texttt{SeparationAlgorithm} interface with a method such as \texttt{separate(waveform)}. \texttt{NeoSSNetStrategy} becomes the current concrete strategy. \texttt{SeparationService} acts as the context and calls the selected strategy through the shared interface.
+
+\subsection{Structure}
+
+The template structure below shows a context object that delegates algorithm-specific work to a strategy object. The client uses the context without needing to know which concrete strategy performs the work.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\textwidth]{strategy_template.png}
+  \caption{Strategy Pattern Template Structure}
+  \label{fig:strategy-template}
+\end{figure}
+
+\begin{enumerate}
+  \item \textbf{Context:} The object that uses a strategy to complete part of its work. In this project, \texttt{SeparationService} is the context because it delegates model-specific separation to an algorithm object.
+  \item \textbf{Strategy Interface:} The common contract for all algorithms. In this project, \texttt{SeparationAlgorithm} defines the expected separation method and output format.
+  \item \textbf{Concrete Strategies:} The actual algorithm implementations. \texttt{NeoSSNetStrategy} is the main strategy, while \texttt{ONNXNeoSSNetStrategy} or \texttt{BaselineSeparationStrategy} can be considered future options.
+  \item \textbf{Client:} The caller that starts the workflow. In this project, the FastAPI router starts the separation request, while the service uses the configured strategy internally.
+\end{enumerate}
+
+\subsection{Project Application}
+
+\subsubsection{i. Function or Software Component Affected}
+
+The affected component is the machine learning inference boundary. The main classes are \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, and \texttt{SeparationService}. Alternative strategies are treated as future extensions unless they are implemented in the final backend.
+
+\subsubsection{ii. Description of Workflow or Data Flow}
+
+The service receives a prepared waveform from the preprocessing step. Instead of calling a NeoSSNet class directly throughout the workflow, it calls the selected \texttt{SeparationAlgorithm}. The current concrete strategy runs NeoSSNet and returns two outputs: the separated heart sound and the separated lung sound. The rest of the workflow can then save and record the outputs without depending on the internal details of the selected algorithm.
+
+\subsubsection{iii. Sample Class Diagram}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{strategy_project.png}
+  \caption{Strategy Pattern Project Class Diagram}
+  \label{fig:strategy-project}
+\end{figure}
+
+\subsubsection{iv. Sample Other UML Notation}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{strategy_sequence.png}
+  \caption{Strategy Pattern Sequence Diagram}
+  \label{fig:strategy-sequence}
+\end{figure}
+
+\subsubsection{v. Sample Potential Code}
+
+\begin{verbatim}
+from abc import ABC, abstractmethod
+
+
+class SeparationAlgorithm(ABC):
+    @abstractmethod
+    def separate(self, waveform):
+        raise NotImplementedError
+
+
+class NeoSSNetStrategy(SeparationAlgorithm):
+    def __init__(self, model):
+        self.model = model
+
+    def separate(self, waveform):
+        heart, lung = self.model.predict(waveform)
+        return heart, lung
+
+
+class SeparationService:
+    def __init__(self, algorithm: SeparationAlgorithm):
+        self.algorithm = algorithm
+
+    def separate_waveform(self, waveform):
+        return self.algorithm.separate(waveform)
+\end{verbatim}
+
+The \texttt{model.predict} call is a simplified placeholder for the final PyTorch inference method used by NeoSSNet.
+
+\subsubsection{vi. Benefits}
+
+The strategy design makes the algorithm boundary clear, improves testability, and supports future comparison with alternative separation methods. It also helps keep NeoSSNet-specific code inside a dedicated class rather than spreading it across the router and service layer.
+
+\subsubsection{vii. Limitations}
+
+The limitation is that the project may only use NeoSSNet during the final submission. If no alternative algorithm is implemented, the extra interface should remain small so it does not make the student project unnecessarily complicated.
+
+\section{Factory Method Pattern}
+
+The Factory Method Pattern is proposed to centralise the creation of separation algorithm objects. This avoids scattering model creation, checkpoint loading, and strategy selection logic throughout the backend \parencite{gamma1994designpatterns}.
+
+\subsection{Pattern Type}
+
+The Factory Method Pattern is a creational design pattern. It focuses on creating objects through a dedicated creator method instead of directly constructing concrete classes in client code.
+
+\subsection{Problem}
+
+The system stores model-related information such as model name, version, checkpoint path, and active status in SQLite or local configuration. If each service directly constructs \texttt{NeoSSNetStrategy} and loads checkpoint paths manually, model creation becomes duplicated and harder to change. This is especially risky if the project later supports more than one model format.
+
+\subsection{Solution}
+
+The proposed solution is to use \texttt{SeparationAlgorithmFactory} as the creator. The factory reads the active model configuration or receives it from the service, then returns a \texttt{SeparationAlgorithm} object. At the current stage, the main concrete product is \texttt{NeoSSNetStrategy}.
+
+\subsection{Structure}
+
+The template structure below shows a creator that returns a product interface while hiding the exact concrete product class from the client.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\textwidth]{factory_method_template.png}
+  \caption{Factory Method Pattern Template Structure}
+  \label{fig:factory-method-template}
+\end{figure}
+
+\begin{enumerate}
+  \item \textbf{Creator:} The class or method responsible for creating product objects. In this project, \texttt{SeparationAlgorithmFactory} is the proposed creator.
+  \item \textbf{Concrete Creator:} The specific creation logic that knows which concrete product to instantiate. In this project, the factory method can create a NeoSSNet-based strategy from the active model configuration.
+  \item \textbf{Product:} The shared interface returned to the client. In this project, \texttt{SeparationAlgorithm} is the product interface.
+  \item \textbf{Concrete Product:} The actual object created by the factory. In this project, \texttt{NeoSSNetStrategy} is the main concrete product.
+  \item \textbf{Client:} The class that requests a product from the factory. In this project, \texttt{SeparationService} uses the factory so that it does not need to hardcode model construction details.
+\end{enumerate}
+
+\subsection{Project Application}
+
+\subsubsection{i. Function or Software Component Affected}
+
+The affected component is model and algorithm construction. The main proposed class is \texttt{SeparationAlgorithmFactory}, used by \texttt{SeparationService}. A shorter name such as \texttt{ModelFactory} can be used in implementation if the responsibility remains clear.
+
+\subsubsection{ii. Description of Workflow or Data Flow}
+
+The service requests the active separation algorithm from the factory. The factory checks the model configuration, such as model type and checkpoint path, and creates the matching algorithm object. The created object is returned through the \texttt{SeparationAlgorithm} interface. The service then calls the algorithm without knowing the exact construction steps.
+
+\subsubsection{iii. Sample Class Diagram}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{factory_method_project.png}
+  \caption{Factory Method Pattern Project Class Diagram}
+  \label{fig:factory-method-project}
+\end{figure}
+
+\subsubsection{iv. Sample Other UML Notation}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{factory_method_sequence.png}
+  \caption{Factory Method Pattern Sequence Diagram}
+  \label{fig:factory-method-sequence}
+\end{figure}
+
+\subsubsection{v. Sample Potential Code}
+
+\begin{verbatim}
+class SeparationAlgorithmFactory:
+    def create(self, model_config) -> SeparationAlgorithm:
+        if model_config.model_type == "neossnet":
+            checkpoint = model_config.checkpoint_path
+            model = load_neossnet_checkpoint(checkpoint)
+            return NeoSSNetStrategy(model)
+
+        message = f"Unsupported model type: {model_config.model_type}"
+        raise ValueError(message)
+
+
+class SeparationService:
+    def __init__(
+        self,
+        factory: SeparationAlgorithmFactory,
+        model_repository,
+    ):
+        self.factory = factory
+        self.model_repository = model_repository
+
+    def get_algorithm(self):
+        active_model = self.model_repository.get_active_model()
+        return self.factory.create(active_model)
+\end{verbatim}
+
+The \texttt{load\_neossnet\_checkpoint} call represents the final model loading function used by the project.
+
+\subsubsection{vi. Benefits}
+
+The factory method reduces hardcoded model creation, keeps checkpoint loading in one place, and makes it easier to add a future model type without changing every service that needs an algorithm. It also supports cleaner testing because a test can provide a simple model configuration and check which strategy is created.
+
+\subsubsection{vii. Limitations}
+
+The limitation is that a factory may be unnecessary if the system permanently supports only one model. For this project, the factory should stay small and practical, mainly to keep model construction clear and centralised.
+\fussy

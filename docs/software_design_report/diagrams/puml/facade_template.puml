@@ -1,0 +1,36 @@
+@startuml
+' Facade Pattern template diagram.
+' Suggested LaTeX placement: normal page.
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class Client
+
+class Facade {
+  +operation()
+}
+
+class SubsystemA {
+  +operationA()
+}
+
+class SubsystemB {
+  +operationB()
+}
+
+class SubsystemC {
+  +operationC()
+}
+
+Client --> Facade : uses simple interface
+Facade --> SubsystemA
+Facade --> SubsystemB
+Facade --> SubsystemC
+
+note right of Facade
+  The facade coordinates subsystem calls
+  and hides their complexity from the client.
+end note
+
+@enduml

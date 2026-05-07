@@ -1,0 +1,42 @@
+@startuml
+' Strategy Pattern sequence diagram.
+' Suggested LaTeX placement: normal page or landscape if rendered wide.
+
+skinparam shadowing false
+autonumber
+
+actor User
+participant "Browser UI" as Browser
+participant "separation.py Router" as Router
+participant "SeparationService\n(Context)" as Service
+participant "SeparationAlgorithmFactory" as Factory
+participant "SeparationAlgorithm\n(Strategy)" as Strategy
+participant "NeoSSNetStrategy\n(Current Strategy)" as NeoSSNet
+participant "StorageService" as Storage
+
+User -> Browser : Request separation
+Browser -> Router : POST /separate/{audio_id}
+Router -> Service : runSeparation(audioId)
+
+Service -> Factory : create(activeModel)
+Factory --> Service : NeoSSNetStrategy as SeparationAlgorithm
+
+Service -> Storage : resolveUploadPath(audioId)
+Storage --> Service : inputPath
+
+Service -> Strategy : separate(inputPath, modelConfig)
+activate Strategy
+Strategy -> NeoSSNet : dispatch to current concrete strategy
+NeoSSNet --> Strategy : heart waveform, lung waveform
+deactivate Strategy
+
+Strategy --> Service : separated outputs
+Service --> Router : job result
+Router --> Browser : JSON result
+
+note right of Service
+  The router and service workflow do not need to change
+  when a future algorithm implements SeparationAlgorithm.
+end note
+
+@enduml

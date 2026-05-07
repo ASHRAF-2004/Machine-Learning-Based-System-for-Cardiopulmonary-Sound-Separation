@@ -1,0 +1,124 @@
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage{csquotes}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage[
+  backend=biber,
+  style=apa,
+  sorting=nyt
+]{biblatex}
+
+\addbibresource{references.bib}
+
+\graphicspath{{../elements/}{figures/}{diagrams/img/}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.75em}
+\setlength{\emergencystretch}{2em}
+\onehalfspacing
+
+\newcommand{\projecttitle}{Development of a Machine Learning-Based System for Cardiopulmonary Sound Separation}
+\newcommand{\shorttitle}{HealthTech}
+\newcommand{\coursename}{CSE6234 Software Design}
+\newcommand{\groupname}{Group 1}
+\newcommand{\tutorialsection}{TT5L}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+
+\begin{titlepage}
+  \centering
+
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \IfFileExists{../elements/MMU_LOGO.png}{%
+      \includegraphics[width=\linewidth,height=2.2cm,keepaspectratio]{../elements/MMU_LOGO.png}%
+    }{%
+      \fbox{MMU logo placeholder}%
+    }
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \IfFileExists{../elements/FCI__MMU_LOGO.png}{%
+      \includegraphics[width=\linewidth,height=2.2cm,keepaspectratio]{../elements/FCI__MMU_LOGO.png}%
+    }{%
+      \fbox{FCI logo placeholder}%
+    }
+  \end{minipage}
+
+  \vspace{2.5cm}
+
+  {\Large \coursename\par}
+  \vspace{0.8cm}
+  {\Large Software Design Proposal and Software Design Pattern Document\par}
+  \vspace{1.2cm}
+  {\huge\bfseries \shorttitle\par}
+  \vspace{0.8cm}
+  {\Large\bfseries \projecttitle\par}
+
+  \vfill
+
+  {\large \groupname\par}
+  {\large Tutorial Section: \tutorialsection\par}
+
+  \vspace{0.8cm}
+
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Name} & \textbf{Student ID} \\
+    \midrule
+    AL-SALOUL, ASHRAF ALI HUSSEIN & 1221303805 \\
+    AHMAD AKMAL ASYRAAF BIN SHAMS & 242UC244CJ \\
+    RESHMA A/P KRISHNAMURTHY & 243UC247KW \\
+    SHARWIN A/L R SIVALINGAM & 241UC241C1 \\
+    \bottomrule
+  \end{tabular}
+
+  \vfill
+
+  {\large \today\par}
+\end{titlepage}
+
+\clearpage
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+
+\chapter*{Abstract / Executive Summary}
+\addcontentsline{toc}{chapter}{Abstract / Executive Summary}
+This report presents a software design proposal and design pattern document for a HealthTech cardiopulmonary sound separation prototype. The proposed system accepts mixed WAV audio, uses NeoSSNet to separate the recording into heart sound and lung sound outputs, stores structured metadata and processing records in SQLite, and keeps uploaded and generated audio files in local storage.
+
+The report focuses on software design rather than clinical validation. It documents the problem statement, objectives, system scope, UML models, requirements, design principles, and selected design patterns. FastAPI is used as the backend API layer, SQLite supports jobs, results, logs, and metadata, and the local filesystem stores audio artifacts and model files. The Facade, Strategy, and Factory Method patterns are proposed to simplify the separation workflow, support future algorithm extension, and centralise model or algorithm creation.
+
+\clearpage
+\pagenumbering{arabic}
+
+\input{chapters/01_introduction}
+\input{chapters/02_system_overview}
+\input{chapters/03_requirements}
+\input{chapters/04_design_patterns}
+\input{chapters/05_conclusion}
+
+\begingroup
+\sloppy
+\printbibliography[heading=bibintoc,title={Bibliography / References}]
+\endgroup
+
+\end{document}

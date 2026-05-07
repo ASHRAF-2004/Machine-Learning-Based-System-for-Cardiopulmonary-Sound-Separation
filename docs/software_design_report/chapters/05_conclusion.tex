@@ -1,0 +1,27 @@
+\chapter{Conclusion and Suggestions}
+
+\section{Conclusion}
+
+This report proposed the design of a HealthTech cardiopulmonary sound separation system as a prototype and proof of concept. The system is intended to accept mixed WAV audio, run cardiopulmonary sound separation, and produce separate heart sound and lung sound output files. It supports the main user workflow of upload, validation, separation, preview, download, and processing history while keeping the implementation practical for a student software design project.
+
+The proposed architecture is important because the machine learning model is only one part of the complete system. FastAPI provides the backend API layer for handling upload, separation, result, download, and history requests. NeoSSNet provides the core separation model for generating heart and lung audio outputs. SQLite stores structured metadata such as uploaded audio records, model details, separation jobs, result paths, evaluation metrics, and logs. Local storage keeps the actual uploaded WAV files, separated output files, and model weights, which avoids storing large audio content directly inside the database.
+
+The selected design patterns strengthen the proposed design. The Facade Pattern simplifies the separation workflow by allowing the router to call a high-level service instead of directly managing preprocessing, inference, storage, logging, and database updates. The Strategy Pattern supports future algorithm flexibility by allowing the separation model to be represented through a common interface. The Factory Method Pattern centralises the creation of model or algorithm objects so that model selection and construction are not scattered across the codebase.
+
+Overall, the proposed design demonstrates how machine learning, database persistence, local file storage, and web interaction can be organised into a reusable software system. The report does not claim clinical validation or real hospital deployment. Instead, it presents a clear and maintainable software design suitable for assignment submission, demonstration, and future implementation improvement.
+
+\section{Suggestions / Future Work}
+
+Several improvements can be considered after the core prototype is working:
+
+\begin{enumerate}
+  \item \textbf{Improve frontend usability:} The user interface can be refined with clearer progress indicators, better error messages, improved history filtering, and more polished audio playback controls.
+  \item \textbf{Add more datasets and noise conditions:} Future testing can include broader cardiopulmonary recordings, different noise levels, and additional real-world recording conditions to better understand model behaviour.
+  \item \textbf{Add asynchronous or background processing:} Longer audio files or slower inference tasks can be handled using background jobs so that the web request does not need to wait synchronously for the full separation process.
+  \item \textbf{Add authentication if needed:} If the system is extended beyond a local demonstration, user login and role-based access can be added to protect uploaded files and processing history.
+  \item \textbf{Add algorithms through Strategy:} Alternative approaches, baseline methods, or future ONNX-based versions can be added as new strategies without changing the main router workflow.
+  \item \textbf{Improve evaluation metrics and reporting:} The system can provide clearer metric reports such as SNR, SDR, SI-SDR, MSE, or MAE where suitable reference data is available.
+  \item \textbf{Validate on broader real-world recordings:} Further validation should be performed on more varied recordings before making any claim about robustness or clinical usefulness.
+\end{enumerate}
+
+In conclusion, the project provides a strong foundation for a practical software design around cardiopulmonary sound separation. Its main value is not only the use of NeoSSNet, but also the structured design that makes upload handling, inference, storage, logging, result viewing, and future extension easier to understand and maintain.

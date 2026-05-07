@@ -1,0 +1,101 @@
+@startuml
+' Entity Relationship Diagram.
+' Suggested LaTeX placement: landscape page because the schema has several related entities.
+
+hide circle
+skinparam linetype ortho
+skinparam shadowing false
+skinparam class {
+  BackgroundColor #FDFDFD
+  BorderColor #3B5268
+}
+
+entity "uploaded_audio" as uploaded_audio {
+  * uploaded_audio_id : INTEGER <<PK>>
+  --
+  original_filename : TEXT
+  stored_path : TEXT
+  mime_type : TEXT
+  sample_rate_hz : INTEGER
+  channels : INTEGER
+  bit_depth : INTEGER
+  duration_sec : REAL
+  file_size_bytes : INTEGER
+  uploaded_at : DATETIME
+}
+
+entity "model" as model {
+  * model_id : INTEGER <<PK>>
+  --
+  model_name : TEXT
+  version : TEXT
+  architecture : TEXT
+  framework : TEXT
+  checkpoint_path : TEXT
+  config_path : TEXT
+  is_active : INTEGER
+  created_at : DATETIME
+}
+
+entity "separation_job" as separation_job {
+  * job_id : INTEGER <<PK>>
+  --
+  uploaded_audio_id : INTEGER <<FK>>
+  model_id : INTEGER <<FK>>
+  status : TEXT
+  requested_at : DATETIME
+  started_at : DATETIME
+  completed_at : DATETIME
+  processing_time_ms : INTEGER
+  parameters_json : TEXT
+  error_message : TEXT
+}
+
+entity "separation_result" as separation_result {
+  * result_id : INTEGER <<PK>>
+  --
+  job_id : INTEGER <<FK, UNIQUE>>
+  heart_file_path : TEXT
+  lung_file_path : TEXT
+  output_sample_rate_hz : INTEGER
+  output_duration_sec : REAL
+  heart_file_size_bytes : INTEGER
+  lung_file_size_bytes : INTEGER
+  created_at : DATETIME
+}
+
+entity "evaluation_metric" as evaluation_metric {
+  * metric_id : INTEGER <<PK>>
+  --
+  result_id : INTEGER <<FK>>
+  metric_name : TEXT
+  metric_scope : TEXT
+  metric_value : REAL
+  metric_unit : TEXT
+  reference_type : TEXT
+  recorded_at : DATETIME
+}
+
+entity "system_log" as system_log {
+  * log_id : INTEGER <<PK>>
+  --
+  job_id : INTEGER <<FK, nullable>>
+  log_level : TEXT
+  source_component : TEXT
+  event_type : TEXT
+  message : TEXT
+  created_at : DATETIME
+}
+
+uploaded_audio ||--o{ separation_job : "has jobs"
+model ||--o{ separation_job : "used by"
+separation_job ||--o| separation_result : "produces"
+separation_result ||--o{ evaluation_metric : "has metrics"
+separation_job ||--o{ system_log : "has logs"
+
+note bottom
+  SQLite stores metadata, job state, result paths, metrics, and logs.
+  WAV audio files and model checkpoints stay on the local filesystem.
+end note
+
+@enduml

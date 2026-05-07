@@ -1,0 +1,62 @@
+@startuml
+' Factory Method Pattern adapted to HealthTech.
+' Suggested LaTeX placement: normal page.
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+
+class SeparationService <<Client>> {
+  +runSeparation(audioId)
+}
+
+class SeparationAlgorithmFactory <<Creator>> {
+  +create(activeModel) : SeparationAlgorithm
+}
+
+interface SeparationAlgorithm <<Product>> {
+  +separate(inputPath, modelConfig)
+}
+
+class NeoSSNetStrategy <<ConcreteProduct>> {
+  +separate(inputPath, modelConfig)
+}
+
+class ONNXNeoSSNetStrategy <<Future ConcreteProduct>> {
+  +separate(inputPath, modelConfig)
+}
+
+class ModelRepository {
+  +findActiveModel()
+}
+
+class ModelRecord {
+  +model_id : int
+  +model_name : str
+  +version : str
+  +architecture : str
+  +framework : str
+  +checkpoint_path : str
+  +config_path : str
+  +is_active : bool
+}
+
+SeparationService --> ModelRepository : requests active model
+SeparationService --> SeparationAlgorithmFactory : create(activeModel)
+SeparationAlgorithmFactory ..> SeparationAlgorithm : returns product
+SeparationAlgorithmFactory --> ModelRecord : reads architecture/framework
+ModelRepository --> ModelRecord : returns
+NeoSSNetStrategy ..|> SeparationAlgorithm
+ONNXNeoSSNetStrategy ..|> SeparationAlgorithm
+SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates when active model is PyTorch NeoSSNet
+SeparationAlgorithmFactory ..> ONNXNeoSSNetStrategy : creates in future if model is ONNX
+
+note bottom
+  Mapping:
+  Creator = SeparationAlgorithmFactory
+  Product = SeparationAlgorithm
+  ConcreteProduct = NeoSSNetStrategy
+  Client = SeparationService
+end note
+
+@enduml

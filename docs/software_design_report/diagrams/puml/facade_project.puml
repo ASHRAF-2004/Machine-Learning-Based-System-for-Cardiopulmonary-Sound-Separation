@@ -1,0 +1,63 @@
+@startuml
+' Facade Pattern adapted to HealthTech.
+' Suggested LaTeX placement: normal page.
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+
+class "separation.py Router" as SeparationRouter {
+  +postSeparate(audioId)
+}
+
+class SeparationService <<Facade>> {
+  +runSeparation(audioId)
+  -createJob(audioId)
+  -completeJob(jobId, result)
+  -failJob(jobId, errorMessage)
+}
+
+class AudioPreprocessor <<Subsystem>> {
+  +loadWav(path)
+  +toMono(waveform)
+  +resampleIfNeeded(waveform, targetRate)
+}
+
+class NeoSSNetInference <<Subsystem>> {
+  +loadModel(checkpointPath, configPath)
+  +generateOutput(waveform)
+}
+
+class StorageService <<Subsystem>> {
+  +saveHeartOutput(jobId, waveform)
+  +saveLungOutput(jobId, waveform)
+  +resolveUploadPath(audioId)
+}
+
+class DatabaseSession <<Subsystem>> {
+  +insertJob(audioId, modelId)
+  +insertResult(resultData)
+  +updateJobStatus(jobId, status)
+  +writeLog(logData)
+}
+
+class ModelRepository {
+  +findActiveModel()
+}
+
+SeparationRouter --> SeparationService : one workflow call
+SeparationService --> AudioPreprocessor
+SeparationService --> NeoSSNetInference
+SeparationService --> StorageService
+SeparationService --> DatabaseSession
+SeparationService --> ModelRepository
+ModelRepository --> DatabaseSession
+
+note bottom
+  Mapping:
+  Client = separation.py Router
+  Facade = SeparationService
+  Subsystems = AudioPreprocessor, NeoSSNetInference, StorageService, DatabaseSession
+end note
+
+@enduml

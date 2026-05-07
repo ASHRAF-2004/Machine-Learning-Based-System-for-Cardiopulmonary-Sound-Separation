@@ -1,0 +1,59 @@
+\chapter{System Overview}
+
+The proposed system is a local web-based prototype for cardiopulmonary sound separation. A user uploads a mixed WAV audio file through the browser interface, and the FastAPI backend validates the upload, stores the original file, creates database records, runs NeoSSNet separation, saves the separated heart and lung audio files, and returns results for preview and download. SQLite is used for structured records such as uploaded audio metadata, model information, separation jobs, result paths, metrics, and logs, while local folders are used for the actual audio files and model checkpoints.
+
+The following diagrams describe the system from different software design viewpoints. The use case diagram presents the system functions from the user's perspective, the class diagram shows the planned software components, the entity relationship diagram shows the database structure, and the object diagram gives an example of one completed separation job.
+
+\section{Generic Use Case}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth]{use_case_diagram.png}
+  \caption{Generic Use Case Diagram}
+  \label{fig:generic-use-case}
+\end{figure}
+
+Figure~\ref{fig:generic-use-case} shows the main actions available to students, lecturers, examiners, researchers, or other demo users. The central use cases are uploading a mixed WAV file, validating the audio, running NeoSSNet separation, previewing the original and separated outputs, downloading the generated heart and lung files, and viewing processing history.
+
+The diagram also shows that several user-facing actions depend on stored system records. For example, result viewing and history display require the system to save metadata, job status, output paths, and logs. This supports the project requirement that the system should not only run separation, but also keep enough information for demonstration, testing, and later review.
+
+\section{Class Diagram}
+
+\begin{landscape}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.25\textwidth]{overall_class_diagram.png}
+  \caption{Overall System Class Diagram}
+  \label{fig:overall-class-diagram}
+\end{figure}
+\end{landscape}
+
+Figure~\ref{fig:overall-class-diagram} presents the planned software classes grouped into frontend, router, service, machine learning, and database access responsibilities. The browser interface calls FastAPI routers, the routers delegate work to service classes, and the service layer coordinates storage, database repositories, logging, preprocessing, and model inference.
+
+This design keeps the upload, separation, storage, result viewing, and history features modular. Upload handling is separated from separation orchestration, and the machine learning layer is separated from database access. This makes the system easier to explain and maintain because each class has a focused responsibility rather than placing all workflow logic inside one route function.
+
+\section{Entity Relationship Diagram (ERD)}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\textwidth]{erd.png}
+  \caption{Entity Relationship Diagram}
+  \label{fig:erd}
+\end{figure}
+
+Figure~\ref{fig:erd} shows the SQLite database structure used to store structured project data. The \texttt{uploaded\_audio} table records each uploaded WAV file, the \texttt{model} table records available model information, and the \texttt{separation\_job} table connects an uploaded file with the model used for processing. The \texttt{separation\_result} table stores the paths and metadata for generated heart and lung outputs.
+
+The design intentionally stores file paths and metadata in SQLite rather than storing large WAV audio blobs in the database. This supports a practical student project architecture: local storage keeps uploaded and generated audio files, while SQLite supports history, result lookup, job status, metrics, and logs. As a result, the browser can display previous jobs and download links without scanning folders manually.
+
+\section{Object Diagram}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{object_diagram.png}
+  \caption{Object Diagram for a Completed Separation Job}
+  \label{fig:object-diagram}
+\end{figure}
+
+Figure~\ref{fig:object-diagram} gives a concrete example of how the system data may look after one successful separation. One \texttt{UploadedAudio} object is linked to one \texttt{SeparationJob}, the job uses an active \texttt{Model}, and the completed job produces a \texttt{SeparationResult} containing heart and lung output file paths.
+
+The object diagram helps explain how upload, separation, storage, result viewing, and history are connected at runtime. When a user views history, the system can retrieve the job, original upload metadata, model information, output paths, optional metrics, and log record as related objects. This gives the project a traceable flow from the original mixed input to the separated outputs.

@@ -1,0 +1,38 @@
+@startuml
+' Factory Method Pattern template diagram.
+' Suggested LaTeX placement: normal page.
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class Client
+
+abstract class Creator {
+  +factoryMethod() : Product
+  +operation()
+}
+
+class ConcreteCreator {
+  +factoryMethod() : Product
+}
+
+interface Product {
+  +use()
+}
+
+class ConcreteProduct {
+  +use()
+}
+
+Client --> Creator
+Creator ..> Product : creates/uses
+ConcreteCreator --|> Creator
+ConcreteProduct ..|> Product
+ConcreteCreator ..> ConcreteProduct : creates
+
+note right of Creator
+  Creator defines object creation through a factory method.
+  ConcreteCreator chooses the concrete product.
+end note
+
+@enduml

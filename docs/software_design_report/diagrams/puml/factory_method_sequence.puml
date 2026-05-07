@@ -1,0 +1,38 @@
+@startuml
+' Factory Method Pattern sequence diagram.
+' Suggested LaTeX placement: normal page.
+
+skinparam shadowing false
+autonumber
+
+participant "SeparationService\n(Client)" as Service
+participant "ModelRepository" as ModelRepo
+database "SQLite\nmodel table" as DB
+participant "SeparationAlgorithmFactory\n(Creator)" as Factory
+participant "NeoSSNetStrategy\n(ConcreteProduct)" as NeoSSNet
+participant "SeparationAlgorithm\n(Product)" as Algorithm
+
+Service -> ModelRepo : findActiveModel()
+ModelRepo -> DB : SELECT active model
+DB --> ModelRepo : model record
+ModelRepo --> Service : activeModel
+
+Service -> Factory : create(activeModel)
+
+alt activeModel.architecture == "NeoSSNet" and framework == "PyTorch"
+  Factory -> NeoSSNet : new(checkpointPath, configPath)
+  NeoSSNet --> Factory : strategy instance
+else unsupported model metadata
+  Factory --> Service : raise configuration error
+end
+
+Factory --> Service : SeparationAlgorithm
+Service -> Algorithm : separate(inputPath, modelConfig)
+Algorithm --> Service : separated outputs
+
+note right of Factory
+  Model creation is centralized so the service
+  does not hardcode concrete algorithm setup.
+end note
+
+@enduml

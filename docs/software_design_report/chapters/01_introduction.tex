@@ -1,0 +1,61 @@
+\chapter{Introduction}
+
+\section{Executive Summary / Abstract}
+
+This report presents a software design proposal and design pattern document for a cardiopulmonary sound separation system. The proposed system is a HealthTech prototype that accepts mixed WAV audio and separates it into heart sound and lung sound outputs using NeoSSNet. The project is designed as a local web-based application with a FastAPI backend, a simple HTML/CSS/JavaScript interface, SQLite database storage for metadata and processing records, and local filesystem storage for uploaded and generated audio files.
+
+The purpose of the system is to demonstrate how machine learning inference can be integrated into a reusable software system rather than being kept only as an isolated model script. The application supports upload, validation, real separation, output preview, download, and processing history. This document focuses on software design quality, including requirements, UML modelling, database structure, layered architecture, and design patterns. The prototype is not a clinical diagnosis system and does not claim clinical validation. Instead, it is intended to show a practical and explainable software design for cardiopulmonary sound separation.
+
+\section{Background / Introduction}
+
+Cardiopulmonary sound recordings often contain both heart and lung components because the two sound sources are captured from nearby areas of the chest. In a mixed recording, the sound of one organ can interfere with analysis of the other. This creates a useful software engineering problem: the system must accept an input audio file, apply a sound separation model, produce separate heart and lung audio outputs, and keep the processing records traceable for review.
+
+Recent research has shown that computational methods can support heart and lung sound processing, including source separation and deep learning-based heart sound analysis. However, a model alone is not enough for a usable application. A student, lecturer, researcher, or demonstration user needs a complete workflow that includes file upload, validation, inference, storage, result preview, download, error handling, and history. For this reason, the project is framed as a software design assignment that connects machine learning with maintainable backend and frontend architecture.
+
+The proposed system uses NeoSSNet as the core separation model and stores model-related files in local storage. SQLite is used to store structured data such as uploaded audio metadata, model records, separation jobs, result paths, metrics, and logs. The actual WAV audio files are stored on the filesystem so that the database remains lightweight and easy to inspect. This separation between database records and audio artifacts supports a practical local deployment suitable for a Final Year Project prototype.
+
+\section{Problem Statement}
+
+Mixed cardiopulmonary audio is difficult to use directly when the target task requires separate heart and lung sound outputs. If a system only stores uploaded mixed audio, users cannot easily preview the isolated components or use them for later analysis and demonstration. At the same time, if separation is implemented only as a standalone script, the workflow may lack upload handling, database tracking, result retrieval, logging, and a clear user interface.
+
+The project therefore needs a reusable software system that can connect audio upload, NeoSSNet inference, file storage, SQLite metadata, and browser-based result viewing. The design must remain simple enough for a student project, but structured enough to explain through software design concepts, UML diagrams, and design patterns. The system must not present separated audio as clinical diagnosis; it should be described as a prototype that demonstrates automated cardiopulmonary sound separation and supporting software architecture.
+
+\section{Project Objectives}
+
+The objectives of this project are:
+
+\begin{enumerate}
+  \item To design a local web-based system that accepts mixed cardiopulmonary WAV audio through a browser interface.
+  \item To validate uploaded audio files before they are stored or processed by the backend.
+  \item To integrate NeoSSNet as the real cardiopulmonary sound separation model for generating heart and lung output audio.
+  \item To save separated heart and lung WAV files in local output folders for preview and download.
+  \item To store structured metadata, job records, result paths, logs, and optional evaluation metrics in SQLite.
+  \item To provide result viewing, audio preview, download support, and processing history through the web interface.
+  \item To document a maintainable software design using UML diagrams, requirements, design principles, and selected design patterns.
+\end{enumerate}
+
+\subsection{Literature Review}
+
+Cardiopulmonary sound analysis studies the information contained in heart and lung recordings, where useful physiological sounds may overlap because both sources are captured from the chest area. In practical recordings, the heart component can interfere with lung sound analysis, while lung sounds and breathing noise can also obscure heart sound patterns. Sound separation is therefore an important preprocessing and application problem because it attempts to recover clearer heart and lung signals from a mixed recording. For the proposed HealthTech prototype, the literature is relevant not only because it motivates the use of machine learning for heart and lung sound separation, but also because it shows the need for a usable software system around the algorithm. A practical system must support upload, validation, inference, storage, preview, download, and processing history rather than treating separation as an isolated research script.
+
+Deep learning-based separation is the closest research theme to the proposed system because the prototype uses NeoSSNet as its core model. \textcite{poh2024neossnet} proposed NeoSSNet for real-time neonatal chest sound separation, with the aim of separating mixed chest sound recordings into heart and lung components. The method follows an audio source separation approach in which a waveform is encoded into a learned representation, separation masks are estimated, and separated outputs are reconstructed. This is directly aligned with the system goal because the application must produce two usable audio files: one heart output and one lung output. NeoSSNet also supports the project from a software design perspective because its inference process can be placed inside a dedicated machine learning layer and called by the backend service layer. However, the research contribution mainly concerns the model and separation performance. It does not by itself provide a complete application workflow for user upload, database-backed job tracking, browser preview, or maintainable backend organization.
+
+A second theme is hybrid separation using signal processing and decomposition methods. \textcite{sun2024daenmfvmd} studied a DAE--NMF--VMD method for separating heart and lung sounds. This approach combines deep autoencoder-based representation learning, nonnegative matrix factorization, and variational mode decomposition. Compared with a pure neural separation model such as NeoSSNet, the DAE--NMF--VMD method shows that cardiopulmonary sound separation can also be designed as a multi-stage processing pipeline that combines learned features with mathematical decomposition and denoising. This is useful for the proposed project because it shows that future versions of the system may need to compare different separation approaches. Different algorithms may require different preprocessing steps, configuration parameters, model files, and output handling. Therefore, the software should avoid embedding one algorithm too deeply into the route or controller logic. A modular design with an interchangeable algorithm interface is better suited for future experimentation while keeping the current prototype focused on NeoSSNet.
+
+A broader theme is the role of deep learning in heart sound analysis. \textcite{zhao2024heartanalysis} reviewed deep learning techniques, datasets, and applications for heart sound analysis, including preprocessing, feature extraction, model development, and potential clinical application areas. This review is important because it places the project within a wider research area where machine learning is increasingly used to process phonocardiogram and related biomedical sound data. At the same time, the review also highlights issues such as dataset limitations, generalisation, and the need for further refinement before broad clinical use. These points are important for this report because the proposed system should not be presented as a clinically validated diagnostic tool. It is more accurately described as a proof-of-concept HealthTech software prototype that demonstrates cardiopulmonary sound separation and the supporting software architecture needed to make the workflow usable and traceable.
+
+Taken together, these studies show that cardiopulmonary sound separation and heart sound analysis are active research areas with several promising algorithmic directions. NeoSSNet supports the feasibility of deep learning-based heart and lung sound separation, DAE--NMF--VMD shows the value of hybrid and decompositional approaches, and broader heart sound analysis research explains why careful preprocessing, dataset handling, and model evaluation matter. The main gap for this software design report is that existing work focuses strongly on algorithms, while less attention is given to reusable application architecture for a local prototype. In particular, the literature does not fully address database-backed processing history, structured metadata, user upload workflow, separated audio preview and download, local file storage, logging, and maintainability through design patterns. The proposed system responds to this gap by combining FastAPI for the backend API, SQLite for metadata and job records, local filesystem storage for uploaded and separated WAV files, and NeoSSNet for real separation. This design connects research-level separation models with a practical software workflow that can be demonstrated, inspected, and extended in a student software design assignment.
+
+\section{Project and System Scope}
+
+\subsection{In Scope}
+
+The project scope covers a local prototype that accepts mixed WAV audio, validates the file, stores the uploaded audio in a local folder, runs NeoSSNet-based separation, generates separated heart and lung WAV outputs, stores output files locally, records metadata and job status in SQLite, and provides browser-based preview, download, and processing history. The report also covers software design artefacts such as use case modelling, class modelling, database modelling, requirements, design principles, and design patterns.
+
+The dataset and runtime storage are treated as separate concerns. Dataset files such as HLS-CMDS data are used for development or evaluation purposes, while runtime uploads and generated outputs are stored under the application storage folders. This separation avoids mixing training or testing data with user-uploaded demo files.
+
+\subsection{Out of Scope}
+
+The project does not aim to provide medical diagnosis, clinical decision support, hospital deployment, or validated clinical accuracy. It does not claim that separated audio is suitable for real clinical use without further testing and approval. Authentication, cloud deployment, multi-user role management, and production-scale monitoring are also outside the current scope unless they are added in a later phase.
+
+Training a new model from runtime uploads is also outside the current system scope. Runtime uploads are used for inference and demonstration only. The current design focuses on integrating real NeoSSNet inference into a clean software system that is practical for local execution and clear enough to defend in a software design presentation.

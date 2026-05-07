@@ -1,0 +1,53 @@
+@startuml
+' Facade Pattern sequence diagram.
+' Suggested LaTeX placement: landscape page if rendered wide.
+
+skinparam shadowing false
+autonumber
+
+actor User
+participant "Browser UI" as Browser
+participant "separation.py Router" as Router
+participant "SeparationService\n(Facade)" as Facade
+participant "DatabaseSession" as DB
+participant "StorageService" as Storage
+participant "AudioPreprocessor" as Preprocessor
+participant "NeoSSNetInference" as Inference
+
+User -> Browser : Click separate
+Browser -> Router : POST /separate/{audio_id}
+Router -> Facade : runSeparation(audioId)
+
+Facade -> DB : load uploaded_audio and active model
+DB --> Facade : upload metadata, model paths
+
+Facade -> DB : create separation_job(status="running")
+DB --> Facade : jobId
+
+Facade -> Storage : resolveUploadPath(audioId)
+Storage --> Facade : mixedWavPath
+
+Facade -> Preprocessor : load and prepare WAV
+Preprocessor --> Facade : prepared waveform
+
+Facade -> Inference : generateOutput(waveform, model)
+Inference --> Facade : heart waveform, lung waveform
+
+Facade -> Storage : saveHeartOutput(jobId, heart)
+Storage --> Facade : heartFilePath
+Facade -> Storage : saveLungOutput(jobId, lung)
+Storage --> Facade : lungFilePath
+
+Facade -> DB : insert separation_result
+Facade -> DB : mark job completed
+Facade --> Router : job status and output paths
+Router --> Browser : JSON response
+Browser --> User : show audio players and downloads
+
+alt inference or storage error
+  Facade -> DB : mark job failed and write system_log
+  Facade --> Router : error response
+  Router --> Browser : visible error message
+end
+
+@enduml

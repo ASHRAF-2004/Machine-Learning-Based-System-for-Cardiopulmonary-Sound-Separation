@@ -1,0 +1,146 @@
+@startuml
+' Overall system class diagram.
+' Suggested LaTeX placement: landscape page due to the number of classes.
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+package "Frontend" {
+  class BrowserUI {
+    +selectWavFile()
+    +uploadAudio()
+    +requestSeparation(audioId)
+    +showPlayers()
+    +showHistory()
+  }
+}
+
+package "FastAPI Routers" {
+  class UploadRouter {
+    +postUpload(file)
+  }
+
+  class SeparationRouter {
+    +postSeparate(audioId)
+  }
+
+  class ResultRouter {
+    +getResult(jobId)
+    +downloadHeart(jobId)
+    +downloadLung(jobId)
+    +getHistory()
+  }
+}
+
+package "Service Layer" {
+  class StorageService {
+    +validateWav(file)
+    +saveUpload(file)
+    +saveHeartOutput(jobId, waveform)
+    +saveLungOutput(jobId, waveform)
+    +resolveDownloadPath(jobId, type)
+  }
+
+  class SeparationService {
+    +runSeparation(audioId)
+    +markJobFailed(jobId, errorMessage)
+  }
+
+  class ResultService {
+    +getJobResult(jobId)
+    +getRecentHistory()
+  }
+
+  class SystemLogService {
+    +writeInfo(component, event, message)
+    +writeError(jobId, component, message)
+  }
+}
+
+package "ML Layer" {
+  interface SeparationAlgorithm {
+    +separate(inputPath, modelConfig)
+  }
+
+  class NeoSSNetStrategy {
+    +separate(inputPath, modelConfig)
+  }
+
+  class AudioPreprocessor {
+    +loadWav(path)
+    +toMono(waveform)
+    +resampleIfNeeded(waveform, targetRate)
+  }
+
+  class NeoSSNetInference {
+    +loadModel(checkpointPath, configPath)
+    +generateOutput(waveform)
+  }
+
+  class SeparationAlgorithmFactory {
+    +create(activeModel)
+  }
+}
+
+package "Database Access" {
+  class DatabaseSession {
+    +execute(query)
+    +commit()
+    +rollback()
+  }
+
+  class UploadedAudioRepository {
+    +insertUpload(metadata)
+    +findById(audioId)
+  }
+
+  class ModelRepository {
+    +findActiveModel()
+  }
+
+  class SeparationJobRepository {
+    +createRunningJob(audioId, modelId)
+    +markCompleted(jobId, processingTimeMs)
+    +markFailed(jobId, errorMessage)
+  }
+
+  class SeparationResultRepository {
+    +insertResult(resultData)
+    +findByJobId(jobId)
+  }
+}
+
+BrowserUI --> UploadRouter
+BrowserUI --> SeparationRouter
+BrowserUI --> ResultRouter
+
+UploadRouter --> StorageService
+UploadRouter --> UploadedAudioRepository
+SeparationRouter --> SeparationService
+ResultRouter --> ResultService
+
+SeparationService --> StorageService
+SeparationService --> AudioPreprocessor
+SeparationService --> SeparationAlgorithmFactory
+SeparationService --> SeparationJobRepository
+SeparationService --> SeparationResultRepository
+SeparationService --> SystemLogService
+
+SeparationAlgorithmFactory --> ModelRepository
+SeparationAlgorithmFactory ..> SeparationAlgorithm
+NeoSSNetStrategy ..|> SeparationAlgorithm
+NeoSSNetStrategy --> NeoSSNetInference
+
+ResultService --> SeparationResultRepository
+ResultService --> SeparationJobRepository
+ResultService --> StorageService
+
+UploadedAudioRepository --> DatabaseSession
+ModelRepository --> DatabaseSession
+SeparationJobRepository --> DatabaseSession
+SeparationResultRepository --> DatabaseSession
+SystemLogService --> DatabaseSession
+
+@enduml

@@ -1,0 +1,139 @@
+\chapter{Requirements}
+
+This chapter defines the main functional requirements, non-functional requirements, software design concepts, and design principles for the cardiopulmonary sound separation system. The system is treated as a prototype and proof of concept for a software design assignment and Final Year Project context. It is designed to demonstrate a realistic local web application that can upload mixed cardiopulmonary audio, run NeoSSNet-based separation, store metadata, and present results clearly to students, lecturers, researchers, or demonstration users. The requirements do not claim clinical validation; they focus on software behaviour, maintainability, and demonstration readiness.
+
+\section{Functional Requirements}
+
+Functional requirements describe the main behaviours that the system must provide to the user and to the backend workflow.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Functional Requirements}
+  \label{tab:functional-requirements}
+  \begin{tabularx}{\textwidth}{p{0.12\textwidth} p{0.25\textwidth} Y}
+    \toprule
+    \textbf{ID} & \textbf{Requirement} & \textbf{Description} \\
+    \midrule
+    FR-01 & Upload mixed WAV audio & The user shall be able to select and upload a mixed cardiopulmonary WAV file through the web interface. \\
+    FR-02 & Validate audio file & The backend shall check that the uploaded file is a valid supported audio file before saving it for processing. \\
+    FR-03 & Run cardiopulmonary sound separation & The backend shall run the separation workflow using NeoSSNet to separate the mixed input into heart and lung sound outputs. \\
+    FR-04 & Generate heart and lung output files & The system shall save separated heart and lung audio files in the configured output folders. \\
+    FR-05 & Preview separated audio & The web interface shall allow the user to preview the original audio and the separated heart and lung outputs where browser playback is supported. \\
+    FR-06 & Download separated audio & The user shall be able to download the generated heart and lung output files for later review or demonstration. \\
+    FR-07 & View processing history & The system shall show previous uploads, jobs, statuses, and result links so that users can review earlier processing activity. \\
+    FR-08 & Store logs and metadata & The system shall store upload metadata, job records, result paths, metrics where available, and important processing logs in SQLite. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+These functional requirements support the main demonstration flow of the project. A user uploads a mixed sound, the backend validates and processes it, the system stores the generated files, and the browser presents previews, downloads, and history. This keeps the project focused on a working end-to-end software system rather than only a standalone machine learning script.
+
+\section{Non-Functional Requirements}
+
+Non-functional requirements describe the quality attributes expected from the prototype. These qualities are important because the system should be understandable, maintainable, and reliable enough for local testing and presentation.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Non-Functional Requirements}
+  \label{tab:non-functional-requirements}
+  \begin{tabularx}{\textwidth}{p{0.24\textwidth} Y}
+    \toprule
+    \textbf{Quality Attribute} & \textbf{Requirement} \\
+    \midrule
+    Usability & The interface should make the upload, separation, preview, download, and history flow clear for a student or examiner during a demonstration. \\
+    Maintainability & The code should be organised into clear frontend, router, service, machine learning, database, and storage responsibilities so that future changes are easier to make. \\
+    Reliability & The backend should handle invalid files, failed separation jobs, missing outputs, and database errors with clear status messages and logs. \\
+    Modularity & Each major part of the system should be replaceable or testable with minimal impact on unrelated components. \\
+    Performance & The system should process short demonstration WAV files within a reasonable time on a local machine, while avoiding unnecessary database storage of large audio blobs. \\
+    Data integrity & SQLite records should consistently link uploaded audio, model records, separation jobs, results, metrics, and logs. Failed jobs should keep useful error information. \\
+    Portability and local execution & The system should run locally using Python, FastAPI, SQLite, PyTorch, and local folders without requiring cloud services or complex deployment infrastructure. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+The non-functional requirements guide implementation decisions. For example, local execution supports a practical student project setup, while data integrity and logging support traceability when explaining how a mixed input becomes separated heart and lung outputs.
+
+\section{Software Design Concepts}
+
+\subsection{Abstraction}
+
+Abstraction is used to hide detailed processing steps behind simpler operations. For example, the router should not need to know every audio preprocessing, NeoSSNet inference, file saving, and database update step. It should call a service-level operation that represents the separation workflow at a higher level.
+
+\subsection{Modularity}
+
+Modularity divides the system into smaller parts with clear responsibilities. The frontend handles user interaction, FastAPI routers handle HTTP requests, services coordinate workflows, the ML layer performs separation, the database layer manages SQLite records, and the storage layer manages local files. This structure makes the project easier to understand and easier to extend.
+
+\subsection{Separation of Concerns}
+
+Separation of concerns prevents unrelated responsibilities from being mixed together. Runtime upload folders, generated output folders, model checkpoints, dataset folders, and SQLite metadata serve different purposes and should remain separate. This design also avoids training from runtime upload folders and avoids storing large WAV content directly in SQLite.
+
+\subsection{Information Hiding}
+
+Information hiding means that internal implementation details are kept inside the module or class responsible for them. File validation rules should remain inside upload or storage-related code, model loading details should remain inside ML-related code, and SQL details should remain inside database access code. Other parts of the system should use clear methods rather than depending on internal details.
+
+\subsection{Low Coupling and High Cohesion}
+
+Low coupling means that components should depend on each other only where necessary. High cohesion means that each component should focus on related tasks. In this project, the service layer may coordinate upload metadata, inference, storage, and result recording, but each detailed operation should stay in the component that owns it. This supports testing and reduces the risk that a small change in one area breaks another area.
+
+\section{Design Principles}
+
+\subsection{Single Responsibility Principle}
+
+The Single Responsibility Principle supports the assignment of one main reason for change to each component. For example, an upload router should change when request handling changes, a storage service should change when file handling rules change, and a NeoSSNet inference class should change when model inference logic changes. This keeps the software design easier to maintain.
+
+\subsection{Open/Closed Principle}
+
+The Open/Closed Principle suggests that the system should be open for extension but closed for unnecessary modification. The separation workflow should be able to support future algorithm options without rewriting the router layer. This is useful if the prototype later compares NeoSSNet with another baseline model or an ONNX version.
+
+\subsection{Dependency Inversion Principle}
+
+Dependency Inversion is relevant because high-level workflow classes should not be tightly bound to one concrete model implementation. A service can depend on an abstract algorithm interface, while the NeoSSNet strategy provides the current concrete implementation. This keeps the workflow stable even if the underlying model class changes.
+
+\subsection{Interface-Based Design for Algorithm Replacement}
+
+Interface-based design supports future algorithm replacement by defining the expected input and output of a separation algorithm. The current algorithm should produce separated heart and lung audio outputs, but the service layer should not need to know whether the implementation uses NeoSSNet, an ONNX-exported model, or a future baseline method. For the current project, NeoSSNet remains the required real separation model.
+
+\subsection{Persistence Separation Between SQLite and Filesystem}
+
+The design separates structured metadata from large binary audio files. SQLite stores records such as filenames, file paths, upload timestamps, job status, model information, output paths, metrics, and logs. The filesystem stores uploaded WAV files, generated heart and lung outputs, model checkpoints, and dataset files. This approach is simpler to run locally and avoids making the database unnecessarily large.
+
+\section{Software Design Plan}
+
+The proposed software design is organised into layers. This layered plan supports a clear implementation path and makes the system easier to explain in the report and viva presentation.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Software Design Plan by Layer}
+  \label{tab:software-design-plan}
+  \begin{tabularx}{\textwidth}{p{0.24\textwidth} p{0.30\textwidth} Y}
+    \toprule
+    \textbf{Layer} & \textbf{Main Responsibility} & \textbf{Project Role} \\
+    \midrule
+    Frontend layer & HTML, CSS, JavaScript, templates, and browser audio controls & Provides upload form, status messages, original and separated audio playback, download links, and history display. \\
+    Backend API layer & FastAPI application and routers & Receives upload, separation, result, download, history, log, and health requests. \\
+    Service layer & Workflow coordination and business logic & Connects validation, database updates, NeoSSNet inference, output storage, logging, and result retrieval. \\
+    ML inference layer & Audio preprocessing and model inference & Loads or prepares audio, applies the NeoSSNet model, and returns separated heart and lung waveforms. \\
+    Database layer & SQLite schema and repository-style access & Stores uploaded audio metadata, model records, job states, result paths, metrics, and system logs. \\
+    Storage layer & Local filesystem folders & Stores uploaded mixed WAV files, temporary files, separated heart and lung outputs, logs where needed, and ML model weights. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+The design plan follows the project priority of real functionality first, then simplicity and local execution. It avoids unnecessary cloud, microservice, or authentication complexity unless those features are explicitly added later.
+
+\section{Support from Selected Design Patterns}
+
+\subsection{Facade Pattern}
+
+The Facade Pattern supports subsystem simplification. The separation workflow includes validation, preprocessing, NeoSSNet inference, file saving, database updates, and logging. A facade such as \texttt{SeparationService} can present one clear operation to the router while coordinating these internal subsystem steps.
+
+\subsection{Strategy Pattern}
+
+The Strategy Pattern supports future algorithm flexibility. Although NeoSSNet is the core model for this project, a strategy interface allows the system design to describe how another separation algorithm could be introduced later without changing the route-level workflow. This is useful for experimentation while still keeping NeoSSNet as the main real separation method.
+
+\subsection{Factory Method Pattern}
+
+The Factory Method Pattern supports model or algorithm object creation. A factory can create the correct \texttt{SeparationAlgorithm} based on active model configuration or database metadata. This reduces hardcoding and keeps model construction logic in one place, which is easier to maintain if the project later adds another model version or deployment format.
