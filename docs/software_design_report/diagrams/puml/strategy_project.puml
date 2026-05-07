@@ -1,55 +1,31 @@
 @startuml
-' Strategy Pattern adapted to HealthTech.
+' Strategy Pattern adapted to the current backend implementation.
 ' Suggested LaTeX placement: normal page.
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
 
-class "separation.py Router" as SeparationRouter {
-  +postSeparate(audioId)
-}
-
-class SeparationService <<Context>> {
-  -algorithm : SeparationAlgorithm
-  +runSeparation(audioId)
-  +setAlgorithm(algorithm)
+class "SeparationService" as SeparationService <<Context>> {
+  +separate_uploaded_audio(db, audio_id, model_id)
 }
 
 interface SeparationAlgorithm <<Strategy>> {
-  +separate(inputPath, modelConfig)
+  +separate(input_wav_path, model_path, model_config_path, heart_output_path, lung_output_path, device_name)
 }
 
 class NeoSSNetStrategy <<ConcreteStrategy>> {
-  +separate(inputPath, modelConfig)
+  +separate(input_wav_path, model_path, model_config_path, heart_output_path, lung_output_path, device_name)
 }
 
-class ONNXNeoSSNetStrategy <<Future ConcreteStrategy>> {
-  +separate(inputPath, modelConfig)
-}
-
-class BaselineSeparationStrategy <<Future ConcreteStrategy>> {
-  +separate(inputPath, modelConfig)
-}
-
-class NeoSSNetInference {
-  +loadModel(checkpointPath, configPath)
-  +generateOutput(waveform)
-}
-
-SeparationRouter --> SeparationService
-SeparationService o--> SeparationAlgorithm
+SeparationService --> SeparationAlgorithm : delegates selected algorithm
 NeoSSNetStrategy ..|> SeparationAlgorithm
-ONNXNeoSSNetStrategy ..|> SeparationAlgorithm
-BaselineSeparationStrategy ..|> SeparationAlgorithm
-NeoSSNetStrategy --> NeoSSNetInference
 
 note bottom
   Mapping:
   Context = SeparationService
   Strategy = SeparationAlgorithm
-  Current concrete strategy = NeoSSNetStrategy
-  Future strategies are optional extensions.
+  ConcreteStrategy = NeoSSNetStrategy
 end note
 
 @enduml

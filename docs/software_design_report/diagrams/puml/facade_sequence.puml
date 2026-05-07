@@ -1,53 +1,35 @@
 @startuml
 ' Facade Pattern sequence diagram.
-' Suggested LaTeX placement: landscape page if rendered wide.
+' Suggested LaTeX placement: normal page.
 
 skinparam shadowing false
 autonumber
 
 actor User
-participant "Browser UI" as Browser
-participant "separation.py Router" as Router
-participant "SeparationService\n(Facade)" as Facade
-participant "DatabaseSession" as DB
-participant "StorageService" as Storage
-participant "AudioPreprocessor" as Preprocessor
-participant "NeoSSNetInference" as Inference
+participant "API Router" as Router
+participant "SeparationService\n(Facade)" as Service
+participant "Audio/ML Subsystem" as ML
+database "Database/Storage" as Persistence
 
-User -> Browser : Click separate
-Browser -> Router : POST /separate/{audio_id}
-Router -> Facade : runSeparation(audioId)
+User -> Router : POST /separate/{audio_id}?model_id=optional
+Router -> Service : separate_uploaded_audio(db, audio_id, model_id)
 
-Facade -> DB : load uploaded_audio and active model
-DB --> Facade : upload metadata, model paths
+Service -> Persistence : read upload and selected/active model
+Persistence --> Service : stored_path and model paths
+Service -> Persistence : create running separation_job
+Persistence --> Service : job_id
 
-Facade -> DB : create separation_job(status="running")
-DB --> Facade : jobId
+Service -> ML : separate(input WAV, model paths)
+ML --> Service : heart WAV path and lung WAV path
 
-Facade -> Storage : resolveUploadPath(audioId)
-Storage --> Facade : mixedWavPath
+Service -> Persistence : save result metadata and completed status
+Service --> Router : job status and output paths
+Router --> User : JSON response for preview/download
 
-Facade -> Preprocessor : load and prepare WAV
-Preprocessor --> Facade : prepared waveform
-
-Facade -> Inference : generateOutput(waveform, model)
-Inference --> Facade : heart waveform, lung waveform
-
-Facade -> Storage : saveHeartOutput(jobId, heart)
-Storage --> Facade : heartFilePath
-Facade -> Storage : saveLungOutput(jobId, lung)
-Storage --> Facade : lungFilePath
-
-Facade -> DB : insert separation_result
-Facade -> DB : mark job completed
-Facade --> Router : job status and output paths
-Router --> Browser : JSON response
-Browser --> User : show audio players and downloads
-
-alt inference or storage error
-  Facade -> DB : mark job failed and write system_log
-  Facade --> Router : error response
-  Router --> Browser : visible error message
+alt error
+  Service -> Persistence : mark job failed
+  Service --> Router : raise service error
+  Router --> User : error response
 end
 
 @enduml

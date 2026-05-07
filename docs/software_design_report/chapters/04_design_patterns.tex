@@ -3,7 +3,7 @@
 
 This chapter proposes three design patterns for the cardiopulmonary sound separation system. The patterns are presented as practical backend design structures for the FastAPI, SQLite, local storage, and NeoSSNet pipeline. Each pattern is linked to a specific project problem so that the design remains useful for implementation and explanation during the final presentation.
 
-The class and method names used in this chapter represent the proposed backend design. During implementation, they should be kept aligned with the final source code while preserving the same responsibilities and pattern roles.
+The class and method names used in this chapter are aligned with the current model-selection implementation. The report uses \texttt{SeparationService} to describe the service role implemented in \texttt{app/services/separation\_service.py}, while the actual code also includes \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, \texttt{SeparationAlgorithmFactory}, and \texttt{ModelService}.
 
 \section{Facade Pattern}
 
@@ -19,7 +19,7 @@ The separation endpoint should not directly coordinate every step of the backend
 
 \subsection{Solution}
 
-The proposed solution is to introduce \texttt{SeparationService} as the facade. The router calls one high-level method, such as \texttt{run\_separation(audio\_id)}, while the service coordinates the subsystem classes internally. This keeps the router focused on request handling and keeps the separation workflow inside a dedicated service layer.
+The solution is to use \texttt{SeparationService} as the facade for the separation workflow. The router calls one high-level operation, \texttt{separate\_uploaded\_audio(db, audio\_id, model\_id)}, while the service coordinates model selection, algorithm creation, job creation, inference, output storage, and database result updates. This keeps the router focused on request handling and keeps the separation workflow inside a dedicated service layer.
 
 \subsection{Structure}
 
@@ -35,19 +35,19 @@ The template structure below shows how a facade sits between a client and a grou
 \begin{enumerate}
   \item \textbf{Client:} The external caller that needs to use the subsystem. In this project, the client is mainly the FastAPI router that receives a separation request.
   \item \textbf{Facade:} The simplified interface used by the client. In this project, \texttt{SeparationService} hides the detailed separation steps behind one service method.
-  \item \textbf{Additional Facade:} An optional second facade can be used when the subsystem grows. For example, a future \texttt{ModelManagementService} could hide model loading and model version selection if that logic becomes large.
-  \item \textbf{Complex Subsystem:} The lower-level classes that perform the actual work. In this project, these include audio preprocessing, NeoSSNet inference, storage handling, database updates, and system logging.
+  \item \textbf{Additional Facade:} An optional second facade can be used when the subsystem grows. The current implementation keeps model lookup in \texttt{ModelService}, so no additional facade is required at this stage.
+  \item \textbf{Complex Subsystem:} The lower-level components that perform the actual work. In this project, these include \texttt{ModelService}, \texttt{SeparationAlgorithmFactory}, \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, SQLite database records, and local file storage.
 \end{enumerate}
 
 \subsection{Project Application}
 
 \subsubsection{i. Function or Software Component Affected}
 
-The affected component is the backend separation workflow, especially the service layer that connects the FastAPI separation route to the audio and machine learning components. The proposed main class is \texttt{SeparationService}. The route module may be named \texttt{separation.py} or another consistent router name in the final implementation.
+The affected component is the backend separation workflow, especially the service layer that connects the FastAPI separation route to model selection, machine learning inference, SQLite records, and local file storage. The main facade role is \texttt{SeparationService}, represented by the \texttt{separate\_uploaded\_audio} workflow in \texttt{app/services/separation\_service.py}.
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-The router receives a request to separate an uploaded WAV file. It passes the uploaded audio identifier to \texttt{SeparationService}. The service loads the upload metadata from SQLite, reads the audio file from local storage, preprocesses it into the expected model input format, runs NeoSSNet inference, saves the separated heart and lung audio files, updates the separation result in SQLite, and writes important processing events to the log.
+The router receives a request to separate an uploaded WAV file and may also receive an optional \texttt{model\_id}. It passes the database session, uploaded audio identifier, and selected model identifier to \texttt{SeparationService}. The service loads the upload metadata from SQLite, selects either the requested model or the active model through \texttt{ModelService}, creates the correct algorithm through \texttt{SeparationAlgorithmFactory}, runs the selected \texttt{SeparationAlgorithm}, saves separated heart and lung WAV files to local storage, and records the job and result metadata in SQLite.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -70,32 +70,49 @@ The router receives a request to separate an uploaded WAV file. It passes the up
 \subsubsection{v. Sample Potential Code}
 
 \begin{verbatim}
-class SeparationService:
-    def __init__(
-        self,
-        preprocessor,
-        inference,
-        storage,
-        repository,
-        logger,
-    ):
-        self.preprocessor = preprocessor
-        self.inference = inference
-        self.storage = storage
-        self.repository = repository
-        self.logger = logger
+# Client: FastAPI route in app/routers/separation.py
+def separate_audio(audio_id: int, model_id: int | None, db):
+    return SeparationService().separate_uploaded_audio(
+        db=db,
+        audio_id=audio_id,
+        model_id=model_id,
+    )
 
-    def run_separation(self, audio_id: int) -> int:
-        upload = self.repository.get_uploaded_audio(audio_id)
-        waveform = self.preprocessor.load_and_prepare(upload.file_path)
-        heart, lung = self.inference.separate(waveform)
-        output_paths = self.storage.save_outputs(audio_id, heart, lung)
-        job_id = self.repository.save_result(audio_id, output_paths)
-        self.logger.info(job_id, "Separation completed")
-        return job_id
+
+# Facade: app/services/separation_service.py
+class SeparationService:
+    def separate_uploaded_audio(self, db, audio_id, model_id=None):
+        upload = get_uploaded_audio(db, audio_id)
+
+        # Subsystem: model selection
+        model = ModelService.get_model_for_separation(db, model_id)
+
+        # Subsystem: factory creates the selected ML algorithm
+        algorithm = SeparationAlgorithmFactory.create(model)
+
+        # Subsystem: database job and local file paths
+        job = create_running_job(
+            db,
+            upload.uploaded_audio_id,
+            model.model_id,
+        )
+        heart_path = make_heart_output_path(job.job_id)
+        lung_path = make_lung_output_path(job.job_id)
+
+        # Subsystem: audio/ML algorithm
+        result = algorithm.separate(
+            input_wav_path=resolve_project_path(upload.stored_path),
+            model_path=resolve_project_path(model.checkpoint_path),
+            model_config_path=resolve_project_path(model.config_path),
+            heart_output_path=heart_path,
+            lung_output_path=lung_path,
+        )
+
+        save_result_metadata(db, job, result)
+        return job.job_id
 \end{verbatim}
 
-The code sample is illustrative and should be aligned with the final backend method names during implementation.
+The code sample is simplified for readability, but the roles and method names follow the implemented backend structure.
 
 \subsubsection{vi. Benefits}
 
@@ -107,7 +124,7 @@ The main limitation is that the facade can become too large if every processing 
 
 \section{Strategy Pattern}
 
-The Strategy Pattern is proposed to keep the separation algorithm interchangeable behind a common interface. This is useful because the project currently focuses on NeoSSNet, but future versions may compare another PyTorch model, an ONNX-exported model, or a simple baseline method \parencite{gamma1994designpatterns}.
+The Strategy Pattern is used to keep the separation algorithm interchangeable behind a common interface. This is useful because the project currently uses NeoSSNet, but the backend should still allow another implemented algorithm to be added later without changing the upload, result, history, or download routes \parencite{gamma1994designpatterns}.
 
 \subsection{Pattern Type}
 
@@ -119,7 +136,7 @@ The system should not hardcode NeoSSNet-specific logic throughout the service la
 
 \subsection{Solution}
 
-The proposed solution is to define a \texttt{SeparationAlgorithm} interface with a method such as \texttt{separate(waveform)}. \texttt{NeoSSNetStrategy} becomes the current concrete strategy. \texttt{SeparationService} acts as the context and calls the selected strategy through the shared interface.
+The solution is to define a \texttt{SeparationAlgorithm} interface with a \texttt{separate(...)} operation. \texttt{NeoSSNetStrategy} is the current concrete strategy and wraps the existing real \texttt{run\_neossnet\_inference} function. \texttt{SeparationService} acts as the context and calls the selected strategy through the shared interface.
 
 \subsection{Structure}
 
@@ -135,7 +152,7 @@ The template structure below shows a context object that delegates algorithm-spe
 \begin{enumerate}
   \item \textbf{Context:} The object that uses a strategy to complete part of its work. In this project, \texttt{SeparationService} is the context because it delegates model-specific separation to an algorithm object.
   \item \textbf{Strategy Interface:} The common contract for all algorithms. In this project, \texttt{SeparationAlgorithm} defines the expected separation method and output format.
-  \item \textbf{Concrete Strategies:} The actual algorithm implementations. \texttt{NeoSSNetStrategy} is the main strategy, while \texttt{ONNXNeoSSNetStrategy} or \texttt{BaselineSeparationStrategy} can be considered future options.
+  \item \textbf{Concrete Strategies:} The actual algorithm implementations. In the current implementation, \texttt{NeoSSNetStrategy} is the concrete strategy.
   \item \textbf{Client:} The caller that starts the workflow. In this project, the FastAPI router starts the separation request, while the service uses the configured strategy internally.
 \end{enumerate}
 
@@ -143,11 +160,11 @@ The template structure below shows a context object that delegates algorithm-spe
 
 \subsubsection{i. Function or Software Component Affected}
 
-The affected component is the machine learning inference boundary. The main classes are \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, and \texttt{SeparationService}. Alternative strategies are treated as future extensions unless they are implemented in the final backend.
+The affected component is the machine learning inference boundary. The main classes are \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, and \texttt{SeparationService}. The interface is intentionally small so that a new implemented strategy can be registered later without changing the separation route or result workflow.
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-The service receives a prepared waveform from the preprocessing step. Instead of calling a NeoSSNet class directly throughout the workflow, it calls the selected \texttt{SeparationAlgorithm}. The current concrete strategy runs NeoSSNet and returns two outputs: the separated heart sound and the separated lung sound. The rest of the workflow can then save and record the outputs without depending on the internal details of the selected algorithm.
+The service resolves the uploaded WAV path and model paths, then calls the selected \texttt{SeparationAlgorithm}. The current concrete strategy, \texttt{NeoSSNetStrategy}, delegates to the existing NeoSSNet inference function and returns a \texttt{SeparationAlgorithmResult} containing heart output path, lung output path, sample rate, duration, and file size metadata. The service records these outputs without depending on NeoSSNet internals.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -170,33 +187,47 @@ The service receives a prepared waveform from the preprocessing step. Instead of
 \subsubsection{v. Sample Potential Code}
 
 \begin{verbatim}
-from abc import ABC, abstractmethod
+# Strategy: app/ml/separation_algorithm.py
+class SeparationAlgorithm(Protocol):
+    def separate(
+        self,
+        input_wav_path,
+        model_path,
+        model_config_path,
+        heart_output_path,
+        lung_output_path,
+        device_name="cpu",
+    ) -> SeparationAlgorithmResult:
+        ...
 
 
-class SeparationAlgorithm(ABC):
-    @abstractmethod
-    def separate(self, waveform):
-        raise NotImplementedError
+# ConcreteStrategy: app/ml/neossnet_strategy.py
+class NeoSSNetStrategy:
+    def separate(self, input_wav_path, model_path, model_config_path,
+                 heart_output_path, lung_output_path, device_name="cpu"):
+        return run_neossnet_inference(
+            input_wav_path=input_wav_path,
+            model_path=model_path,
+            model_config_path=model_config_path,
+            heart_output_path=heart_output_path,
+            lung_output_path=lung_output_path,
+            device_name=device_name,
+        )
 
 
-class NeoSSNetStrategy(SeparationAlgorithm):
-    def __init__(self, model):
-        self.model = model
-
-    def separate(self, waveform):
-        heart, lung = self.model.predict(waveform)
-        return heart, lung
-
-
+# Context: app/services/separation_service.py
 class SeparationService:
-    def __init__(self, algorithm: SeparationAlgorithm):
-        self.algorithm = algorithm
-
-    def separate_waveform(self, waveform):
-        return self.algorithm.separate(waveform)
+    def run_selected_algorithm(self, algorithm: SeparationAlgorithm):
+        return algorithm.separate(
+            input_wav_path=input_path,
+            model_path=model_path,
+            model_config_path=model_config_path,
+            heart_output_path=heart_output_path,
+            lung_output_path=lung_output_path,
+        )
 \end{verbatim}
 
-The \texttt{model.predict} call is a simplified placeholder for the final PyTorch inference method used by NeoSSNet.
+The concrete strategy does not duplicate NeoSSNet inference logic; it delegates to the existing inference function.
 
 \subsubsection{vi. Benefits}
 
@@ -220,7 +251,7 @@ The system stores model-related information such as model name, version, checkpo
 
 \subsection{Solution}
 
-The proposed solution is to use \texttt{SeparationAlgorithmFactory} as the creator. The factory reads the active model configuration or receives it from the service, then returns a \texttt{SeparationAlgorithm} object. At the current stage, the main concrete product is \texttt{NeoSSNetStrategy}.
+The solution is to use \texttt{SeparationAlgorithmFactory} as the creator. The service obtains the selected or active model through \texttt{ModelService}, then passes that model record to the factory. The factory checks the model architecture and returns a \texttt{SeparationAlgorithm} object. At the current stage, the concrete product is \texttt{NeoSSNetStrategy}.
 
 \subsection{Structure}
 
@@ -245,11 +276,11 @@ The template structure below shows a creator that returns a product interface wh
 
 \subsubsection{i. Function or Software Component Affected}
 
-The affected component is model and algorithm construction. The main proposed class is \texttt{SeparationAlgorithmFactory}, used by \texttt{SeparationService}. A shorter name such as \texttt{ModelFactory} can be used in implementation if the responsibility remains clear.
+The affected component is model and algorithm construction. The implemented creator is \texttt{SeparationAlgorithmFactory}, and it is used by \texttt{SeparationService}. Model lookup is handled separately by \texttt{ModelService}.
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-The service requests the active separation algorithm from the factory. The factory checks the model configuration, such as model type and checkpoint path, and creates the matching algorithm object. The created object is returned through the \texttt{SeparationAlgorithm} interface. The service then calls the algorithm without knowing the exact construction steps.
+The service requests the selected or active model from \texttt{ModelService}. It then passes the model record to \texttt{SeparationAlgorithmFactory.create(model)}. The factory checks \texttt{model.architecture}; when it is \texttt{NeoSSNet}, it creates \texttt{NeoSSNetStrategy}. The created object is returned through the \texttt{SeparationAlgorithm} interface, so the service can call \texttt{separate(...)} without hardcoding the concrete strategy construction.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -272,32 +303,44 @@ The service requests the active separation algorithm from the factory. The facto
 \subsubsection{v. Sample Potential Code}
 
 \begin{verbatim}
+# Product: app/ml/separation_algorithm.py
+class SeparationAlgorithm(Protocol):
+    def separate(self, input_wav_path, model_path, model_config_path,
+                 heart_output_path, lung_output_path, device_name="cpu"):
+        ...
+
+
+# ConcreteProduct: app/ml/neossnet_strategy.py
+class NeoSSNetStrategy:
+    def separate(self, input_wav_path, model_path, model_config_path,
+                 heart_output_path, lung_output_path, device_name="cpu"):
+        return run_neossnet_inference(...)
+
+
+# Creator: app/services/model_factory.py
 class SeparationAlgorithmFactory:
-    def create(self, model_config) -> SeparationAlgorithm:
-        if model_config.model_type == "neossnet":
-            checkpoint = model_config.checkpoint_path
-            model = load_neossnet_checkpoint(checkpoint)
-            return NeoSSNetStrategy(model)
+    _registry = {
+        "neossnet": NeoSSNetStrategy,
+    }
 
-        message = f"Unsupported model type: {model_config.model_type}"
-        raise ValueError(message)
+    @classmethod
+    def create(cls, model) -> SeparationAlgorithm:
+        architecture = model.architecture.strip().lower()
+        strategy_class = cls._registry.get(architecture)
+        if strategy_class is None:
+            raise UnsupportedModelArchitectureError(architecture)
+
+        return strategy_class()
 
 
+# Client: app/services/separation_service.py
 class SeparationService:
-    def __init__(
-        self,
-        factory: SeparationAlgorithmFactory,
-        model_repository,
-    ):
-        self.factory = factory
-        self.model_repository = model_repository
-
-    def get_algorithm(self):
-        active_model = self.model_repository.get_active_model()
-        return self.factory.create(active_model)
+    def get_algorithm(self, db, model_id=None):
+        model = ModelService.get_model_for_separation(db, model_id)
+        return SeparationAlgorithmFactory.create(model)
 \end{verbatim}
 
-The \texttt{load\_neossnet\_checkpoint} call represents the final model loading function used by the project.
+The factory creates the strategy object only. The model checkpoint and configuration paths remain in the model record and are passed into the strategy during the separation call.
 
 \subsubsection{vi. Benefits}
 

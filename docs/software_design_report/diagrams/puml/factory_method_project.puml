@@ -1,62 +1,39 @@
 @startuml
-' Factory Method Pattern adapted to HealthTech.
+' Factory Method Pattern adapted to the current backend implementation.
 ' Suggested LaTeX placement: normal page.
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
 
-class SeparationService <<Client>> {
-  +runSeparation(audioId)
+class "SeparationService" as SeparationService <<Client>> {
+  +separate_uploaded_audio(db, audio_id, model_id)
 }
 
 class SeparationAlgorithmFactory <<Creator>> {
-  +create(activeModel) : SeparationAlgorithm
+  +create(model) : SeparationAlgorithm
 }
 
 interface SeparationAlgorithm <<Product>> {
-  +separate(inputPath, modelConfig)
+  +separate(...)
 }
 
 class NeoSSNetStrategy <<ConcreteProduct>> {
-  +separate(inputPath, modelConfig)
+  +separate(...)
 }
 
-class ONNXNeoSSNetStrategy <<Future ConcreteProduct>> {
-  +separate(inputPath, modelConfig)
-}
-
-class ModelRepository {
-  +findActiveModel()
-}
-
-class ModelRecord {
-  +model_id : int
-  +model_name : str
-  +version : str
-  +architecture : str
-  +framework : str
-  +checkpoint_path : str
-  +config_path : str
-  +is_active : bool
-}
-
-SeparationService --> ModelRepository : requests active model
-SeparationService --> SeparationAlgorithmFactory : create(activeModel)
+SeparationService --> SeparationAlgorithmFactory : create(model)
 SeparationAlgorithmFactory ..> SeparationAlgorithm : returns product
-SeparationAlgorithmFactory --> ModelRecord : reads architecture/framework
-ModelRepository --> ModelRecord : returns
+SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates for architecture="NeoSSNet"
 NeoSSNetStrategy ..|> SeparationAlgorithm
-ONNXNeoSSNetStrategy ..|> SeparationAlgorithm
-SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates when active model is PyTorch NeoSSNet
-SeparationAlgorithmFactory ..> ONNXNeoSSNetStrategy : creates in future if model is ONNX
+SeparationService --> SeparationAlgorithm : calls separate()
 
 note bottom
   Mapping:
+  Client = SeparationService
   Creator = SeparationAlgorithmFactory
   Product = SeparationAlgorithm
   ConcreteProduct = NeoSSNetStrategy
-  Client = SeparationService
 end note
 
 @enduml

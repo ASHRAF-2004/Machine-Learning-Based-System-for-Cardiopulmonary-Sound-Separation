@@ -1,63 +1,51 @@
 @startuml
-' Facade Pattern adapted to HealthTech.
+' Facade Pattern adapted to the current backend implementation.
 ' Suggested LaTeX placement: normal page.
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
 
-class "separation.py Router" as SeparationRouter {
-  +postSeparate(audioId)
+class "separation.py Router" as SeparationRouter <<Client>> {
+  +separate_audio(audio_id, model_id)
 }
 
-class SeparationService <<Facade>> {
-  +runSeparation(audioId)
-  -createJob(audioId)
-  -completeJob(jobId, result)
-  -failJob(jobId, errorMessage)
+class "SeparationService" as SeparationService <<Facade>> {
+  +separate_uploaded_audio(db, audio_id, model_id)
+  +create_running_job(db, uploaded_audio_id, model_id)
+  +mark_job_failed(db, job, error, processing_time_ms)
 }
 
-class AudioPreprocessor <<Subsystem>> {
-  +loadWav(path)
-  +toMono(waveform)
-  +resampleIfNeeded(waveform, targetRate)
+class ModelService <<Subsystem>> {
+  +get_model_for_separation(db, model_id)
 }
 
-class NeoSSNetInference <<Subsystem>> {
-  +loadModel(checkpointPath, configPath)
-  +generateOutput(waveform)
+class SeparationAlgorithmFactory <<Subsystem>> {
+  +create(model)
 }
 
-class StorageService <<Subsystem>> {
-  +saveHeartOutput(jobId, waveform)
-  +saveLungOutput(jobId, waveform)
-  +resolveUploadPath(audioId)
+interface SeparationAlgorithm <<Subsystem>> {
+  +separate(...)
 }
 
-class DatabaseSession <<Subsystem>> {
-  +insertJob(audioId, modelId)
-  +insertResult(resultData)
-  +updateJobStatus(jobId, status)
-  +writeLog(logData)
-}
-
-class ModelRepository {
-  +findActiveModel()
-}
+class "SQLite Database" as SQLite <<Subsystem>>
+class "Local File Storage" as FileStorage <<Subsystem>>
 
 SeparationRouter --> SeparationService : one workflow call
-SeparationService --> AudioPreprocessor
-SeparationService --> NeoSSNetInference
-SeparationService --> StorageService
-SeparationService --> DatabaseSession
-SeparationService --> ModelRepository
-ModelRepository --> DatabaseSession
+SeparationService --> ModelService : select model
+SeparationService --> SeparationAlgorithmFactory : create algorithm
+SeparationService --> SeparationAlgorithm : run separation
+SeparationService --> SQLite : jobs/results metadata
+SeparationService --> FileStorage : uploaded/output WAV files
+
+SeparationAlgorithmFactory ..> SeparationAlgorithm : returns
 
 note bottom
   Mapping:
   Client = separation.py Router
   Facade = SeparationService
-  Subsystems = AudioPreprocessor, NeoSSNetInference, StorageService, DatabaseSession
+  Subsystems = ModelService, SeparationAlgorithmFactory,
+  SeparationAlgorithm, SQLite Database, Local File Storage
 end note
 
 @enduml

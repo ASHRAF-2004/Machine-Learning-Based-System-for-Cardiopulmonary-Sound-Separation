@@ -1,6 +1,6 @@
 @startuml
-' Overall system class diagram.
-' Suggested LaTeX placement: landscape page due to the number of classes.
+' Overall class diagram aligned with the model-selection implementation.
+' Suggested LaTeX placement: landscape page.
 
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
@@ -9,138 +9,142 @@ skinparam packageStyle rectangle
 
 package "Frontend" {
   class BrowserUI {
-    +selectWavFile()
-    +uploadAudio()
-    +requestSeparation(audioId)
-    +showPlayers()
-    +showHistory()
+    +uploadWav()
+    +selectModel(modelId)
+    +requestSeparation(audioId, modelId)
+    +previewOutputs()
+    +loadHistory()
   }
 }
 
 package "FastAPI Routers" {
   class UploadRouter {
-    +postUpload(file)
+    +upload_audio(file)
+  }
+
+  class ModelsRouter {
+    +available_models()
   }
 
   class SeparationRouter {
-    +postSeparate(audioId)
+    +separate_audio(audio_id, model_id)
   }
 
-  class ResultRouter {
-    +getResult(jobId)
-    +downloadHeart(jobId)
-    +downloadLung(jobId)
-    +getHistory()
+  class ResultsRouter {
+    +result_details(job_id)
+    +download_heart(job_id)
+    +download_lung(job_id)
+    +history(limit)
   }
 }
 
 package "Service Layer" {
   class StorageService {
-    +validateWav(file)
-    +saveUpload(file)
-    +saveHeartOutput(jobId, waveform)
-    +saveLungOutput(jobId, waveform)
-    +resolveDownloadPath(jobId, type)
+    +save_uploaded_wav(file)
+    +read_wav_metadata(path)
   }
 
-  class SeparationService {
-    +runSeparation(audioId)
-    +markJobFailed(jobId, errorMessage)
+  class ModelService {
+    +list_models(db)
+    +get_model_for_separation(db, model_id)
+  }
+
+  class "SeparationService" as SeparationService <<Facade>> {
+    +separate_uploaded_audio(db, audio_id, model_id)
+    +create_running_job(db, uploaded_audio_id, model_id)
+    +mark_job_failed(db, job, error, processing_time_ms)
   }
 
   class ResultService {
-    +getJobResult(jobId)
-    +getRecentHistory()
+    +get_result_details(db, job_id)
+    +get_download_file(db, job_id, output_type)
+    +get_history(db, limit)
   }
 
-  class SystemLogService {
-    +writeInfo(component, event, message)
-    +writeError(jobId, component, message)
+  class SeparationAlgorithmFactory <<Factory>> {
+    +create(model) : SeparationAlgorithm
   }
 }
 
 package "ML Layer" {
-  interface SeparationAlgorithm {
-    +separate(inputPath, modelConfig)
+  interface SeparationAlgorithm <<Strategy>> {
+    +separate(input_wav_path, model_path, model_config_path, heart_output_path, lung_output_path, device_name)
   }
 
-  class NeoSSNetStrategy {
-    +separate(inputPath, modelConfig)
+  class NeoSSNetStrategy <<ConcreteStrategy>> {
+    +separate(input_wav_path, model_path, model_config_path, heart_output_path, lung_output_path, device_name)
   }
 
-  class AudioPreprocessor {
-    +loadWav(path)
-    +toMono(waveform)
-    +resampleIfNeeded(waveform, targetRate)
-  }
-
-  class NeoSSNetInference {
-    +loadModel(checkpointPath, configPath)
-    +generateOutput(waveform)
-  }
-
-  class SeparationAlgorithmFactory {
-    +create(activeModel)
+  class "run_neossnet_inference()" as NeoSSNetInference {
+    +run_neossnet_inference(...)
   }
 }
 
-package "Database Access" {
-  class DatabaseSession {
-    +execute(query)
-    +commit()
-    +rollback()
+package "Persistence Models" {
+  class UploadedAudio {
+    +uploaded_audio_id
+    +original_filename
+    +stored_path
   }
 
-  class UploadedAudioRepository {
-    +insertUpload(metadata)
-    +findById(audioId)
+  class Model {
+    +model_id
+    +model_name
+    +architecture
+    +checkpoint_path
+    +config_path
+    +is_active
   }
 
-  class ModelRepository {
-    +findActiveModel()
+  class SeparationJob {
+    +job_id
+    +uploaded_audio_id
+    +model_id
+    +status
   }
 
-  class SeparationJobRepository {
-    +createRunningJob(audioId, modelId)
-    +markCompleted(jobId, processingTimeMs)
-    +markFailed(jobId, errorMessage)
-  }
-
-  class SeparationResultRepository {
-    +insertResult(resultData)
-    +findByJobId(jobId)
+  class SeparationResult {
+    +result_id
+    +job_id
+    +heart_file_path
+    +lung_file_path
   }
 }
+
+class "SQLite Database" as SQLite <<Database>>
+class "Local File Storage" as FileStorage <<Storage>>
 
 BrowserUI --> UploadRouter
+BrowserUI --> ModelsRouter
 BrowserUI --> SeparationRouter
-BrowserUI --> ResultRouter
+BrowserUI --> ResultsRouter
 
 UploadRouter --> StorageService
-UploadRouter --> UploadedAudioRepository
+UploadRouter --> UploadedAudio
+ModelsRouter --> ModelService
 SeparationRouter --> SeparationService
-ResultRouter --> ResultService
+ResultsRouter --> ResultService
 
-SeparationService --> StorageService
-SeparationService --> AudioPreprocessor
-SeparationService --> SeparationAlgorithmFactory
-SeparationService --> SeparationJobRepository
-SeparationService --> SeparationResultRepository
-SeparationService --> SystemLogService
+SeparationService --> ModelService : select active or requested model
+SeparationService --> SeparationAlgorithmFactory : create(model)
+SeparationService --> SeparationAlgorithm : run selected algorithm
+SeparationService --> SeparationJob : create/update
+SeparationService --> SeparationResult : save output metadata
+SeparationService --> FileStorage : read upload/write outputs
 
-SeparationAlgorithmFactory --> ModelRepository
-SeparationAlgorithmFactory ..> SeparationAlgorithm
+ModelService --> Model
+SeparationAlgorithmFactory ..> SeparationAlgorithm : returns product
+SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates for NeoSSNet
 NeoSSNetStrategy ..|> SeparationAlgorithm
-NeoSSNetStrategy --> NeoSSNetInference
+NeoSSNetStrategy --> NeoSSNetInference : wraps existing function
 
-ResultService --> SeparationResultRepository
-ResultService --> SeparationJobRepository
-ResultService --> StorageService
+ResultService --> SeparationJob
+ResultService --> SeparationResult
+ResultService --> FileStorage
 
-UploadedAudioRepository --> DatabaseSession
-ModelRepository --> DatabaseSession
-SeparationJobRepository --> DatabaseSession
-SeparationResultRepository --> DatabaseSession
-SystemLogService --> DatabaseSession
+UploadedAudio --> SQLite
+Model --> SQLite
+SeparationJob --> SQLite
+SeparationResult --> SQLite
 
 @enduml
