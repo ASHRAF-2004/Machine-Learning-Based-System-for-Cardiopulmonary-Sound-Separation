@@ -1,0 +1,49 @@
+@startuml
+' Pattern location overview diagram.
+' This is not the official UML class diagram.
+
+top to bottom direction
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam nodesep 35
+skinparam ranksep 35
+skinparam rectangle {
+  BorderColor #2F3A4A
+  FontColor #1F2933
+  RoundCorner 0
+}
+skinparam package {
+  BorderColor #2F3A4A
+  FontStyle bold
+}
+
+rectangle "Separation Request\n(audio_id, optional model_id)" as Request #FFFFFF
+
+package "1. Facade Pattern" as FacadeBox #DCEBFF {
+  rectangle "SeparationService\n<<Facade>>\nOne high-level separation call\nhides model lookup, factory creation,\nand algorithm execution" as Service #FFFFFF
+}
+
+package "2. Factory Method Pattern" as FactoryBox #E4F7E7 {
+  rectangle "ModelService\nselects requested or active model" as ModelService #FFFFFF
+  rectangle "SeparationAlgorithmFactory\n<<Creator>>\ncreates the correct algorithm object\nfrom model architecture" as Factory #FFFFFF
+  ModelService -right-> Factory
+}
+
+package "3. Strategy Pattern" as StrategyBox #FFF1CC {
+  rectangle "NeoSSNetStrategy\n<<ConcreteStrategy>>\ncurrent real separation model" as NeoSSNet #FFFFFF
+  rectangle "SeparationAlgorithm\n<<Strategy>>\ncommon separation interface" as Algorithm #FFFFFF
+  NeoSSNet -right-|> Algorithm
+}
+
+rectangle "Heart and Lung WAV Outputs\nheart.wav + lung.wav" as Outputs #FFFFFF
+
+Request --> Service
+Service --> ModelService
+Service --> Factory
+Factory --> NeoSSNet
+Factory --> Algorithm
+Service --> Algorithm
+Algorithm --> Outputs
+
+@enduml

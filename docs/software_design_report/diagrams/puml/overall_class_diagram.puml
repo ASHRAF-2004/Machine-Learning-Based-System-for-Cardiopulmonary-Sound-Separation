@@ -1,49 +1,147 @@
 @startuml
-' Official pattern-location overview diagram.
-' Suggested LaTeX placement: landscape page.
+' Official UML class diagram for Section 2.2.
+' This diagram shows real class-style boxes, selected members, and relationships.
 
 top to bottom direction
+skinparam classAttributeIconSize 0
 skinparam linetype ortho
 skinparam shadowing false
 skinparam packageStyle rectangle
-skinparam nodesep 35
-skinparam ranksep 35
-skinparam rectangle {
-  BorderColor #2F3A4A
-  FontColor #1F2933
-  RoundCorner 0
-}
-skinparam package {
-  BorderColor #2F3A4A
-  FontStyle bold
+skinparam nodesep 36
+skinparam ranksep 42
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+  ArrowColor #333333
 }
 
-rectangle "Separation Request\n(audio_id, optional model_id)" as Request #FFFFFF
+package "API Routers" {
+  class UploadRouter {
+    +upload_audio(file)
+  }
 
-package "1. Facade Pattern" as FacadeBox #DCEBFF {
-  rectangle "SeparationService\n<<Facade>>\nOne high-level separation call\nhides model lookup, factory creation,\nand algorithm execution" as Service #FFFFFF
+  class SeparationRouter {
+    +separate_audio(audio_id, model_id)
+  }
+
+  class ModelsRouter {
+    +available_models()
+  }
 }
 
-package "2. Factory Method Pattern" as FactoryBox #E4F7E7 {
-  rectangle "ModelService\nselects requested or active model" as ModelService #FFFFFF
-  rectangle "SeparationAlgorithmFactory\n<<Creator>>\ncreates the correct algorithm object\nfrom model architecture" as Factory #FFFFFF
-  ModelService -right-> Factory
+package "Application Services" {
+  class SeparationService <<Facade>> {
+    +separate_uploaded_audio(db, audio_id, model_id)
+    +create_running_job(db, uploaded_audio_id, model_id)
+    +mark_job_failed(db, job, error)
+  }
+
+  class ModelService {
+    +list_models(db)
+    +get_model_for_separation(db, model_id)
+    +get_active_model(db)
+  }
+
+  class StorageService {
+    +save_uploaded_wav(file)
+    +read_wav_metadata(path)
+    +build_output_paths(job_id)
+  }
+
+  class ResultService {
+    +get_result_details(db, job_id)
+    +get_download_file(db, job_id, output_type)
+    +get_history(db, limit)
+  }
 }
 
-package "3. Strategy Pattern" as StrategyBox #FFF1CC {
-  rectangle "NeoSSNetStrategy\n<<ConcreteStrategy>>\ncurrent real separation model" as NeoSSNet #FFFFFF
-  rectangle "SeparationAlgorithm\n<<Strategy>>\ncommon separation interface" as Algorithm #FFFFFF
-  NeoSSNet -right-|> Algorithm
+package "ML Extension Point" {
+  class SeparationAlgorithmFactory <<Creator>> {
+    +create(model) : SeparationAlgorithm
+  }
+
+  interface SeparationAlgorithm <<Strategy>> {
+    +separate(input_path, model_path, config_path, heart_path, lung_path)
+  }
+
+  class NeoSSNetStrategy <<ConcreteStrategy>> {
+    +separate(input_path, model_path, config_path, heart_path, lung_path)
+  }
 }
 
-rectangle "Heart and Lung WAV Outputs\nheart.wav + lung.wav" as Outputs #FFFFFF
+package "SQLite Data Models" {
+  class UploadedAudio {
+    +uploaded_audio_id
+    +original_filename
+    +stored_path
+    +uploaded_at
+  }
 
-Request --> Service
-Service --> ModelService
-Service --> Factory
-Factory --> NeoSSNet
-Factory --> Algorithm
-Service --> Algorithm
-Algorithm --> Outputs
+  class Model {
+    +model_id
+    +model_name
+    +architecture
+    +checkpoint_path
+    +config_path
+    +is_active
+  }
+
+  class SeparationJob {
+    +job_id
+    +uploaded_audio_id
+    +model_id
+    +status
+    +created_at
+  }
+
+  class SeparationResult {
+    +result_id
+    +job_id
+    +heart_file_path
+    +lung_file_path
+  }
+
+  class EvaluationMetric {
+    +metric_id
+    +result_id
+    +metric_name
+    +metric_value
+  }
+
+  class SystemLog {
+    +log_id
+    +job_id
+    +level
+    +message
+    +created_at
+  }
+}
+
+' Router dependencies
+UploadRouter --> StorageService
+SeparationRouter --> SeparationService
+ModelsRouter --> ModelService
+
+' Service dependencies
+SeparationService --> ModelService
+SeparationService --> StorageService
+SeparationService --> SeparationAlgorithmFactory
+SeparationService ..> SeparationAlgorithm
+SeparationService ..> SeparationJob
+SeparationService ..> SeparationResult
+ResultService --> StorageService
+ModelService ..> Model
+
+' ML extension relationships
+SeparationAlgorithmFactory ..> SeparationAlgorithm
+SeparationAlgorithmFactory ..> NeoSSNetStrategy
+NeoSSNetStrategy ..|> SeparationAlgorithm
+
+' Persistent data relationships
+SeparationJob "0..*" --> "1" UploadedAudio
+SeparationJob "0..*" --> "1" Model
+SeparationResult "1" --> "1" SeparationJob
+EvaluationMetric "0..*" --> "1" SeparationResult
+SystemLog "0..*" --> "0..1" SeparationJob
 
 @enduml

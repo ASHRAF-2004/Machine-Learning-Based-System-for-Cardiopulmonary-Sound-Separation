@@ -200,21 +200,29 @@ A use case describes how an actor interacts with a system to achieve a specific 
 
 \begin{figure}[H]
   \centering
-  \includegraphics[height=0.66\textheight,keepaspectratio]{overall_class_diagram_main.png}
-  \caption{Pattern Location Overview Diagram}
+  \includegraphics[width=1.22\textwidth,height=0.78\textheight,keepaspectratio]{overall_class_diagram.png}
+  \caption{Overall System UML Class Diagram}
   \label{fig:overall-class-diagram}
 \end{figure}
 \end{landscape}
 
-Figure~\ref{fig:overall-class-diagram} presents the main design pattern locations in the system. It intentionally focuses on the selected design patterns rather than showing every frontend, router, database, or deployment detail. This makes the diagram easier to explain during presentation because the lecturer can immediately see which classes support the Facade, Strategy, and Factory Method patterns.
+Figure~\ref{fig:overall-class-diagram} presents the main classes and interfaces in the cardiopulmonary sound separation system. The diagram shows the FastAPI routers, service classes, machine learning abstraction, concrete NeoSSNet strategy, factory component, and SQLite data models. It is a UML class diagram because it represents classes, selected fields or methods, and relationships between those classes.
 
-The class diagram also identifies where the selected design patterns are located:
-\begin{itemize}
-  \item \texttt{SeparationService} is the Facade because it presents one separation workflow to the router.
-  \item \texttt{SeparationAlgorithm} and \texttt{NeoSSNetStrategy} form the Strategy structure because the service calls the algorithm through an abstraction.
-  \item \texttt{SeparationAlgorithmFactory} is the Factory Method component because it creates the correct algorithm object from the selected model record.
-\end{itemize}
-The diagram also shows that \texttt{ModelService} supports model selection by providing the selected or active model record. The same class may appear in more than one design discussion because a class can participate in more than one design role. This is acceptable as long as the implementation stays simple and the diagram clearly explains the role being highlighted.
+The diagram also shows the key design relationships. \texttt{SeparationRouter} delegates separation requests to \texttt{SeparationService}, while \texttt{UploadRouter} uses \texttt{StorageService} to save uploaded WAV files. The separation service selects a model, prepares storage paths, asks the factory to create an algorithm object, and creates or updates job and result records. \texttt{NeoSSNetStrategy} implements the \texttt{SeparationAlgorithm} interface, which keeps the class design extensible for future implemented separation algorithms.
+
+\clearpage
+\section{Design Pattern Location Overview}
+
+The following diagram highlights where the selected design patterns are located in the overall class design. It is not the official UML class diagram; instead, it is a presentation-oriented overview that groups the most important pattern participants so the Facade, Strategy, and Factory Method roles can be explained quickly.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth,height=0.60\textheight,keepaspectratio]{pattern_location_overview.png}
+  \caption{Design Pattern Location Overview}
+  \label{fig:pattern-location-overview}
+\end{figure}
+
+Figure~\ref{fig:pattern-location-overview} shows that \texttt{SeparationService} acts as the Facade. It also shows that the factory creates the selected algorithm object, while \texttt{SeparationAlgorithm} with \texttt{NeoSSNetStrategy} forms the Strategy structure. This diagram is kept separate from the class diagram because it explains design pattern placement rather than complete class structure.
 
 \section{Entity Relationship Diagram (ERD)}
 
