@@ -1,0 +1,19 @@
+flowchart LR
+    facade["1. Facade<br/>SeparationService<br/>one simple separation call"]
+    factory["2. Factory Method<br/>SeparationAlgorithmFactory<br/>chooses algorithm object"]
+    strategy["3. Strategy<br/>SeparationAlgorithm interface<br/>NeoSSNetStrategy implementation"]
+    result["Result<br/>heart.wav + lung.wav"]
+
+    facade -->|asks for selected model algorithm| factory
+    factory -->|returns algorithm object| strategy
+    facade -->|runs separation| strategy
+    strategy -->|generates| result
+
+    classDef facadeStyle fill:#dcecff,stroke:#2f5f98,stroke-width:2px
+    classDef factoryStyle fill:#e4f7e7,stroke:#3d7c49,stroke-width:2px
+    classDef strategyStyle fill:#fff1cc,stroke:#a66a00,stroke-width:2px
+    classDef neutral fill:#f6f7f9,stroke:#2f3a4a
+    class facade facadeStyle
+    class factory factoryStyle
+    class strategy strategyStyle
+    class result neutral

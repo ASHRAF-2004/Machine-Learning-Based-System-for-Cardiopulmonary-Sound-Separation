@@ -1,0 +1,27 @@
+@startuml
+' Alternative 4: minimal concept-map style.
+
+skinparam shadowing false
+skinparam linetype polyline
+skinparam rectangle {
+  RoundCorner 0
+}
+
+rectangle "SeparationService\nFacade" as A #DCEBFF
+rectangle "simplifies\ncomplex workflow" as B #F6F7F9
+rectangle "ModelService\nselects model" as C #E4F7E7
+rectangle "SeparationAlgorithmFactory\ncreates strategy" as D #E4F7E7
+rectangle "SeparationAlgorithm\ninterface" as E #FFF1CC
+rectangle "NeoSSNetStrategy\ncurrent real algorithm" as F #FFF1CC
+rectangle "heart/lung WAV outputs" as G #F6F7F9
+
+A -- B
+A -- C
+A -- D
+D -- E
+D -- F
+F -- E
+A -- E
+E -- G
+
+@enduml

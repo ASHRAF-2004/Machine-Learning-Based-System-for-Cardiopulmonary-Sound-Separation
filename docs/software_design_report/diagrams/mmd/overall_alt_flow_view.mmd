@@ -1,0 +1,27 @@
+flowchart LR
+    user["User / BrowserUI"]
+    facade["SeparationService<br/><b>Facade</b>"]
+    model["ModelService<br/>selected or active model"]
+    factory["SeparationAlgorithmFactory<br/><b>Factory Method</b>"]
+    strategy["SeparationAlgorithm<br/><b>Strategy interface</b>"]
+    neossnet["NeoSSNetStrategy<br/>real NeoSSNet implementation"]
+    output["heart.wav + lung.wav"]
+
+    user -->|separate request| facade
+    facade -->|get model| model
+    model -->|architecture| factory
+    facade -->|create model| factory
+    factory -->|returns| strategy
+    factory -->|creates| neossnet
+    neossnet -. implements .-> strategy
+    facade -->|run separation| strategy
+    strategy --> output
+
+    classDef facadeStyle fill:#dcecff,stroke:#2f5f98,stroke-width:2px
+    classDef factoryStyle fill:#e4f7e7,stroke:#3d7c49,stroke-width:2px
+    classDef strategyStyle fill:#fff1cc,stroke:#a66a00,stroke-width:2px
+    classDef neutral fill:#ffffff,stroke:#2f3a4a
+    class facade facadeStyle
+    class model,factory factoryStyle
+    class strategy,neossnet strategyStyle
+    class user,output neutral

@@ -1,0 +1,41 @@
+@startuml
+' Alternative 5: simplified dependency/class relation view.
+
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam shadowing false
+
+class "SeparationService" as Service <<Facade / Context>> #DCEBFF {
+  +separate_uploaded_audio(...)
+}
+
+class "ModelService" as ModelService <<Model Selection>> #E4F7E7 {
+  +get_model_for_separation(...)
+}
+
+class "SeparationAlgorithmFactory" as Factory <<Creator>> #E4F7E7 {
+  +create(model)
+}
+
+interface "SeparationAlgorithm" as Algorithm <<Product / Strategy>> #FFF1CC {
+  +separate(...)
+}
+
+class "NeoSSNetStrategy" as NeoSSNet <<ConcreteProduct / ConcreteStrategy>> #FFF1CC {
+  +separate(...)
+}
+
+Service --> ModelService : depends on
+Service --> Factory : depends on
+Service --> Algorithm : depends on abstraction
+Factory ..> Algorithm : returns
+Factory ..> NeoSSNet : instantiates
+NeoSSNet ..|> Algorithm
+
+note bottom
+  Dependency view:
+  high-level workflow depends on abstractions and focused services.
+end note
+
+@enduml

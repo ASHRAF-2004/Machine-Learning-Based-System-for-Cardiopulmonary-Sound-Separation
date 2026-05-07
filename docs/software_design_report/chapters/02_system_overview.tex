@@ -24,6 +24,7 @@ A use case describes how an actor interacts with a system to achieve a specific 
 \small
 \renewcommand{\arraystretch}{1.18}
 
+\clearpage
 \begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
   \caption{RML-Style Use Case Specification for UC\_001}
   \label{tab:uc001-upload-mixed-audio} \\
@@ -57,6 +58,7 @@ A use case describes how an actor interacts with a system to achieve a specific 
   Exception Courses & If the file is missing, not a WAV file, unreadable, or unsupported, the system rejects the upload and shows a clear error message. If storage or database writing fails, the system does not continue to separation and records the failure where possible. \\
 \end{longtable}
 
+\clearpage
 \begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
   \caption{RML-Style Use Case Specification for UC\_002}
   \label{tab:uc002-run-sound-separation} \\
@@ -91,6 +93,7 @@ A use case describes how an actor interacts with a system to achieve a specific 
   Exception Courses & If the uploaded file is missing, the selected model does not exist, the checkpoint path is unavailable, or inference fails, the system marks the job as failed and stores an error message. The system does not create fake heart or lung outputs. \\
 \end{longtable}
 
+\clearpage
 \begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
   \caption{RML-Style Use Case Specification for UC\_003}
   \label{tab:uc003-preview-separated-audio} \\
@@ -123,6 +126,7 @@ A use case describes how an actor interacts with a system to achieve a specific 
   Exception Courses & If an output file is missing, the system should avoid showing a broken playback experience and should display a clear unavailable result state. If the browser cannot play the file, the download option may still be used for external playback. \\
 \end{longtable}
 
+\clearpage
 \begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
   \caption{RML-Style Use Case Specification for UC\_004}
   \label{tab:uc004-download-separated-audio} \\
@@ -155,6 +159,7 @@ A use case describes how an actor interacts with a system to achieve a specific 
   Exception Courses & If the job ID is invalid, the output type is not recognised, or the requested file is missing from local storage, the system returns a clear error response instead of an empty or incorrect file. \\
 \end{longtable}
 
+\clearpage
 \begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
   \caption{RML-Style Use Case Specification for UC\_005}
   \label{tab:uc005-view-processing-history} \\
@@ -189,18 +194,19 @@ A use case describes how an actor interacts with a system to achieve a specific 
 \normalsize
 \renewcommand{\arraystretch}{1}
 
+\clearpage
+\begin{landscape}
 \section{Class Diagram}
 
-\begin{landscape}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1.25\textwidth]{overall_class_diagram.png}
-  \caption{Overall System Class Diagram}
+  \includegraphics[height=0.66\textheight,keepaspectratio]{overall_class_diagram_main.png}
+  \caption{Pattern Location Overview Diagram}
   \label{fig:overall-class-diagram}
 \end{figure}
 \end{landscape}
 
-Figure~\ref{fig:overall-class-diagram} presents the planned software classes grouped into frontend, router, service, machine learning, and persistence responsibilities. The browser interface calls FastAPI routers, the routers delegate work to service classes, and the service layer coordinates storage, model selection, algorithm creation, machine learning inference, and SQLite result records.
+Figure~\ref{fig:overall-class-diagram} presents the main design pattern locations in the system. It intentionally focuses on the selected design patterns rather than showing every frontend, router, database, or deployment detail. This makes the diagram easier to explain during presentation because the lecturer can immediately see which classes support the Facade, Strategy, and Factory Method patterns.
 
 The class diagram also identifies where the selected design patterns are located:
 \begin{itemize}
@@ -208,7 +214,7 @@ The class diagram also identifies where the selected design patterns are located
   \item \texttt{SeparationAlgorithm} and \texttt{NeoSSNetStrategy} form the Strategy structure because the service calls the algorithm through an abstraction.
   \item \texttt{SeparationAlgorithmFactory} is the Factory Method component because it creates the correct algorithm object from the selected model record.
 \end{itemize}
-This design keeps upload, separation, storage, result viewing, and history modular while avoiding hardcoded NeoSSNet logic in the router.
+The diagram also shows that \texttt{ModelService} supports model selection by providing the selected or active model record. The same class may appear in more than one design discussion because a class can participate in more than one design role. This is acceptable as long as the implementation stays simple and the diagram clearly explains the role being highlighted.
 
 \section{Entity Relationship Diagram (ERD)}
 

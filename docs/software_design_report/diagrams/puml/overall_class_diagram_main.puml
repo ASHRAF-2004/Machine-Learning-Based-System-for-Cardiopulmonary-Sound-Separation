@@ -1,6 +1,6 @@
 @startuml
-' Official pattern-location overview diagram.
-' Suggested LaTeX placement: landscape page.
+' Main official pattern-location overview diagram.
+' This mirrors overall_class_diagram.puml and is named for exploration/export clarity.
 
 top to bottom direction
 skinparam linetype ortho

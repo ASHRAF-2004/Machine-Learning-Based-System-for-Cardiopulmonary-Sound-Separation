@@ -1,0 +1,27 @@
+flowchart TB
+    center(("User Workflow<br/>upload, separate, preview"))
+
+    facade["SeparationService<br/>Facade"]
+    model["ModelService<br/>model selection"]
+    factory["SeparationAlgorithmFactory<br/>Factory Method"]
+    algorithm["SeparationAlgorithm<br/>Strategy interface"]
+    neossnet["NeoSSNetStrategy<br/>current concrete strategy"]
+    outputs["Heart and Lung WAV Outputs"]
+
+    center --> facade
+    facade --> model
+    facade --> factory
+    factory --> neossnet
+    neossnet -. implements .-> algorithm
+    facade --> algorithm
+    algorithm --> outputs
+    outputs --> center
+
+    classDef facadeStyle fill:#dcecff,stroke:#2f5f98,stroke-width:2px
+    classDef factoryStyle fill:#e4f7e7,stroke:#3d7c49,stroke-width:2px
+    classDef strategyStyle fill:#fff1cc,stroke:#a66a00,stroke-width:2px
+    classDef neutral fill:#ffffff,stroke:#2f3a4a,color:#1f2933
+    class facade facadeStyle
+    class model,factory factoryStyle
+    class algorithm,neossnet strategyStyle
+    class center,outputs neutral

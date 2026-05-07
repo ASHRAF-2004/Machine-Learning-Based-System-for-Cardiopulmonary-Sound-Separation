@@ -33,6 +33,19 @@
 \setlength{\emergencystretch}{2em}
 \onehalfspacing
 
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+  \vspace*{1.5em}%
+  {\parindent \z@ \raggedright \normalfont
+    \Huge\bfseries #1\par\nobreak
+    \vskip 1.8em}}
+\renewcommand{\@makeschapterhead}[1]{%
+  \vspace*{1.5em}%
+  {\parindent \z@ \raggedright \normalfont
+    \Huge\bfseries #1\par\nobreak
+    \vskip 1.8em}}
+\makeatother
+
 \newcommand{\projecttitle}{Development of a Machine Learning-Based System for Cardiopulmonary Sound Separation}
 \newcommand{\shorttitle}{HealthTech}
 \newcommand{\coursename}{CSE6234 Software Design}

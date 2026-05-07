@@ -1,0 +1,28 @@
+classDiagram
+    class SeparationService {
+      <<Facade / Context>>
+      +separate_uploaded_audio(db, audio_id, model_id)
+    }
+    class ModelService {
+      <<Model Selection>>
+      +get_model_for_separation(db, model_id)
+    }
+    class SeparationAlgorithmFactory {
+      <<Creator>>
+      +create(model) SeparationAlgorithm
+    }
+    class SeparationAlgorithm {
+      <<Strategy / Product>>
+      +separate()
+    }
+    class NeoSSNetStrategy {
+      <<ConcreteStrategy / ConcreteProduct>>
+      +separate()
+    }
+
+    SeparationService --> ModelService : selects model
+    SeparationService --> SeparationAlgorithmFactory : creates algorithm
+    SeparationService --> SeparationAlgorithm : depends on abstraction
+    SeparationAlgorithmFactory --> SeparationAlgorithm : returns
+    SeparationAlgorithmFactory --> NeoSSNetStrategy : creates
+    NeoSSNetStrategy ..|> SeparationAlgorithm : implements

@@ -1,0 +1,39 @@
+@startuml
+' Alternative 1: grouped colored pattern boxes.
+
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+package "Facade Pattern" as F #DCEBFF {
+  class "SeparationService" as FService <<Facade>> {
+    +one separation workflow
+  }
+}
+
+package "Factory Method Pattern" as M #E4F7E7 {
+  class "ModelService" as MService <<Selection>>
+  class "SeparationAlgorithmFactory" as MFactory <<Creator>>
+}
+
+package "Strategy Pattern" as S #FFF1CC {
+  interface "SeparationAlgorithm" as SAlgorithm <<Strategy>>
+  class "NeoSSNetStrategy" as SNeoSSNet <<ConcreteStrategy>>
+}
+
+FService --> MService : get model
+FService --> MFactory : create algorithm
+MService --> MFactory : model record
+MFactory ..> SAlgorithm : returns
+MFactory ..> SNeoSSNet : creates
+SNeoSSNet ..|> SAlgorithm
+FService --> SAlgorithm : separate()
+
+note bottom
+  This version is closest to a report diagram:
+  one clean group per selected pattern.
+end note
+
+@enduml

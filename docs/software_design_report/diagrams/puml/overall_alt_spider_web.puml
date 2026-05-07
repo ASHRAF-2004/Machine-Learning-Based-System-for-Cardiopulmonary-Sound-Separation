@@ -1,0 +1,36 @@
+@startuml
+' Alternative 2: spider-web view from the user-facing workflow.
+
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+skinparam shadowing false
+
+class "User Workflow\nUpload -> Separate -> Preview" as Center #FFFFFF
+class "SeparationService\n<<Facade>>" as Facade #DCEBFF
+class "ModelService\nselected/default model" as Model #E4F7E7
+class "SeparationAlgorithmFactory\n<<Creator>>" as Factory #E4F7E7
+interface "SeparationAlgorithm\n<<Strategy>>" as Algorithm #FFF1CC
+class "NeoSSNetStrategy\n<<ConcreteStrategy>>" as NeoSSNet #FFF1CC
+class "Heart/Lung WAV Outputs" as Output #F6F7F9
+
+Center -down-> Facade : starts workflow
+Facade -left-> Model : requests model
+Facade -right-> Factory : requests strategy
+Factory -right-> NeoSSNet : creates
+NeoSSNet -up-|> Algorithm
+Facade -up-> Algorithm : calls interface
+Algorithm -up-> Output : produces
+
+note left of Facade
+  Facade Pattern
+end note
+
+note right of Algorithm
+  Strategy Pattern
+end note
+
+note bottom of Factory
+  Factory Method Pattern
+end note
+
+@enduml
