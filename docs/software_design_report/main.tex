@@ -14,6 +14,8 @@
 \usepackage{pdflscape}
 \usepackage{caption}
 \usepackage{csquotes}
+\usepackage{xcolor}
+\usepackage{listings}
 \usepackage[hidelinks]{hyperref}
 
 \usepackage[
@@ -37,6 +39,34 @@
 \newcommand{\groupname}{Group 1}
 \newcommand{\tutorialsection}{TT5L}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\definecolor{codegreen}{RGB}{120,220,160}
+\definecolor{codecyan}{RGB}{110,210,255}
+\definecolor{codeorange}{RGB}{255,190,120}
+\definecolor{codegray}{RGB}{210,210,210}
+\definecolor{codeblack}{RGB}{20,20,20}
+
+\lstdefinestyle{reportPython}{
+  language=Python,
+  backgroundcolor=\color{codeblack},
+  basicstyle=\ttfamily\small\color{white},
+  keywordstyle=\color{codecyan}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{codeorange},
+  numberstyle=\tiny\color{codegray},
+  breaklines=true,
+  breakatwhitespace=false,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  frame=single,
+  framerule=0pt,
+  rulecolor=\color{codeblack},
+  xleftmargin=0.5em,
+  xrightmargin=0.5em,
+  aboveskip=1em,
+  belowskip=1em
+}
+\lstset{style=reportPython}
 
 \begin{document}
 \hypersetup{pageanchor=false}

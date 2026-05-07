@@ -61,7 +61,7 @@ package "Service Layer" {
     +get_history(db, limit)
   }
 
-  class SeparationAlgorithmFactory <<Factory>> {
+  class SeparationAlgorithmFactory <<Factory Method>> {
     +create(model) : SeparationAlgorithm
   }
 }
@@ -125,16 +125,16 @@ ModelsRouter --> ModelService
 SeparationRouter --> SeparationService
 ResultsRouter --> ResultService
 
-SeparationService --> ModelService : select active or requested model
-SeparationService --> SeparationAlgorithmFactory : create(model)
-SeparationService --> SeparationAlgorithm : run selected algorithm
+SeparationService --> ModelService : select active/requested model
+SeparationService --> SeparationAlgorithmFactory : Factory Method creates algorithm
+SeparationService --> SeparationAlgorithm : Strategy interface call
 SeparationService --> SeparationJob : create/update
 SeparationService --> SeparationResult : save output metadata
 SeparationService --> FileStorage : read upload/write outputs
 
 ModelService --> Model
-SeparationAlgorithmFactory ..> SeparationAlgorithm : returns product
-SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates for NeoSSNet
+SeparationAlgorithmFactory ..> SeparationAlgorithm : Product interface
+SeparationAlgorithmFactory ..> NeoSSNetStrategy : ConcreteProduct for NeoSSNet
 NeoSSNetStrategy ..|> SeparationAlgorithm
 NeoSSNetStrategy --> NeoSSNetInference : wraps existing function
 
@@ -146,5 +146,12 @@ UploadedAudio --> SQLite
 Model --> SQLite
 SeparationJob --> SQLite
 SeparationResult --> SQLite
+
+note bottom
+  Pattern locations:
+  Facade = SeparationService
+  Strategy = SeparationAlgorithm and NeoSSNetStrategy
+  Factory Method = SeparationAlgorithmFactory
+end note
 
 @enduml

@@ -14,22 +14,12 @@ database "Database/Storage" as Persistence
 User -> Router : POST /separate/{audio_id}?model_id=optional
 Router -> Service : separate_uploaded_audio(db, audio_id, model_id)
 
-Service -> Persistence : read upload and selected/active model
-Persistence --> Service : stored_path and model paths
-Service -> Persistence : create running separation_job
-Persistence --> Service : job_id
-
-Service -> ML : separate(input WAV, model paths)
-ML --> Service : heart WAV path and lung WAV path
-
-Service -> Persistence : save result metadata and completed status
-Service --> Router : job status and output paths
-Router --> User : JSON response for preview/download
-
-alt error
-  Service -> Persistence : mark job failed
-  Service --> Router : raise service error
-  Router --> User : error response
-end
+Service -> Persistence : read upload/model and create job
+Persistence --> Service : input path, model paths, job id
+Service -> ML : run selected separation algorithm
+ML --> Service : heart and lung output files
+Service -> Persistence : save result metadata and status
+Service --> Router : completed job result
+Router --> User : preview/download response
 
 @enduml

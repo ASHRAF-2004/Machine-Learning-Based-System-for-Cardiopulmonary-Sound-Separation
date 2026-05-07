@@ -11,16 +11,18 @@ class Facade {
   +operation()
 }
 
-class SubsystemA {
-  +operationA()
-}
+package "Complex Subsystem" {
+  class SubsystemA {
+    +operationA()
+  }
 
-class SubsystemB {
-  +operationB()
-}
+  class SubsystemB {
+    +operationB()
+  }
 
-class SubsystemC {
-  +operationC()
+  class SubsystemC {
+    +operationC()
+  }
 }
 
 Client --> Facade : uses simple interface

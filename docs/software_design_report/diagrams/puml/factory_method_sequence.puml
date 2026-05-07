@@ -11,15 +11,10 @@ participant "NeoSSNetStrategy\n(ConcreteProduct)" as NeoSSNet
 
 Service -> Factory : create(model)
 
-alt model.architecture == "NeoSSNet"
-  Factory -> NeoSSNet : instantiate strategy
-  NeoSSNet --> Factory : strategy instance
-else unsupported architecture
-  Factory --> Service : UnsupportedModelArchitectureError
-end
-
+Factory -> NeoSSNet : instantiate for architecture="NeoSSNet"
+NeoSSNet --> Factory : strategy instance
 Factory --> Service : NeoSSNetStrategy as SeparationAlgorithm
-Service -> NeoSSNet : separate(input WAV, model paths, output paths)
+Service -> NeoSSNet : separate(input paths, model paths, output paths)
 NeoSSNet --> Service : heart/lung output metadata
 
 @enduml

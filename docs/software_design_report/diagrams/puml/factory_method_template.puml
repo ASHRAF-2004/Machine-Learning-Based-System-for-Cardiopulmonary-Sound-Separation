@@ -12,10 +12,6 @@ abstract class Creator {
   +operation()
 }
 
-class ConcreteCreator {
-  +factoryMethod() : Product
-}
-
 interface Product {
   +use()
 }
@@ -25,14 +21,13 @@ class ConcreteProduct {
 }
 
 Client --> Creator
-Creator ..> Product : creates/uses
-ConcreteCreator --|> Creator
+Creator ..> Product : returns product
 ConcreteProduct ..|> Product
-ConcreteCreator ..> ConcreteProduct : creates
+Creator ..> ConcreteProduct : creates
 
 note right of Creator
-  Creator defines object creation through a factory method.
-  ConcreteCreator chooses the concrete product.
+  Creator hides concrete product creation
+  behind a factory method.
 end note
 
 @enduml

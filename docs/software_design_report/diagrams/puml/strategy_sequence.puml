@@ -11,11 +11,9 @@ participant "SeparationAlgorithm\n(Strategy)" as Algorithm
 participant "NeoSSNetStrategy\n(ConcreteStrategy)" as NeoSSNet
 
 User -> Service : request separation
-Service -> Algorithm : separate(input_wav_path, model_path, config_path, outputs, "cpu")
-activate Algorithm
-Algorithm -> NeoSSNet : concrete implementation handles call
+Service -> Algorithm : separate(input paths, model paths, output paths)
+Algorithm -> NeoSSNet : execute concrete strategy
 NeoSSNet --> Algorithm : SeparationAlgorithmResult
-deactivate Algorithm
 Algorithm --> Service : heart/lung output metadata
 Service --> User : completed job result
 

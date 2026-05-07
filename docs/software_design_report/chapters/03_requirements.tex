@@ -59,37 +59,103 @@ The non-functional requirements guide implementation decisions. For example, loc
 
 \subsection{Abstraction}
 
-Abstraction is used to hide detailed processing steps behind simpler operations. For example, the router should not need to know every audio preprocessing, NeoSSNet inference, file saving, and database update step. It should call a service-level operation that represents the separation workflow at a higher level.
+Abstraction is used to hide detailed processing steps behind simpler operations. In this project, the separation route does not need to know how model records are selected, how NeoSSNet is called, or how heart and lung output paths are written. It can call a service-level operation such as \texttt{separate\_uploaded\_audio} and treat the workflow as one meaningful software action.
+
+The machine learning boundary also uses abstraction. \texttt{SeparationAlgorithm} represents the expected behaviour of a separation model, while \texttt{NeoSSNetStrategy} provides the current real implementation. This allows the service layer to express the workflow in terms of cardiopulmonary sound separation rather than in terms of one concrete model class.
 
 \subsection{Modularity}
 
-Modularity divides the system into smaller parts with clear responsibilities. The frontend handles user interaction, FastAPI routers handle HTTP requests, services coordinate workflows, the ML layer performs separation, the database layer manages SQLite records, and the storage layer manages local files. This structure makes the project easier to understand and easier to extend.
+Modularity divides the system into smaller parts with clear responsibilities. The frontend handles upload controls, audio preview, download links, and history display. FastAPI routers handle HTTP requests. Services coordinate workflows. The ML layer performs real separation. SQLite models store structured records, and local folders store uploaded and generated WAV files.
+
+This modular structure is useful for the prototype because a change in one area does not require rewriting the entire system. For example, improving the frontend model dropdown should not require changing NeoSSNet inference, and changing output folder naming should not require changing the database schema.
 
 \subsection{Separation of Concerns}
 
-Separation of concerns prevents unrelated responsibilities from being mixed together. Runtime upload folders, generated output folders, model checkpoints, dataset folders, and SQLite metadata serve different purposes and should remain separate. This design also avoids training from runtime upload folders and avoids storing large WAV content directly in SQLite.
+Separation of concerns prevents unrelated responsibilities from being mixed together. The upload route receives files, the storage service manages local file placement, the model service reads available model records, the separation service coordinates processing, and the ML strategy runs inference. This keeps web request handling, file management, model selection, and audio separation as separate concerns.
+
+The same idea applies to data storage. Runtime upload folders, generated output folders, model checkpoints, dataset folders, and SQLite metadata serve different purposes and remain separate. This design avoids training from runtime upload folders and avoids storing large WAV content directly in SQLite.
 
 \subsection{Information Hiding}
 
-Information hiding means that internal implementation details are kept inside the module or class responsible for them. File validation rules should remain inside upload or storage-related code, model loading details should remain inside ML-related code, and SQL details should remain inside database access code. Other parts of the system should use clear methods rather than depending on internal details.
+Information hiding means that internal implementation details are kept inside the module or class responsible for them. File validation and path rules should stay inside upload or storage-related code. Model selection rules should stay inside \texttt{ModelService}. Algorithm construction should stay inside \texttt{SeparationAlgorithmFactory}. NeoSSNet inference details should stay inside the ML strategy and inference function.
+
+This protects the rest of the system from unnecessary implementation knowledge. For example, the route does not need to know where the checkpoint file is stored or how the strategy calls the underlying inference function; it only needs the job result returned by the service.
 
 \subsection{Low Coupling and High Cohesion}
 
-Low coupling means that components should depend on each other only where necessary. High cohesion means that each component should focus on related tasks. In this project, the service layer may coordinate upload metadata, inference, storage, and result recording, but each detailed operation should stay in the component that owns it. This supports testing and reduces the risk that a small change in one area breaks another area.
+Low coupling means that components should depend on each other only where necessary. In this project, \texttt{SeparationService} depends on the \texttt{SeparationAlgorithm} abstraction rather than depending directly on NeoSSNet-specific workflow logic. This reduces the impact of future model changes because the upload, result, history, and download routes can remain stable.
+
+High cohesion means that each component should focus on related tasks. \texttt{StorageService} is cohesive when it handles file storage concerns, \texttt{ModelService} is cohesive when it handles model lookup, and \texttt{NeoSSNetStrategy} is cohesive when it only adapts NeoSSNet inference to the shared algorithm interface. Cohesion helps the system remain easy to explain and test.
 
 \section{Design Principles}
 
 \subsection{Single Responsibility Principle}
 
-The Single Responsibility Principle supports the assignment of one main reason for change to each component. For example, an upload router should change when request handling changes, a storage service should change when file handling rules change, and a NeoSSNet inference class should change when model inference logic changes. This keeps the software design easier to maintain.
+The Single Responsibility Principle supports the assignment of one main reason for change to each component. For example, \texttt{StorageService} should change when file storage rules change, not when separation model logic changes. This keeps file handling separate from ML inference and database workflow decisions.
+
+\begin{lstlisting}[caption={Single Responsibility Principle Example}]
+# Single Responsibility Principle:
+# StorageService handles storage concerns only.
+class StorageService:
+    def save_uploaded_wav(self, upload_file) -> str:
+        stored_path = build_upload_path(upload_file.filename)
+        write_file(upload_file, stored_path)
+        return stored_path
+
+
+# Request handling remains outside StorageService.
+def upload_audio_route(file, db):
+    stored_path = StorageService().save_uploaded_wav(file)
+    return create_uploaded_audio_record(db, file.filename, stored_path)
+\end{lstlisting}
+
+In this example, the storage class does not create separation jobs and does not run NeoSSNet. Its responsibility is limited to saving files and returning a path that other components can use.
 
 \subsection{Open/Closed Principle}
 
-The Open/Closed Principle suggests that the system should be open for extension but closed for unnecessary modification. The separation workflow should be able to support future algorithm options without rewriting the router layer. This is useful if the prototype later compares NeoSSNet with another baseline model or an ONNX version.
+The Open/Closed Principle suggests that the system should be open for extension but closed for unnecessary modification. The separation workflow should be able to support a new implemented algorithm by adding a strategy class and registering it in the factory, without rewriting upload, result, history, or download routes.
+
+\begin{lstlisting}[caption={Open/Closed Principle Example}]
+# Open for extension:
+# add a new implemented strategy and register it in the factory.
+class NeoSSNetStrategy:
+    def separate(self, input_wav_path, model_path, config_path,
+                 heart_output_path, lung_output_path):
+        return run_neossnet_inference(...)
+
+
+class SeparationAlgorithmFactory:
+    _registry = {
+        "neossnet": NeoSSNetStrategy,
+    }
+
+    @classmethod
+    def create(cls, model):
+        strategy_class = cls._registry[model.architecture.lower()]
+        return strategy_class()
+\end{lstlisting}
+
+The workflow is closed to unnecessary modification because \texttt{SeparationService} can keep the same high-level steps. A future algorithm should mainly require a new concrete strategy and a factory registration.
 
 \subsection{Dependency Inversion Principle}
 
-Dependency Inversion is relevant because high-level workflow classes should not be tightly bound to one concrete model implementation. A service can depend on an abstract algorithm interface, while the NeoSSNet strategy provides the current concrete implementation. This keeps the workflow stable even if the underlying model class changes.
+Dependency Inversion is relevant because high-level workflow classes should not be tightly bound to one concrete model implementation. \texttt{SeparationService} should depend on the \texttt{SeparationAlgorithm} abstraction, while \texttt{NeoSSNetStrategy} provides the current concrete implementation.
+
+\begin{lstlisting}[caption={Dependency Inversion Principle Example}]
+# Dependency Inversion Principle:
+# high-level workflow depends on the abstraction.
+class SeparationService:
+    def run_algorithm(self, algorithm: SeparationAlgorithm, paths):
+        return algorithm.separate(
+            input_wav_path=paths.input_wav,
+            model_path=paths.model_checkpoint,
+            model_config_path=paths.model_config,
+            heart_output_path=paths.heart_output,
+            lung_output_path=paths.lung_output,
+        )
+\end{lstlisting}
+
+The service does not need to instantiate or know the internal details of \texttt{NeoSSNetStrategy}. The factory supplies an object that satisfies the \texttt{SeparationAlgorithm} interface, and the service runs the workflow through that abstraction.
 
 \subsection{Interface-Based Design for Algorithm Replacement}
 
@@ -123,17 +189,3 @@ The proposed software design is organised into layers. This layered plan support
 \end{table}
 
 The design plan follows the project priority of real functionality first, then simplicity and local execution. It avoids unnecessary cloud, microservice, or authentication complexity unless those features are explicitly added later.
-
-\section{Support from Selected Design Patterns}
-
-\subsection{Facade Pattern}
-
-The Facade Pattern supports subsystem simplification. The separation workflow includes validation, preprocessing, NeoSSNet inference, file saving, database updates, and logging. A facade such as \texttt{SeparationService} can present one clear operation to the router while coordinating these internal subsystem steps.
-
-\subsection{Strategy Pattern}
-
-The Strategy Pattern supports future algorithm flexibility. Although NeoSSNet is the core model for this project, a strategy interface allows the system design to describe how another separation algorithm could be introduced later without changing the route-level workflow. This is useful for experimentation while still keeping NeoSSNet as the main real separation method.
-
-\subsection{Factory Method Pattern}
-
-The Factory Method Pattern supports model or algorithm object creation. A factory can create the correct \texttt{SeparationAlgorithm} based on active model configuration or database metadata. This reduces hardcoding and keeps model construction logic in one place, which is easier to maintain if the project later adds another model version or deployment format.

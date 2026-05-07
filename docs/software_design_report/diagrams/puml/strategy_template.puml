@@ -17,22 +17,17 @@ interface Strategy {
   +algorithm()
 }
 
-class ConcreteStrategyA {
-  +algorithm()
-}
-
-class ConcreteStrategyB {
+class ConcreteStrategy {
   +algorithm()
 }
 
 Client --> Context
 Context o--> Strategy
-ConcreteStrategyA ..|> Strategy
-ConcreteStrategyB ..|> Strategy
+ConcreteStrategy ..|> Strategy
 
 note right of Strategy
   Concrete strategies implement the same interface
-  so the context can switch algorithms.
+  so the context can use an algorithm through abstraction.
 end note
 
 @enduml

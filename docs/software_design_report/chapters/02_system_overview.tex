@@ -13,9 +13,30 @@ The following diagrams describe the system from different software design viewpo
   \label{fig:generic-use-case}
 \end{figure}
 
-Figure~\ref{fig:generic-use-case} shows the main actions available to students, lecturers, examiners, researchers, or other demo users. The central use cases are uploading a mixed WAV file, validating the audio, running NeoSSNet separation, previewing the original and separated outputs, downloading the generated heart and lung files, and viewing processing history.
+Figure~\ref{fig:generic-use-case} shows the main actions available to a single generic actor, the User. The diagram is intentionally simple because the same user-facing workflow can be demonstrated by a student, lecturer, examiner, or researcher without changing the system boundary. The central use cases are uploading mixed audio, running cardiopulmonary sound separation, previewing separated heart and lung outputs, downloading separated outputs, and viewing processing history.
 
-The diagram also shows that several user-facing actions depend on stored system records. For example, result viewing and history display require the system to save metadata, job status, output paths, and logs. This supports the project requirement that the system should not only run separation, but also keep enough information for demonstration, testing, and later review.
+The simplified diagram keeps internal responsibilities such as validation, model selection, metadata storage, and logging out of the actor view. Those responsibilities are still required by the backend, but they support the visible workflow rather than appearing as separate user goals. This makes the use case model easier to read while still showing how upload, separation, preview, download, and history are connected.
+
+\begin{landscape}
+\begin{table}[H]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{2pt}
+  \caption{Use Case Descriptions}
+  \label{tab:use-case-descriptions}
+  \begin{tabular}{@{}p{0.11\linewidth} p{0.06\linewidth} p{0.15\linewidth} p{0.12\linewidth} p{0.15\linewidth} p{0.13\linewidth} p{0.13\linewidth}@{}}
+    \toprule
+    \textbf{Use Case Name} & \textbf{Actor} & \textbf{Description} & \textbf{Precondition} & \textbf{Main Flow} & \textbf{Alternative Flow} & \textbf{Postcondition} \\
+    \midrule
+    Upload Mixed Audio & User & Uploads a mixed cardiopulmonary WAV file through the browser interface. & The user has a supported WAV file. & The user selects a file and submits it; the backend validates and stores the upload. & If the file is invalid, the system rejects it and shows an error message. & Uploaded audio metadata and file path are stored. \\
+    Run Sound Separation & User & Starts separation for an uploaded audio file using the selected or active model. & A valid uploaded audio record exists. & The user starts separation; the backend creates a job, runs the model, and stores output metadata. & If processing fails, the job is marked failed and the error is logged. & Heart and lung output files are generated for a successful job. \\
+    Preview Separated Audio & User & Plays the separated heart and lung outputs in the browser. & A separation job has completed successfully. & The user opens the result view and plays the available audio controls. & If a file is missing or unsupported by the browser, the system keeps the download option available. & The user can inspect the separated outputs without leaving the interface. \\
+    Download Separated Audio & User & Downloads the generated heart and lung WAV files. & A completed result contains valid output paths. & The user selects the heart or lung download link. & If the requested file is unavailable, the system returns a clear error response. & The selected separated audio file is saved by the user's browser. \\
+    View Processing History & User & Reviews previous uploads, jobs, statuses, models, and result links. & At least one upload or job record exists, or the history list may be empty. & The user opens the history section and the system loads stored records from SQLite. & If no records exist, the system displays an empty history state. & The user can trace previous processing activity and reopen results. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{landscape}
 
 \section{Class Diagram}
 
@@ -28,9 +49,15 @@ The diagram also shows that several user-facing actions depend on stored system 
 \end{figure}
 \end{landscape}
 
-Figure~\ref{fig:overall-class-diagram} presents the planned software classes grouped into frontend, router, service, machine learning, and database access responsibilities. The browser interface calls FastAPI routers, the routers delegate work to service classes, and the service layer coordinates storage, database repositories, logging, preprocessing, and model inference.
+Figure~\ref{fig:overall-class-diagram} presents the planned software classes grouped into frontend, router, service, machine learning, and persistence responsibilities. The browser interface calls FastAPI routers, the routers delegate work to service classes, and the service layer coordinates storage, model selection, algorithm creation, machine learning inference, and SQLite result records.
 
-This design keeps the upload, separation, storage, result viewing, and history features modular. Upload handling is separated from separation orchestration, and the machine learning layer is separated from database access. This makes the system easier to explain and maintain because each class has a focused responsibility rather than placing all workflow logic inside one route function.
+The class diagram also identifies where the selected design patterns are located:
+\begin{itemize}
+  \item \texttt{SeparationService} is the Facade because it presents one separation workflow to the router.
+  \item \texttt{SeparationAlgorithm} and \texttt{NeoSSNetStrategy} form the Strategy structure because the service calls the algorithm through an abstraction.
+  \item \texttt{SeparationAlgorithmFactory} is the Factory Method component because it creates the correct algorithm object from the selected model record.
+\end{itemize}
+This design keeps upload, separation, storage, result viewing, and history modular while avoiding hardcoded NeoSSNet logic in the router.
 
 \section{Entity Relationship Diagram (ERD)}
 

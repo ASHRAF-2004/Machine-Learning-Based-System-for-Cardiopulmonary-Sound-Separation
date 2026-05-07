@@ -10,50 +10,25 @@ skinparam usecase {
   BorderColor #2D5A88
 }
 
-actor "Student / Demo User" as Student
-actor "Lecturer / Examiner" as Lecturer
-actor "Researcher" as Researcher
+actor "User" as User
 
 rectangle "HealthTech Cardiopulmonary Sound Separation System" {
-  usecase "Upload mixed WAV audio" as UCUpload
-  usecase "Validate audio file" as UCValidate
-  usecase "Run NeoSSNet separation" as UCSeparate
-  usecase "Preview original audio" as UCPreviewOriginal
-  usecase "Preview separated\nheart audio" as UCPreviewHeart
-  usecase "Preview separated\nlung audio" as UCPreviewLung
-  usecase "Download separated\nheart and lung files" as UCDownload
-  usecase "View processing history" as UCHistory
-  usecase "View job status\nand errors" as UCStatus
-  usecase "Store metadata,\nresults, and logs" as UCStore
+  usecase "Upload Mixed Audio" as UCUpload
+  usecase "Run Sound Separation" as UCSeparate
+  usecase "Preview Heart and\nLung Outputs" as UCPreview
+  usecase "Download Separated\nOutputs" as UCDownload
+  usecase "View Processing\nHistory" as UCHistory
 }
 
-Student --> UCUpload
-Student --> UCSeparate
-Student --> UCPreviewOriginal
-Student --> UCPreviewHeart
-Student --> UCPreviewLung
-Student --> UCDownload
-Student --> UCHistory
-Student --> UCStatus
-
-Lecturer --> UCHistory
-Lecturer --> UCStatus
-Lecturer --> UCPreviewHeart
-Lecturer --> UCPreviewLung
-
-Researcher --> UCUpload
-Researcher --> UCSeparate
-Researcher --> UCDownload
-Researcher --> UCHistory
-
-UCUpload .> UCValidate : <<include>>
-UCSeparate .> UCStore : <<include>>
-UCStatus .> UCStore : <<include>>
-UCHistory .> UCStore : <<include>>
+User --> UCUpload
+User --> UCSeparate
+User --> UCPreview
+User --> UCDownload
+User --> UCHistory
 
 note right of UCSeparate
-  Separation must use real NeoSSNet inference,
-  not mocked audio outputs.
+  The backend uses real separation
+  and records the selected model.
 end note
 
 @enduml

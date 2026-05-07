@@ -35,7 +35,6 @@ The template structure below shows how a facade sits between a client and a grou
 \begin{enumerate}
   \item \textbf{Client:} The external caller that needs to use the subsystem. In this project, the client is mainly the FastAPI router that receives a separation request.
   \item \textbf{Facade:} The simplified interface used by the client. In this project, \texttt{SeparationService} hides the detailed separation steps behind one service method.
-  \item \textbf{Additional Facade:} An optional second facade can be used when the subsystem grows. The current implementation keeps model lookup in \texttt{ModelService}, so no additional facade is required at this stage.
   \item \textbf{Complex Subsystem:} The lower-level components that perform the actual work. In this project, these include \texttt{ModelService}, \texttt{SeparationAlgorithmFactory}, \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, SQLite database records, and local file storage.
 \end{enumerate}
 
@@ -58,7 +57,7 @@ The router receives a request to separate an uploaded WAV file and may also rece
   \label{fig:facade-project}
 \end{figure}
 
-\subsubsection{iv. Sample Other UML Notation}
+\subsubsection{iv. Facade Pattern Sequence Diagram}
 
 \begin{figure}[H]
   \centering
@@ -69,48 +68,53 @@ The router receives a request to separate an uploaded WAV file and may also rece
 
 \subsubsection{v. Sample Potential Code}
 
-\begin{verbatim}
+\begin{lstlisting}[caption={Facade Pattern Code Example}]
 # Client: FastAPI route in app/routers/separation.py
 def separate_audio(audio_id: int, model_id: int | None, db):
-    return SeparationService().separate_uploaded_audio(
-        db=db,
-        audio_id=audio_id,
-        model_id=model_id,
-    )
+    service = SeparationService()
+    return service.separate_uploaded_audio(db, audio_id, model_id)
+
+
+# Subsystem: model lookup
+class ModelService:
+    def get_model_for_separation(self, db, model_id=None):
+        return get_requested_or_active_model(db, model_id)
+
+
+# Subsystem: algorithm creation
+class SeparationAlgorithmFactory:
+    def create(self, model):
+        return NeoSSNetStrategy()
+
+
+# Subsystem: selected ML algorithm
+class NeoSSNetStrategy:
+    def separate(self, input_wav_path, model_path, model_config_path,
+                 heart_output_path, lung_output_path):
+        return run_neossnet_inference(...)
 
 
 # Facade: app/services/separation_service.py
 class SeparationService:
     def separate_uploaded_audio(self, db, audio_id, model_id=None):
         upload = get_uploaded_audio(db, audio_id)
+        model = ModelService().get_model_for_separation(db, model_id)
+        algorithm = SeparationAlgorithmFactory().create(model)
 
-        # Subsystem: model selection
-        model = ModelService.get_model_for_separation(db, model_id)
+        job = create_running_job(db, upload.uploaded_audio_id, model.model_id)
+        output_paths = build_output_paths(job.job_id)
 
-        # Subsystem: factory creates the selected ML algorithm
-        algorithm = SeparationAlgorithmFactory.create(model)
-
-        # Subsystem: database job and local file paths
-        job = create_running_job(
-            db,
-            upload.uploaded_audio_id,
-            model.model_id,
-        )
-        heart_path = make_heart_output_path(job.job_id)
-        lung_path = make_lung_output_path(job.job_id)
-
-        # Subsystem: audio/ML algorithm
         result = algorithm.separate(
-            input_wav_path=resolve_project_path(upload.stored_path),
-            model_path=resolve_project_path(model.checkpoint_path),
-            model_config_path=resolve_project_path(model.config_path),
-            heart_output_path=heart_path,
-            lung_output_path=lung_path,
+            input_wav_path=upload.stored_path,
+            model_path=model.checkpoint_path,
+            model_config_path=model.config_path,
+            heart_output_path=output_paths.heart,
+            lung_output_path=output_paths.lung,
         )
 
         save_result_metadata(db, job, result)
         return job.job_id
-\end{verbatim}
+\end{lstlisting}
 
 The code sample is simplified for readability, but the roles and method names follow the implemented backend structure.
 
@@ -175,7 +179,7 @@ The service resolves the uploaded WAV path and model paths, then calls the selec
   \label{fig:strategy-project}
 \end{figure}
 
-\subsubsection{iv. Sample Other UML Notation}
+\subsubsection{iv. Strategy Pattern Sequence Diagram}
 
 \begin{figure}[H]
   \centering
@@ -186,7 +190,7 @@ The service resolves the uploaded WAV path and model paths, then calls the selec
 
 \subsubsection{v. Sample Potential Code}
 
-\begin{verbatim}
+\begin{lstlisting}[caption={Strategy Pattern Code Example}]
 # Strategy: app/ml/separation_algorithm.py
 class SeparationAlgorithm(Protocol):
     def separate(
@@ -217,15 +221,21 @@ class NeoSSNetStrategy:
 
 # Context: app/services/separation_service.py
 class SeparationService:
-    def run_selected_algorithm(self, algorithm: SeparationAlgorithm):
+    def run_selected_algorithm(
+        self,
+        algorithm: SeparationAlgorithm,
+        input_path,
+        model,
+        output_paths,
+    ):
         return algorithm.separate(
             input_wav_path=input_path,
-            model_path=model_path,
-            model_config_path=model_config_path,
-            heart_output_path=heart_output_path,
-            lung_output_path=lung_output_path,
+            model_path=model.checkpoint_path,
+            model_config_path=model.config_path,
+            heart_output_path=output_paths.heart,
+            lung_output_path=output_paths.lung,
         )
-\end{verbatim}
+\end{lstlisting}
 
 The concrete strategy does not duplicate NeoSSNet inference logic; it delegates to the existing inference function.
 
@@ -266,7 +276,6 @@ The template structure below shows a creator that returns a product interface wh
 
 \begin{enumerate}
   \item \textbf{Creator:} The class or method responsible for creating product objects. In this project, \texttt{SeparationAlgorithmFactory} is the proposed creator.
-  \item \textbf{Concrete Creator:} The specific creation logic that knows which concrete product to instantiate. In this project, the factory method can create a NeoSSNet-based strategy from the active model configuration.
   \item \textbf{Product:} The shared interface returned to the client. In this project, \texttt{SeparationAlgorithm} is the product interface.
   \item \textbf{Concrete Product:} The actual object created by the factory. In this project, \texttt{NeoSSNetStrategy} is the main concrete product.
   \item \textbf{Client:} The class that requests a product from the factory. In this project, \texttt{SeparationService} uses the factory so that it does not need to hardcode model construction details.
@@ -291,7 +300,7 @@ The service requests the selected or active model from \texttt{ModelService}. It
   \label{fig:factory-method-project}
 \end{figure}
 
-\subsubsection{iv. Sample Other UML Notation}
+\subsubsection{iv. Factory Method Pattern Sequence Diagram}
 
 \begin{figure}[H]
   \centering
@@ -302,7 +311,7 @@ The service requests the selected or active model from \texttt{ModelService}. It
 
 \subsubsection{v. Sample Potential Code}
 
-\begin{verbatim}
+\begin{lstlisting}[caption={Factory Method Pattern Code Example}]
 # Product: app/ml/separation_algorithm.py
 class SeparationAlgorithm(Protocol):
     def separate(self, input_wav_path, model_path, model_config_path,
@@ -338,7 +347,7 @@ class SeparationService:
     def get_algorithm(self, db, model_id=None):
         model = ModelService.get_model_for_separation(db, model_id)
         return SeparationAlgorithmFactory.create(model)
-\end{verbatim}
+\end{lstlisting}
 
 The factory creates the strategy object only. The model checkpoint and configuration paths remain in the model record and are passed into the strategy during the separation call.
 
