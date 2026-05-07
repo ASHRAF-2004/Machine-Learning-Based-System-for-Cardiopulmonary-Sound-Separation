@@ -17,26 +17,177 @@ Figure~\ref{fig:generic-use-case} shows the main actions available to a single g
 
 The simplified diagram keeps internal responsibilities such as validation, model selection, metadata storage, and logging out of the actor view. Those responsibilities are still required by the backend, but they support the visible workflow rather than appearing as separate user goals. This makes the use case model easier to read while still showing how upload, separation, preview, download, and history are connected.
 
-\begin{landscape}
-\begin{table}[H]
-  \centering
-  \scriptsize
-  \setlength{\tabcolsep}{2pt}
-  \caption{Use Case Descriptions}
-  \label{tab:use-case-descriptions}
-  \begin{tabular}{@{}p{0.11\linewidth} p{0.06\linewidth} p{0.15\linewidth} p{0.12\linewidth} p{0.15\linewidth} p{0.13\linewidth} p{0.13\linewidth}@{}}
-    \toprule
-    \textbf{Use Case Name} & \textbf{Actor} & \textbf{Description} & \textbf{Precondition} & \textbf{Main Flow} & \textbf{Alternative Flow} & \textbf{Postcondition} \\
-    \midrule
-    Upload Mixed Audio & User & Uploads a mixed cardiopulmonary WAV file through the browser interface. & The user has a supported WAV file. & The user selects a file and submits it; the backend validates and stores the upload. & If the file is invalid, the system rejects it and shows an error message. & Uploaded audio metadata and file path are stored. \\
-    Run Sound Separation & User & Starts separation for an uploaded audio file using the selected or active model. & A valid uploaded audio record exists. & The user starts separation; the backend creates a job, runs the model, and stores output metadata. & If processing fails, the job is marked failed and the error is logged. & Heart and lung output files are generated for a successful job. \\
-    Preview Separated Audio & User & Plays the separated heart and lung outputs in the browser. & A separation job has completed successfully. & The user opens the result view and plays the available audio controls. & If a file is missing or unsupported by the browser, the system keeps the download option available. & The user can inspect the separated outputs without leaving the interface. \\
-    Download Separated Audio & User & Downloads the generated heart and lung WAV files. & A completed result contains valid output paths. & The user selects the heart or lung download link. & If the requested file is unavailable, the system returns a clear error response. & The selected separated audio file is saved by the user's browser. \\
-    View Processing History & User & Reviews previous uploads, jobs, statuses, models, and result links. & At least one upload or job record exists, or the history list may be empty. & The user opens the history section and the system loads stored records from SQLite. & If no records exist, the system displays an empty history state. & The user can trace previous processing activity and reopen results. \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-\end{landscape}
+\subsection{Use Case Specifications}
+
+A use case describes how an actor interacts with a system to achieve a specific goal. In software design, use cases are useful because they clarify system boundaries, user intentions, required inputs, normal workflows, and failure handling before detailed implementation begins. In the following use case specifications, the main course represents the normal successful flow, the alternate course represents another valid path through the same use case, and the exception courses describe error or failure conditions that the system should handle.
+
+\small
+\renewcommand{\arraystretch}{1.18}
+
+\begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
+  \caption{RML-Style Use Case Specification for UC\_001}
+  \label{tab:uc001-upload-mixed-audio} \\
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+  Name & Upload Mixed Audio \\
+  ID & \texttt{UC\_001} \\
+  Description & The User uploads a mixed cardiopulmonary WAV file through the web-based interface so that it can be validated, stored, and prepared for separation. \\
+  Actor & User \\
+  Organization Benefits & Supports the first step of the prototype workflow by allowing mixed audio recordings to enter the system in a controlled and traceable way. It also creates metadata needed for later separation, result viewing, and history. \\
+  Frequency of Use & Occurs whenever the User wants to process a new mixed cardiopulmonary audio file during testing, demonstration, or review. \\
+  Triggers & The User selects a WAV file in the upload form and submits the upload request. \\
+  Preconditions & The web interface is available; the User has a mixed WAV audio file; local upload storage and SQLite are available. \\
+  Postconditions & A valid upload is saved in local storage, and a corresponding uploaded audio record is stored in SQLite with file name, path, timestamp, and metadata where available. \\
+  Main Course & \textbf{1.} The User opens the web interface. \newline
+  \textbf{2.} The User selects a mixed WAV audio file. \newline
+  \textbf{3.} The User submits the upload form. \newline
+  \textbf{4.} The system validates the file type and audio properties. \newline
+  \textbf{5.} The system stores the file in the upload folder. \newline
+  \textbf{6.} The system records upload metadata in SQLite. \newline
+  \textbf{7.} The system returns the uploaded audio identifier for separation. \\
+  Alternate Course & The User may upload another mixed WAV file after a successful upload. The system treats the second file as a new upload and creates a separate database record. \\
+  Exception Courses & If the file is missing, not a WAV file, unreadable, or unsupported, the system rejects the upload and shows a clear error message. If storage or database writing fails, the system does not continue to separation and records the failure where possible. \\
+\end{longtable}
+
+\begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
+  \caption{RML-Style Use Case Specification for UC\_002}
+  \label{tab:uc002-run-sound-separation} \\
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+  Name & Run Sound Separation \\
+  ID & \texttt{UC\_002} \\
+  Description & The User starts cardiopulmonary sound separation for an uploaded mixed WAV file. The system uses the selected model if a model is chosen, or the active default model if no model is selected. NeoSSNet is the current real available separation model. \\
+  Actor & User \\
+  Organization Benefits & Demonstrates the main HealthTech function of the prototype by converting a mixed cardiopulmonary input into separate heart and lung sound outputs using real machine learning inference. \\
+  Frequency of Use & Occurs after a successful upload whenever the User wants to generate separated heart and lung outputs. \\
+  Triggers & The User clicks the separation action for an uploaded audio record and may choose an available model from the model dropdown. \\
+  Preconditions & A valid uploaded audio record exists; the uploaded WAV file is available in local storage; SQLite is available; the selected or active model record exists; the NeoSSNet checkpoint and configuration files are available. \\
+  Postconditions & A separation job record is created or updated, heart and lung WAV output files are stored locally, result metadata is saved in SQLite, and the job status shows completion or failure. \\
+  Main Course & \textbf{1.} The User selects or accepts the default separation model. \newline
+  \textbf{2.} The User starts separation for an uploaded audio file. \newline
+  \textbf{3.} The system retrieves the upload record and model record from SQLite. \newline
+  \textbf{4.} The system creates a running separation job. \newline
+  \textbf{5.} The system runs the selected or default separation model. \newline
+  \textbf{6.} NeoSSNet generates heart and lung WAV output files. \newline
+  \textbf{7.} The system stores output paths and job status in SQLite. \newline
+  \textbf{8.} The system returns the completed job information to the web interface. \\
+  Alternate Course & If the User does not choose a model, the system uses the active default model from SQLite. In the current prototype, this default model is NeoSSNet. \\
+  Exception Courses & If the uploaded file is missing, the selected model does not exist, the checkpoint path is unavailable, or inference fails, the system marks the job as failed and stores an error message. The system does not create fake heart or lung outputs. \\
+\end{longtable}
+
+\begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
+  \caption{RML-Style Use Case Specification for UC\_003}
+  \label{tab:uc003-preview-separated-audio} \\
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+  Name & Preview Separated Audio \\
+  ID & \texttt{UC\_003} \\
+  Description & The User previews the separated heart and lung WAV outputs in the browser after a successful separation job. \\
+  Actor & User \\
+  Organization Benefits & Allows quick inspection of separation results during demonstration or testing without requiring external audio software. This improves usability and makes the prototype easier to evaluate. \\
+  Frequency of Use & Occurs after separation completes successfully and whenever the User reopens a previous result from history. \\
+  Triggers & The system displays a completed result, or the User opens a completed job from processing history. \\
+  Preconditions & A separation job has completed successfully; result records exist in SQLite; heart and lung output files exist in local storage; the browser supports playback of the generated WAV files. \\
+  Postconditions & The User can listen to the separated heart and lung outputs through browser audio controls. No database record is changed by playback alone. \\
+  Main Course & \textbf{1.} The User opens the result view for a completed job. \newline
+  \textbf{2.} The system loads the stored heart and lung output paths from SQLite. \newline
+  \textbf{3.} The system displays browser audio controls for the separated outputs. \newline
+  \textbf{4.} The User plays the heart sound output. \newline
+  \textbf{5.} The User plays the lung sound output. \newline
+  \textbf{6.} The User compares the separated outputs with the original mixed audio if the original preview is available. \\
+  Alternate Course & The User may preview only one output, such as the heart sound, and still proceed to download or history without playing the other output. \\
+  Exception Courses & If an output file is missing, the system should avoid showing a broken playback experience and should display a clear unavailable result state. If the browser cannot play the file, the download option may still be used for external playback. \\
+\end{longtable}
+
+\begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
+  \caption{RML-Style Use Case Specification for UC\_004}
+  \label{tab:uc004-download-separated-audio} \\
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+  Name & Download Separated Audio \\
+  ID & \texttt{UC\_004} \\
+  Description & The User downloads the generated heart or lung WAV output file from a completed separation job. \\
+  Actor & User \\
+  Organization Benefits & Supports offline review, presentation, comparison, and further analysis of generated separation outputs while keeping the runtime application simple and local. \\
+  Frequency of Use & Occurs whenever the User wants to keep or share a separated output after previewing or viewing a completed job. \\
+  Triggers & The User selects the download action for the heart output or lung output. \\
+  Preconditions & A completed separation result exists; the selected output file path is stored in SQLite; the requested heart or lung WAV file exists in local output storage. \\
+  Postconditions & The selected output file is delivered to the browser as a downloadable WAV file. The stored result record remains unchanged. \\
+  Main Course & \textbf{1.} The User opens a completed job result. \newline
+  \textbf{2.} The User selects either the heart output download or lung output download. \newline
+  \textbf{3.} The system checks the related result record. \newline
+  \textbf{4.} The system locates the requested WAV file in local storage. \newline
+  \textbf{5.} The system sends the file to the browser for download. \newline
+  \textbf{6.} The User saves or opens the downloaded file. \\
+  Alternate Course & The User may download both heart and lung outputs from the same completed job. Each download is handled as a separate file request. \\
+  Exception Courses & If the job ID is invalid, the output type is not recognised, or the requested file is missing from local storage, the system returns a clear error response instead of an empty or incorrect file. \\
+\end{longtable}
+
+\begin{longtable}{@{}p{0.24\textwidth} p{0.70\textwidth}@{}}
+  \caption{RML-Style Use Case Specification for UC\_005}
+  \label{tab:uc005-view-processing-history} \\
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Field} & \textbf{Specification} \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+  Name & View Processing History \\
+  ID & \texttt{UC\_005} \\
+  Description & The User views saved processing history from SQLite, including previous uploads, separation jobs, model information, statuses, result links, and timestamps. \\
+  Actor & User \\
+  Organization Benefits & Provides traceability for the prototype by showing how uploaded files, selected models, generated outputs, and job statuses are connected. This supports demonstration, debugging, and report explanation. \\
+  Frequency of Use & Occurs whenever the User wants to review previous processing activity or reopen a completed result. \\
+  Triggers & The User opens the history section or refreshes the main web interface history view. \\
+  Preconditions & The FastAPI backend and SQLite database are available. History may contain previous records, or it may be empty in a fresh setup. \\
+  Postconditions & The web interface displays available processing history records, including completed, failed, or pending jobs where applicable. \\
+  Main Course & \textbf{1.} The User opens the processing history section. \newline
+  \textbf{2.} The system queries saved upload, job, model, and result records from SQLite. \newline
+  \textbf{3.} The system formats the records for the web interface. \newline
+  \textbf{4.} The system displays job status, original file information, model used, timestamps, and result actions where available. \newline
+  \textbf{5.} The User reviews previous activity or opens a completed result. \\
+  Alternate Course & If no previous jobs exist, the system displays an empty history state and keeps the upload workflow available. \\
+  Exception Courses & If the database cannot be read or a history record points to a missing output file, the system should display the available metadata with a clear error state for the affected result instead of failing the whole page. \\
+\end{longtable}
+
+\normalsize
+\renewcommand{\arraystretch}{1}
 
 \section{Class Diagram}
 
