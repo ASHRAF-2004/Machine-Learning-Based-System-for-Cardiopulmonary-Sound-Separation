@@ -210,20 +210,6 @@ Figure~\ref{fig:overall-class-diagram} presents the main classes and interfaces 
 
 Design pattern roles are shown through stereotypes and the diagram legend rather than by duplicating class boxes. For example, \texttt{SeparationService} is marked as the Facade, Strategy Context, and Factory Client; \texttt{SeparationAlgorithm} is marked as the Strategy/Product abstraction; \texttt{NeoSSNetStrategy} is marked as the Concrete Strategy/Concrete Product; and \texttt{SeparationAlgorithmFactory} is marked as the Creator. This keeps the official class diagram correct while still making the selected design patterns visible.
 
-\clearpage
-\section{Design Pattern Location Overview}
-
-The following diagram highlights the same pattern locations in a simpler presentation-oriented view. It is grouped by design pattern rather than by technical category so the Facade, Strategy, and Factory Method roles can be explained quickly.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.92\textwidth,height=0.60\textheight,keepaspectratio]{pattern_location_overview.png}
-  \caption{Design Pattern Location Overview}
-  \label{fig:pattern-location-overview}
-\end{figure}
-
-Figure~\ref{fig:pattern-location-overview} shows that \texttt{SeparationService} acts as the Facade. It also shows that the factory creates the selected algorithm object, while \texttt{SeparationAlgorithm} with \texttt{NeoSSNetStrategy} forms the Strategy structure. This diagram is kept separate from the class diagram because it explains design pattern placement rather than complete class structure.
-
 \section{Entity Relationship Diagram (ERD)}
 
 \begin{figure}[H]
