@@ -6,11 +6,11 @@ skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
 
-class "separation.py Router" as SeparationRouter <<Client>> {
+class SeparationRouter <<Client>> {
   +separate_audio(audio_id, model_id)
 }
 
-class "SeparationService" as SeparationService <<Facade>> {
+class SeparationService <<Facade>> {
   +separate_uploaded_audio(db, audio_id, model_id)
   +create_running_job(db, uploaded_audio_id, model_id)
   +mark_job_failed(db, job, error, processing_time_ms)
@@ -20,32 +20,28 @@ class ModelService <<Subsystem>> {
   +get_model_for_separation(db, model_id)
 }
 
-class SeparationAlgorithmFactory <<Subsystem>> {
-  +create(model)
+class StorageService <<Subsystem>> {
+  +save_uploaded_wav(file)
+  +read_wav_metadata(path)
+  +remove_saved_file(path)
 }
 
-interface SeparationAlgorithm <<Subsystem>> {
-  +separate(...)
+class ResultService <<Subsystem>> {
+  +get_result_details(db, job_id)
+  +get_download_file(db, job_id, output_type)
+  +get_history(db, limit)
 }
 
-class "SQLite Database" as SQLite <<Subsystem>>
-class "Local File Storage" as FileStorage <<Subsystem>>
-
-SeparationRouter --> SeparationService : one workflow call
-SeparationService --> ModelService : select model
-SeparationService --> SeparationAlgorithmFactory : create algorithm
-SeparationService --> SeparationAlgorithm : run separation
-SeparationService --> SQLite : jobs/results metadata
-SeparationService --> FileStorage : uploaded/output WAV files
-
-SeparationAlgorithmFactory ..> SeparationAlgorithm : returns
+SeparationRouter --> SeparationService
+SeparationService --> ModelService
+SeparationService --> StorageService
+SeparationService --> ResultService
 
 note bottom
   Mapping:
-  Client = separation.py Router
+  Client = SeparationRouter
   Facade = SeparationService
-  Subsystems = ModelService, SeparationAlgorithmFactory,
-  SeparationAlgorithm, SQLite Database, Local File Storage
+  Subsystems = ModelService, StorageService, ResultService
 end note
 
 @enduml

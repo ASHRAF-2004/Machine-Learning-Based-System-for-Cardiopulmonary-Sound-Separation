@@ -3,11 +3,11 @@
 
 This chapter proposes three design patterns for the cardiopulmonary sound separation system. The patterns are presented as practical backend design structures for the FastAPI, SQLite, local storage, and NeoSSNet pipeline. Each pattern is linked to a specific project problem so that the design remains useful for implementation and explanation during the final presentation.
 
-The class and method names used in this chapter are aligned with the current model-selection implementation. The report uses \texttt{SeparationService} to describe the service role implemented in \texttt{app/services/separation\_service.py}, while the actual code also includes \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, \texttt{SeparationAlgorithmFactory}, and \texttt{ModelService}.
+The class and method names used in this chapter are aligned with the current model-selection implementation. The report uses \texttt{SeparationService} to describe the service role implemented in \texttt{app/services/separation\_service.py}, while the actual code also includes \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, \texttt{SeparationAlgorithmFactory}, \texttt{ModelService}, \texttt{StorageService}, and \texttt{ResultService}.
 
 \section{Facade Pattern}
 
-The Facade Pattern is proposed to provide a simple interface over the separation workflow, which contains several lower-level operations such as audio preprocessing, model inference, file storage, database updates, and logging \parencite{gamma1994designpatterns}.
+The Facade Pattern is proposed to provide a simple interface over the separation workflow, which contains several service-level operations such as model lookup, file handling, result access, database updates, and logging \parencite{gamma1994designpatterns}.
 
 \subsection{Pattern Type}
 
@@ -15,11 +15,11 @@ The Facade Pattern is a structural design pattern. It focuses on arranging class
 
 \subsection{Problem}
 
-The separation endpoint should not directly coordinate every step of the backend workflow. If the FastAPI router directly calls the audio preprocessor, NeoSSNet inference class, storage utilities, database session, and logging logic, the route becomes difficult to read, test, and modify. This would also make the design harder to explain because web routing logic and machine learning workflow logic would be mixed in one place.
+The separation endpoint should not directly coordinate every step of the backend workflow. If \texttt{SeparationRouter} directly handles model lookup, storage operations, result retrieval, database session handling, and processing status updates, the route becomes difficult to read, test, and modify. This would also make the design harder to explain because web routing logic and separation workflow logic would be mixed in one place.
 
 \subsection{Solution}
 
-The solution is to use \texttt{SeparationService} as the facade for the separation workflow. The router calls one high-level operation, \texttt{separate\_uploaded\_audio(db, audio\_id, model\_id)}, while the service coordinates model selection, algorithm creation, job creation, inference, output storage, and database result updates. This keeps the router focused on request handling and keeps the separation workflow inside a dedicated service layer.
+The solution is to use \texttt{SeparationService} as the facade for the separation workflow. \texttt{SeparationRouter} calls one high-level operation, \texttt{separate\_uploaded\_audio(db, audio\_id, model\_id)}, while the service coordinates service-level subsystems such as \texttt{ModelService}, \texttt{StorageService}, and \texttt{ResultService}. This keeps the router focused on request handling and keeps the separation workflow inside a dedicated service layer.
 
 \subsection{Structure}
 
@@ -33,20 +33,20 @@ The template structure below shows how a facade sits between a client and a grou
 \end{figure}
 
 \begin{enumerate}
-  \item \textbf{Client:} The external caller that needs to use the subsystem. In this project, the client is mainly the FastAPI router that receives a separation request.
+  \item \textbf{Client:} The external caller that needs to use the subsystem. In this project, the client is \texttt{SeparationRouter}, which receives the separation request from the FastAPI route.
   \item \textbf{Facade:} The simplified interface used by the client. In this project, \texttt{SeparationService} hides the detailed separation steps behind one service method.
-  \item \textbf{Complex Subsystem:} The lower-level components that perform the actual work. In this project, these include \texttt{ModelService}, \texttt{SeparationAlgorithmFactory}, \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, SQLite database records, and local file storage.
+  \item \textbf{Complex Subsystem:} The service-level components coordinated by the facade. In this project, these are \texttt{ModelService}, \texttt{StorageService}, and \texttt{ResultService}.
 \end{enumerate}
 
 \subsection{Project Application}
 
 \subsubsection{i. Function or Software Component Affected}
 
-The affected component is the backend separation workflow, especially the service layer that connects the FastAPI separation route to model selection, machine learning inference, SQLite records, and local file storage. The main facade role is \texttt{SeparationService}, represented by the \texttt{separate\_uploaded\_audio} workflow in \texttt{app/services/separation\_service.py}.
+The affected component is the backend separation workflow, especially the service layer that connects \texttt{SeparationRouter} to the supporting services for model lookup, file handling, and result access. The main facade role is \texttt{SeparationService}, represented by the \texttt{separate\_uploaded\_audio} workflow in \texttt{app/services/separation\_service.py}.
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-The router receives a request to separate an uploaded WAV file and may also receive an optional \texttt{model\_id}. It passes the database session, uploaded audio identifier, and selected model identifier to \texttt{SeparationService}. The service loads the upload metadata from SQLite, selects either the requested model or the active model through \texttt{ModelService}, creates the correct algorithm through \texttt{SeparationAlgorithmFactory}, runs the selected \texttt{SeparationAlgorithm}, saves separated heart and lung WAV files to local storage, and records the job and result metadata in SQLite.
+\texttt{SeparationRouter} receives a request to separate an uploaded WAV file and may also receive an optional \texttt{model\_id}. It passes the database session, uploaded audio identifier, and selected model identifier to \texttt{SeparationService}. The service then uses \texttt{ModelService} to resolve the selected or active model, \texttt{StorageService} to keep file handling concerns outside the router, and \texttt{ResultService} to support result, download, and history access. The Strategy and Factory Method classes remain important implementation details, but they are explained as separate design patterns rather than as Facade subsystem participants.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -69,10 +69,11 @@ The router receives a request to separate an uploaded WAV file and may also rece
 \subsubsection{v. Sample Potential Code}
 
 \begin{lstlisting}[caption={Facade Pattern Code Example}]
-# Client: FastAPI route in app/routers/separation.py
-def separate_audio(audio_id: int, model_id: int | None, db):
-    service = SeparationService()
-    return service.separate_uploaded_audio(db, audio_id, model_id)
+# Client: SeparationRouter in app/routers/separation.py
+class SeparationRouter:
+    def separate_audio(self, audio_id: int, model_id: int | None, db):
+        service = SeparationService()
+        return service.separate_uploaded_audio(db, audio_id, model_id)
 
 
 # Subsystem: model lookup
@@ -81,17 +82,16 @@ class ModelService:
         return get_requested_or_active_model(db, model_id)
 
 
-# Subsystem: algorithm creation
-class SeparationAlgorithmFactory:
-    def create(self, model):
-        return NeoSSNetStrategy()
+# Subsystem: file handling
+class StorageService:
+    def read_wav_metadata(self, path):
+        return inspect_wav_metadata(path)
 
 
-# Subsystem: selected ML algorithm
-class NeoSSNetStrategy:
-    def separate(self, input_wav_path, model_path, model_config_path,
-                 heart_output_path, lung_output_path):
-        return run_neossnet_inference(...)
+# Subsystem: result access
+class ResultService:
+    def get_result_details(self, db, job_id):
+        return load_result_for_job(db, job_id)
 
 
 # Facade: app/services/separation_service.py
@@ -99,21 +99,14 @@ class SeparationService:
     def separate_uploaded_audio(self, db, audio_id, model_id=None):
         upload = get_uploaded_audio(db, audio_id)
         model = ModelService().get_model_for_separation(db, model_id)
-        algorithm = SeparationAlgorithmFactory().create(model)
+        metadata = StorageService().read_wav_metadata(upload.stored_path)
 
         job = create_running_job(db, upload.uploaded_audio_id, model.model_id)
-        output_paths = build_output_paths(job.job_id)
 
-        result = algorithm.separate(
-            input_wav_path=upload.stored_path,
-            model_path=model.checkpoint_path,
-            model_config_path=model.config_path,
-            heart_output_path=output_paths.heart,
-            lung_output_path=output_paths.lung,
-        )
+        # Detailed strategy/factory work stays inside the service workflow.
+        run_separation_workflow(upload, model, metadata)
 
-        save_result_metadata(db, job, result)
-        return job.job_id
+        return ResultService().get_result_details(db, job.job_id)
 \end{lstlisting}
 
 The code sample is simplified for readability, but the roles and method names follow the implemented backend structure.

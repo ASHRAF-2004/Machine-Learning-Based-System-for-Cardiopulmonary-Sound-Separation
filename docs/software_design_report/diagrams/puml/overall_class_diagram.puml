@@ -25,7 +25,7 @@ package "API Routers" as Routers #F4F6F8 {
     +upload_audio(file)
   }
 
-  class SeparationRouter <<Router Module>> {
+  class SeparationRouter <<Facade Client>> {
     +separate_audio(audio_id, model_id)
   }
 
@@ -166,6 +166,7 @@ SystemLog "0..*" --> "0..1" SeparationJob
 
 legend right
   Pattern roles are shown as stereotypes:
+  <<Facade Client>> SeparationRouter
   <<Facade>> SeparationService
   <<Strategy / Product>> SeparationAlgorithm
   <<ConcreteStrategy / ConcreteProduct>> NeoSSNetStrategy
