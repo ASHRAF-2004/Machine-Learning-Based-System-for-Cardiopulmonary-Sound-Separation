@@ -1,14 +1,15 @@
 @startuml
-' Compatibility source for the pattern-grouped overall UML class diagram.
-' Classes are grouped by design pattern role, not by technical layer.
+' Compatibility source for the official overall UML class diagram.
+' Each class or interface appears once; design pattern roles are shown with stereotypes.
 
 left to right direction
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
 skinparam shadowing false
 skinparam packageStyle rectangle
-skinparam nodesep 36
-skinparam ranksep 36
+skinparam nodesep 34
+skinparam ranksep 38
+skinparam ArrowFontSize 10
 skinparam class {
   BackgroundColor #FFFFFF
   BorderColor #333333
@@ -19,67 +20,152 @@ skinparam package {
   FontStyle bold
 }
 
-package "Facade Pattern" as FacadePkg #DCEBFF {
-  class "SeparationService" as FacadeService <<Facade>> {
-    +separate_uploaded_audio(...)
-    +create_running_job(...)
-    +mark_job_failed(...)
+package "API Routers" as Routers #F4F6F8 {
+  class UploadRouter <<Router Module>> {
+    +upload_audio(file)
   }
 
-  class "StorageService" as FacadeStorage <<Subsystem>> {
-    +save_uploaded_wav(file)
-    +build_output_paths(job_id)
+  class SeparationRouter <<Router Module>> {
+    +separate_audio(audio_id, model_id)
   }
 
-  class "ModelService" as FacadeModel <<Subsystem>> {
-    +get_model_for_separation(...)
+  class ModelsRouter <<Router Module>> {
+    +available_models()
+  }
+
+  class ResultsRouter <<Router Module>> {
+    +result_details(job_id)
+    +download_heart(job_id)
+    +download_lung(job_id)
+    +history(limit)
+  }
+}
+
+package "Application Services" as Services #DCEBFF {
+  class SeparationService <<Facade / Context / Factory Client>> {
+    +separate_uploaded_audio(db, audio_id, model_id)
+    +create_running_job(db, uploaded_audio_id, model_id)
+    +mark_job_failed(db, job, error, processing_time_ms)
+  }
+
+  class ModelService <<Subsystem>> {
+    +list_models(db)
+    +get_model_for_separation(db, model_id)
     +get_active_model(db)
+    +get_model_by_id(db, model_id)
   }
 
-  FacadeService --> FacadeModel
-  FacadeService --> FacadeStorage
+  class StorageService <<Subsystem>> {
+    +save_uploaded_wav(file)
+    +read_wav_metadata(path)
+    +remove_saved_file(path)
+  }
+
+  class ResultService <<Subsystem>> {
+    +get_result_details(db, job_id)
+    +get_download_file(db, job_id, output_type)
+    +get_history(db, limit)
+  }
 }
 
-package "Strategy Pattern" as StrategyPkg #FFF1CC {
-  class "SeparationService" as StrategyContext <<Context>> {
-    +separate_uploaded_audio(...)
-  }
-
-  interface "SeparationAlgorithm" as StrategyInterface <<Strategy>> {
-    +separate(...)
-  }
-
-  class "NeoSSNetStrategy" as StrategyConcrete <<ConcreteStrategy>> {
-    +separate(...)
-  }
-
-  StrategyContext --> StrategyInterface
-  StrategyConcrete ..|> StrategyInterface
-}
-
-package "Factory Method Pattern" as FactoryPkg #E4F7E7 {
-  class "SeparationService" as FactoryClient <<Client>> {
-    +separate_uploaded_audio(...)
-  }
-
-  class "SeparationAlgorithmFactory" as FactoryCreator <<Creator>> {
+package "ML Strategy and Factory" as ML #FFF1CC {
+  class SeparationAlgorithmFactory <<Creator>> {
     +create(model) : SeparationAlgorithm
   }
 
-  interface "SeparationAlgorithm" as FactoryProduct <<Product>> {
+  interface SeparationAlgorithm <<Strategy / Product>> {
     +separate(...)
   }
 
-  class "NeoSSNetStrategy" as FactoryConcreteProduct <<ConcreteProduct>> {
+  class NeoSSNetStrategy <<ConcreteStrategy / ConcreteProduct>> {
     +separate(...)
   }
-
-  FactoryClient --> FactoryCreator
-  FactoryCreator ..> FactoryProduct
-  FactoryCreator ..> FactoryConcreteProduct
-  FactoryConcreteProduct ..|> FactoryProduct
 }
 
-FacadeService ..> FactoryCreator
+package "SQLite Data Models" as Data #EAF7EA {
+  class UploadedAudio <<Entity>> {
+    +uploaded_audio_id
+    +original_filename
+    +stored_path
+    +sample_rate_hz
+    +uploaded_at
+  }
+
+  class Model <<Entity>> {
+    +model_id
+    +model_name
+    +version
+    +architecture
+    +checkpoint_path
+    +config_path
+    +is_active
+  }
+
+  class SeparationJob <<Entity>> {
+    +job_id
+    +uploaded_audio_id
+    +model_id
+    +status
+    +requested_at
+    +completed_at
+  }
+
+  class SeparationResult <<Entity>> {
+    +result_id
+    +job_id
+    +heart_file_path
+    +lung_file_path
+    +created_at
+  }
+
+  class EvaluationMetric <<Entity>> {
+    +metric_id
+    +result_id
+    +metric_name
+    +metric_value
+  }
+
+  class SystemLog <<Entity>> {
+    +log_id
+    +job_id
+    +log_level
+    +source_component
+    +message
+  }
+}
+
+UploadRouter --> StorageService
+SeparationRouter --> SeparationService
+ModelsRouter --> ModelService
+ResultsRouter --> ResultService
+
+SeparationService --> ModelService
+SeparationService --> StorageService
+SeparationService --> SeparationAlgorithmFactory
+SeparationService --> SeparationAlgorithm : uses
+SeparationService ..> SeparationJob
+SeparationService ..> SeparationResult
+ResultService --> StorageService
+ResultService ..> SeparationJob
+ResultService ..> SeparationResult
+ModelService ..> Model
+
+SeparationAlgorithmFactory ..> SeparationAlgorithm : creates
+SeparationAlgorithmFactory ..> NeoSSNetStrategy
+NeoSSNetStrategy ..|> SeparationAlgorithm : implements
+
+SeparationJob "0..*" --> "1" UploadedAudio
+SeparationJob "0..*" --> "1" Model
+SeparationResult "1" --> "1" SeparationJob
+EvaluationMetric "0..*" --> "1" SeparationResult
+SystemLog "0..*" --> "0..1" SeparationJob
+
+legend right
+  Pattern roles are shown as stereotypes:
+  <<Facade>> SeparationService
+  <<Strategy / Product>> SeparationAlgorithm
+  <<ConcreteStrategy / ConcreteProduct>> NeoSSNetStrategy
+  <<Creator>> SeparationAlgorithmFactory
+endlegend
 
 @enduml
