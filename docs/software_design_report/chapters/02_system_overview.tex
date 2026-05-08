@@ -201,19 +201,19 @@ A use case describes how an actor interacts with a system to achieve a specific 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1.22\textwidth,height=0.78\textheight,keepaspectratio]{overall_class_diagram.png}
-  \caption{Overall System UML Class Diagram}
+  \caption{Pattern-Grouped Overall UML Class Diagram}
   \label{fig:overall-class-diagram}
 \end{figure}
 \end{landscape}
 
-Figure~\ref{fig:overall-class-diagram} presents the main classes and interfaces in the cardiopulmonary sound separation system. The diagram shows the FastAPI routers, service classes, machine learning abstraction, concrete NeoSSNet strategy, factory component, and SQLite data models. It is a UML class diagram because it represents classes, selected fields or methods, and relationships between those classes.
+Figure~\ref{fig:overall-class-diagram} presents the main classes and interfaces in the cardiopulmonary sound separation system using design-pattern groupings. Instead of grouping the classes by technical layers such as routers, services, or database models, the diagram groups them by the Facade, Strategy, and Factory Method patterns. This makes the pattern roles easier to explain while still using UML class-style boxes, selected methods, stereotypes, and relationships.
 
-The diagram also shows the key design relationships. \texttt{SeparationRouter} delegates separation requests to \texttt{SeparationService}, while \texttt{UploadRouter} uses \texttt{StorageService} to save uploaded WAV files. The separation service selects a model, prepares storage paths, asks the factory to create an algorithm object, and creates or updates job and result records. \texttt{NeoSSNetStrategy} implements the \texttt{SeparationAlgorithm} interface, which keeps the class design extensible for future implemented separation algorithms.
+The same class may appear in more than one pattern container because it can play a different role in each design pattern. For example, \texttt{SeparationService} is the Facade in the Facade Pattern, the Context in the Strategy Pattern, and the Client in the Factory Method Pattern. \texttt{NeoSSNetStrategy} implements the \texttt{SeparationAlgorithm} interface, while \texttt{SeparationAlgorithmFactory} creates the selected algorithm object for the separation workflow.
 
 \clearpage
 \section{Design Pattern Location Overview}
 
-The following diagram highlights where the selected design patterns are located in the overall class design. It is not the official UML class diagram; instead, it is a presentation-oriented overview that groups the most important pattern participants so the Facade, Strategy, and Factory Method roles can be explained quickly.
+The following diagram highlights the same pattern locations in a simpler presentation-oriented view. It is grouped by design pattern rather than by technical category so the Facade, Strategy, and Factory Method roles can be explained quickly.
 
 \begin{figure}[H]
   \centering

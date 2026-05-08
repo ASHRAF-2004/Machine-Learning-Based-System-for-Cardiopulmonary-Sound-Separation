@@ -1,49 +1,52 @@
 @startuml
 ' Pattern location overview diagram.
-' This is not the official UML class diagram.
+' This is not grouped by technical layer; it is grouped by design pattern.
 
 top to bottom direction
+skinparam classAttributeIconSize 0
 skinparam linetype ortho
 skinparam shadowing false
 skinparam packageStyle rectangle
-skinparam nodesep 35
-skinparam ranksep 35
-skinparam rectangle {
+skinparam nodesep 28
+skinparam ranksep 28
+skinparam class {
+  BackgroundColor #FFFFFF
   BorderColor #2F3A4A
-  FontColor #1F2933
-  RoundCorner 0
+  ArrowColor #2F3A4A
 }
 skinparam package {
   BorderColor #2F3A4A
   FontStyle bold
 }
 
-rectangle "Separation Request\n(audio_id, optional model_id)" as Request #FFFFFF
+package "Facade Pattern" as FacadePkg #DCEBFF {
+  class "SeparationService" as FacadeService <<Facade>>
+  class "StorageService" as FacadeStorage <<Subsystem>>
+  class "ModelService" as FacadeModel <<Subsystem>>
 
-package "1. Facade Pattern" as FacadeBox #DCEBFF {
-  rectangle "SeparationService\n<<Facade>>\nOne high-level separation call\nhides model lookup, factory creation,\nand algorithm execution" as Service #FFFFFF
+  FacadeService --> FacadeModel : selects model
+  FacadeService --> FacadeStorage : stores files
 }
 
-package "2. Factory Method Pattern" as FactoryBox #E4F7E7 {
-  rectangle "ModelService\nselects requested or active model" as ModelService #FFFFFF
-  rectangle "SeparationAlgorithmFactory\n<<Creator>>\ncreates the correct algorithm object\nfrom model architecture" as Factory #FFFFFF
-  ModelService -right-> Factory
+package "Strategy Pattern" as StrategyPkg #FFF1CC {
+  class "SeparationService" as StrategyContext <<Context>>
+  interface "SeparationAlgorithm" as StrategyInterface <<Strategy>>
+  class "NeoSSNetStrategy" as StrategyConcrete <<ConcreteStrategy>>
+
+  StrategyContext --> StrategyInterface : uses
+  StrategyConcrete ..|> StrategyInterface : implements
 }
 
-package "3. Strategy Pattern" as StrategyBox #FFF1CC {
-  rectangle "NeoSSNetStrategy\n<<ConcreteStrategy>>\ncurrent real separation model" as NeoSSNet #FFFFFF
-  rectangle "SeparationAlgorithm\n<<Strategy>>\ncommon separation interface" as Algorithm #FFFFFF
-  NeoSSNet -right-|> Algorithm
+package "Factory Method Pattern" as FactoryPkg #E4F7E7 {
+  class "SeparationService" as FactoryClient <<Client>>
+  class "SeparationAlgorithmFactory" as FactoryCreator <<Creator>>
+  interface "SeparationAlgorithm" as FactoryProduct <<Product>>
+  class "NeoSSNetStrategy" as FactoryConcreteProduct <<ConcreteProduct>>
+
+  FactoryClient --> FactoryCreator : requests
+  FactoryCreator ..> FactoryProduct : returns
+  FactoryCreator ..> FactoryConcreteProduct : creates
+  FactoryConcreteProduct ..|> FactoryProduct : implements
 }
-
-rectangle "Heart and Lung WAV Outputs\nheart.wav + lung.wav" as Outputs #FFFFFF
-
-Request --> Service
-Service --> ModelService
-Service --> Factory
-Factory --> NeoSSNet
-Factory --> Algorithm
-Service --> Algorithm
-Algorithm --> Outputs
 
 @enduml
