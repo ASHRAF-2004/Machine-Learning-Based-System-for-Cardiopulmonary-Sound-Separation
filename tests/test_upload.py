@@ -19,6 +19,7 @@ from app.services import storage_service
 from app.services.audio_validation import (
     AudioValidatorFactory,
     WavAudioValidator,
+    WavAudioValidatorFactory,
 )
 
 
@@ -54,8 +55,9 @@ def upload_db(monkeypatch):
         shutil.rmtree(runtime_dir, ignore_errors=True)
 
 
-def test_audio_validator_factory_returns_wav_validator() -> None:
-    validator = AudioValidatorFactory.create("sample.wav")
+def test_wav_audio_validator_factory_is_concrete_creator() -> None:
+    factory: AudioValidatorFactory = WavAudioValidatorFactory()
+    validator = factory.create_validator("sample.wav")
 
     assert isinstance(validator, WavAudioValidator)
 
@@ -66,9 +68,11 @@ def test_wav_audio_validator_accepts_valid_wav() -> None:
     asyncio.run(WavAudioValidator().validate(upload))
 
 
-def test_audio_validator_factory_rejects_invalid_file_type() -> None:
+def test_wav_audio_validator_factory_rejects_invalid_file_type() -> None:
+    factory = WavAudioValidatorFactory()
+
     with pytest.raises(ValueError, match="Only .wav"):
-        AudioValidatorFactory.create("invalid.mp3")
+        factory.create_validator("invalid.mp3")
 
 
 def test_wav_audio_validator_rejects_invalid_header() -> None:

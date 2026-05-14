@@ -12,6 +12,10 @@ abstract class Creator {
   +operation()
 }
 
+class ConcreteCreator {
+  +factoryMethod() : Product
+}
+
 interface Product {
   +use()
 }
@@ -22,8 +26,9 @@ class ConcreteProduct {
 
 Client --> Creator
 Creator ..> Product : returns product
+ConcreteCreator --|> Creator
+ConcreteCreator ..> ConcreteProduct : creates
 ConcreteProduct ..|> Product
-Creator ..> ConcreteProduct : creates
 
 note right of Creator
   Creator hides concrete product creation

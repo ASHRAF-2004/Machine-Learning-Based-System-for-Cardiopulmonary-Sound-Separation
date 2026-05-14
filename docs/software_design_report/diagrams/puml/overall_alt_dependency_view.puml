@@ -27,7 +27,11 @@ class "NeoSSNetStrategy" as NeoSSNet <<ConcreteStrategy>> #FFF1CC {
 }
 
 class "AudioValidatorFactory" as ValidatorFactory <<Creator>> #E4F7E7 {
-  +create(filename)
+  +create_validator(filename)
+}
+
+class "WavAudioValidatorFactory" as WavValidatorFactory <<ConcreteCreator>> #E4F7E7 {
+  +create_validator(filename)
 }
 
 interface "AudioValidator" as Validator <<Product>> #E4F7E7 {
@@ -44,6 +48,8 @@ Resolver ..> Algorithm : returns
 Engine --> Algorithm : depends on abstraction
 NeoSSNet ..|> Algorithm
 ValidatorFactory ..> Validator : returns
+WavValidatorFactory --|> ValidatorFactory
+WavValidatorFactory ..> WavValidator : creates
 WavValidator ..|> Validator
 
 @enduml

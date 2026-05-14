@@ -6,8 +6,9 @@ skinparam linetype polyline
 skinparam shadowing false
 
 class "User Workflow\nUpload -> Separate -> Preview" as Center #FFFFFF
-class "UploadRouter\n<<Factory Client>>" as Upload #E4F7E7
+class "UploadRouter\n<<Client>>" as Upload #E4F7E7
 class "AudioValidatorFactory\n<<Creator>>" as ValidatorFactory #E4F7E7
+class "WavAudioValidatorFactory\n<<ConcreteCreator>>" as WavFactory #E4F7E7
 class "SeparationService\n<<Facade>>" as Facade #DCEBFF
 class "ModelStrategyResolver\nhelper" as Resolver #F4F6F8
 class "SeparationEngine\n<<Context>>" as Engine #FFF1CC
@@ -17,6 +18,7 @@ class "Heart/Lung WAV Outputs" as Output #F6F7F9
 
 Center -down-> Upload : starts upload
 Upload -down-> ValidatorFactory : requests validator
+WavFactory -down-|> ValidatorFactory
 Center -down-> Facade : starts separation
 Facade -left-> Resolver : resolves strategy
 Facade -right-> Engine : creates context

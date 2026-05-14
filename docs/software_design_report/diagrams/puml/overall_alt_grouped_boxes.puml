@@ -24,6 +24,7 @@ package "Strategy Pattern" as S #FFF1CC {
 package "Factory Method Pattern" as M #E4F7E7 {
   class "UploadRouter" as MRouter <<Client>>
   class "AudioValidatorFactory" as MFactory <<Creator>>
+  class "WavAudioValidatorFactory" as MWavFactory <<ConcreteCreator>>
   interface "AudioValidator" as MProduct <<Product>>
   class "WavAudioValidator" as MWav <<ConcreteProduct>>
 }
@@ -36,7 +37,9 @@ FService --> SEngine
 SEngine --> SAlgorithm
 SNeoSSNet ..|> SAlgorithm
 MRouter --> MFactory
+MWavFactory --|> MFactory
 MFactory ..> MProduct
+MWavFactory ..> MWav
 MWav ..|> MProduct
 
 @enduml

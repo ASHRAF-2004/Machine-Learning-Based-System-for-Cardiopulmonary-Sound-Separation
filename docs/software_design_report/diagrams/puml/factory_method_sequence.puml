@@ -7,12 +7,16 @@ autonumber
 
 participant "UploadRouter\n(Client)" as Router
 participant "AudioValidatorFactory\n(Creator)" as Factory
+participant "WavAudioValidatorFactory\n(ConcreteCreator)" as WavFactory
 participant "WavAudioValidator\n(ConcreteProduct)" as Validator
 
-Router -> Factory : create(file.filename)
+Router -> Router : receive uploaded file
+Router -> Factory : create_validator(file.filename)
 
-Factory -> Validator : instantiate for ".wav"
-Validator --> Factory : validator instance
+Factory -> WavFactory : factory method dispatch
+WavFactory -> Validator : create WAV validator
+Validator --> WavFactory : validator instance
+WavFactory --> Factory : AudioValidator
 Factory --> Router : AudioValidator
 Router -> Validator : validate(file)
 Validator --> Router : valid WAV

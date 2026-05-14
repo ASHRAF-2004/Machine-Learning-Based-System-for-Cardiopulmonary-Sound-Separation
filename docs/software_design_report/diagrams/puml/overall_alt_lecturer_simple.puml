@@ -8,7 +8,7 @@ skinparam rectangle {
   RoundCorner 0
 }
 
-rectangle "1. Factory Method\nUpload validation\nAudioValidatorFactory" as Factory #E4F7E7
+rectangle "1. Factory Method\nUpload validation\nAudioValidatorFactory + WavAudioValidatorFactory" as Factory #E4F7E7
 rectangle "2. Facade\nSeparationService\none separation workflow" as Facade #DCEBFF
 rectangle "3. Strategy\nSeparationEngine context\nNeoSSNetStrategy implementation" as Strategy #FFF1CC
 rectangle "Result\nheart.wav + lung.wav" as Result #F6F7F9

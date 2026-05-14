@@ -11,7 +11,11 @@ class "UploadRouter" as UploadRouter <<Client>> {
 }
 
 class AudioValidatorFactory <<Creator>> {
-  +create(filename) : AudioValidator
+  +create_validator(filename) : AudioValidator
+}
+
+class WavAudioValidatorFactory <<ConcreteCreator>> {
+  +create_validator(filename) : AudioValidator
 }
 
 interface AudioValidator <<Product>> {
@@ -22,9 +26,10 @@ class WavAudioValidator <<ConcreteProduct>> {
   +validate(upload_file)
 }
 
-UploadRouter --> AudioValidatorFactory : create(file.filename)
-AudioValidatorFactory ..> AudioValidator : returns product
-AudioValidatorFactory ..> WavAudioValidator : creates for ".wav"
+UploadRouter --> AudioValidatorFactory : create_validator(file.filename)
+WavAudioValidatorFactory --|> AudioValidatorFactory
+AudioValidatorFactory ..> AudioValidator : creates
+WavAudioValidatorFactory ..> WavAudioValidator : creates
 WavAudioValidator ..|> AudioValidator
 UploadRouter --> AudioValidator : validate(file)
 
@@ -32,6 +37,7 @@ note bottom
   Mapping:
   Client = UploadRouter
   Creator = AudioValidatorFactory
+  ConcreteCreator = WavAudioValidatorFactory
   Product = AudioValidator
   ConcreteProduct = WavAudioValidator
 end note

@@ -1,7 +1,7 @@
 \chapter{Proposed Design Patterns}
 \sloppy
 
-This chapter documents three design patterns used in the cardiopulmonary sound separation system. The roles are intentionally separated so that each pattern has its own purpose and its own main classes. \texttt{SeparationService} is explained only as the Facade. \texttt{SeparationEngine} is explained as the Strategy Context. \texttt{AudioValidatorFactory} is explained as the Factory Method Creator for upload validation. The model-selection helper \texttt{ModelStrategyResolver} supports choosing an implemented algorithm from a database model record, but it is not the Factory Method pattern discussed in this report.
+This chapter documents three design patterns used in the cardiopulmonary sound separation system. The roles are intentionally separated so that each pattern has its own purpose and its own main classes. \texttt{SeparationService} is explained only as the Facade. \texttt{SeparationEngine} is explained as the Strategy Context. \texttt{AudioValidatorFactory} is explained as the Factory Method Creator for upload validation, and \texttt{WavAudioValidatorFactory} is explained as the ConcreteCreator. The model-selection helper \texttt{ModelStrategyResolver} supports choosing an implemented algorithm from a database model record, but it is not the Factory Method pattern discussed in this report.
 
 \section{Facade Pattern}
 
@@ -86,7 +86,7 @@ The user starts separation from the web interface. \texttt{SeparationRouter} rec
 
 \begin{lstlisting}[caption={Facade Pattern Code Example}]
 class SeparationRouter:
-    # Client: handles HTTP concerns only.
+    # Client: SeparationRouter calls the Facade.
     def separate_audio(self, audio_id: int, model_id: int | None, db):
         return SeparationService().separate_uploaded_audio(
             db=db,
@@ -96,11 +96,14 @@ class SeparationRouter:
 
 
 class SeparationService:
-    # Facade: coordinates subsystem calls in one workflow.
+    # Facade: SeparationService provides one simple interface.
     def separate_uploaded_audio(self, db, audio_id, model_id=None):
         uploaded_audio = get_uploaded_audio(db, audio_id)
+        # Subsystem: ModelService handles model selection.
         model = ModelService.get_model_for_separation(db, model_id)
+        # Subsystem: StorageService handles files.
         output_paths = StorageService.build_separation_output_paths(job_id)
+        # Subsystem: ResultService handles result/history operations.
         result = ResultService.create_separation_result(db, job_id, output)
         return result
 \end{lstlisting}
@@ -194,14 +197,14 @@ The affected component is the ML inference boundary under \texttt{app/ml/}. The 
 
 \begin{lstlisting}[caption={Strategy Pattern Code Example}]
 class SeparationAlgorithm(Protocol):
-    # Strategy: small interface for real separation algorithms.
+    # Strategy: SeparationAlgorithm defines the common interface.
     def separate(self, input_wav_path, model_path, model_config_path,
                  heart_output_path, lung_output_path, device_name="cpu"):
         ...
 
 
 class NeoSSNetStrategy:
-    # ConcreteStrategy: wraps the existing real inference function.
+    # ConcreteStrategy: NeoSSNetStrategy implements the algorithm.
     def separate(self, input_wav_path, model_path, model_config_path,
                  heart_output_path, lung_output_path, device_name="cpu"):
         return run_neossnet_inference(
@@ -215,7 +218,7 @@ class NeoSSNetStrategy:
 
 
 class SeparationEngine:
-    # Context: depends on SeparationAlgorithm, not NeoSSNet internals.
+    # Context: SeparationEngine uses a Strategy.
     def __init__(self, algorithm: SeparationAlgorithm):
         self.algorithm = algorithm
 
@@ -233,7 +236,7 @@ The current prototype mainly runs NeoSSNet, so the strategy layer must remain sm
 
 \section{Factory Method Pattern}
 
-The Factory Method Pattern creates products through a creator instead of forcing the client to instantiate concrete classes directly \parencite{gamma1994designpatterns}. In this project, the pattern is used for upload audio validation.
+The Factory Method Pattern creates products through a creator hierarchy instead of forcing the client to instantiate concrete products directly \parencite{gamma1994designpatterns}. In this project, the pattern is used for upload audio validation.
 
 \subsection{Pattern Type}
 
@@ -245,7 +248,7 @@ The upload route must validate files before saving them. If \texttt{UploadRouter
 
 \subsection{Solution}
 
-\texttt{UploadRouter} asks \texttt{AudioValidatorFactory} for an \texttt{AudioValidator}. For the current prototype, the concrete product is \texttt{WavAudioValidator}, which checks the \texttt{.wav} extension and RIFF/WAVE header before the file is saved. The route depends on the product interface and keeps upload validation creation in one place.
+\texttt{UploadRouter} works with the \texttt{AudioValidatorFactory} creator abstraction and uses \texttt{WavAudioValidatorFactory} as the current concrete creator. \texttt{WavAudioValidatorFactory} implements the factory method and creates a \texttt{WavAudioValidator}. The created validator is returned through the \texttt{AudioValidator} product interface, so the upload route does not directly instantiate the concrete validator.
 
 \subsection{Structure}
 
@@ -258,7 +261,8 @@ The upload route must validate files before saving them. If \texttt{UploadRouter
 
 \begin{enumerate}
   \item \textbf{Client:} The code that needs a product but should not create the concrete product directly.
-  \item \textbf{Creator:} The class or method that creates the product.
+  \item \textbf{Creator:} The class that declares the factory method for creating a product.
+  \item \textbf{ConcreteCreator:} The class that implements the factory method for a specific product.
   \item \textbf{Product:} The interface returned to the client.
   \item \textbf{ConcreteProduct:} The actual validation implementation created by the creator.
 \end{enumerate}
@@ -275,7 +279,8 @@ The upload route must validate files before saving them. If \texttt{UploadRouter
     \textbf{Pattern Participant} & \textbf{Project Class} & \textbf{Role in This Project} \\
     \midrule
     Client & \texttt{UploadRouter} & Requests a validator before saving the uploaded file. \\
-    Creator & \texttt{AudioValidatorFactory} & Creates the correct validator for the uploaded filename. \\
+    Creator & \texttt{AudioValidatorFactory} & Declares the \texttt{create\_validator(filename)} factory method. \\
+    ConcreteCreator & \texttt{WavAudioValidatorFactory} & Implements the factory method and creates WAV validators. \\
     Product & \texttt{AudioValidator} & Defines the \texttt{validate(upload\_file)} operation. \\
     ConcreteProduct & \texttt{WavAudioValidator} & Validates WAV extension and header. \\
     \bottomrule
@@ -286,11 +291,11 @@ The upload route must validate files before saving them. If \texttt{UploadRouter
 
 \subsubsection{i. Function or Software Component Affected}
 
-The affected component is the upload workflow in \texttt{app/routers/upload.py} and \texttt{app/services/audio\_validation.py}. The upload route remains the client, and the storage service saves the file only after validation succeeds.
+The affected component is the upload workflow in \texttt{app/routers/upload.py} and \texttt{app/services/audio\_validation.py}. \texttt{UploadRouter} is the only Factory Method client, and the storage service saves the file only after validation succeeds.
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-The user uploads a file through the browser. \texttt{UploadRouter} calls \texttt{AudioValidatorFactory.create(file.filename)}. The factory returns \texttt{WavAudioValidator} for a WAV filename. The route calls \texttt{validator.validate(file)}. If validation fails, the route returns a bad request response. If validation succeeds, the file is saved by \texttt{StorageService} and an \texttt{UploadedAudio} record is inserted into SQLite.
+The user uploads a file through the browser. \texttt{UploadRouter} holds an \texttt{AudioValidatorFactory} reference backed by \texttt{WavAudioValidatorFactory}. The route calls \texttt{create\_validator(file.filename)} on the creator reference. \texttt{WavAudioValidatorFactory} creates \texttt{WavAudioValidator}, and the route then calls \texttt{validator.validate(file)} through the \texttt{AudioValidator} interface. If validation fails, the route returns a bad request response. If validation succeeds, the file is saved by \texttt{StorageService} and an \texttt{UploadedAudio} record is inserted into SQLite.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -314,13 +319,13 @@ The user uploads a file through the browser. \texttt{UploadRouter} calls \texttt
 
 \begin{lstlisting}[caption={Factory Method Pattern Code Example}]
 class AudioValidator(Protocol):
-    # Product: small validation interface.
+    # Product: AudioValidator defines the validation interface.
     async def validate(self, upload_file) -> None:
         ...
 
 
 class WavAudioValidator:
-    # ConcreteProduct: current WAV validator.
+    # ConcreteProduct: WavAudioValidator validates WAV files.
     async def validate(self, upload_file) -> None:
         if not upload_file.filename.lower().endswith(".wav"):
             raise ValueError("Only .wav audio files are accepted.")
@@ -331,25 +336,31 @@ class WavAudioValidator:
 
 
 class AudioValidatorFactory:
-    # Creator: returns an AudioValidator product.
-    @staticmethod
-    def create(filename: str) -> AudioValidator:
+    # Creator: AudioValidatorFactory declares the factory method.
+    def create_validator(self, filename: str) -> AudioValidator:
+        raise NotImplementedError
+
+
+class WavAudioValidatorFactory(AudioValidatorFactory):
+    # ConcreteCreator: WavAudioValidatorFactory creates WAV validators.
+    def create_validator(self, filename: str) -> AudioValidator:
         if filename.lower().endswith(".wav"):
             return WavAudioValidator()
         raise ValueError("Only .wav audio files are accepted.")
 
 
 class UploadRouter:
-    # Client: asks the creator for a validator.
+    # Client: UploadRouter asks the Creator for a validator.
     async def upload_audio(self, file, db):
-        validator = AudioValidatorFactory.create(file.filename)
+        creator: AudioValidatorFactory = WavAudioValidatorFactory()
+        validator = creator.create_validator(file.filename)
         await validator.validate(file)
         return await StorageService.save_uploaded_wav(file)
 \end{lstlisting}
 
 \subsubsection{vi. Benefits}
 
-The Factory Method keeps upload validation creation separate from request handling. It also makes the validation responsibility clear in the UML: upload uses a creator and product interface, while separation model selection remains a separate helper and is not used as the Factory Method example.
+The Factory Method keeps upload validation creation separate from request handling. It also makes the validation responsibility clear in the UML: \texttt{UploadRouter} uses a Creator and Product interface, while \texttt{WavAudioValidatorFactory} creates the concrete WAV validator. Model selection remains a separate helper and is not used as the Factory Method example.
 
 \subsubsection{vii. Limitations}
 

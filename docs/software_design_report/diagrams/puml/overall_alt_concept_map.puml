@@ -15,7 +15,8 @@ rectangle "SeparationEngine\nStrategy Context" as E #FFF1CC
 rectangle "SeparationAlgorithm\ninterface" as F #FFF1CC
 rectangle "NeoSSNetStrategy\nreal algorithm" as G #FFF1CC
 rectangle "AudioValidatorFactory\nFactory Creator" as H #E4F7E7
-rectangle "WavAudioValidator\nConcrete Product" as I #E4F7E7
+rectangle "WavAudioValidatorFactory\nConcrete Creator" as I #E4F7E7
+rectangle "WavAudioValidator\nConcrete Product" as J #E4F7E7
 
 A -- B
 A -- C
@@ -24,5 +25,6 @@ A -- E
 E -- F
 G -- F
 H -- I
+I -- J
 
 @enduml

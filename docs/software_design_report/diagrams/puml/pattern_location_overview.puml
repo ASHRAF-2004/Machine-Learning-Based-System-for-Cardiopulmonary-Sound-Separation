@@ -11,7 +11,7 @@ skinparam nodesep 28
 skinparam ranksep 28
 
 package "Facade Pattern" as FacadePkg #DCEBFF {
-  class "SeparationRouter" as FacadeClient <<Client>>
+  class "SeparationRouter" as FacadeClient <<Facade Client>>
   class "SeparationService" as FacadeService <<Facade>>
   class "ModelService" as FacadeModel <<Subsystem>>
   class "StorageService" as FacadeStorage <<Subsystem>>
@@ -35,12 +35,14 @@ package "Strategy Pattern" as StrategyPkg #FFF1CC {
 package "Factory Method Pattern" as FactoryPkg #E4F7E7 {
   class "UploadRouter" as FactoryClient <<Client>>
   class "AudioValidatorFactory" as FactoryCreator <<Creator>>
+  class "WavAudioValidatorFactory" as FactoryConcreteCreator <<ConcreteCreator>>
   interface "AudioValidator" as FactoryProduct <<Product>>
   class "WavAudioValidator" as FactoryConcreteProduct <<ConcreteProduct>>
 
   FactoryClient --> FactoryCreator : requests validator
-  FactoryCreator ..> FactoryProduct : returns
-  FactoryCreator ..> FactoryConcreteProduct : creates
+  FactoryConcreteCreator --|> FactoryCreator
+  FactoryCreator ..> FactoryProduct : creates
+  FactoryConcreteCreator ..> FactoryConcreteProduct : creates
   FactoryConcreteProduct ..|> FactoryProduct : implements
 }
 

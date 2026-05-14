@@ -21,7 +21,7 @@ skinparam package {
 }
 
 package "Facade Pattern" as FacadePkg #DCEBFF {
-  class SeparationRouter <<Client>> {
+  class SeparationRouter <<Facade Client>> {
     +separate_audio(audio_id, model_id)
   }
 
@@ -74,7 +74,11 @@ package "Factory Method Pattern" as FactoryPkg #E4F7E7 {
   }
 
   class AudioValidatorFactory <<Creator>> {
-    +create(filename) : AudioValidator
+    +create_validator(filename) : AudioValidator
+  }
+
+  class WavAudioValidatorFactory <<ConcreteCreator>> {
+    +create_validator(filename) : AudioValidator
   }
 
   interface AudioValidator <<Product>> {
@@ -158,7 +162,9 @@ package "SQLite Data Models" as DataPkg #EAF7EA {
 }
 
 UploadRouter --> AudioValidatorFactory
+WavAudioValidatorFactory --|> AudioValidatorFactory
 AudioValidatorFactory ..> AudioValidator : creates
+WavAudioValidatorFactory ..> WavAudioValidator : creates
 WavAudioValidator ..|> AudioValidator : implements
 UploadRouter --> StorageService
 UploadRouter ..> UploadedAudio
@@ -198,7 +204,7 @@ SystemLog "0..*" --> "0..1" SeparationJob
 legend right
   Facade: SeparationRouter -> SeparationService -> service subsystems
   Strategy: SeparationEngine -> SeparationAlgorithm -> NeoSSNetStrategy
-  Factory Method: UploadRouter -> AudioValidatorFactory -> AudioValidator
+  Factory Method: UploadRouter -> AudioValidatorFactory -> WavAudioValidatorFactory
 endlegend
 
 @enduml

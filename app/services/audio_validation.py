@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Protocol
 
@@ -31,11 +32,18 @@ class WavAudioValidator:
         await upload_file.seek(0)
 
 
-class AudioValidatorFactory:
-    """Creator that returns the validator product for an uploaded file."""
+class AudioValidatorFactory(ABC):
+    """Creator that declares the factory method for upload validators."""
 
-    @staticmethod
-    def create(filename: str | None) -> AudioValidator:
+    @abstractmethod
+    def create_validator(self, filename: str | None) -> AudioValidator:
+        """Create an audio validator for the uploaded filename."""
+
+
+class WavAudioValidatorFactory(AudioValidatorFactory):
+    """Concrete creator that creates WAV upload validators."""
+
+    def create_validator(self, filename: str | None) -> AudioValidator:
         suffix = Path(filename or "").suffix.lower()
         if suffix == ".wav":
             return WavAudioValidator()
