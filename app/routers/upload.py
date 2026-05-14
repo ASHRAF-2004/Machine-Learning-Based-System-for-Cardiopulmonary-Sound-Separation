@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.database.db import get_db
 from app.models.db_models import UploadedAudio
+from app.services.audio_validation import AudioValidatorFactory
 from app.services.storage_service import remove_saved_file, save_uploaded_wav
 
 
@@ -20,6 +21,8 @@ async def upload_audio(
     db: Session = Depends(get_db),
 ) -> dict[str, object]:
     try:
+        validator = AudioValidatorFactory.create(file.filename)
+        await validator.validate(file)
         stored_audio = await save_uploaded_wav(file)
     except ValueError as error:
         raise HTTPException(

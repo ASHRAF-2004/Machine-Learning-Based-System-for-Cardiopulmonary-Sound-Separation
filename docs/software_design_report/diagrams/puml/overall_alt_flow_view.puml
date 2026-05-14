@@ -5,22 +5,24 @@ left to right direction
 skinparam shadowing false
 skinparam linetype ortho
 
-rectangle "User / BrowserUI" as User #FFFFFF
+rectangle "UploadRouter\n<<Factory Client>>" as Upload #E4F7E7
+rectangle "AudioValidatorFactory\n<<Creator>>" as ValidatorFactory #E4F7E7
+rectangle "AudioValidator\n<<Product>>" as Validator #E4F7E7
 rectangle "SeparationService\n<<Facade>>" as Facade #DCEBFF
-rectangle "ModelService\nactive or selected model" as Model #E4F7E7
-rectangle "SeparationAlgorithmFactory\n<<Creator>>" as Factory #E4F7E7
+rectangle "ModelStrategyResolver\nhelper" as Resolver #F4F6F8
+rectangle "SeparationEngine\n<<Context>>" as Engine #FFF1CC
 rectangle "SeparationAlgorithm\n<<Strategy>>" as Strategy #FFF1CC
 rectangle "NeoSSNetStrategy\n<<ConcreteStrategy>>" as NeoSSNet #FFF1CC
 rectangle "Heart + Lung WAV Outputs" as Outputs #F6F7F9
 
-User --> Facade : POST separate
-Facade --> Model : choose model
-Model --> Factory : model architecture
-Facade --> Factory : create(model)
-Factory --> Strategy : returns algorithm
-Factory --> NeoSSNet : creates current strategy
+Upload --> ValidatorFactory : create(file name)
+ValidatorFactory --> Validator : returns
+Upload --> Facade : after upload, run separation
+Facade --> Resolver : resolve model strategy
+Resolver --> Strategy : returns algorithm
+Facade --> Engine : create context
+Engine --> Strategy : separate()
 NeoSSNet ..> Strategy : implements
-Facade --> Strategy : separate()
 Strategy --> Outputs : saves outputs
 
 @enduml

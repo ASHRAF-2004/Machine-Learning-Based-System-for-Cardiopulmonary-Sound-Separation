@@ -1,13 +1,14 @@
 @startuml
-' Strategy Pattern adapted to the current backend implementation.
+' Strategy Pattern adapted to the refactored backend implementation.
 ' Suggested LaTeX placement: normal page.
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
 
-class "SeparationService" as SeparationService <<Context>> {
-  +separate_uploaded_audio(db, audio_id, model_id)
+class "SeparationEngine" as SeparationEngine <<Context>> {
+  -algorithm : SeparationAlgorithm
+  +separate(input_wav_path, model_path, model_config_path, heart_output_path, lung_output_path)
 }
 
 interface SeparationAlgorithm <<Strategy>> {
@@ -18,12 +19,12 @@ class NeoSSNetStrategy <<ConcreteStrategy>> {
   +separate(input_wav_path, model_path, model_config_path, heart_output_path, lung_output_path, device_name)
 }
 
-SeparationService --> SeparationAlgorithm : delegates selected algorithm
+SeparationEngine --> SeparationAlgorithm : delegates separation
 NeoSSNetStrategy ..|> SeparationAlgorithm
 
 note bottom
   Mapping:
-  Context = SeparationService
+  Context = SeparationEngine
   Strategy = SeparationAlgorithm
   ConcreteStrategy = NeoSSNetStrategy
 end note

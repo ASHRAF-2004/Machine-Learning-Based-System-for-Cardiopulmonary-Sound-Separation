@@ -1,6 +1,6 @@
 @startuml
 ' Pattern location overview diagram.
-' This is not grouped by technical layer; it is grouped by design pattern.
+' This optional view mirrors the clean pattern role mapping.
 
 top to bottom direction
 skinparam classAttributeIconSize 0
@@ -9,27 +9,22 @@ skinparam shadowing false
 skinparam packageStyle rectangle
 skinparam nodesep 28
 skinparam ranksep 28
-skinparam class {
-  BackgroundColor #FFFFFF
-  BorderColor #2F3A4A
-  ArrowColor #2F3A4A
-}
-skinparam package {
-  BorderColor #2F3A4A
-  FontStyle bold
-}
 
 package "Facade Pattern" as FacadePkg #DCEBFF {
+  class "SeparationRouter" as FacadeClient <<Client>>
   class "SeparationService" as FacadeService <<Facade>>
-  class "StorageService" as FacadeStorage <<Subsystem>>
   class "ModelService" as FacadeModel <<Subsystem>>
+  class "StorageService" as FacadeStorage <<Subsystem>>
+  class "ResultService" as FacadeResult <<Subsystem>>
 
-  FacadeService --> FacadeModel : selects model
-  FacadeService --> FacadeStorage : stores files
+  FacadeClient --> FacadeService : calls
+  FacadeService --> FacadeModel
+  FacadeService --> FacadeStorage
+  FacadeService --> FacadeResult
 }
 
 package "Strategy Pattern" as StrategyPkg #FFF1CC {
-  class "SeparationService" as StrategyContext <<Context>>
+  class "SeparationEngine" as StrategyContext <<Context>>
   interface "SeparationAlgorithm" as StrategyInterface <<Strategy>>
   class "NeoSSNetStrategy" as StrategyConcrete <<ConcreteStrategy>>
 
@@ -38,12 +33,12 @@ package "Strategy Pattern" as StrategyPkg #FFF1CC {
 }
 
 package "Factory Method Pattern" as FactoryPkg #E4F7E7 {
-  class "SeparationService" as FactoryClient <<Client>>
-  class "SeparationAlgorithmFactory" as FactoryCreator <<Creator>>
-  interface "SeparationAlgorithm" as FactoryProduct <<Product>>
-  class "NeoSSNetStrategy" as FactoryConcreteProduct <<ConcreteProduct>>
+  class "UploadRouter" as FactoryClient <<Client>>
+  class "AudioValidatorFactory" as FactoryCreator <<Creator>>
+  interface "AudioValidator" as FactoryProduct <<Product>>
+  class "WavAudioValidator" as FactoryConcreteProduct <<ConcreteProduct>>
 
-  FactoryClient --> FactoryCreator : requests
+  FactoryClient --> FactoryCreator : requests validator
   FactoryCreator ..> FactoryProduct : returns
   FactoryCreator ..> FactoryConcreteProduct : creates
   FactoryConcreteProduct ..|> FactoryProduct : implements

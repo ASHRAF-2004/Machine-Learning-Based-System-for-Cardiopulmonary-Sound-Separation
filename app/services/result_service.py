@@ -8,7 +8,9 @@ from pathlib import Path
 from sqlalchemy.orm import Session, joinedload
 
 from app.database.db import PROJECT_ROOT
+from app.ml.separation_algorithm import SeparationAlgorithmResult
 from app.models.db_models import SeparationJob, SeparationResult
+from app.services.storage_service import relative_project_path
 
 
 class ResultServiceError(Exception):
@@ -109,6 +111,24 @@ def get_download_file(db: Session, job_id: int, output_type: str) -> DownloadFil
         path=output_path,
         filename=output_path.name,
     )
+
+
+def create_separation_result(
+    db: Session,
+    job_id: int,
+    inference_result: SeparationAlgorithmResult,
+) -> SeparationResult:
+    result = SeparationResult(
+        job_id=job_id,
+        heart_file_path=relative_project_path(inference_result.heart_file_path),
+        lung_file_path=relative_project_path(inference_result.lung_file_path),
+        output_sample_rate_hz=inference_result.sample_rate_hz,
+        output_duration_sec=inference_result.duration_sec,
+        heart_file_size_bytes=inference_result.heart_file_size_bytes,
+        lung_file_size_bytes=inference_result.lung_file_size_bytes,
+    )
+    db.add(result)
+    return result
 
 
 def get_history(db: Session, limit: int = 20) -> list[dict[str, object]]:

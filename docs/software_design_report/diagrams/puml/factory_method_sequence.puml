@@ -5,16 +5,16 @@
 skinparam shadowing false
 autonumber
 
-participant "SeparationService\n(Client)" as Service
-participant "SeparationAlgorithmFactory\n(Creator)" as Factory
-participant "NeoSSNetStrategy\n(ConcreteProduct)" as NeoSSNet
+participant "UploadRouter\n(Client)" as Router
+participant "AudioValidatorFactory\n(Creator)" as Factory
+participant "WavAudioValidator\n(ConcreteProduct)" as Validator
 
-Service -> Factory : create(model)
+Router -> Factory : create(file.filename)
 
-Factory -> NeoSSNet : instantiate for architecture="NeoSSNet"
-NeoSSNet --> Factory : strategy instance
-Factory --> Service : NeoSSNetStrategy as SeparationAlgorithm
-Service -> NeoSSNet : separate(input paths, model paths, output paths)
-NeoSSNet --> Service : heart/lung output metadata
+Factory -> Validator : instantiate for ".wav"
+Validator --> Factory : validator instance
+Factory --> Router : AudioValidator
+Router -> Validator : validate(file)
+Validator --> Router : valid WAV
 
 @enduml

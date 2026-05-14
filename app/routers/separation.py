@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.database.db import get_db
-from app.services.model_factory import UnsupportedModelArchitectureError
+from app.services.model_strategy_resolver import UnsupportedModelArchitectureError
 from app.services.model_service import (
     ActiveModelNotFoundError,
     ModelConfigurationError,

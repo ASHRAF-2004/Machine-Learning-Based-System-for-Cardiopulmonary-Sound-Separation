@@ -7,21 +7,22 @@ skinparam rectangle {
   RoundCorner 0
 }
 
-rectangle "SeparationService\nFacade" as A #DCEBFF
-rectangle "simplifies\ncomplex workflow" as B #F6F7F9
-rectangle "ModelService\nselects model" as C #E4F7E7
-rectangle "SeparationAlgorithmFactory\ncreates strategy" as D #E4F7E7
-rectangle "SeparationAlgorithm\ninterface" as E #FFF1CC
-rectangle "NeoSSNetStrategy\ncurrent real algorithm" as F #FFF1CC
-rectangle "heart/lung WAV outputs" as G #F6F7F9
+rectangle "SeparationService\nFacade only" as A #DCEBFF
+rectangle "ModelService\nmodel lookup" as B #DCEBFF
+rectangle "StorageService\nfile paths" as C #DCEBFF
+rectangle "ResultService\nresult records" as D #DCEBFF
+rectangle "SeparationEngine\nStrategy Context" as E #FFF1CC
+rectangle "SeparationAlgorithm\ninterface" as F #FFF1CC
+rectangle "NeoSSNetStrategy\nreal algorithm" as G #FFF1CC
+rectangle "AudioValidatorFactory\nFactory Creator" as H #E4F7E7
+rectangle "WavAudioValidator\nConcrete Product" as I #E4F7E7
 
 A -- B
 A -- C
 A -- D
-D -- E
-D -- F
-F -- E
 A -- E
-E -- G
+E -- F
+G -- F
+H -- I
 
 @enduml

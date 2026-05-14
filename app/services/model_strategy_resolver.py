@@ -1,4 +1,4 @@
-"""Factory for creating separation algorithm strategies from model records."""
+"""Resolve model records into separation algorithm strategies."""
 
 from __future__ import annotations
 
@@ -11,13 +11,15 @@ class UnsupportedModelArchitectureError(ValueError):
     pass
 
 
-class SeparationAlgorithmFactory:
+class ModelStrategyResolver:
+    """Small helper for model selection; not the report's Factory Method pattern."""
+
     _registry: dict[str, type[SeparationAlgorithm]] = {
         "neossnet": NeoSSNetStrategy,
     }
 
     @classmethod
-    def create(cls, model: Model) -> SeparationAlgorithm:
+    def resolve(cls, model: Model) -> SeparationAlgorithm:
         architecture = (model.architecture or "").strip().lower()
         strategy_class = cls._registry.get(architecture)
         if strategy_class is None:

@@ -8,32 +8,35 @@ skinparam shadowing false
 skinparam packageStyle rectangle
 
 package "Facade Pattern" as F #DCEBFF {
-  class "SeparationService" as FService <<Facade>> {
-    +one separation workflow
-  }
-}
-
-package "Factory Method Pattern" as M #E4F7E7 {
-  class "ModelService" as MService <<Selection>>
-  class "SeparationAlgorithmFactory" as MFactory <<Creator>>
+  class "SeparationRouter" as FRouter <<Client>>
+  class "SeparationService" as FService <<Facade>>
+  class "ModelService" as FModel <<Subsystem>>
+  class "StorageService" as FStorage <<Subsystem>>
+  class "ResultService" as FResult <<Subsystem>>
 }
 
 package "Strategy Pattern" as S #FFF1CC {
+  class "SeparationEngine" as SEngine <<Context>>
   interface "SeparationAlgorithm" as SAlgorithm <<Strategy>>
   class "NeoSSNetStrategy" as SNeoSSNet <<ConcreteStrategy>>
 }
 
-FService --> MService : get model
-FService --> MFactory : create algorithm
-MService --> MFactory : model record
-MFactory ..> SAlgorithm : returns
-MFactory ..> SNeoSSNet : creates
-SNeoSSNet ..|> SAlgorithm
-FService --> SAlgorithm : separate()
+package "Factory Method Pattern" as M #E4F7E7 {
+  class "UploadRouter" as MRouter <<Client>>
+  class "AudioValidatorFactory" as MFactory <<Creator>>
+  interface "AudioValidator" as MProduct <<Product>>
+  class "WavAudioValidator" as MWav <<ConcreteProduct>>
+}
 
-note bottom
-  This version is closest to a report diagram:
-  one clean group per selected pattern.
-end note
+FRouter --> FService
+FService --> FModel
+FService --> FStorage
+FService --> FResult
+FService --> SEngine
+SEngine --> SAlgorithm
+SNeoSSNet ..|> SAlgorithm
+MRouter --> MFactory
+MFactory ..> MProduct
+MWav ..|> MProduct
 
 @enduml

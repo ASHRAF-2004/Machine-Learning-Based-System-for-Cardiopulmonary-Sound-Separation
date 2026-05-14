@@ -5,16 +5,13 @@
 skinparam shadowing false
 autonumber
 
-actor User
-participant "SeparationService\n(Context)" as Service
+participant "SeparationEngine\n(Context)" as Engine
 participant "SeparationAlgorithm\n(Strategy)" as Algorithm
 participant "NeoSSNetStrategy\n(ConcreteStrategy)" as NeoSSNet
 
-User -> Service : request separation
-Service -> Algorithm : separate(input paths, model paths, output paths)
-Algorithm -> NeoSSNet : execute concrete strategy
+Engine -> Algorithm : separate(input paths, model paths, output paths)
+Algorithm -> NeoSSNet : dispatch concrete strategy
 NeoSSNet --> Algorithm : SeparationAlgorithmResult
-Algorithm --> Service : heart/lung output metadata
-Service --> User : completed job result
+Algorithm --> Engine : heart/lung output metadata
 
 @enduml

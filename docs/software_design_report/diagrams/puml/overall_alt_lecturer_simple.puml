@@ -8,14 +8,13 @@ skinparam rectangle {
   RoundCorner 0
 }
 
-rectangle "1. Facade\nSeparationService\none simple separation call" as Facade #DCEBFF
-rectangle "2. Factory Method\nSeparationAlgorithmFactory\nchooses the algorithm object" as Factory #E4F7E7
-rectangle "3. Strategy\nSeparationAlgorithm interface\nNeoSSNetStrategy implementation" as Strategy #FFF1CC
+rectangle "1. Factory Method\nUpload validation\nAudioValidatorFactory" as Factory #E4F7E7
+rectangle "2. Facade\nSeparationService\none separation workflow" as Facade #DCEBFF
+rectangle "3. Strategy\nSeparationEngine context\nNeoSSNetStrategy implementation" as Strategy #FFF1CC
 rectangle "Result\nheart.wav + lung.wav" as Result #F6F7F9
 
-Facade --> Factory : asks for selected model algorithm
-Factory --> Strategy : returns algorithm object
-Facade --> Strategy : runs separate()
+Factory --> Facade : valid uploaded WAV
+Facade --> Strategy : runs selected algorithm
 Strategy --> Result : generates files
 
 @enduml

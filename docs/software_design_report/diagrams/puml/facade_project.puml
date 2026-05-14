@@ -1,5 +1,5 @@
 @startuml
-' Facade Pattern adapted to the current backend implementation.
+' Facade Pattern adapted to the refactored backend implementation.
 ' Suggested LaTeX placement: normal page.
 
 skinparam classAttributeIconSize 0
@@ -12,8 +12,6 @@ class SeparationRouter <<Client>> {
 
 class SeparationService <<Facade>> {
   +separate_uploaded_audio(db, audio_id, model_id)
-  +create_running_job(db, uploaded_audio_id, model_id)
-  +mark_job_failed(db, job, error, processing_time_ms)
 }
 
 class ModelService <<Subsystem>> {

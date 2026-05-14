@@ -1,39 +1,39 @@
 @startuml
-' Factory Method Pattern adapted to the current backend implementation.
+' Factory Method Pattern adapted to upload audio validation.
 ' Suggested LaTeX placement: normal page.
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
 
-class "SeparationService" as SeparationService <<Client>> {
-  +separate_uploaded_audio(db, audio_id, model_id)
+class "UploadRouter" as UploadRouter <<Client>> {
+  +upload_audio(file)
 }
 
-class SeparationAlgorithmFactory <<Creator>> {
-  +create(model) : SeparationAlgorithm
+class AudioValidatorFactory <<Creator>> {
+  +create(filename) : AudioValidator
 }
 
-interface SeparationAlgorithm <<Product>> {
-  +separate(...)
+interface AudioValidator <<Product>> {
+  +validate(upload_file)
 }
 
-class NeoSSNetStrategy <<ConcreteProduct>> {
-  +separate(...)
+class WavAudioValidator <<ConcreteProduct>> {
+  +validate(upload_file)
 }
 
-SeparationService --> SeparationAlgorithmFactory : create(model)
-SeparationAlgorithmFactory ..> SeparationAlgorithm : returns product
-SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates for architecture="NeoSSNet"
-NeoSSNetStrategy ..|> SeparationAlgorithm
-SeparationService --> SeparationAlgorithm : calls separate()
+UploadRouter --> AudioValidatorFactory : create(file.filename)
+AudioValidatorFactory ..> AudioValidator : returns product
+AudioValidatorFactory ..> WavAudioValidator : creates for ".wav"
+WavAudioValidator ..|> AudioValidator
+UploadRouter --> AudioValidator : validate(file)
 
 note bottom
   Mapping:
-  Client = SeparationService
-  Creator = SeparationAlgorithmFactory
-  Product = SeparationAlgorithm
-  ConcreteProduct = NeoSSNetStrategy
+  Client = UploadRouter
+  Creator = AudioValidatorFactory
+  Product = AudioValidator
+  ConcreteProduct = WavAudioValidator
 end note
 
 @enduml

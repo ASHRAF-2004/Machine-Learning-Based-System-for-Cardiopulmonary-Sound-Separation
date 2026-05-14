@@ -15,6 +15,8 @@ from app.database.db import PROJECT_ROOT
 
 
 RAW_UPLOAD_DIR = PROJECT_ROOT / "storage" / "uploads" / "raw"
+HEART_OUTPUT_DIR = PROJECT_ROOT / "storage" / "outputs" / "heart"
+LUNG_OUTPUT_DIR = PROJECT_ROOT / "storage" / "outputs" / "lung"
 CHUNK_SIZE_BYTES = 1024 * 1024
 
 
@@ -29,6 +31,12 @@ class StoredAudio:
     bit_depth: int
     duration_sec: float
     file_size_bytes: int
+
+
+@dataclass(frozen=True)
+class SeparationOutputPaths:
+    heart_file_path: Path
+    lung_file_path: Path
 
 
 def clean_filename(filename: str) -> str:
@@ -52,6 +60,26 @@ def validate_wav_header(header: bytes) -> None:
 
 def relative_project_path(path: Path) -> str:
     return path.relative_to(PROJECT_ROOT).as_posix()
+
+
+def resolve_project_path(path_value: str | None) -> Path:
+    if not path_value:
+        raise FileNotFoundError("Path value is missing.")
+
+    path = Path(path_value)
+    if path.is_absolute():
+        return path
+    return PROJECT_ROOT / path
+
+
+def build_separation_output_paths(job_id: int) -> SeparationOutputPaths:
+    HEART_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    LUNG_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    return SeparationOutputPaths(
+        heart_file_path=HEART_OUTPUT_DIR / f"{job_id}_heart.wav",
+        lung_file_path=LUNG_OUTPUT_DIR / f"{job_id}_lung.wav",
+    )
 
 
 def read_wav_metadata(path: Path) -> tuple[int, int, int, float]:

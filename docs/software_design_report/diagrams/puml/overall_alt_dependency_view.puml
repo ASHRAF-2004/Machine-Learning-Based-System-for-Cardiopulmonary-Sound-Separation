@@ -6,36 +6,44 @@ skinparam classAttributeIconSize 0
 skinparam linetype ortho
 skinparam shadowing false
 
-class "SeparationService" as Service <<Facade / Context>> #DCEBFF {
+class "SeparationService" as Service <<Facade>> #DCEBFF {
   +separate_uploaded_audio(...)
 }
 
-class "ModelService" as ModelService <<Model Selection>> #E4F7E7 {
-  +get_model_for_separation(...)
+class "ModelStrategyResolver" as Resolver <<Helper>> #F4F6F8 {
+  +resolve(model)
 }
 
-class "SeparationAlgorithmFactory" as Factory <<Creator>> #E4F7E7 {
-  +create(model)
-}
-
-interface "SeparationAlgorithm" as Algorithm <<Product / Strategy>> #FFF1CC {
+class "SeparationEngine" as Engine <<Context>> #FFF1CC {
   +separate(...)
 }
 
-class "NeoSSNetStrategy" as NeoSSNet <<ConcreteProduct / ConcreteStrategy>> #FFF1CC {
+interface "SeparationAlgorithm" as Algorithm <<Strategy>> #FFF1CC {
   +separate(...)
 }
 
-Service --> ModelService : depends on
-Service --> Factory : depends on
-Service --> Algorithm : depends on abstraction
-Factory ..> Algorithm : returns
-Factory ..> NeoSSNet : instantiates
+class "NeoSSNetStrategy" as NeoSSNet <<ConcreteStrategy>> #FFF1CC {
+  +separate(...)
+}
+
+class "AudioValidatorFactory" as ValidatorFactory <<Creator>> #E4F7E7 {
+  +create(filename)
+}
+
+interface "AudioValidator" as Validator <<Product>> #E4F7E7 {
+  +validate(upload_file)
+}
+
+class "WavAudioValidator" as WavValidator <<ConcreteProduct>> #E4F7E7 {
+  +validate(upload_file)
+}
+
+Service --> Resolver : resolves selected strategy
+Service --> Engine : uses context
+Resolver ..> Algorithm : returns
+Engine --> Algorithm : depends on abstraction
 NeoSSNet ..|> Algorithm
-
-note bottom
-  Dependency view:
-  high-level workflow depends on abstractions and focused services.
-end note
+ValidatorFactory ..> Validator : returns
+WavValidator ..|> Validator
 
 @enduml

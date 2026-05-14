@@ -1,29 +1,25 @@
 \chapter{Proposed Design Patterns}
 \sloppy
 
-This chapter proposes three design patterns for the cardiopulmonary sound separation system. The patterns are presented as practical backend design structures for the FastAPI, SQLite, local storage, and NeoSSNet pipeline. Each pattern is linked to a specific project problem so that the design remains useful for implementation and explanation during the final presentation.
-
-The class and method names used in this chapter are aligned with the current model-selection implementation. The report uses \texttt{SeparationService} to describe the service role implemented in \texttt{app/services/separation\_service.py}, while the actual code also includes \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, \texttt{SeparationAlgorithmFactory}, \texttt{ModelService}, \texttt{StorageService}, and \texttt{ResultService}.
+This chapter documents three design patterns used in the cardiopulmonary sound separation system. The roles are intentionally separated so that each pattern has its own purpose and its own main classes. \texttt{SeparationService} is explained only as the Facade. \texttt{SeparationEngine} is explained as the Strategy Context. \texttt{AudioValidatorFactory} is explained as the Factory Method Creator for upload validation. The model-selection helper \texttt{ModelStrategyResolver} supports choosing an implemented algorithm from a database model record, but it is not the Factory Method pattern discussed in this report.
 
 \section{Facade Pattern}
 
-The Facade Pattern is proposed to provide a simple interface over the separation workflow, which contains several service-level operations such as model lookup, file handling, result access, database updates, and logging \parencite{gamma1994designpatterns}.
+The Facade Pattern provides a simplified interface to a group of related subsystem operations \parencite{gamma1994designpatterns}. In this project, it is used to keep the FastAPI separation route small while the service layer coordinates model lookup, storage paths, result recording, and job status updates.
 
 \subsection{Pattern Type}
 
-The Facade Pattern is a structural design pattern. It focuses on arranging classes so that a client can access a complex subsystem through a simpler and more stable interface.
+The Facade Pattern is a structural design pattern. It organises a complex workflow behind one higher-level interface that is easier for a client to call.
 
 \subsection{Problem}
 
-The separation endpoint should not directly coordinate every step of the backend workflow. If \texttt{SeparationRouter} directly handles model lookup, storage operations, result retrieval, database session handling, and processing status updates, the route becomes difficult to read, test, and modify. This would also make the design harder to explain because web routing logic and separation workflow logic would be mixed in one place.
+The separation endpoint should not directly handle model lookup, upload lookup, output path preparation, job creation, inference coordination, result persistence, and error handling. Placing all of that logic inside \texttt{SeparationRouter} would make the route difficult to test and difficult to explain in the software design report.
 
 \subsection{Solution}
 
-The solution is to use \texttt{SeparationService} as the facade for the separation workflow. \texttt{SeparationRouter} calls one high-level operation, \texttt{separate\_uploaded\_audio(db, audio\_id, model\_id)}, while the service coordinates service-level subsystems such as \texttt{ModelService}, \texttt{StorageService}, and \texttt{ResultService}. This keeps the router focused on request handling and keeps the separation workflow inside a dedicated service layer.
+\texttt{SeparationRouter} calls \texttt{SeparationService} through one high-level operation. \texttt{SeparationService} acts as the Facade and coordinates the service-level subsystems: \texttt{ModelService}, \texttt{StorageService}, and \texttt{ResultService}. The router remains responsible for HTTP request and response handling, while the Facade owns the separation workflow.
 
 \subsection{Structure}
-
-The template structure below shows how a facade sits between a client and a group of subsystem classes. The client depends on the facade instead of depending on each subsystem class directly.
 
 \begin{figure}[H]
   \centering
@@ -33,20 +29,40 @@ The template structure below shows how a facade sits between a client and a grou
 \end{figure}
 
 \begin{enumerate}
-  \item \textbf{Client:} The external caller that needs to use the subsystem. In this project, the client is \texttt{SeparationRouter}, which receives the separation request from the FastAPI route.
-  \item \textbf{Facade:} The simplified interface used by the client. In this project, \texttt{SeparationService} hides the detailed separation steps behind one service method.
-  \item \textbf{Complex Subsystem:} The service-level components coordinated by the facade. In this project, these are \texttt{ModelService}, \texttt{StorageService}, and \texttt{ResultService}.
+  \item \textbf{Client:} The caller that wants to use subsystem functionality without controlling every subsystem directly.
+  \item \textbf{Facade:} The simplified interface that coordinates subsystem work.
+  \item \textbf{Subsystems:} The internal components that perform specialised tasks.
 \end{enumerate}
+
+\subsection{Participants / Structure Explanation}
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Facade Pattern Mapping}
+  \label{tab:facade-mapping}
+  \begin{tabularx}{\textwidth}{p{0.28\textwidth} p{0.28\textwidth} Y}
+    \toprule
+    \textbf{Pattern Participant} & \textbf{Project Class} & \textbf{Role in This Project} \\
+    \midrule
+    Client & \texttt{SeparationRouter} & Receives the \texttt{/separate/\{audio\_id\}} request and calls the Facade. \\
+    Facade & \texttt{SeparationService} & Coordinates the high-level separation workflow and hides subsystem details from the route. \\
+    Subsystem & \texttt{ModelService} & Retrieves the selected model or active default model from SQLite. \\
+    Subsystem & \texttt{StorageService} & Resolves project paths and prepares heart/lung output paths. \\
+    Subsystem & \texttt{ResultService} & Creates and reads result records used by result, history, and download views. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
 \subsection{Project Application}
 
 \subsubsection{i. Function or Software Component Affected}
 
-The affected component is the backend separation workflow, especially the service layer that connects \texttt{SeparationRouter} to the supporting services for model lookup, file handling, and result access. The main facade role is \texttt{SeparationService}, represented by the \texttt{separate\_uploaded\_audio} workflow in \texttt{app/services/separation\_service.py}.
+The affected component is the backend separation workflow in \texttt{app/services/separation\_service.py}. \texttt{SeparationRouter} in \texttt{app/routers/separation.py} delegates the workflow to the Facade instead of coordinating subsystem details itself.
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-\texttt{SeparationRouter} receives a request to separate an uploaded WAV file and may also receive an optional \texttt{model\_id}. It passes the database session, uploaded audio identifier, and selected model identifier to \texttt{SeparationService}. The service then uses \texttt{ModelService} to resolve the selected or active model, \texttt{StorageService} to keep file handling concerns outside the router, and \texttt{ResultService} to support result, download, and history access. The Strategy and Factory Method classes remain important implementation details, but they are explained as separate design patterns rather than as Facade subsystem participants.
+The user starts separation from the web interface. \texttt{SeparationRouter} receives the uploaded audio identifier and optional model identifier, then calls \texttt{SeparationService}. The Facade retrieves the upload and model, prepares output paths, creates a running job, coordinates the selected real separation strategy through the engine, records the result, and returns a response containing the generated heart and lung output paths. The Facade uses the strategy and model-selection helper internally, but its pattern role remains Facade only.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -69,75 +85,51 @@ The affected component is the backend separation workflow, especially the servic
 \subsubsection{v. Sample Potential Code}
 
 \begin{lstlisting}[caption={Facade Pattern Code Example}]
-# Client: SeparationRouter in app/routers/separation.py
 class SeparationRouter:
+    # Client: handles HTTP concerns only.
     def separate_audio(self, audio_id: int, model_id: int | None, db):
-        service = SeparationService()
-        return service.separate_uploaded_audio(db, audio_id, model_id)
+        return SeparationService().separate_uploaded_audio(
+            db=db,
+            audio_id=audio_id,
+            model_id=model_id,
+        )
 
 
-# Subsystem: model lookup
-class ModelService:
-    def get_model_for_separation(self, db, model_id=None):
-        return get_requested_or_active_model(db, model_id)
-
-
-# Subsystem: file handling
-class StorageService:
-    def read_wav_metadata(self, path):
-        return inspect_wav_metadata(path)
-
-
-# Subsystem: result access
-class ResultService:
-    def get_result_details(self, db, job_id):
-        return load_result_for_job(db, job_id)
-
-
-# Facade: app/services/separation_service.py
 class SeparationService:
+    # Facade: coordinates subsystem calls in one workflow.
     def separate_uploaded_audio(self, db, audio_id, model_id=None):
-        upload = get_uploaded_audio(db, audio_id)
-        model = ModelService().get_model_for_separation(db, model_id)
-        metadata = StorageService().read_wav_metadata(upload.stored_path)
-
-        job = create_running_job(db, upload.uploaded_audio_id, model.model_id)
-
-        # Detailed strategy/factory work stays inside the service workflow.
-        run_separation_workflow(upload, model, metadata)
-
-        return ResultService().get_result_details(db, job.job_id)
+        uploaded_audio = get_uploaded_audio(db, audio_id)
+        model = ModelService.get_model_for_separation(db, model_id)
+        output_paths = StorageService.build_separation_output_paths(job_id)
+        result = ResultService.create_separation_result(db, job_id, output)
+        return result
 \end{lstlisting}
-
-The code sample is simplified for readability, but the roles and method names follow the implemented backend structure.
 
 \subsubsection{vi. Benefits}
 
-The facade makes the route simpler, improves separation of concerns, and makes the workflow easier to test as one service operation. It also improves presentation clarity because the main separation process can be explained as a single service call that coordinates several internal components.
+The Facade keeps route logic thin, makes the main separation use case easier to test, and gives the report a clear explanation of where workflow coordination happens. It also improves maintainability because storage, model lookup, and result persistence remain separate subsystem concerns.
 
 \subsubsection{vii. Limitations}
 
-The main limitation is that the facade can become too large if every processing rule is placed inside \texttt{SeparationService}. The implementation should keep detailed work inside subsystem classes and use the facade mainly for orchestration.
+The Facade can become too large if detailed validation, model internals, or result formatting are placed inside it. The implementation avoids this by keeping upload validation in its own component, model lookup in \texttt{ModelService}, output path handling in \texttt{StorageService}, and result creation in \texttt{ResultService}.
 
 \section{Strategy Pattern}
 
-The Strategy Pattern is used to keep the separation algorithm interchangeable behind a common interface. This is useful because the project currently uses NeoSSNet, but the backend should still allow another implemented algorithm to be added later without changing the upload, result, history, or download routes \parencite{gamma1994designpatterns}.
+The Strategy Pattern allows a family of algorithms to be used through a common interface \parencite{gamma1994designpatterns}. In this project, it keeps the separation engine independent from NeoSSNet internals while still using the current real NeoSSNet inference path.
 
 \subsection{Pattern Type}
 
-The Strategy Pattern is a behavioral design pattern. It focuses on defining a family of algorithms and allowing the context object to use them through a shared interface.
+The Strategy Pattern is a behavioral design pattern. It defines a common interface for interchangeable algorithms and lets a context call the selected algorithm through that interface.
 
 \subsection{Problem}
 
-The system should not hardcode NeoSSNet-specific logic throughout the service layer. If model-specific preprocessing, inference, and output handling are tightly coupled to the route or service, future experiments become harder. Even for a student project, keeping the algorithm boundary clear makes the design easier to test and explain.
+The backend should not spread NeoSSNet-specific inference calls across routers or service workflow code. If the workflow directly calls \texttt{run\_neossnet\_inference}, the system becomes harder to test and harder to extend when another real implemented separation algorithm is added.
 
 \subsection{Solution}
 
-The solution is to define a \texttt{SeparationAlgorithm} interface with a \texttt{separate(...)} operation. \texttt{NeoSSNetStrategy} is the current concrete strategy and wraps the existing real \texttt{run\_neossnet\_inference} function. \texttt{SeparationService} acts as the context and calls the selected strategy through the shared interface.
+\texttt{SeparationEngine} is introduced as the Strategy Context. It depends on the \texttt{SeparationAlgorithm} abstraction and calls \texttt{algorithm.separate(...)}. \texttt{NeoSSNetStrategy} implements the abstraction and wraps the existing real \texttt{run\_neossnet\_inference} function without duplicating NeoSSNet code.
 
 \subsection{Structure}
-
-The template structure below shows a context object that delegates algorithm-specific work to a strategy object. The client uses the context without needing to know which concrete strategy performs the work.
 
 \begin{figure}[H]
   \centering
@@ -147,21 +139,38 @@ The template structure below shows a context object that delegates algorithm-spe
 \end{figure}
 
 \begin{enumerate}
-  \item \textbf{Context:} The object that uses a strategy to complete part of its work. In this project, \texttt{SeparationService} is the context because it delegates model-specific separation to an algorithm object.
-  \item \textbf{Strategy Interface:} The common contract for all algorithms. In this project, \texttt{SeparationAlgorithm} defines the expected separation method and output format.
-  \item \textbf{Concrete Strategies:} The actual algorithm implementations. In the current implementation, \texttt{NeoSSNetStrategy} is the concrete strategy.
-  \item \textbf{Client:} The caller that starts the workflow. In this project, the FastAPI router starts the separation request, while the service uses the configured strategy internally.
+  \item \textbf{Context:} The object that uses a strategy through a shared interface.
+  \item \textbf{Strategy:} The abstraction that defines the algorithm operation.
+  \item \textbf{ConcreteStrategy:} The implemented algorithm used at runtime.
 \end{enumerate}
+
+\subsection{Participants / Structure Explanation}
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Strategy Pattern Mapping}
+  \label{tab:strategy-mapping}
+  \begin{tabularx}{\textwidth}{p{0.28\textwidth} p{0.28\textwidth} Y}
+    \toprule
+    \textbf{Pattern Participant} & \textbf{Project Class} & \textbf{Role in This Project} \\
+    \midrule
+    Context & \texttt{SeparationEngine} & Runs the selected algorithm through the abstraction. \\
+    Strategy & \texttt{SeparationAlgorithm} & Defines the \texttt{separate(...)} contract and result shape. \\
+    ConcreteStrategy & \texttt{NeoSSNetStrategy} & Calls the real NeoSSNet inference boundary and returns heart/lung output metadata. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
 \subsection{Project Application}
 
 \subsubsection{i. Function or Software Component Affected}
 
-The affected component is the machine learning inference boundary. The main classes are \texttt{SeparationAlgorithm}, \texttt{NeoSSNetStrategy}, and \texttt{SeparationService}. The interface is intentionally small so that a new implemented strategy can be registered later without changing the separation route or result workflow.
+The affected component is the ML inference boundary under \texttt{app/ml/}. The relevant files are \texttt{separation\_engine.py}, \texttt{separation\_algorithm.py}, \texttt{neossnet\_strategy.py}, and \texttt{neossnet\_inference.py}.
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-The service resolves the uploaded WAV path and model paths, then calls the selected \texttt{SeparationAlgorithm}. The current concrete strategy, \texttt{NeoSSNetStrategy}, delegates to the existing NeoSSNet inference function and returns a \texttt{SeparationAlgorithmResult} containing heart output path, lung output path, sample rate, duration, and file size metadata. The service records these outputs without depending on NeoSSNet internals.
+\texttt{SeparationService} obtains the selected model and asks \texttt{ModelStrategyResolver} for a matching \texttt{SeparationAlgorithm}. The resolver is only a model-selection helper. \texttt{SeparationService} passes the algorithm to \texttt{SeparationEngine}. The engine calls \texttt{algorithm.separate(...)} with the uploaded WAV path, model checkpoint path, model configuration path, and heart/lung output paths. \texttt{NeoSSNetStrategy} then calls the existing NeoSSNet inference function and returns output metadata.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -184,22 +193,15 @@ The service resolves the uploaded WAV path and model paths, then calls the selec
 \subsubsection{v. Sample Potential Code}
 
 \begin{lstlisting}[caption={Strategy Pattern Code Example}]
-# Strategy: app/ml/separation_algorithm.py
 class SeparationAlgorithm(Protocol):
-    def separate(
-        self,
-        input_wav_path,
-        model_path,
-        model_config_path,
-        heart_output_path,
-        lung_output_path,
-        device_name="cpu",
-    ) -> SeparationAlgorithmResult:
+    # Strategy: small interface for real separation algorithms.
+    def separate(self, input_wav_path, model_path, model_config_path,
+                 heart_output_path, lung_output_path, device_name="cpu"):
         ...
 
 
-# ConcreteStrategy: app/ml/neossnet_strategy.py
 class NeoSSNetStrategy:
+    # ConcreteStrategy: wraps the existing real inference function.
     def separate(self, input_wav_path, model_path, model_config_path,
                  heart_output_path, lung_output_path, device_name="cpu"):
         return run_neossnet_inference(
@@ -212,53 +214,40 @@ class NeoSSNetStrategy:
         )
 
 
-# Context: app/services/separation_service.py
-class SeparationService:
-    def run_selected_algorithm(
-        self,
-        algorithm: SeparationAlgorithm,
-        input_path,
-        model,
-        output_paths,
-    ):
-        return algorithm.separate(
-            input_wav_path=input_path,
-            model_path=model.checkpoint_path,
-            model_config_path=model.config_path,
-            heart_output_path=output_paths.heart,
-            lung_output_path=output_paths.lung,
-        )
-\end{lstlisting}
+class SeparationEngine:
+    # Context: depends on SeparationAlgorithm, not NeoSSNet internals.
+    def __init__(self, algorithm: SeparationAlgorithm):
+        self.algorithm = algorithm
 
-The concrete strategy does not duplicate NeoSSNet inference logic; it delegates to the existing inference function.
+    def separate(self, **paths):
+        return self.algorithm.separate(**paths)
+\end{lstlisting}
 
 \subsubsection{vi. Benefits}
 
-The strategy design makes the algorithm boundary clear, improves testability, and supports future comparison with alternative separation methods. It also helps keep NeoSSNet-specific code inside a dedicated class rather than spreading it across the router and service layer.
+The Strategy Pattern keeps NeoSSNet code isolated, makes the engine easy to test with a mocked algorithm, and allows the service workflow to remain stable when another real separation implementation is added later.
 
 \subsubsection{vii. Limitations}
 
-The limitation is that the project may only use NeoSSNet during the final submission. If no alternative algorithm is implemented, the extra interface should remain small so it does not make the student project unnecessarily complicated.
+The current prototype mainly runs NeoSSNet, so the strategy layer must remain small. Overcomplicating the abstraction would make the student project harder to maintain without improving the current working inference path.
 
 \section{Factory Method Pattern}
 
-The Factory Method Pattern is proposed to centralise the creation of separation algorithm objects. This avoids scattering model creation, checkpoint loading, and strategy selection logic throughout the backend \parencite{gamma1994designpatterns}.
+The Factory Method Pattern creates products through a creator instead of forcing the client to instantiate concrete classes directly \parencite{gamma1994designpatterns}. In this project, the pattern is used for upload audio validation.
 
 \subsection{Pattern Type}
 
-The Factory Method Pattern is a creational design pattern. It focuses on creating objects through a dedicated creator method instead of directly constructing concrete classes in client code.
+The Factory Method Pattern is a creational design pattern. It focuses on object creation while allowing the client to work with a product interface.
 
 \subsection{Problem}
 
-The system stores model-related information such as model name, version, checkpoint path, and active status in SQLite or local configuration. If each service directly constructs \texttt{NeoSSNetStrategy} and loads checkpoint paths manually, model creation becomes duplicated and harder to change. This is especially risky if the project later supports more than one model format.
+The upload route must validate files before saving them. If \texttt{UploadRouter} directly hardcodes every validation class, adding another supported audio validator later would make the route grow and mix request handling with validation object creation.
 
 \subsection{Solution}
 
-The solution is to use \texttt{SeparationAlgorithmFactory} as the creator. The service obtains the selected or active model through \texttt{ModelService}, then passes that model record to the factory. The factory checks the model architecture and returns a \texttt{SeparationAlgorithm} object. At the current stage, the concrete product is \texttt{NeoSSNetStrategy}.
+\texttt{UploadRouter} asks \texttt{AudioValidatorFactory} for an \texttt{AudioValidator}. For the current prototype, the concrete product is \texttt{WavAudioValidator}, which checks the \texttt{.wav} extension and RIFF/WAVE header before the file is saved. The route depends on the product interface and keeps upload validation creation in one place.
 
 \subsection{Structure}
-
-The template structure below shows a creator that returns a product interface while hiding the exact concrete product class from the client.
 
 \begin{figure}[H]
   \centering
@@ -268,21 +257,40 @@ The template structure below shows a creator that returns a product interface wh
 \end{figure}
 
 \begin{enumerate}
-  \item \textbf{Creator:} The class or method responsible for creating product objects. In this project, \texttt{SeparationAlgorithmFactory} is the proposed creator.
-  \item \textbf{Product:} The shared interface returned to the client. In this project, \texttt{SeparationAlgorithm} is the product interface.
-  \item \textbf{Concrete Product:} The actual object created by the factory. In this project, \texttt{NeoSSNetStrategy} is the main concrete product.
-  \item \textbf{Client:} The class that requests a product from the factory. In this project, \texttt{SeparationService} uses the factory so that it does not need to hardcode model construction details.
+  \item \textbf{Client:} The code that needs a product but should not create the concrete product directly.
+  \item \textbf{Creator:} The class or method that creates the product.
+  \item \textbf{Product:} The interface returned to the client.
+  \item \textbf{ConcreteProduct:} The actual validation implementation created by the creator.
 \end{enumerate}
+
+\subsection{Participants / Structure Explanation}
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Factory Method Pattern Mapping}
+  \label{tab:factory-method-mapping}
+  \begin{tabularx}{\textwidth}{p{0.28\textwidth} p{0.28\textwidth} Y}
+    \toprule
+    \textbf{Pattern Participant} & \textbf{Project Class} & \textbf{Role in This Project} \\
+    \midrule
+    Client & \texttt{UploadRouter} & Requests a validator before saving the uploaded file. \\
+    Creator & \texttt{AudioValidatorFactory} & Creates the correct validator for the uploaded filename. \\
+    Product & \texttt{AudioValidator} & Defines the \texttt{validate(upload\_file)} operation. \\
+    ConcreteProduct & \texttt{WavAudioValidator} & Validates WAV extension and header. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
 \subsection{Project Application}
 
 \subsubsection{i. Function or Software Component Affected}
 
-The affected component is model and algorithm construction. The implemented creator is \texttt{SeparationAlgorithmFactory}, and it is used by \texttt{SeparationService}. Model lookup is handled separately by \texttt{ModelService}.
+The affected component is the upload workflow in \texttt{app/routers/upload.py} and \texttt{app/services/audio\_validation.py}. The upload route remains the client, and the storage service saves the file only after validation succeeds.
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-The service requests the selected or active model from \texttt{ModelService}. It then passes the model record to \texttt{SeparationAlgorithmFactory.create(model)}. The factory checks \texttt{model.architecture}; when it is \texttt{NeoSSNet}, it creates \texttt{NeoSSNetStrategy}. The created object is returned through the \texttt{SeparationAlgorithm} interface, so the service can call \texttt{separate(...)} without hardcoding the concrete strategy construction.
+The user uploads a file through the browser. \texttt{UploadRouter} calls \texttt{AudioValidatorFactory.create(file.filename)}. The factory returns \texttt{WavAudioValidator} for a WAV filename. The route calls \texttt{validator.validate(file)}. If validation fails, the route returns a bad request response. If validation succeeds, the file is saved by \texttt{StorageService} and an \texttt{UploadedAudio} record is inserted into SQLite.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -305,50 +313,46 @@ The service requests the selected or active model from \texttt{ModelService}. It
 \subsubsection{v. Sample Potential Code}
 
 \begin{lstlisting}[caption={Factory Method Pattern Code Example}]
-# Product: app/ml/separation_algorithm.py
-class SeparationAlgorithm(Protocol):
-    def separate(self, input_wav_path, model_path, model_config_path,
-                 heart_output_path, lung_output_path, device_name="cpu"):
+class AudioValidator(Protocol):
+    # Product: small validation interface.
+    async def validate(self, upload_file) -> None:
         ...
 
 
-# ConcreteProduct: app/ml/neossnet_strategy.py
-class NeoSSNetStrategy:
-    def separate(self, input_wav_path, model_path, model_config_path,
-                 heart_output_path, lung_output_path, device_name="cpu"):
-        return run_neossnet_inference(...)
+class WavAudioValidator:
+    # ConcreteProduct: current WAV validator.
+    async def validate(self, upload_file) -> None:
+        if not upload_file.filename.lower().endswith(".wav"):
+            raise ValueError("Only .wav audio files are accepted.")
+        header = await upload_file.read(12)
+        if header[:4] != b"RIFF" or header[8:12] != b"WAVE":
+            raise ValueError("Uploaded file is not a valid WAV file.")
+        await upload_file.seek(0)
 
 
-# Creator: app/services/model_factory.py
-class SeparationAlgorithmFactory:
-    _registry = {
-        "neossnet": NeoSSNetStrategy,
-    }
-
-    @classmethod
-    def create(cls, model) -> SeparationAlgorithm:
-        architecture = model.architecture.strip().lower()
-        strategy_class = cls._registry.get(architecture)
-        if strategy_class is None:
-            raise UnsupportedModelArchitectureError(architecture)
-
-        return strategy_class()
+class AudioValidatorFactory:
+    # Creator: returns an AudioValidator product.
+    @staticmethod
+    def create(filename: str) -> AudioValidator:
+        if filename.lower().endswith(".wav"):
+            return WavAudioValidator()
+        raise ValueError("Only .wav audio files are accepted.")
 
 
-# Client: app/services/separation_service.py
-class SeparationService:
-    def get_algorithm(self, db, model_id=None):
-        model = ModelService.get_model_for_separation(db, model_id)
-        return SeparationAlgorithmFactory.create(model)
+class UploadRouter:
+    # Client: asks the creator for a validator.
+    async def upload_audio(self, file, db):
+        validator = AudioValidatorFactory.create(file.filename)
+        await validator.validate(file)
+        return await StorageService.save_uploaded_wav(file)
 \end{lstlisting}
-
-The factory creates the strategy object only. The model checkpoint and configuration paths remain in the model record and are passed into the strategy during the separation call.
 
 \subsubsection{vi. Benefits}
 
-The factory method reduces hardcoded model creation, keeps checkpoint loading in one place, and makes it easier to add a future model type without changing every service that needs an algorithm. It also supports cleaner testing because a test can provide a simple model configuration and check which strategy is created.
+The Factory Method keeps upload validation creation separate from request handling. It also makes the validation responsibility clear in the UML: upload uses a creator and product interface, while separation model selection remains a separate helper and is not used as the Factory Method example.
 
 \subsubsection{vii. Limitations}
 
-The limitation is that a factory may be unnecessary if the system permanently supports only one model. For this project, the factory should stay small and practical, mainly to keep model construction clear and centralised.
+Only WAV validation is currently supported, so the factory is intentionally simple. The pattern is still useful because it gives the upload workflow a clear extension point without adding unnecessary framework complexity.
+
 \fussy

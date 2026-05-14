@@ -5,24 +5,21 @@
 skinparam shadowing false
 autonumber
 
-actor User
 participant "SeparationRouter\n(Client)" as Router
 participant "SeparationService\n(Facade)" as Service
 participant "ModelService\n(Subsystem)" as ModelService
 participant "StorageService\n(Subsystem)" as StorageService
 participant "ResultService\n(Subsystem)" as ResultService
 
-User -> Router : POST /separate/{audio_id}?model_id=optional
 Router -> Service : separate_uploaded_audio(db, audio_id, model_id)
 
 Service -> ModelService : get_model_for_separation(db, model_id)
 ModelService --> Service : selected model
-Service -> StorageService : read_wav_metadata(upload path)
-StorageService --> Service : audio metadata
-Service -> ResultService : get_result_details(db, job_id)
-ResultService --> Service : result details
+Service -> StorageService : build_separation_output_paths(job_id)
+StorageService --> Service : heart/lung output paths
+Service -> ResultService : create_separation_result(db, job_id, output)
+ResultService --> Service : saved result record
 
-Service --> Router : completed separation result
-Router --> User : preview/download information
+Service --> Router : SeparationResponse
 
 @enduml

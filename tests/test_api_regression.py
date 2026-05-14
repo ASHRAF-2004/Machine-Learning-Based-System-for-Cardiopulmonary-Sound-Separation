@@ -10,14 +10,14 @@ from sqlalchemy.orm import sessionmaker
 
 from app.database.db import Base
 from app.ml.separation_algorithm import SeparationAlgorithmResult
-from app.models.db_models import Model, SeparationJob, UploadedAudio
+from app.models.db_models import Model, UploadedAudio
+from app.routers.models import available_models
+from app.routers.results import download_heart, history, result_details
+from app.routers.separation import separate_audio
 from app.services import separation_service, storage_service
 
 
-class FakeAlgorithm:
-    def __init__(self) -> None:
-        self.calls: list[dict[str, object]] = []
-
+class RouteFakeAlgorithm:
     def separate(
         self,
         input_wav_path: Path,
@@ -31,14 +31,6 @@ class FakeAlgorithm:
         lung_output_path.parent.mkdir(parents=True, exist_ok=True)
         heart_output_path.write_bytes(b"RIFFheart")
         lung_output_path.write_bytes(b"RIFFlung")
-        self.calls.append(
-            {
-                "input_wav_path": input_wav_path,
-                "model_path": model_path,
-                "model_config_path": model_config_path,
-                "device_name": device_name,
-            }
-        )
         return SeparationAlgorithmResult(
             heart_file_path=heart_output_path,
             lung_file_path=lung_output_path,
@@ -51,32 +43,30 @@ class FakeAlgorithm:
         )
 
 
-class FakeResolver:
-    algorithm = FakeAlgorithm()
+class RouteFakeResolver:
     model_ids: list[int] = []
 
     @classmethod
-    def resolve(cls, model: Model) -> FakeAlgorithm:
+    def resolve(cls, model: Model) -> RouteFakeAlgorithm:
         cls.model_ids.append(model.model_id)
-        return cls.algorithm
+        return RouteFakeAlgorithm()
 
 
 @pytest.fixture()
-def db_session(monkeypatch):
-    runtime_dir = (Path("storage/uploads/temp/test_separation") / uuid.uuid4().hex).resolve()
+def api_db(monkeypatch):
+    runtime_dir = (Path("storage/uploads/temp/test_api") / uuid.uuid4().hex).resolve()
     runtime_dir.mkdir(parents=True, exist_ok=True)
 
-    database_path = runtime_dir / "test_separation.db"
+    database_path = runtime_dir / "test_api.db"
     engine = create_engine(f"sqlite:///{database_path.as_posix()}", future=True)
     Base.metadata.create_all(bind=engine)
     TestingSession = sessionmaker(bind=engine, future=True)
-
     db = TestingSession()
+
     monkeypatch.setattr(storage_service, "HEART_OUTPUT_DIR", runtime_dir / "heart")
     monkeypatch.setattr(storage_service, "LUNG_OUTPUT_DIR", runtime_dir / "lung")
-    FakeResolver.algorithm = FakeAlgorithm()
-    FakeResolver.model_ids = []
-    monkeypatch.setattr(separation_service, "ModelStrategyResolver", FakeResolver)
+    monkeypatch.setattr(separation_service, "ModelStrategyResolver", RouteFakeResolver)
+    RouteFakeResolver.model_ids = []
 
     try:
         yield db, runtime_dir
@@ -87,11 +77,11 @@ def db_session(monkeypatch):
         shutil.rmtree(runtime_dir, ignore_errors=True)
 
 
-def seed_uploaded_audio_and_model(db, runtime_dir: Path) -> tuple[UploadedAudio, Model]:
+def seed_audio_and_model(db, runtime_dir: Path) -> tuple[UploadedAudio, Model]:
     input_path = runtime_dir / "mixed.wav"
-    input_path.write_bytes(b"RIFFfakeWAVE")
     model_path = runtime_dir / "neossnet.pt"
     config_path = runtime_dir / "neossnet.yaml"
+    input_path.write_bytes(b"RIFFfakeWAVE")
     model_path.write_bytes(b"weights")
     config_path.write_text("sample_rate: 4000", encoding="utf-8")
 
@@ -122,36 +112,33 @@ def seed_uploaded_audio_and_model(db, runtime_dir: Path) -> tuple[UploadedAudio,
     return uploaded_audio, model
 
 
-def test_separation_uses_active_model_by_default(db_session) -> None:
-    db, runtime_dir = db_session
-    uploaded_audio, model = seed_uploaded_audio_and_model(db, runtime_dir)
+def test_models_and_separation_routes_keep_working(api_db) -> None:
+    db, runtime_dir = api_db
+    uploaded_audio, model = seed_audio_and_model(db, runtime_dir)
 
-    response = separation_service.separate_uploaded_audio(
-        db,
+    models_payload = available_models(db)
+    assert models_payload[0]["model_id"] == model.model_id
+
+    default_payload = separate_audio(
         uploaded_audio.uploaded_audio_id,
+        model_id=None,
+        db=db,
     )
+    assert default_payload["status"] == "completed"
 
-    job = db.get(SeparationJob, response.job_id)
-    assert response.status == "completed"
-    assert job is not None
-    assert job.model_id == model.model_id
-    assert FakeResolver.model_ids == [model.model_id]
-    assert response.heart_file_path.endswith(f"{response.job_id}_heart.wav")
-    assert response.lung_file_path.endswith(f"{response.job_id}_lung.wav")
-
-
-def test_separation_accepts_explicit_model_id(db_session) -> None:
-    db, runtime_dir = db_session
-    uploaded_audio, model = seed_uploaded_audio_and_model(db, runtime_dir)
-
-    response = separation_service.separate_uploaded_audio(
-        db,
+    explicit_payload = separate_audio(
         uploaded_audio.uploaded_audio_id,
         model_id=model.model_id,
+        db=db,
     )
+    assert explicit_payload["status"] == "completed"
+    assert RouteFakeResolver.model_ids == [model.model_id, model.model_id]
 
-    job = db.get(SeparationJob, response.job_id)
-    assert response.status == "completed"
-    assert job is not None
-    assert job.model_id == model.model_id
-    assert FakeResolver.model_ids == [model.model_id]
+    result_payload = result_details(default_payload["job_id"], db)
+    assert result_payload["heart_file_path"].endswith("_heart.wav")
+
+    history_payload = history(limit=20, db=db)
+    assert len(history_payload) == 2
+
+    download_response = download_heart(default_payload["job_id"], db)
+    assert Path(download_response.path).read_bytes() == b"RIFFheart"
