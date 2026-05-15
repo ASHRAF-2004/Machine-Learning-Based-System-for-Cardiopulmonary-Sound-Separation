@@ -77,7 +77,7 @@ The same idea applies to data storage. Runtime upload folders, generated output 
 
 \subsection{Information Hiding}
 
-Information hiding means that internal implementation details are kept inside the module or class responsible for them. File validation rules should stay inside the upload validation component, storage paths should stay inside \texttt{StorageService}, model lookup should stay inside \texttt{ModelService}, and model-to-strategy resolution should stay inside \texttt{ModelStrategyResolver}. NeoSSNet inference details should stay inside \texttt{NeoSSNetStrategy} and the existing NeoSSNet inference function, while \texttt{SeparationEngine} only sees the shared \texttt{SeparationAlgorithm} interface.
+Information hiding means that internal implementation details are kept inside the module or class responsible for them. File validation rules should stay inside the upload validation component, storage paths should stay inside \texttt{StorageService}, model lookup should stay inside \texttt{ModelService}, and model-to-strategy resolution should stay inside \texttt{ModelStrategy\allowbreak Resolver}. NeoSSNet inference details should stay inside \texttt{NeoSSNet\allowbreak Strategy} and the existing NeoSSNet inference function, while \texttt{SeparationEngine} only sees the shared \texttt{Separation\allowbreak Algorithm} interface.
 
 This protects the rest of the system from unnecessary implementation knowledge. For example, the route does not need to know where the checkpoint file is stored or how the strategy calls the underlying inference function; it only needs the job result returned by the service.
 
@@ -95,15 +95,17 @@ A class should have only one reason to change, meaning it should have a single, 
 
 \begin{lstlisting}[caption={SRP Example: Storage Responsibility Only}]
 class StorageService:
-    # SRP: this class changes when storage rules change.
+    # SRP: This class has one responsibility: file storage.
+    # This class should change only when file storage behavior changes.
     def save_uploaded_wav(self, upload_file) -> str:
+        # This method belongs to the same storage responsibility.
         stored_path = self.build_upload_path(upload_file.filename)
         self.write_file(upload_file, stored_path)
         return stored_path
 
 
 class SeparationService:
-    # SRP: workflow coordination stays outside StorageService.
+    # SRP: Workflow coordination stays outside StorageService.
     def upload_then_record(self, file, db):
         stored_path = StorageService().save_uploaded_wav(file)
         return create_uploaded_audio_record(db, stored_path)
@@ -116,8 +118,14 @@ The single responsibility is storage. What is separated is the database workflow
 Software entities should be open for extension but closed for modification, allowing behavior to change without altering existing code. In this project, a new implemented separation algorithm should be added as another \texttt{SeparationAlgorithm} implementation without rewriting \texttt{SeparationEngine}.
 
 \begin{lstlisting}[caption={OCP Example: Extend with a New Algorithm}]
+class SeparationAlgorithm(Protocol):
+    # OCP: This interface is open for extension.
+    def separate(self, **paths):
+        ...
+
+
 class SeparationEngine:
-    # OCP: closed to changes in the engine workflow.
+    # OCP: This class is closed for modification.
     def __init__(self, algorithm: SeparationAlgorithm):
         self.algorithm = algorithm
 
@@ -132,7 +140,8 @@ class SeparationEngine:
 
 
 class NeoSSNetStrategy:
-    # OCP: open for extension through a concrete strategy.
+    # OCP: This new class extends behavior without modifying
+    # SeparationEngine.
     def separate(self, input_wav_path, model_path, model_config_path,
                  heart_output_path, lung_output_path):
         return run_neossnet_inference(...)
@@ -145,20 +154,29 @@ The open part is the set of concrete \texttt{SeparationAlgorithm} implementation
 Subtypes must be substitutable for their base types without altering the correctness of the program. \texttt{NeoSSNetStrategy} can replace any object typed as \texttt{SeparationAlgorithm} because it provides the expected \texttt{separate(...)} method and returns the expected result object.
 
 \begin{lstlisting}[caption={LSP Example: NeoSSNet Substitutes the Strategy Interface}]
-def run_engine(algorithm: SeparationAlgorithm, paths):
-    # LSP: any valid SeparationAlgorithm can be used here.
-    engine = SeparationEngine(algorithm)
-    return engine.separate(
-        input_wav_path=paths.input_wav,
-        model_path=paths.model_path,
-        model_config_path=paths.config_path,
-        heart_output_path=paths.heart_output,
-        lung_output_path=paths.lung_output,
-    )
+class SeparationAlgorithm(Protocol):
+    # LSP: This is the parent/base abstraction.
+    def separate(self, input_path: str):
+        ...
 
 
-# LSP: NeoSSNetStrategy is substitutable for SeparationAlgorithm.
-result = run_engine(NeoSSNetStrategy(), paths)
+class NeoSSNetStrategy:
+    # LSP: This is the child/subtype implementation.
+    def separate(self, input_path: str):
+        return run_neossnet_inference(input_path)
+
+
+class SeparationEngine:
+    # LSP: SeparationEngine accepts the parent/base type.
+    def __init__(self, algorithm: SeparationAlgorithm):
+        self.algorithm = algorithm
+
+    def run(self, input_path: str):
+        return self.algorithm.separate(input_path)
+
+
+# LSP: The child can replace the parent safely.
+engine = SeparationEngine(NeoSSNetStrategy())
 \end{lstlisting}
 
 The substitutable type is \texttt{NeoSSNetStrategy}. The base abstraction is \texttt{SeparationAlgorithm}. Correctness is preserved because \texttt{SeparationEngine} still receives separated heart and lung output metadata in the same result format.
@@ -169,16 +187,24 @@ Clients should not be forced to depend on methods they do not use, favoring smal
 
 \begin{lstlisting}[caption={ISP Example: Small Focused Interfaces}]
 class AudioValidator(Protocol):
-    # ISP: upload code only needs validation behavior.
+    # ISP: This is a small focused interface.
     async def validate(self, upload_file) -> None:
         ...
 
 
 class SeparationAlgorithm(Protocol):
-    # ISP: the engine only needs separation behavior.
+    # ISP: This is another small focused interface.
     def separate(self, input_wav_path, model_path, model_config_path,
                  heart_output_path, lung_output_path):
         ...
+
+
+class UploadRouter:
+    # ISP: UploadRouter only depends on validate().
+    async def upload_audio(self, file, validator: AudioValidator):
+        # ISP: The client is not forced to depend on unused methods.
+        await validator.validate(file)
+        return await StorageService.save_uploaded_wav(file)
 \end{lstlisting}
 
 The small interfaces are \texttt{AudioValidator} and \texttt{SeparationAlgorithm}. Upload routing is not forced to know about model inference, and the strategy engine is not forced to know about upload headers or database records.
@@ -188,9 +214,23 @@ The small interfaces are \texttt{AudioValidator} and \texttt{SeparationAlgorithm
 Depend on abstractions/interfaces rather than concrete implementations. In this project, \texttt{SeparationEngine} depends on \texttt{SeparationAlgorithm}, not directly on \texttt{NeoSSNetStrategy}. The concrete strategy is supplied after model selection is resolved.
 
 \begin{lstlisting}[caption={DIP Example: Engine Depends on the Abstraction}]
+class SeparationAlgorithm(Protocol):
+    # DIP: This is the abstraction.
+    def separate(self, **paths):
+        ...
+
+
+class NeoSSNetStrategy:
+    # DIP: This is the low-level concrete implementation.
+    def separate(self, **paths):
+        return run_neossnet_inference(**paths)
+
+
 class SeparationEngine:
+    # DIP: This is the high-level module.
     def __init__(self, algorithm: SeparationAlgorithm):
-        # DIP: depend on the abstraction, not NeoSSNetStrategy.
+        # DIP: The high-level module depends on the abstraction,
+        # not the concrete class.
         self.algorithm = algorithm
 
     def separate(self, **paths):

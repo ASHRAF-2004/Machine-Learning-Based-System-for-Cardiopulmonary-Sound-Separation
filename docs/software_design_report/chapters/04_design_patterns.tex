@@ -41,7 +41,7 @@ The separation endpoint should not directly handle model lookup, upload lookup, 
   \small
   \caption{Facade Pattern Mapping}
   \label{tab:facade-mapping}
-  \begin{tabularx}{\textwidth}{p{0.28\textwidth} p{0.28\textwidth} Y}
+  \begin{tabularx}{\textwidth}{p{0.24\textwidth} p{0.36\textwidth} Y}
     \toprule
     \textbf{Pattern Participant} & \textbf{Project Class} & \textbf{Role in This Project} \\
     \midrule
@@ -101,7 +101,7 @@ class SeparationService:
         uploaded_audio = get_uploaded_audio(db, audio_id)
         # Subsystem: ModelService handles model selection.
         model = ModelService.get_model_for_separation(db, model_id)
-        # Subsystem: StorageService handles files.
+        # Subsystem: StorageService handles file operations.
         output_paths = StorageService.build_separation_output_paths(job_id)
         # Subsystem: ResultService handles result/history operations.
         result = ResultService.create_separation_result(db, job_id, output)
@@ -280,7 +280,7 @@ The upload route must validate files before saving them. If \texttt{UploadRouter
     \midrule
     Client & \texttt{UploadRouter} & Requests a validator before saving the uploaded file. \\
     Creator & \texttt{AudioValidatorFactory} & Declares the \texttt{create\_validator(filename)} factory method. \\
-    ConcreteCreator & \texttt{WavAudioValidatorFactory} & Implements the factory method and creates WAV validators. \\
+    ConcreteCreator & {\footnotesize\texttt{WavAudioValidatorFactory}} & Implements the factory method and creates WAV validators. \\
     Product & \texttt{AudioValidator} & Defines the \texttt{validate(upload\_file)} operation. \\
     ConcreteProduct & \texttt{WavAudioValidator} & Validates WAV extension and header. \\
     \bottomrule
