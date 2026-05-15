@@ -101,11 +101,21 @@ class SeparationService:
         uploaded_audio = get_uploaded_audio(db, audio_id)
         # Subsystem: ModelService handles model selection.
         model = ModelService.get_model_for_separation(db, model_id)
+        job = self.create_running_job(
+            db, uploaded_audio.uploaded_audio_id, model.model_id
+        )
         # Subsystem: StorageService handles file operations.
-        output_paths = StorageService.build_separation_output_paths(job_id)
+        output_paths = StorageService.build_separation_output_paths(job.job_id)
+        output = run_selected_algorithm(uploaded_audio, model, output_paths)
         # Subsystem: ResultService handles result/history operations.
-        result = ResultService.create_separation_result(db, job_id, output)
+        result = ResultService.create_separation_result(db, job.job_id, output)
         return result
+
+    def create_running_job(self, db, uploaded_audio_id, model_id):
+        ...
+
+    def mark_job_failed(self, db, job, error, processing_time_ms):
+        ...
 \end{lstlisting}
 
 \subsubsection{vi. Benefits}
@@ -249,6 +259,8 @@ The upload route must validate files before saving them. If \texttt{UploadRouter
 \subsection{Solution}
 
 \texttt{UploadRouter} works with the \texttt{AudioValidatorFactory} creator abstraction and uses \texttt{WavAudioValidatorFactory} as the current concrete creator. \texttt{WavAudioValidatorFactory} implements the factory method and creates a \texttt{WavAudioValidator}. The created validator is returned through the \texttt{AudioValidator} product interface, so the upload route does not directly instantiate the concrete validator.
+
+The current design has only one concrete creator because the prototype currently supports WAV audio uploads only. This still demonstrates the GoF Factory Method structure, because the pattern is defined by the relationship between a Creator, Product, ConcreteCreator, and ConcreteProduct, not by the number of concrete creators already implemented. \texttt{WavAudioValidatorFactory} is therefore the only concrete creator needed at this stage. The design remains extensible because another concrete creator can be added later for another supported audio format without changing \texttt{UploadRouter}'s dependency on the creator and product abstractions. The diagram does not add fake future validators merely to increase the number of classes, and the design should not be described as a Simple Factory.
 
 \subsection{Structure}
 

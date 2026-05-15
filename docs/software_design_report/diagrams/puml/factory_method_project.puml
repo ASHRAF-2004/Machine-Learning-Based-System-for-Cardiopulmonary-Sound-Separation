@@ -6,7 +6,7 @@ skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
 
-class "UploadRouter" as UploadRouter <<Client>> {
+class UploadRouter <<Client>> {
   +upload_audio(file)
 }
 
@@ -32,14 +32,5 @@ AudioValidatorFactory ..> AudioValidator : creates
 WavAudioValidatorFactory ..> WavAudioValidator : creates
 WavAudioValidator ..|> AudioValidator
 UploadRouter --> AudioValidator : validate(file)
-
-note bottom
-  Mapping:
-  Client = UploadRouter
-  Creator = AudioValidatorFactory
-  ConcreteCreator = WavAudioValidatorFactory
-  Product = AudioValidator
-  ConcreteProduct = WavAudioValidator
-end note
 
 @enduml

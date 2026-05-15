@@ -8,25 +8,18 @@ skinparam linetype ortho
 
 class "SeparationEngine" as SeparationEngine <<Context>> {
   -algorithm : SeparationAlgorithm
-  +separate(input_wav_path, model_path, model_config_path, heart_output_path, lung_output_path)
+  +separate(...)
 }
 
 interface SeparationAlgorithm <<Strategy>> {
-  +separate(input_wav_path, model_path, model_config_path, heart_output_path, lung_output_path, device_name)
+  +separate(...)
 }
 
 class NeoSSNetStrategy <<ConcreteStrategy>> {
-  +separate(input_wav_path, model_path, model_config_path, heart_output_path, lung_output_path, device_name)
+  +separate(...)
 }
 
 SeparationEngine --> SeparationAlgorithm : delegates separation
 NeoSSNetStrategy ..|> SeparationAlgorithm
-
-note bottom
-  Mapping:
-  Context = SeparationEngine
-  Strategy = SeparationAlgorithm
-  ConcreteStrategy = NeoSSNetStrategy
-end note
 
 @enduml
