@@ -10,7 +10,13 @@ from pathlib import Path
 from app.database.db import PROJECT_ROOT
 
 
-NEOSSNET_SOURCE_DIR = PROJECT_ROOT / "external" / "neossnet_source"
+VENDORED_NEOSSNET_SOURCE_DIR = PROJECT_ROOT / "app" / "ml" / "neossnet_source"
+EXTERNAL_NEOSSNET_SOURCE_DIR = PROJECT_ROOT / "external" / "neossnet_source"
+NEOSSNET_SOURCE_DIR = (
+    VENDORED_NEOSSNET_SOURCE_DIR
+    if VENDORED_NEOSSNET_SOURCE_DIR.is_dir()
+    else EXTERNAL_NEOSSNET_SOURCE_DIR
+)
 MODEL_SAMPLE_RATE = 4000
 
 
@@ -41,10 +47,20 @@ def ensure_required_files(model_path: Path, model_config_path: Path) -> None:
     ]
     for path in required_paths:
         if not path.exists():
-            raise FileNotFoundError(f"Required NeoSSNet file is missing: {path}")
+            try:
+                display_path = path.relative_to(PROJECT_ROOT)
+            except ValueError:
+                display_path = path
+            raise FileNotFoundError(
+                f"Required NeoSSNet file is missing: {display_path}"
+            )
 
     if model_path.stat().st_size == 0:
-        raise ValueError(f"NeoSSNet checkpoint is empty: {model_path}")
+        try:
+            display_path = model_path.relative_to(PROJECT_ROOT)
+        except ValueError:
+            display_path = model_path
+        raise ValueError(f"NeoSSNet checkpoint is empty: {display_path}")
 
 
 def load_wav_for_neossnet(input_path: Path):

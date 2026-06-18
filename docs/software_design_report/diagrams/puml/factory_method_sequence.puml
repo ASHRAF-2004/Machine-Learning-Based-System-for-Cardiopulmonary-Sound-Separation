@@ -1,27 +1,29 @@
 @startuml
-' Factory Method Pattern sequence diagram.
+' Factory Method Pattern sequence diagram for algorithm selection.
 ' Suggested LaTeX placement: normal page.
 
 skinparam shadowing false
 autonumber
 
-participant "UploadRouter\n(Client)" as Router
-participant "AudioValidatorFactory\n(Creator)" as Factory
-participant "WavAudioValidatorFactory\n(ConcreteCreator)" as WavFactory
-participant "AudioValidator\n(Product)" as Product
-participant "WavAudioValidator\n(ConcreteProduct)" as WavValidator
+participant "SeparationService\n(Client)" as Service
+participant "Model\n(SQLite Record)" as Model
+participant "SeparationAlgorithmFactory\n(Creator)" as Factory
+participant "SeparationAlgorithm\n(Product)" as Product
+participant "NeoSSNetStrategy\n(ConcreteProduct)" as NeoSSNet
+participant "SeparationEngine\n(Context)" as Engine
 
-Router -> Router : receive uploaded file
-Router -> Factory : create_validator(file.filename)
-
-Factory -> WavFactory : create_validator(file.filename)
-WavFactory -> WavValidator : <<create>>
-WavValidator --> WavFactory : validator instance
-WavFactory --> Factory : validator as AudioValidator
-Factory --> Router : AudioValidator
-Router -> Product : validate(upload_file)
-Product -> WavValidator : runtime dispatch
-WavValidator --> Product : validation result
-Product --> Router : valid WAV
+Service -> Model : read architecture = "NeoSSNet"
+Service -> Factory : create_algorithm(model)
+Factory -> Factory : lookup registry by model.architecture
+Factory -> NeoSSNet : <<create>>
+NeoSSNet --> Factory : strategy instance
+Factory --> Service : SeparationAlgorithm
+Service -> Engine : SeparationEngine(algorithm)
+Service -> Engine : separate(...)
+Engine -> Product : separate(...)
+Product -> NeoSSNet : runtime dispatch
+NeoSSNet --> Product : SeparationAlgorithmResult
+Product --> Engine : heart/lung metadata
+Engine --> Service : SeparationAlgorithmResult
 
 @enduml

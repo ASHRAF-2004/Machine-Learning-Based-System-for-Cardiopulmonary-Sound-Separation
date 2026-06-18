@@ -23,21 +23,19 @@ The system is designed for local academic demonstration, testing, and research w
 ```text
 app/
   database/              SQLite connection helpers
-  ml/                    NeoSSNet inference wrapper
+  ml/                    NeoSSNet inference wrapper and vendored source
   models/                SQLAlchemy database models
   routers/               FastAPI route modules
   services/              Upload, separation, and result business logic
   static/                CSS and JavaScript for the browser UI
   templates/             FastAPI/Jinja2 HTML templates
 database/
-  cardiopulmonary.db     Local SQLite database
+  cardiopulmonary.db     Local SQLite database, auto-created at startup
   schema.sql             Database schema
   seed.sql               Seed data reference
 datasets/
   hls_cmds/              HLS-CMDS dataset folders
 docs/                    Project explanation and demo notes
-external/
-  neossnet_source/       External NeoSSNet source implementation
 sample_inputs/           Small sample WAV files for testing
 scripts/                 Project validation and inference test scripts
 storage/
@@ -61,6 +59,12 @@ python -m pip install -r requirements.txt
 ```
 
 If PyTorch installation fails on your machine, install the correct CPU build from the official PyTorch installation command for your Python version, then run `python -m pip install -r requirements.txt` again.
+
+The app automatically creates `database/cardiopulmonary.db` and required `storage/` folders when FastAPI starts. If you want to initialize them manually first, run:
+
+```powershell
+python scripts/init_db.py
+```
 
 ## How To Run
 
@@ -144,10 +148,10 @@ Dataset junk files such as `.DS_Store`, `._*`, and `__MACOSX` should not be kept
 
 ## Model Files Notes
 
-NeoSSNet source code is stored in:
+NeoSSNet source code used by the FastAPI app is stored in:
 
 ```text
-external/neossnet_source/
+app/ml/neossnet_source/
 ```
 
 The active model entry in `database/cardiopulmonary.db` should point to:

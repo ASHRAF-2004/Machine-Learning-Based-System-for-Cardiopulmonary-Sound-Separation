@@ -1,7 +1,7 @@
 \chapter{Proposed Design Patterns}
 \sloppy
 
-This chapter documents three design patterns used in the cardiopulmonary sound separation system. The roles are intentionally separated so that each pattern has its own purpose and its own main classes. \texttt{SeparationService} is explained only as the Facade. \texttt{SeparationEngine} is explained as the Strategy Context. \texttt{AudioValidatorFactory} is explained as the Factory Method Creator for upload validation, and \texttt{WavAudioValidatorFactory} is explained as the ConcreteCreator. The model-selection helper \texttt{ModelStrategyResolver} supports choosing an implemented algorithm from a database model record, but it is not the Factory Method pattern discussed in this report.
+This chapter documents three design patterns used in the cardiopulmonary sound separation system. The roles are intentionally separated so that each pattern has its own purpose and its own main classes. \texttt{SeparationService} is explained as the Facade. \texttt{SeparationEngine} is explained as the Strategy Context. \texttt{SeparationAlgorithmFactory} is explained as the Factory Method Creator that creates the correct separation strategy from a selected SQLite model record. \texttt{ModelStrategyResolver} remains only as a compatibility name for older code and tests.
 
 \section{Facade Pattern}
 
@@ -183,7 +183,7 @@ The affected component is the ML inference boundary under \texttt{app/ml/}. The 
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-\texttt{SeparationService} obtains the selected model and asks \texttt{ModelStrategyResolver} for a matching \texttt{SeparationAlgorithm}. The resolver is only a model-selection helper. \texttt{SeparationService} passes the algorithm to \texttt{SeparationEngine}. The engine calls \texttt{algorithm.separate(...)} with the uploaded WAV path, model checkpoint path, model configuration path, and heart/lung output paths. \texttt{NeoSSNetStrategy} then calls the existing NeoSSNet inference function and returns output metadata.
+\texttt{SeparationService} obtains the selected model and asks \texttt{SeparationAlgorithmFactory} for a matching \texttt{SeparationAlgorithm}. The service passes the algorithm to \texttt{SeparationEngine}. The engine calls \texttt{algorithm.separate(...)} with the uploaded WAV path, model checkpoint path, model configuration path, and heart/lung output paths. \texttt{NeoSSNetStrategy} then calls the existing NeoSSNet inference function and returns output metadata.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -246,21 +246,19 @@ The current prototype mainly runs NeoSSNet, so the strategy layer must remain sm
 
 \section{Factory Method Pattern}
 
-The Factory Method Pattern creates products through a creator hierarchy instead of forcing the client to instantiate concrete products directly \parencite{gamma1994designpatterns}. In this project, the pattern is used for upload audio validation.
+The Factory Method Pattern creates products through a creator class instead of forcing the client to instantiate concrete products directly \parencite{gamma1994designpatterns}. In this project, the pattern is used in the separation workflow to create the correct separation algorithm strategy from the selected SQLite model record.
 
 \subsection{Pattern Type}
 
-The Factory Method Pattern is a creational design pattern. It focuses on object creation while allowing the client to work with a product interface.
+The Factory Method Pattern is a creational design pattern. It separates object creation from business workflow logic.
 
 \subsection{Problem}
 
-The upload route must validate files before saving them. If \texttt{UploadRouter} directly hardcodes every validation class, adding another supported audio validator later would make the route grow and mix request handling with validation object creation.
+\texttt{SeparationService} should not hardcode \texttt{NeoSSNetStrategy} directly inside the separation workflow. The workflow must remain stable when another implemented separation model is added later. If strategy creation is spread throughout the service, adding a new model would require changing the workflow itself.
 
 \subsection{Solution}
 
-\texttt{UploadRouter} works with the \texttt{AudioValidatorFactory} creator abstraction and uses \texttt{WavAudioValidatorFactory} as the current concrete creator. \texttt{WavAudioValidatorFactory} implements the factory method and creates a \texttt{WavAudioValidator}. The created validator is returned through the \texttt{AudioValidator} product interface, so the upload route does not directly instantiate the concrete validator.
-
-The current design has only one concrete creator because the prototype currently supports WAV audio uploads only. This still demonstrates the GoF Factory Method structure, because the pattern is defined by the relationship between a Creator, Product, ConcreteCreator, and ConcreteProduct, not by the number of concrete creators already implemented. \texttt{WavAudioValidatorFactory} is therefore the only concrete creator needed at this stage. The design remains extensible because another concrete creator can be added later for another supported audio format without changing \texttt{UploadRouter}'s dependency on the creator and product abstractions. The diagram does not add fake future validators merely to increase the number of classes, and the design should not be described as a Simple Factory.
+\texttt{SeparationAlgorithmFactory} provides the factory method \texttt{create\_algorithm(model)}. It reads the selected model record, checks the model architecture, and returns a \texttt{SeparationAlgorithm}. The current concrete product is \texttt{NeoSSNetStrategy}. \texttt{ModelStrategyResolver} remains as a compatibility name that inherits from \texttt{SeparationAlgorithmFactory}, but new documentation and demos should refer to \texttt{SeparationAlgorithmFactory}.
 
 \subsection{Structure}
 
@@ -273,10 +271,9 @@ The current design has only one concrete creator because the prototype currently
 
 \begin{enumerate}
   \item \textbf{Client:} The code that needs a product but should not create the concrete product directly.
-  \item \textbf{Creator:} The class that declares the factory method for creating a product.
-  \item \textbf{ConcreteCreator:} The class that implements the factory method for a specific product.
+  \item \textbf{Creator:} The class that declares the factory method.
   \item \textbf{Product:} The interface returned to the client.
-  \item \textbf{ConcreteProduct:} The actual validation implementation created by the creator.
+  \item \textbf{ConcreteProduct:} The implementation created by the factory method.
 \end{enumerate}
 
 \subsection{Participants / Structure Explanation}
@@ -286,15 +283,15 @@ The current design has only one concrete creator because the prototype currently
   \small
   \caption{Factory Method Pattern Mapping}
   \label{tab:factory-method-mapping}
-  \begin{tabularx}{\textwidth}{p{0.28\textwidth} p{0.28\textwidth} Y}
+  \begin{tabularx}{\textwidth}{p{0.28\textwidth} p{0.30\textwidth} Y}
     \toprule
     \textbf{Pattern Participant} & \textbf{Project Class} & \textbf{Role in This Project} \\
     \midrule
-    Client & \texttt{UploadRouter} & Requests a validator before saving the uploaded file. \\
-    Creator & \texttt{AudioValidatorFactory} & Declares the \texttt{create\_validator(filename)} factory method. \\
-    ConcreteCreator & {\footnotesize\texttt{WavAudioValidatorFactory}} & Implements the factory method and creates WAV validators. \\
-    Product & \texttt{AudioValidator} & Defines the \texttt{validate(upload\_file)} operation. \\
-    ConcreteProduct & \texttt{WavAudioValidator} & Validates WAV extension and header. \\
+    Client & \texttt{SeparationService} & Requests the correct separation algorithm for the selected model record. \\
+    Creator & \texttt{SeparationAlgorithmFactory} & Declares and implements \texttt{create\_algorithm(model)}. \\
+    Product & \texttt{SeparationAlgorithm} & Defines the common \texttt{separate(...)} operation used by the engine. \\
+    ConcreteProduct & \texttt{NeoSSNetStrategy} & Runs the current real NeoSSNet inference path. \\
+    Compatibility Creator & \texttt{ModelStrategyResolver} & Keeps older code/tests working while delegating to the factory implementation. \\
     \bottomrule
   \end{tabularx}
 \end{table}
@@ -303,11 +300,11 @@ The current design has only one concrete creator because the prototype currently
 
 \subsubsection{i. Function or Software Component Affected}
 
-The affected component is the upload workflow in \texttt{app/routers/upload.py} and \texttt{app/services/audio\_validation.py}. \texttt{UploadRouter} is the only Factory Method client, and the storage service saves the file only after validation succeeds.
+The affected component is model-selection support in \texttt{app/services/separation\_algorithm\_factory.py} and the separation workflow in \texttt{app/services/separation\_service.py}. The factory creates the strategy object before \texttt{SeparationEngine} runs the algorithm.
 
 \subsubsection{ii. Description of Workflow or Data Flow}
 
-The user uploads a file through the browser. \texttt{UploadRouter} holds an \texttt{AudioValidatorFactory} reference backed by \texttt{WavAudioValidatorFactory}. The route calls \texttt{create\_validator(file.filename)} on the creator reference. \texttt{WavAudioValidatorFactory} creates \texttt{WavAudioValidator}, and the route then calls \texttt{validator.validate(file)} through the \texttt{AudioValidator} interface. If validation fails, the route returns a bad request response. If validation succeeds, the file is saved by \texttt{StorageService} and an \texttt{UploadedAudio} record is inserted into SQLite.
+The user starts separation for an uploaded audio record. \texttt{SeparationService} loads the selected or active \texttt{Model} row from SQLite. It then calls \texttt{SeparationAlgorithmFactory.create\_algorithm(model)}. The factory reads \texttt{model.architecture}. For the current active row, the architecture is \texttt{NeoSSNet}, so the factory creates and returns \texttt{NeoSSNetStrategy}. The service passes that product to \texttt{SeparationEngine}, which calls the strategy through the shared \texttt{SeparationAlgorithm} interface.
 
 \subsubsection{iii. Sample Class Diagram}
 
@@ -330,52 +327,37 @@ The user uploads a file through the browser. \texttt{UploadRouter} holds an \tex
 \subsubsection{v. Sample Potential Code}
 
 \begin{lstlisting}[caption={Factory Method Pattern Code Example}]
-class AudioValidator(Protocol):
-    # Product: AudioValidator defines the validation interface.
-    async def validate(self, upload_file) -> None:
-        ...
+class SeparationAlgorithmFactory:
+    # Creator: creates the correct product from a model record.
+    _registry = {"neossnet": NeoSSNetStrategy}
+
+    @classmethod
+    def create_algorithm(cls, model):
+        strategy_class = cls._registry[model.architecture.lower()]
+        return strategy_class()
 
 
-class WavAudioValidator:
-    # ConcreteProduct: WavAudioValidator validates WAV files.
-    async def validate(self, upload_file) -> None:
-        if not upload_file.filename.lower().endswith(".wav"):
-            raise ValueError("Only .wav audio files are accepted.")
-        header = await upload_file.read(12)
-        if header[:4] != b"RIFF" or header[8:12] != b"WAVE":
-            raise ValueError("Uploaded file is not a valid WAV file.")
-        await upload_file.seek(0)
+class NeoSSNetStrategy:
+    # ConcreteProduct: implements SeparationAlgorithm.
+    def separate(self, input_wav_path, model_path, model_config_path,
+                 heart_output_path, lung_output_path, device_name="cpu"):
+        return run_neossnet_inference(...)
 
 
-class AudioValidatorFactory:
-    # Creator: AudioValidatorFactory declares the factory method.
-    def create_validator(self, filename: str) -> AudioValidator:
-        raise NotImplementedError
-
-
-class WavAudioValidatorFactory(AudioValidatorFactory):
-    # ConcreteCreator: WavAudioValidatorFactory creates WAV validators.
-    def create_validator(self, filename: str) -> AudioValidator:
-        if filename.lower().endswith(".wav"):
-            return WavAudioValidator()
-        raise ValueError("Only .wav audio files are accepted.")
-
-
-class UploadRouter:
-    # Client: UploadRouter asks the Creator for a validator.
-    async def upload_audio(self, file, db):
-        creator: AudioValidatorFactory = WavAudioValidatorFactory()
-        validator = creator.create_validator(file.filename)
-        await validator.validate(file)
-        return await StorageService.save_uploaded_wav(file)
+class SeparationService:
+    # Client: asks the factory for a product, then uses it through the engine.
+    def separate_uploaded_audio(self, db, audio_id, model_id=None):
+        model = model_service.get_model_for_separation(db, model_id)
+        algorithm = SeparationAlgorithmFactory.create_algorithm(model)
+        engine = SeparationEngine(algorithm=algorithm)
+        return engine.separate(...)
 \end{lstlisting}
 
 \subsubsection{vi. Benefits}
 
-The Factory Method keeps upload validation creation separate from request handling. It also makes the validation responsibility clear in the UML: \texttt{UploadRouter} uses a Creator and Product interface, while \texttt{WavAudioValidatorFactory} creates the concrete WAV validator. Model selection remains a separate helper and is not used as the Factory Method example.
+The Factory Method keeps strategy creation separate from the separation workflow. It makes the system easier to extend because a new model mainly requires a new strategy class and a new factory registry entry, while the upload, separation, result, download, and history workflow can remain unchanged.
 
 \subsubsection{vii. Limitations}
 
-Only WAV validation is currently supported, so the factory is intentionally simple. The pattern is still useful because it gives the upload workflow a clear extension point without adding unnecessary framework complexity.
-
+The current prototype has only one real concrete product, \texttt{NeoSSNetStrategy}. The factory should therefore remain small. Adding unnecessary factory layers would make the student prototype harder to explain without improving the current working system.
 \fussy

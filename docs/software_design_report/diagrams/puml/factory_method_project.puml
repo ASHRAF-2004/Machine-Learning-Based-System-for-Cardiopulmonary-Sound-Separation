@@ -1,36 +1,44 @@
 @startuml
-' Factory Method Pattern adapted to upload audio validation.
+' Factory Method Pattern adapted to separation algorithm selection.
 ' Suggested LaTeX placement: normal page.
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
 
-class UploadRouter <<Client>> {
-  +upload_audio(file)
+class SeparationService <<Client>> {
+  +separate_uploaded_audio(db, audio_id, model_id)
 }
 
-class AudioValidatorFactory <<Creator>> {
-  +create_validator(filename) : AudioValidator
+class SeparationAlgorithmFactory <<Creator>> {
+  +create_algorithm(model) : SeparationAlgorithm
 }
 
-class WavAudioValidatorFactory <<ConcreteCreator>> {
-  +create_validator(filename) : AudioValidator
+class ModelStrategyResolver <<CompatibilityCreator>> {
+  +create_algorithm(model) : SeparationAlgorithm
+  +resolve(model) : SeparationAlgorithm
 }
 
-interface AudioValidator <<Product>> {
-  +validate(upload_file)
+interface SeparationAlgorithm <<Product>> {
+  +separate(...)
 }
 
-class WavAudioValidator <<ConcreteProduct>> {
-  +validate(upload_file)
+class NeoSSNetStrategy <<ConcreteProduct>> {
+  +separate(...)
 }
 
-UploadRouter --> AudioValidatorFactory : create_validator(file.filename)
-WavAudioValidatorFactory --|> AudioValidatorFactory
-AudioValidatorFactory ..> AudioValidator : creates
-WavAudioValidatorFactory ..> WavAudioValidator : creates
-WavAudioValidator ..|> AudioValidator
-UploadRouter --> AudioValidator : validate(file)
+class Model <<Model Record>> {
+  +architecture
+  +checkpoint_path
+  +config_path
+}
+
+SeparationService --> SeparationAlgorithmFactory : create_algorithm(model)
+ModelStrategyResolver --|> SeparationAlgorithmFactory
+SeparationAlgorithmFactory ..> Model : reads architecture
+SeparationAlgorithmFactory ..> SeparationAlgorithm : creates
+SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates for NeoSSNet
+NeoSSNetStrategy ..|> SeparationAlgorithm
+SeparationService --> SeparationAlgorithm : passes to SeparationEngine
 
 @enduml

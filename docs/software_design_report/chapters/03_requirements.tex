@@ -77,7 +77,7 @@ The same idea applies to data storage. Runtime upload folders, generated output 
 
 \subsection{Information Hiding}
 
-Information hiding means that internal implementation details are kept inside the module or class responsible for them. File validation rules should stay inside the upload validation component, storage paths should stay inside \texttt{StorageService}, model lookup should stay inside \texttt{ModelService}, and model-to-strategy resolution should stay inside \texttt{ModelStrategy\allowbreak Resolver}. NeoSSNet inference details should stay inside \texttt{NeoSSNet\allowbreak Strategy} and the existing NeoSSNet inference function, while \texttt{SeparationEngine} only sees the shared \texttt{Separation\allowbreak Algorithm} interface.
+Information hiding means that internal implementation details are kept inside the module or class responsible for them. File validation rules should stay inside the upload validation component, storage paths should stay inside \texttt{StorageService}, model lookup should stay inside \texttt{ModelService}, and model-to-strategy creation should stay inside \texttt{SeparationAlgorithm\allowbreak Factory}. NeoSSNet inference details should stay inside \texttt{NeoSSNet\allowbreak Strategy} and the existing NeoSSNet inference function, while \texttt{SeparationEngine} only sees the shared \texttt{Separation\allowbreak Algorithm} interface.
 
 This protects the rest of the system from unnecessary implementation knowledge. For example, the route does not need to know where the checkpoint file is stored or how the strategy calls the underlying inference function; it only needs the job result returned by the service.
 
@@ -147,7 +147,7 @@ class NeoSSNetStrategy:
         return run_neossnet_inference(...)
 \end{lstlisting}
 
-The open part is the set of concrete \texttt{SeparationAlgorithm} implementations. The closed part is \texttt{SeparationEngine}; it can keep the same call structure while a future real algorithm is added through a new strategy class and model-strategy resolver registration.
+The open part is the set of concrete \texttt{SeparationAlgorithm} implementations. The closed part is \texttt{SeparationEngine}; it can keep the same call structure while a future real algorithm is added through a new strategy class and \texttt{SeparationAlgorithmFactory} registration.
 
 \subsection{L -- Liskov Substitution Principle (LSP)}
 
@@ -237,7 +237,7 @@ class SeparationEngine:
         return self.algorithm.separate(**paths)
 
 
-algorithm = ModelStrategyResolver.resolve(selected_model)
+algorithm = SeparationAlgorithmFactory.create_algorithm(selected_model)
 engine = SeparationEngine(algorithm)
 \end{lstlisting}
 

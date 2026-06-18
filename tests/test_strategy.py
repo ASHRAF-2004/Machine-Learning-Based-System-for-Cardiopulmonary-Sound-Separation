@@ -7,6 +7,8 @@ from app.ml import neossnet_strategy as neossnet_strategy_module
 from app.ml.neossnet_strategy import NeoSSNetStrategy
 from app.ml.separation_algorithm import SeparationAlgorithmResult
 from app.ml.separation_engine import SeparationEngine
+from app.models.db_models import Model
+from app.services.separation_algorithm_factory import SeparationAlgorithmFactory
 
 
 class RecordingAlgorithm:
@@ -104,3 +106,18 @@ def test_neossnet_strategy_wraps_real_inference_boundary(monkeypatch) -> None:
     assert calls["model_path"] == Path("neossnet.pth")
     assert calls["model_config_path"] == Path("neossnet.yaml")
     assert result.output_shape == (1, 2, 4000)
+
+
+def test_separation_algorithm_factory_creates_neossnet_strategy() -> None:
+    model = Model(
+        model_name="NeoSSNet",
+        version="1.0",
+        architecture="NeoSSNet",
+        framework="PyTorch",
+        checkpoint_path="storage/ml_models/model_best.pt",
+        config_path="storage/ml_models/model.yaml",
+    )
+
+    algorithm = SeparationAlgorithmFactory.create_algorithm(model)
+
+    assert isinstance(algorithm, NeoSSNetStrategy)

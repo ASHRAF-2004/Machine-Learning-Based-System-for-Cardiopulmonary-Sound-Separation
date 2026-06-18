@@ -1,9 +1,9 @@
 """Standalone NeoSSNet inference smoke test.
 
 This script intentionally does not import or modify the FastAPI app. It uses the
-external NeoSSNet source in external/neossnet_source to load model_best.pt and
-model.yaml, run real CPU inference on sample_inputs/H0001.wav, and save the two
-separated output WAV files.
+vendored NeoSSNet source in app/ml/neossnet_source to load model_best.pt and
+model.yaml, run real CPU inference on sample_inputs/H0001.wav, and save the
+two separated output WAV files.
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-NEOSSNET_SOURCE_DIR = PROJECT_ROOT / "external" / "neossnet_source"
+NEOSSNET_SOURCE_DIR = PROJECT_ROOT / "app" / "ml" / "neossnet_source"
 MODEL_PATH = PROJECT_ROOT / "storage" / "ml_models" / "model_best.pt"
 MODEL_CONFIG_PATH = PROJECT_ROOT / "storage" / "ml_models" / "model.yaml"
 INPUT_WAV_PATH = PROJECT_ROOT / "sample_inputs" / "H0001.wav"

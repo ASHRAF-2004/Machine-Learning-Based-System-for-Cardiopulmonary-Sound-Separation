@@ -9,7 +9,7 @@ The main architecture is intentionally simple:
 - FastAPI handles HTTP routes and serves the template frontend.
 - SQLite stores structured metadata, job state, result paths, and timing.
 - The filesystem stores large WAV files, model files, and dataset files.
-- NeoSSNet performs real PyTorch inference using the external implementation under `external/neossnet_source/`.
+- NeoSSNet performs real PyTorch inference using the vendored implementation under `app/ml/neossnet_source/`.
 
 ## Frontend
 
@@ -52,9 +52,9 @@ Routes stay thin. They validate request-level concerns, call service functions, 
 Service modules contain the core behavior:
 
 - `storage_service.py` validates uploaded WAV files, saves them to `storage/uploads/raw/`, and extracts basic WAV metadata.
-- `separation_service.py` creates separation jobs, loads the active model record, runs NeoSSNet inference, stores output metadata, and marks jobs as completed or failed.
+- `separation_service.py` creates separation jobs, loads the active model record, asks the separation algorithm factory for the correct strategy, runs NeoSSNet inference, stores output metadata, writes system logs, and marks jobs as completed or failed.
 - `result_service.py` reads job details, resolves download paths, and returns recent history.
-- `neossnet_inference.py` wraps the external NeoSSNet implementation and handles WAV loading, mono conversion, resampling to 4000 Hz when needed, inference, and WAV saving.
+- `neossnet_inference.py` wraps the vendored NeoSSNet implementation and handles WAV loading, mono conversion, resampling to 4000 Hz when needed, inference, and WAV saving.
 
 ## Database
 
@@ -115,14 +115,17 @@ The working inference flow is:
 5. `POST /separate/{audio_id}` receives the uploaded audio ID.
 6. `separation_service.py` loads the uploaded audio record.
 7. The active NeoSSNet model row is loaded from the `model` table.
-8. A `separation_job` row is created with status `running`.
-9. `neossnet_inference.py` loads the uploaded WAV as mono float audio.
-10. If needed, the waveform is resampled to the model sample rate of 4000 Hz.
-11. The external NeoSSNet `generate_output` function runs real CPU inference.
-12. Heart and lung WAV outputs are saved to `storage/outputs/heart/` and `storage/outputs/lung/`.
-13. A `separation_result` row is inserted with output paths and metadata.
-14. The `separation_job` row is marked `completed`.
-15. The API returns the job ID, status, output paths, and processing time.
+8. `SeparationAlgorithmFactory` creates the correct separation strategy for the selected model architecture.
+9. A `separation_job` row is created with status `running`.
+10. A `system_log` row records that separation started.
+11. `neossnet_inference.py` loads the uploaded WAV as mono float audio.
+12. If needed, the waveform is resampled to the model sample rate of 4000 Hz.
+13. The vendored NeoSSNet `generate_output` function runs real CPU inference.
+14. Heart and lung WAV outputs are saved to `storage/outputs/heart/` and `storage/outputs/lung/`.
+15. A `separation_result` row is inserted with output paths and metadata.
+16. The `separation_job` row is marked `completed`.
+17. A `system_log` row records that separation completed.
+18. The API returns the job ID, status, output paths, and processing time.
 
 If inference fails, the job is marked `failed` and the error message is stored in `separation_job.error_message`.
 
@@ -133,10 +136,10 @@ Browser UI
   -> POST /upload
   -> uploaded_audio row + stored WAV
   -> POST /separate/{audio_id}
-  -> separation_job row
+  -> separation_job row + started system_log row
   -> NeoSSNet inference
   -> output WAV files
-  -> separation_result row
+  -> separation_result row + completed system_log row
   -> GET /result/{job_id}
   -> GET /download/{job_id}/heart
   -> GET /download/{job_id}/lung

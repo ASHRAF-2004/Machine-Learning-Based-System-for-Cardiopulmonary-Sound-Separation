@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.database.db import Base
 from app.ml.separation_algorithm import SeparationAlgorithmResult
-from app.models.db_models import Model, SeparationJob, UploadedAudio
+from app.models.db_models import Model, SeparationJob, SystemLog, UploadedAudio
 from app.services import separation_service, storage_service
 
 
@@ -132,12 +132,22 @@ def test_separation_uses_active_model_by_default(db_session) -> None:
     )
 
     job = db.get(SeparationJob, response.job_id)
+    logs = (
+        db.query(SystemLog)
+        .filter(SystemLog.job_id == response.job_id)
+        .order_by(SystemLog.created_at.asc(), SystemLog.log_id.asc())
+        .all()
+    )
     assert response.status == "completed"
     assert job is not None
     assert job.model_id == model.model_id
     assert FakeResolver.model_ids == [model.model_id]
     assert response.heart_file_path.endswith(f"{response.job_id}_heart.wav")
     assert response.lung_file_path.endswith(f"{response.job_id}_lung.wav")
+    assert [log.event_type for log in logs] == [
+        "separation_started",
+        "separation_completed",
+    ]
 
 
 def test_separation_accepts_explicit_model_id(db_session) -> None:

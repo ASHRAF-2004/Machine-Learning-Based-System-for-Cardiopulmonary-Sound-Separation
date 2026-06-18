@@ -69,7 +69,32 @@ package "Strategy Pattern" as StrategyPkg #FFF1CC {
 }
 
 package "Factory Method Pattern" as FactoryPkg #E4F7E7 {
-  class UploadRouter <<Client>> {
+  class SeparationAlgorithmFactory <<Creator>> {
+    +create_algorithm(model) : SeparationAlgorithm
+    +resolve(model) : SeparationAlgorithm
+  }
+
+  class ModelStrategyResolver <<CompatibilityCreator>> {
+    +create_algorithm(model) : SeparationAlgorithm
+    +resolve(model) : SeparationAlgorithm
+  }
+}
+
+package "Supporting Components" as SupportPkg #F4F6F8 {
+  class ModelsRouter <<Router Module>> {
+    +available_models()
+  }
+
+  class ResultsRouter <<Router Module>> {
+    +result_details(job_id)
+    +download_heart(job_id)
+    +download_lung(job_id)
+    +history(limit)
+  }
+
+  class DatabaseSession <<SQLAlchemy Session>>
+
+  class UploadRouter <<Router Module>> {
     +upload_audio(file)
   }
 
@@ -88,25 +113,6 @@ package "Factory Method Pattern" as FactoryPkg #E4F7E7 {
   class WavAudioValidator <<ConcreteProduct>> {
     +validate(upload_file)
   }
-}
-
-package "Supporting Components" as SupportPkg #F4F6F8 {
-  class ModelsRouter <<Router Module>> {
-    +available_models()
-  }
-
-  class ResultsRouter <<Router Module>> {
-    +result_details(job_id)
-    +download_heart(job_id)
-    +download_lung(job_id)
-    +history(limit)
-  }
-
-  class ModelStrategyResolver <<Helper>> {
-    +resolve(model) : SeparationAlgorithm
-  }
-
-  class DatabaseSession <<SQLAlchemy Session>>
 }
 
 package "SQLite Data Models" as DataPkg #EAF7EA {
@@ -173,7 +179,7 @@ SeparationRouter --> SeparationService
 SeparationService --> ModelService
 SeparationService --> StorageService
 SeparationService --> ResultService
-SeparationService --> ModelStrategyResolver
+SeparationService --> SeparationAlgorithmFactory
 SeparationService --> SeparationEngine
 SeparationService ..> UploadedAudio
 SeparationService ..> SeparationJob
@@ -181,8 +187,9 @@ SeparationService ..> SeparationResult
 
 SeparationEngine --> SeparationAlgorithm
 NeoSSNetStrategy ..|> SeparationAlgorithm : implements
-ModelStrategyResolver ..> SeparationAlgorithm : resolves
-ModelStrategyResolver ..> NeoSSNetStrategy
+ModelStrategyResolver --|> SeparationAlgorithmFactory
+SeparationAlgorithmFactory ..> SeparationAlgorithm : creates
+SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates
 
 ModelsRouter --> ModelService
 ResultsRouter --> ResultService
@@ -204,7 +211,7 @@ SystemLog "0..*" --> "0..1" SeparationJob
 legend right
   Facade: SeparationRouter -> SeparationService -> service subsystems
   Strategy: SeparationEngine -> SeparationAlgorithm -> NeoSSNetStrategy
-  Factory Method: UploadRouter -> AudioValidatorFactory -> WavAudioValidatorFactory
+  Factory Method: SeparationService -> SeparationAlgorithmFactory -> NeoSSNetStrategy
 endlegend
 
 @enduml

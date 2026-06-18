@@ -123,7 +123,7 @@ If upload fails:
 If separation fails:
 
 - Confirm the active model row in SQLite points to `storage/ml_models/model_best.pt` and `storage/ml_models/model.yaml`.
-- Confirm `external/neossnet_source/` exists.
+- Confirm `app/ml/neossnet_source/` exists.
 - Run `python scripts/test_neossnet_inference.py` to isolate the ML inference path from the web app.
 
 If downloads fail:

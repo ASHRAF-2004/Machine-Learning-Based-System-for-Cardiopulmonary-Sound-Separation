@@ -77,15 +77,60 @@ storage/ml_models/*.ckpt
 !storage/ml_models/
 !storage/ml_models/.gitkeep
 !storage/ml_models/model.yaml
+!storage/ml_models/model_best.pt
 
 # =========================
 # Datasets
 # =========================
-datasets/*
+datasets/hls_cmds/raw/HS/*
+datasets/hls_cmds/raw/LS/*
+datasets/hls_cmds/raw/Mix/*
+datasets/hls_cmds/metadata/*
+datasets/hls_cmds/processed/train/heart/*
+datasets/hls_cmds/processed/train/lung/*
+datasets/hls_cmds/processed/train/mixed/*
+datasets/hls_cmds/processed/val/heart/*
+datasets/hls_cmds/processed/val/lung/*
+datasets/hls_cmds/processed/val/mixed/*
+datasets/hls_cmds/processed/test/heart/*
+datasets/hls_cmds/processed/test/lung/*
+datasets/hls_cmds/processed/test/mixed/*
 
-# Keep dataset folder placeholder only
+# Keep dataset folder placeholders only
 !datasets/
 !datasets/.gitkeep
+!datasets/hls_cmds/
+!datasets/hls_cmds/raw/
+!datasets/hls_cmds/raw/HS/
+!datasets/hls_cmds/raw/HS/.gitkeep
+!datasets/hls_cmds/raw/LS/
+!datasets/hls_cmds/raw/LS/.gitkeep
+!datasets/hls_cmds/raw/Mix/
+!datasets/hls_cmds/raw/Mix/.gitkeep
+!datasets/hls_cmds/metadata/
+!datasets/hls_cmds/metadata/.gitkeep
+!datasets/hls_cmds/processed/
+!datasets/hls_cmds/processed/train/
+!datasets/hls_cmds/processed/train/heart/
+!datasets/hls_cmds/processed/train/heart/.gitkeep
+!datasets/hls_cmds/processed/train/lung/
+!datasets/hls_cmds/processed/train/lung/.gitkeep
+!datasets/hls_cmds/processed/train/mixed/
+!datasets/hls_cmds/processed/train/mixed/.gitkeep
+!datasets/hls_cmds/processed/val/
+!datasets/hls_cmds/processed/val/heart/
+!datasets/hls_cmds/processed/val/heart/.gitkeep
+!datasets/hls_cmds/processed/val/lung/
+!datasets/hls_cmds/processed/val/lung/.gitkeep
+!datasets/hls_cmds/processed/val/mixed/
+!datasets/hls_cmds/processed/val/mixed/.gitkeep
+!datasets/hls_cmds/processed/test/
+!datasets/hls_cmds/processed/test/heart/
+!datasets/hls_cmds/processed/test/heart/.gitkeep
+!datasets/hls_cmds/processed/test/lung/
+!datasets/hls_cmds/processed/test/lung/.gitkeep
+!datasets/hls_cmds/processed/test/mixed/
+!datasets/hls_cmds/processed/test/mixed/.gitkeep
 
 # =========================
 # Research paper source files
@@ -97,7 +142,13 @@ docs/Referances/
 # =========================
 # External cloned repositories and local tools
 # =========================
-external/
+external/*
+!external/neossnet_source/
+!external/neossnet_source/README.md
+!external/neossnet_source/models/
+!external/neossnet_source/models/*.py
+!external/neossnet_source/utils/
+!external/neossnet_source/utils/__init__.py
 tools/
 *.jar
 

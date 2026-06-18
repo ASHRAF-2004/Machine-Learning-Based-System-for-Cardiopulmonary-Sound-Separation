@@ -56,7 +56,10 @@ async def upload_audio(
         remove_saved_file(stored_audio.absolute_path)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Audio file was saved, but the database insert failed.",
+            detail=(
+                "Audio file was saved, but the database insert failed. "
+                "The saved upload was removed."
+            ),
         ) from error
 
     return {

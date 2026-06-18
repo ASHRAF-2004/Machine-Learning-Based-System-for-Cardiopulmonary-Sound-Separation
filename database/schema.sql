@@ -1,6 +1,6 @@
   PRAGMA foreign_keys = ON;
 
-  CREATE TABLE uploaded_audio (
+  CREATE TABLE IF NOT EXISTS uploaded_audio (
       uploaded_audio_id INTEGER PRIMARY KEY,
       original_filename TEXT NOT NULL,
       stored_path TEXT NOT NULL UNIQUE,
@@ -15,7 +15,7 @@
       notes TEXT
   );
 
-  CREATE TABLE model (
+  CREATE TABLE IF NOT EXISTS model (
       model_id INTEGER PRIMARY KEY,
       model_name TEXT NOT NULL,
       version TEXT NOT NULL,
@@ -29,7 +29,7 @@
       UNIQUE (model_name, version)
   );
 
-  CREATE TABLE separation_job (
+  CREATE TABLE IF NOT EXISTS separation_job (
       job_id INTEGER PRIMARY KEY,
       uploaded_audio_id INTEGER NOT NULL,
       model_id INTEGER NOT NULL,
@@ -52,7 +52,7 @@
           ON DELETE RESTRICT
   );
 
-  CREATE TABLE separation_result (
+  CREATE TABLE IF NOT EXISTS separation_result (
       result_id INTEGER PRIMARY KEY,
       job_id INTEGER NOT NULL UNIQUE,
       heart_file_path TEXT NOT NULL UNIQUE,
@@ -67,7 +67,7 @@
           ON DELETE CASCADE
   );
 
-  CREATE TABLE evaluation_metric (
+  CREATE TABLE IF NOT EXISTS evaluation_metric (
       metric_id INTEGER PRIMARY KEY,
       result_id INTEGER NOT NULL,
       metric_name TEXT NOT NULL,
@@ -84,7 +84,7 @@
       UNIQUE (result_id, metric_name, metric_scope)
   );
 
-  CREATE TABLE system_log (
+  CREATE TABLE IF NOT EXISTS system_log (
       log_id INTEGER PRIMARY KEY,
       job_id INTEGER,
       log_level TEXT NOT NULL CHECK (
@@ -101,26 +101,26 @@
           ON DELETE CASCADE
   );
 
-  CREATE INDEX idx_uploaded_audio_uploaded_at
+  CREATE INDEX IF NOT EXISTS idx_uploaded_audio_uploaded_at
       ON uploaded_audio(uploaded_at DESC);
 
-  CREATE INDEX idx_separation_job_status_requested
+  CREATE INDEX IF NOT EXISTS idx_separation_job_status_requested
       ON separation_job(status, requested_at DESC);
 
-  CREATE INDEX idx_separation_job_uploaded_audio
+  CREATE INDEX IF NOT EXISTS idx_separation_job_uploaded_audio
       ON separation_job(uploaded_audio_id);
 
-  CREATE INDEX idx_separation_job_model
+  CREATE INDEX IF NOT EXISTS idx_separation_job_model
       ON separation_job(model_id);
 
-  CREATE INDEX idx_separation_result_created_at
+  CREATE INDEX IF NOT EXISTS idx_separation_result_created_at
       ON separation_result(created_at DESC);
 
-  CREATE INDEX idx_evaluation_metric_result_name
+  CREATE INDEX IF NOT EXISTS idx_evaluation_metric_result_name
       ON evaluation_metric(result_id, metric_name);
 
-  CREATE INDEX idx_system_log_job_created_at
+  CREATE INDEX IF NOT EXISTS idx_system_log_job_created_at
       ON system_log(job_id, created_at DESC);
 
-  CREATE INDEX idx_system_log_level_created_at
+  CREATE INDEX IF NOT EXISTS idx_system_log_level_created_at
       ON system_log(log_level, created_at DESC);
