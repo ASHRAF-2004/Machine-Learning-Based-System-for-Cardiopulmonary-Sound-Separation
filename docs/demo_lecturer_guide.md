@@ -270,6 +270,25 @@ storage/outputs/lung/{job_id}_lung.wav
 - Problem solved: the route does not need to manage upload lookup, model lookup, factory selection, output paths, inference, job status, result records, and logs.
 - What to show: `app/routers/separation.py` calls one service function, while `SeparationService` coordinates the workflow.
 
+Project role mapping:
+
+| Facade participant | Project file/class | What to show in the demo |
+| --- | --- | --- |
+| Client | `app/routers/separation.py`, `separate_audio` | The route receives `audio_id` and calls one service function. |
+| Facade | `app/services/separation_service.py`, `SeparationService` | This class coordinates the full separation workflow. |
+| Subsystem: upload lookup | `app/services/separation_service.py`, `get_uploaded_audio` | Gets the uploaded file metadata from SQLite. |
+| Subsystem: model lookup | `app/services/model_service.py`, `get_model_for_separation` | Selects the requested or active model record. |
+| Subsystem: storage paths | `app/services/storage_service.py` | Resolves upload paths and builds heart/lung output paths. |
+| Subsystem: factory | `app/services/separation_algorithm_factory.py`, `SeparationAlgorithmFactory` | Creates the correct separation strategy from `model.architecture`. |
+| Subsystem: strategy context | `app/ml/separation_engine.py`, `SeparationEngine` | Runs the selected strategy through the shared interface. |
+| Subsystem: real ML inference | `app/ml/neossnet_strategy.py` and `app/ml/neossnet_inference.py` | Runs real NeoSSNet inference and writes output audio. |
+| Subsystem: result database update | `app/services/result_service.py`, `create_separation_result` | Inserts heart/lung result paths into SQLite. |
+| Subsystem: job/log update | `app/services/separation_service.py`, `create_running_job`, `add_system_log`, job status update | Inserts/updates job status and separation logs. |
+
+Short lecturer explanation:
+
+> The Facade is not doing every low-level task by itself. It gives the route one simple method, then delegates to smaller subsystems for model selection, storage paths, strategy creation, inference, database result insertion, and logging.
+
 ### Strategy Pattern
 
 - Interface: `app/ml/separation_algorithm.py`, `SeparationAlgorithm`
@@ -277,6 +296,16 @@ storage/outputs/lung/{job_id}_lung.wav
 - Concrete strategy: `app/ml/neossnet_strategy.py`, `NeoSSNetStrategy`
 - Problem solved: the engine can run any future separation algorithm that implements the same `separate(...)` method.
 - What to show: `SeparationEngine` calls `self.algorithm.separate(...)`, not a hardcoded NeoSSNet function.
+
+Project role mapping:
+
+| Strategy participant | Project file/class | What to show in the demo |
+| --- | --- | --- |
+| Client | `app/services/separation_service.py`, `SeparationService` | Creates the engine with the selected algorithm. |
+| Context | `app/ml/separation_engine.py`, `SeparationEngine` | Calls `self.algorithm.separate(...)`. |
+| Strategy interface | `app/ml/separation_algorithm.py`, `SeparationAlgorithm` | Defines the common `separate(...)` operation. |
+| Concrete strategy | `app/ml/neossnet_strategy.py`, `NeoSSNetStrategy` | Implements the interface using real NeoSSNet inference. |
+| Future strategy slot | A future strategy class | A new model can be added without changing the route. |
 
 ### Factory Method Pattern
 
@@ -287,6 +316,16 @@ storage/outputs/lung/{job_id}_lung.wav
 - Concrete product: `NeoSSNetStrategy`
 - Problem solved: the separation workflow does not directly instantiate a concrete model strategy.
 - What to show: the factory reads `model.architecture` and returns the correct strategy object.
+
+Project role mapping:
+
+| Factory Method participant | Project file/class | What to show in the demo |
+| --- | --- | --- |
+| Client | `app/services/separation_service.py`, `SeparationService` | Requests an algorithm for the selected model. |
+| Creator | `app/services/separation_algorithm_factory.py`, `SeparationAlgorithmFactory` | Contains `create_algorithm(model)`. |
+| Product interface | `app/ml/separation_algorithm.py`, `SeparationAlgorithm` | The type returned by the factory. |
+| Concrete product | `app/ml/neossnet_strategy.py`, `NeoSSNetStrategy` | The current product when `model.architecture` is `NeoSSNet`. |
+| Selection data | SQLite `model` table | `architecture`, `checkpoint_path`, and `config_path` control the created strategy and inference files. |
 
 Upload validation also has a small factory method structure:
 
@@ -316,7 +355,7 @@ Showing DBeaver:
 
 Explaining Facade Pattern:
 
-> `SeparationService` is the Facade. The route calls one method, but the service hides model lookup, factory selection, inference, output file creation, database result insertion, and status updates.
+> `SeparationService` is the Facade. The route calls one method, but the service hides the subsystems behind the workflow: model lookup, storage path handling, strategy factory selection, inference, output file creation, database result insertion, job status updates, and logs.
 
 Explaining Strategy Pattern:
 
@@ -329,4 +368,3 @@ Explaining Factory Method Pattern:
 Explaining the sequence workflow:
 
 > The workflow follows the sequence diagram: upload request enters FastAPI, validation and storage happen, upload metadata is inserted, separation request enters FastAPI, `SeparationService` coordinates the workflow, the factory creates the strategy, the engine runs the strategy, NeoSSNet saves outputs, result rows and logs are inserted, and the API returns the completed job.
-
