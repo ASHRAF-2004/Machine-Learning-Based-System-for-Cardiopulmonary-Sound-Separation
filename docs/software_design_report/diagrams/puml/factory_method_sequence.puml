@@ -1,29 +1,29 @@
 @startuml
-' Factory Method Pattern sequence diagram for algorithm selection.
+' Factory Method sequence for upload audio validation.
 ' Suggested LaTeX placement: normal page.
 
 skinparam shadowing false
-autonumber
+skinparam sequenceMessageAlign center
 
-participant "SeparationService\n(Client)" as Service
-participant "Model\n(SQLite Record)" as Model
-participant "SeparationAlgorithmFactory\n(Creator)" as Factory
-participant "SeparationAlgorithm\n(Product)" as Product
-participant "NeoSSNetStrategy\n(ConcreteProduct)" as NeoSSNet
-participant "SeparationEngine\n(Context)" as Engine
+actor User
+participant "UploadRouter\n(Client)" as UploadRouter
+participant "AudioValidatorFactory\n(Creator)" as Creator
+participant "WavAudioValidatorFactory\n(ConcreteCreator)" as ConcreteCreator
+participant "AudioValidator\n(Product)" as Product
+participant "WavAudioValidator\n(ConcreteProduct)" as ConcreteProduct
 
-Service -> Model : read architecture = "NeoSSNet"
-Service -> Factory : create_algorithm(model)
-Factory -> Factory : lookup registry by model.architecture
-Factory -> NeoSSNet : <<create>>
-NeoSSNet --> Factory : strategy instance
-Factory --> Service : SeparationAlgorithm
-Service -> Engine : SeparationEngine(algorithm)
-Service -> Engine : separate(...)
-Engine -> Product : separate(...)
-Product -> NeoSSNet : runtime dispatch
-NeoSSNet --> Product : SeparationAlgorithmResult
-Product --> Engine : heart/lung metadata
-Engine --> Service : SeparationAlgorithmResult
+User -> UploadRouter : Select WAV and submit upload
+UploadRouter -> Creator : create_validator(filename)
+Creator -> ConcreteCreator : dispatch factory method
+ConcreteCreator -> ConcreteProduct : create WavAudioValidator()
+ConcreteCreator --> UploadRouter : return AudioValidator
+UploadRouter -> Product : validate(upload_file)
+Product -> ConcreteProduct : validate WAV extension/header
+UploadRouter --> User : validation accepted
+
+note right of UploadRouter
+  UploadRouter does not instantiate
+  WavAudioValidator directly.
+end note
 
 @enduml

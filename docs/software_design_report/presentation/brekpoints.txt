@@ -1,0 +1,60 @@
+  Factory Method Breakpoints
+  Trigger: select a WAV file and click Upload.
+
+  1. Client
+     app/routers/upload.py:28
+
+     validator = audio_validator_factory.create_validator(file.filename)
+
+  2. Creator
+     app/services/audio_validation.py:47
+
+     suffix = Path(filename or "").suffix.lower()
+
+  3. ConcreteCreator
+     app/services/audio_validation.py:49
+
+     return WavAudioValidator()
+
+  4. Product
+     app/routers/upload.py:29
+
+     await validator.validate(file)
+
+  5. ConcreteProduct
+     app/services/audio_validation.py:23
+
+     filename = Path(upload_file.filename or "").name.strip()
+
+  Continue order should be:
+
+  UploadRouter Client -> AudioValidatorFactory Creator -> WavAudioValidatorFactory ConcreteCreator -> AudioValidator
+  Product -> WavAudioValidator ConcreteProduct
+
+  Do not put the breakpoint on AudioValidatorFactory abstract line 39; it is an interface/abstract method, so VS Code
+  may not stop there.
+
+  Strategy Pattern Breakpoints
+  Trigger: after upload, click Separate / Run Separation.
+
+  1. Context is created
+     app/services/separation_service.py:138
+
+     engine = self.engine_class(algorithm=algorithm, device_name="cpu")
+
+  2. Context calls Strategy
+     app/ml/separation_engine.py:29
+
+     return self.algorithm.separate(
+
+  3. ConcreteStrategy runs
+     app/ml/neossnet_strategy.py:23
+
+     if model_config_path is None:
+
+  Continue order should be:
+
+  SeparationEngine Context -> SeparationAlgorithm Strategy call -> NeoSSNetStrategy ConcreteStrategy
+
+  Do not put the breakpoint inside app/ml/separation_algorithm.py; SeparationAlgorithm is a Protocol interface, so it is
+  not executed directly. The Strategy interface is proven when SeparationEngine calls self.algorithm.separate(...).

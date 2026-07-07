@@ -1,44 +1,44 @@
 @startuml
-' Factory Method Pattern adapted to separation algorithm selection.
+' Factory Method Pattern adapted to upload audio validation.
 ' Suggested LaTeX placement: normal page.
 
+left to right direction
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
-
-class SeparationService <<Client>> {
-  +separate_uploaded_audio(db, audio_id, model_id)
+skinparam nodesep 40
+skinparam ranksep 40
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #333333
+  ArrowColor #333333
 }
 
-class SeparationAlgorithmFactory <<Creator>> {
-  +create_algorithm(model) : SeparationAlgorithm
+class UploadRouter <<Client>> {
+  +upload_audio(file, db)
 }
 
-class ModelStrategyResolver <<CompatibilityCreator>> {
-  +create_algorithm(model) : SeparationAlgorithm
-  +resolve(model) : SeparationAlgorithm
+abstract class AudioValidatorFactory <<Creator>> {
+  +create_validator(filename) : AudioValidator
 }
 
-interface SeparationAlgorithm <<Product>> {
-  +separate(...)
+class WavAudioValidatorFactory <<ConcreteCreator>> {
+  +create_validator(filename) : AudioValidator
 }
 
-class NeoSSNetStrategy <<ConcreteProduct>> {
-  +separate(...)
+interface AudioValidator <<Product>> {
+  +validate(upload_file)
 }
 
-class Model <<Model Record>> {
-  +architecture
-  +checkpoint_path
-  +config_path
+class WavAudioValidator <<ConcreteProduct>> {
+  +validate(upload_file)
 }
 
-SeparationService --> SeparationAlgorithmFactory : create_algorithm(model)
-ModelStrategyResolver --|> SeparationAlgorithmFactory
-SeparationAlgorithmFactory ..> Model : reads architecture
-SeparationAlgorithmFactory ..> SeparationAlgorithm : creates
-SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates for NeoSSNet
-NeoSSNetStrategy ..|> SeparationAlgorithm
-SeparationService --> SeparationAlgorithm : passes to SeparationEngine
+UploadRouter --> AudioValidatorFactory : create_validator()
+UploadRouter --> AudioValidator : validate()
+WavAudioValidatorFactory --|> AudioValidatorFactory
+AudioValidatorFactory ..> AudioValidator : returns
+WavAudioValidatorFactory ..> WavAudioValidator : creates
+WavAudioValidator ..|> AudioValidator
 
 @enduml

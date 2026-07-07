@@ -69,14 +69,24 @@ package "Strategy Pattern" as StrategyPkg #FFF1CC {
 }
 
 package "Factory Method Pattern" as FactoryPkg #E4F7E7 {
-  class SeparationAlgorithmFactory <<Creator>> {
-    +create_algorithm(model) : SeparationAlgorithm
-    +resolve(model) : SeparationAlgorithm
+  class UploadRouter <<Client>> {
+    +upload_audio(file)
   }
 
-  class ModelStrategyResolver <<CompatibilityCreator>> {
-    +create_algorithm(model) : SeparationAlgorithm
-    +resolve(model) : SeparationAlgorithm
+  abstract class AudioValidatorFactory <<Creator>> {
+    +create_validator(filename) : AudioValidator
+  }
+
+  class WavAudioValidatorFactory <<ConcreteCreator>> {
+    +create_validator(filename) : AudioValidator
+  }
+
+  interface AudioValidator <<Product>> {
+    +validate(upload_file)
+  }
+
+  class WavAudioValidator <<ConcreteProduct>> {
+    +validate(upload_file)
   }
 }
 
@@ -93,26 +103,6 @@ package "Supporting Components" as SupportPkg #F4F6F8 {
   }
 
   class DatabaseSession <<SQLAlchemy Session>>
-
-  class UploadRouter <<Router Module>> {
-    +upload_audio(file)
-  }
-
-  class AudioValidatorFactory <<Creator>> {
-    +create_validator(filename) : AudioValidator
-  }
-
-  class WavAudioValidatorFactory <<ConcreteCreator>> {
-    +create_validator(filename) : AudioValidator
-  }
-
-  interface AudioValidator <<Product>> {
-    +validate(upload_file)
-  }
-
-  class WavAudioValidator <<ConcreteProduct>> {
-    +validate(upload_file)
-  }
 }
 
 package "SQLite Data Models" as DataPkg #EAF7EA {
@@ -167,11 +157,12 @@ package "SQLite Data Models" as DataPkg #EAF7EA {
   }
 }
 
-UploadRouter --> AudioValidatorFactory
+UploadRouter --> AudioValidatorFactory : create_validator()
 WavAudioValidatorFactory --|> AudioValidatorFactory
-AudioValidatorFactory ..> AudioValidator : creates
+AudioValidatorFactory ..> AudioValidator : returns Product
 WavAudioValidatorFactory ..> WavAudioValidator : creates
 WavAudioValidator ..|> AudioValidator : implements
+UploadRouter --> AudioValidator : validate()
 UploadRouter --> StorageService
 UploadRouter ..> UploadedAudio
 
@@ -179,7 +170,6 @@ SeparationRouter --> SeparationService
 SeparationService --> ModelService
 SeparationService --> StorageService
 SeparationService --> ResultService
-SeparationService --> SeparationAlgorithmFactory
 SeparationService --> SeparationEngine
 SeparationService ..> UploadedAudio
 SeparationService ..> SeparationJob
@@ -187,9 +177,6 @@ SeparationService ..> SeparationResult
 
 SeparationEngine --> SeparationAlgorithm
 NeoSSNetStrategy ..|> SeparationAlgorithm : implements
-ModelStrategyResolver --|> SeparationAlgorithmFactory
-SeparationAlgorithmFactory ..> SeparationAlgorithm : creates
-SeparationAlgorithmFactory ..> NeoSSNetStrategy : creates
 
 ModelsRouter --> ModelService
 ResultsRouter --> ResultService
@@ -211,7 +198,7 @@ SystemLog "0..*" --> "0..1" SeparationJob
 legend right
   Facade: SeparationRouter -> SeparationService -> service subsystems
   Strategy: SeparationEngine -> SeparationAlgorithm -> NeoSSNetStrategy
-  Factory Method: SeparationService -> SeparationAlgorithmFactory -> NeoSSNetStrategy
+  Factory Method: UploadRouter -> AudioValidatorFactory -> WavAudioValidator
 endlegend
 
 @enduml

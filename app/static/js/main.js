@@ -71,11 +71,22 @@ function formatMs(value) {
     return `${(value / 1000).toFixed(2)} s`;
 }
 
+function parseTimestamp(value) {
+    if (typeof value !== "string") {
+        return new Date(value);
+    }
+
+    const trimmed = value.trim();
+    const normalized = trimmed.includes(" ") ? trimmed.replace(" ", "T") : trimmed;
+    const hasTimezone = /(?:Z|[+-]\d{2}:?\d{2})$/.test(normalized);
+    return new Date(hasTimezone ? normalized : `${normalized}Z`);
+}
+
 function formatDate(value) {
     if (!value) {
         return "No timestamp";
     }
-    const date = new Date(value);
+    const date = parseTimestamp(value);
     if (Number.isNaN(date.getTime())) {
         return value;
     }

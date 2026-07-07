@@ -13,6 +13,7 @@ from app.services.audio_validation import (
     WavAudioValidatorFactory,
 )
 from app.services.storage_service import remove_saved_file, save_uploaded_wav
+from app.services.time_service import current_time_text
 
 
 router = APIRouter(tags=["uploads"])
@@ -45,6 +46,7 @@ async def upload_audio(
         bit_depth=stored_audio.bit_depth,
         duration_sec=stored_audio.duration_sec,
         file_size_bytes=stored_audio.file_size_bytes,
+        uploaded_at=current_time_text(),
     )
 
     db.add(audio_record)

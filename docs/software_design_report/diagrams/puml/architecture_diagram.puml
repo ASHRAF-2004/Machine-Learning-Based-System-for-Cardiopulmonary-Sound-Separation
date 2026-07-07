@@ -1,0 +1,73 @@
+@startuml
+' Software Architecture Diagram for the FastAPI cardiopulmonary sound separation prototype.
+' Suggested LaTeX placement: landscape page.
+
+top to bottom direction
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam shadowing false
+skinparam nodesep 46
+skinparam ranksep 54
+skinparam ArrowFontSize 11
+skinparam node {
+  BackgroundColor #FFFFFF
+  BorderColor #2F3A4A
+}
+skinparam package {
+  BorderColor #2F3A4A
+  FontStyle bold
+}
+skinparam database {
+  BackgroundColor #FFFDF5
+  BorderColor #755C00
+}
+
+actor "Demo User /\nLecturer" as User
+
+node "Client Browser" as BrowserNode #DCEBFF {
+  component "Web UI\nHTML / CSS / JavaScript" as WebUI
+}
+
+node "FastAPI Application\napp/main.py" as FastAPINode #E8F3FF {
+  component "API Route Layer\nUpload, Separation,\nModels, Results" as RouteLayer
+  component "Business Service Layer\nValidation, Facade,\nModel, Storage, Result" as ServiceLayer
+  component "ML Layer\nSeparationEngine,\nSeparationAlgorithm,\nNeoSSNetStrategy" as MLLayer
+}
+
+database "SQLite Database\ndatabase/cardiopulmonary.db\n\nuploaded_audio\nmodel\nseparation_job\nseparation_result\nevaluation_metric\nsystem_log" as SQLite #FFF7CC
+
+node "Local File Storage\nstorage/" as LocalStorage #F4F6F8 {
+  folder "uploads/raw\nmixed WAV inputs" as Uploads
+  folder "outputs/heart\nheart WAV outputs" as HeartOutputs
+  folder "outputs/lung\nlung WAV outputs" as LungOutputs
+  folder "ml_models\ncheckpoints/configs" as MLModels
+  folder "logs\nruntime logs" as Logs
+}
+
+node "Dataset Folder\ndatasets/hls_cmds/\nDevelopment and evaluation only" as DatasetNode #F7F7F7
+
+User --> WebUI
+WebUI --> RouteLayer : HTTP requests
+
+RouteLayer --> ServiceLayer : request handling
+ServiceLayer --> MLLayer : run separation
+ServiceLayer --> SQLite : metadata, jobs,\nresults, logs
+ServiceLayer --> LocalStorage : save/read files
+MLLayer --> LocalStorage : read model files,\nwrite output WAVs
+
+DatasetNode ..> MLLayer : offline testing only
+
+note right of ServiceLayer
+  Main workflow:
+  upload WAV -> validate -> save upload
+  -> run separation -> save outputs
+  -> record history in SQLite
+end note
+
+note right of SQLite
+  Database stores metadata and paths.
+  Large WAV files stay in storage/.
+end note
+
+@enduml

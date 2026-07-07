@@ -11,6 +11,7 @@ from app.database.db import PROJECT_ROOT
 from app.ml.separation_algorithm import SeparationAlgorithmResult
 from app.models.db_models import SeparationJob, SeparationResult
 from app.services.storage_service import relative_project_path
+from app.services.time_service import current_time_text
 
 
 class ResultServiceError(Exception):
@@ -126,6 +127,7 @@ def create_separation_result(
         output_duration_sec=inference_result.duration_sec,
         heart_file_size_bytes=inference_result.heart_file_size_bytes,
         lung_file_size_bytes=inference_result.lung_file_size_bytes,
+        created_at=current_time_text(),
     )
     db.add(result)
     return result

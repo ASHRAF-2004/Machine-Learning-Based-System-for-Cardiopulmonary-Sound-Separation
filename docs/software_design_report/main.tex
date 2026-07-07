@@ -139,7 +139,7 @@
 \addcontentsline{toc}{chapter}{Abstract / Executive Summary}
 This report presents a software design proposal and design pattern document for a HealthTech cardiopulmonary sound separation prototype. The proposed system accepts mixed WAV audio, uses NeoSSNet to separate the recording into heart sound and lung sound outputs, stores structured metadata and processing records in SQLite, and keeps uploaded and generated audio files in local storage.
 
-The report focuses on software design rather than clinical validation. It documents the problem statement, objectives, system scope, UML models, requirements, design principles, and selected design patterns. FastAPI is used as the backend API layer, SQLite supports jobs, results, logs, and metadata, and the local filesystem stores audio artifacts and model files. The Facade, Strategy, and Factory Method patterns are proposed to simplify the separation workflow, isolate algorithm execution behind a strategy context, and create the correct separation strategy from a selected SQLite model record.
+The report focuses on software design rather than clinical validation. It documents the problem statement, objectives, system scope, UML models, requirements, design principles, and selected design patterns. FastAPI is used as the backend API layer, SQLite supports jobs, results, logs, and metadata, and the local filesystem stores audio artifacts and model files. The Facade, Strategy, and Factory Method patterns are proposed to simplify the separation workflow, isolate algorithm execution behind a strategy context, and separate upload validator creation from route logic.
 
 \clearpage
 \pagenumbering{arabic}

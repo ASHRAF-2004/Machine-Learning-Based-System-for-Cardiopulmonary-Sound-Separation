@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import shutil
 import uuid
+from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -141,6 +142,9 @@ def test_separation_uses_active_model_by_default(db_session) -> None:
     assert response.status == "completed"
     assert job is not None
     assert job.model_id == model.model_id
+    for timestamp in (job.requested_at, job.started_at, job.completed_at):
+        parsed_timestamp = datetime.fromisoformat(timestamp)
+        assert parsed_timestamp.tzinfo is not None
     assert FakeResolver.model_ids == [model.model_id]
     assert response.heart_file_path.endswith(f"{response.job_id}_heart.wav")
     assert response.lung_file_path.endswith(f"{response.job_id}_lung.wav")

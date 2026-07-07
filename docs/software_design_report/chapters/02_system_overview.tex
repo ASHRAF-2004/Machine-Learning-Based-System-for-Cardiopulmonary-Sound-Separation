@@ -2,7 +2,7 @@
 
 The proposed system is a local web-based prototype for cardiopulmonary sound separation. A user uploads a mixed WAV audio file through the browser interface, and the FastAPI backend validates the upload, stores the original file, creates database records, runs NeoSSNet separation, saves the separated heart and lung audio files, and returns results for preview and download. SQLite is used for structured records such as uploaded audio metadata, model information, separation jobs, result paths, metrics, and logs, while local folders are used for the actual audio files and model checkpoints.
 
-The following diagrams describe the system from different software design viewpoints. The use case diagram presents the system functions from the user's perspective, the class diagram shows the planned software components, the entity relationship diagram shows the database structure, and the object diagram gives an example of one completed separation job.
+The following diagrams describe the system from different software design viewpoints. The use case diagram presents the system functions from the user's perspective, the architecture diagram shows the main runtime layers, the component level diagram shows how modules interact, the class diagram shows the planned software components, the entity relationship diagram shows the database structure, and the object diagram gives an example of one completed separation job.
 
 \section{Generic Use Case}
 
@@ -195,6 +195,32 @@ A use case describes how an actor interacts with a system to achieve a specific 
 \renewcommand{\arraystretch}{1}
 
 \clearpage
+\section{Software Architecture}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth,height=0.72\textheight,keepaspectratio]{architecture_diagram.png}
+  \caption{Software Architecture Diagram}
+  \label{fig:architecture-diagram}
+\end{figure}
+
+Figure~\ref{fig:architecture-diagram} shows the overall architecture of the prototype. The user interacts with a browser-based web interface, which sends RESTful HTTP requests to the FastAPI application. The FastAPI application is separated into route handling, business services, and the machine learning boundary. SQLite stores structured metadata such as uploads, jobs, result paths, metrics, and logs, while local storage folders keep uploaded WAV files, separated heart and lung outputs, model files, and runtime logs.
+
+\clearpage
+\begin{landscape}
+\section{Component Level Diagram}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.22\textwidth,height=0.78\textheight,keepaspectratio]{component_level_diagram.png}
+  \caption{Component Level Diagram}
+  \label{fig:component-level-diagram}
+\end{figure}
+\end{landscape}
+
+Figure~\ref{fig:component-level-diagram} shows the main software components and their responsibilities. The UI layer handles upload, preview, download, and history screens. The FastAPI router layer receives requests for upload, separation, model listing, result retrieval, download, and history. The business service layer coordinates validation, separation workflow, model lookup, file storage, and result persistence. The ML layer runs separation through \texttt{SeparationEngine}, \texttt{SeparationAlgorithm}, and \texttt{NeoSSNetStrategy}. SQLite stores processing records, while local storage keeps the actual audio and model files.
+
+\clearpage
 \begin{landscape}
 \section{Class Diagram}
 
@@ -206,9 +232,9 @@ A use case describes how an actor interacts with a system to achieve a specific 
 \end{figure}
 \end{landscape}
 
-Figure~\ref{fig:overall-class-diagram} presents the main classes and interfaces in the cardiopulmonary sound separation system. Each class or interface appears only once, and the diagram shows the API router modules, facade services, strategy classes, separation algorithm factory, upload validation support classes, and SQLite data model classes. The diagram uses UML class-style boxes, selected attributes or methods, associations, dependencies, and interface implementation arrows to describe the whole system structure.
+Figure~\ref{fig:overall-class-diagram} presents the main classes and interfaces in the cardiopulmonary sound separation system. Each class or interface appears only once, and the diagram shows the API router modules, facade services, strategy classes, upload validation factory classes, and SQLite data model classes. The diagram uses UML class-style boxes, selected attributes or methods, associations, dependencies, and interface implementation arrows to describe the whole system structure.
 
-Design pattern roles are separated so that one main class is not overloaded with multiple pattern labels. \texttt{SeparationService} is shown as the Facade used by \texttt{SeparationRouter}. \texttt{SeparationEngine} is shown as the Strategy Context that depends on \texttt{SeparationAlgorithm}, and \texttt{NeoSSNetStrategy} is the current Concrete Strategy. \texttt{SeparationAlgorithmFactory} is the Factory Method Creator that creates a \texttt{SeparationAlgorithm} product from the selected SQLite \texttt{Model} record. \texttt{NeoSSNetStrategy} is the current ConcreteProduct. \texttt{ModelStrategyResolver} remains only as a compatibility name for older code and tests.
+Design pattern roles are separated so that one main class is not overloaded with multiple pattern labels. \texttt{SeparationService} is shown as the Facade used by \texttt{SeparationRouter}. \texttt{SeparationEngine} is shown as the Strategy Context that depends on \texttt{SeparationAlgorithm}, and \texttt{NeoSSNetStrategy} is the current Concrete Strategy. \texttt{UploadRouter} is shown as the Factory Method client, \texttt{AudioValidatorFactory} is the Creator, \texttt{WavAudioValidatorFactory} is the ConcreteCreator, \texttt{AudioValidator} is the Product interface, and \texttt{WavAudioValidator} is the ConcreteProduct.
 
 \section{Entity Relationship Diagram (ERD)}
 

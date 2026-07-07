@@ -5,6 +5,7 @@ import io
 import shutil
 import uuid
 import wave
+from datetime import datetime
 from pathlib import Path
 
 import pytest
@@ -92,3 +93,5 @@ def test_upload_route_saves_valid_wav(upload_db) -> None:
     assert audio_record is not None
     assert audio_record.original_filename == "mixed.wav"
     assert storage_service.resolve_project_path(audio_record.stored_path).is_file()
+    uploaded_at = datetime.fromisoformat(audio_record.uploaded_at)
+    assert uploaded_at.tzinfo is not None

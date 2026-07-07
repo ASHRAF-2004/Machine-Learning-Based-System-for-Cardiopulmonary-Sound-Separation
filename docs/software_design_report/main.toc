@@ -9,72 +9,74 @@
 \contentsline {subsection}{\numberline {1.5.1}In Scope}{4}{subsection.1.5.1}%
 \contentsline {subsection}{\numberline {1.5.2}Out of Scope}{5}{subsection.1.5.2}%
 \contentsline {chapter}{\numberline {2}System Overview}{6}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Generic Use Case}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.1}Generic Use Case}{7}{section.2.1}%
 \contentsline {subsection}{\numberline {2.1.1}Use Case Specifications}{7}{subsection.2.1.1}%
-\contentsline {section}{\numberline {2.2}Class Diagram}{13}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Entity Relationship Diagram (ERD)}{15}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Object Diagram}{16}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Requirements}{18}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Functional Requirements}{18}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Non-Functional Requirements}{19}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Software Design Concepts}{20}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Abstraction}{20}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Modularity}{21}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Separation of Concerns}{21}{subsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.3.4}Information Hiding}{21}{subsection.3.3.4}%
-\contentsline {subsection}{\numberline {3.3.5}Low Coupling and High Cohesion}{22}{subsection.3.3.5}%
-\contentsline {section}{\numberline {3.4}The Five SOLID Principles}{22}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}S -- Single Responsibility Principle (SRP)}{22}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}O -- Open/Closed Principle (OCP)}{23}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}L -- Liskov Substitution Principle (LSP)}{24}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}I -- Interface Segregation Principle (ISP)}{25}{subsection.3.4.4}%
-\contentsline {subsection}{\numberline {3.4.5}D -- Dependency Inversion Principle (DIP)}{25}{subsection.3.4.5}%
-\contentsline {subsection}{\numberline {3.4.6}Persistence Separation Between SQLite and Filesystem}{26}{subsection.3.4.6}%
-\contentsline {section}{\numberline {3.5}Software Design Plan}{27}{section.3.5}%
-\contentsline {chapter}{\numberline {4}Proposed Design Patterns}{28}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Facade Pattern}{28}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Pattern Type}{28}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Problem}{28}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Solution}{29}{subsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.1.4}Structure}{29}{subsection.4.1.4}%
-\contentsline {subsection}{\numberline {4.1.5}Participants / Structure Explanation}{30}{subsection.4.1.5}%
-\contentsline {subsection}{\numberline {4.1.6}Project Application}{30}{subsection.4.1.6}%
-\contentsline {subsubsection}{i. Function or Software Component Affected}{30}{section*.12}%
-\contentsline {subsubsection}{ii. Description of Workflow or Data Flow}{30}{section*.13}%
-\contentsline {subsubsection}{iii. Sample Class Diagram}{31}{section*.14}%
-\contentsline {subsubsection}{iv. Facade Pattern Sequence Diagram}{31}{section*.16}%
-\contentsline {subsubsection}{v. Sample Potential Code}{31}{section*.18}%
-\contentsline {subsubsection}{vi. Benefits}{32}{section*.19}%
-\contentsline {subsubsection}{vii. Limitations}{33}{section*.20}%
-\contentsline {section}{\numberline {4.2}Strategy Pattern}{33}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Pattern Type}{33}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Problem}{33}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Solution}{33}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Structure}{34}{subsection.4.2.4}%
-\contentsline {subsection}{\numberline {4.2.5}Participants / Structure Explanation}{34}{subsection.4.2.5}%
-\contentsline {subsection}{\numberline {4.2.6}Project Application}{35}{subsection.4.2.6}%
-\contentsline {subsubsection}{i. Function or Software Component Affected}{35}{section*.23}%
-\contentsline {subsubsection}{ii. Description of Workflow or Data Flow}{35}{section*.24}%
-\contentsline {subsubsection}{iii. Sample Class Diagram}{35}{section*.25}%
-\contentsline {subsubsection}{iv. Strategy Pattern Sequence Diagram}{36}{section*.27}%
-\contentsline {subsubsection}{v. Sample Potential Code}{36}{section*.29}%
-\contentsline {subsubsection}{vi. Benefits}{37}{section*.30}%
-\contentsline {subsubsection}{vii. Limitations}{37}{section*.31}%
-\contentsline {section}{\numberline {4.3}Factory Method Pattern}{37}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Pattern Type}{37}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Problem}{37}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Solution}{38}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Structure}{38}{subsection.4.3.4}%
-\contentsline {subsection}{\numberline {4.3.5}Participants / Structure Explanation}{39}{subsection.4.3.5}%
-\contentsline {subsection}{\numberline {4.3.6}Project Application}{39}{subsection.4.3.6}%
-\contentsline {subsubsection}{i. Function or Software Component Affected}{39}{section*.34}%
-\contentsline {subsubsection}{ii. Description of Workflow or Data Flow}{39}{section*.35}%
-\contentsline {subsubsection}{iii. Sample Class Diagram}{40}{section*.36}%
-\contentsline {subsubsection}{iv. Factory Method Pattern Sequence Diagram}{41}{section*.38}%
-\contentsline {subsubsection}{v. Sample Potential Code}{41}{section*.40}%
-\contentsline {subsubsection}{vi. Benefits}{42}{section*.41}%
-\contentsline {subsubsection}{vii. Limitations}{42}{section*.42}%
-\contentsline {chapter}{\numberline {5}Conclusion and Suggestions}{43}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Conclusion}{43}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Suggestions / Future Work}{44}{section.5.2}%
-\contentsline {chapter}{Bibliography / References}{45}{chapter*.43}%
+\contentsline {section}{\numberline {2.2}Software Architecture}{13}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Component Level Diagram}{14}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Class Diagram}{16}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Entity Relationship Diagram (ERD)}{18}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Object Diagram}{19}{section.2.6}%
+\contentsline {chapter}{\numberline {3}Requirements}{21}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Functional Requirements}{21}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Non-Functional Requirements}{22}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Software Design Concepts}{23}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Abstraction}{23}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Modularity}{24}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Separation of Concerns}{24}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Information Hiding}{24}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}Low Coupling and High Cohesion}{25}{subsection.3.3.5}%
+\contentsline {section}{\numberline {3.4}The Five SOLID Principles}{25}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}S -- Single Responsibility Principle (SRP)}{25}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}O -- Open/Closed Principle (OCP)}{26}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}L -- Liskov Substitution Principle (LSP)}{27}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}I -- Interface Segregation Principle (ISP)}{28}{subsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.4.5}D -- Dependency Inversion Principle (DIP)}{28}{subsection.3.4.5}%
+\contentsline {subsection}{\numberline {3.4.6}Persistence Separation Between SQLite and Filesystem}{29}{subsection.3.4.6}%
+\contentsline {section}{\numberline {3.5}Software Design Plan}{30}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Proposed Design Patterns}{31}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Facade Pattern}{31}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Pattern Type}{31}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Problem}{31}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Solution}{32}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Structure}{32}{subsection.4.1.4}%
+\contentsline {subsection}{\numberline {4.1.5}Participants / Structure Explanation}{33}{subsection.4.1.5}%
+\contentsline {subsection}{\numberline {4.1.6}Project Application}{33}{subsection.4.1.6}%
+\contentsline {subsubsection}{i. Function or Software Component Affected}{33}{section*.14}%
+\contentsline {subsubsection}{ii. Description of Workflow or Data Flow}{33}{section*.15}%
+\contentsline {subsubsection}{iii. Sample Class Diagram}{34}{section*.16}%
+\contentsline {subsubsection}{iv. Facade Pattern Sequence Diagram}{34}{section*.18}%
+\contentsline {subsubsection}{v. Sample Potential Code}{34}{section*.20}%
+\contentsline {subsubsection}{vi. Benefits}{35}{section*.21}%
+\contentsline {subsubsection}{vii. Limitations}{36}{section*.22}%
+\contentsline {section}{\numberline {4.2}Strategy Pattern}{36}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Pattern Type}{36}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Problem}{36}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Solution}{36}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Structure}{37}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Participants / Structure Explanation}{37}{subsection.4.2.5}%
+\contentsline {subsection}{\numberline {4.2.6}Project Application}{38}{subsection.4.2.6}%
+\contentsline {subsubsection}{i. Function or Software Component Affected}{38}{section*.25}%
+\contentsline {subsubsection}{ii. Description of Workflow or Data Flow}{38}{section*.26}%
+\contentsline {subsubsection}{iii. Sample Class Diagram}{38}{section*.27}%
+\contentsline {subsubsection}{iv. Strategy Pattern Sequence Diagram}{39}{section*.29}%
+\contentsline {subsubsection}{v. Sample Potential Code}{39}{section*.31}%
+\contentsline {subsubsection}{vi. Benefits}{40}{section*.32}%
+\contentsline {subsubsection}{vii. Limitations}{40}{section*.33}%
+\contentsline {section}{\numberline {4.3}Factory Method Pattern}{40}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Pattern Type}{40}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Problem}{40}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Solution}{41}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Structure}{41}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Participants / Structure Explanation}{42}{subsection.4.3.5}%
+\contentsline {subsection}{\numberline {4.3.6}Project Application}{42}{subsection.4.3.6}%
+\contentsline {subsubsection}{i. Function or Software Component Affected}{42}{section*.36}%
+\contentsline {subsubsection}{ii. Description of Workflow or Data Flow}{42}{section*.37}%
+\contentsline {subsubsection}{iii. Sample Class Diagram}{43}{section*.38}%
+\contentsline {subsubsection}{iv. Factory Method Pattern Sequence Diagram}{43}{section*.40}%
+\contentsline {subsubsection}{v. Sample Potential Code}{43}{section*.42}%
+\contentsline {subsubsection}{vi. Benefits}{44}{section*.43}%
+\contentsline {subsubsection}{vii. Limitations}{44}{section*.44}%
+\contentsline {chapter}{\numberline {5}Conclusion and Suggestions}{45}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Conclusion}{45}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Suggestions / Future Work}{46}{section.5.2}%
+\contentsline {chapter}{Bibliography / References}{47}{chapter*.45}%

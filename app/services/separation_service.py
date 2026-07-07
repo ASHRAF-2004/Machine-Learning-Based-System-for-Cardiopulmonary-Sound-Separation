@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass
-from datetime import datetime, timezone
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -14,6 +13,7 @@ from app.models.db_models import SeparationJob, SystemLog, UploadedAudio
 from app.services import model_service, result_service, storage_service
 from app.services.model_strategy_resolver import ModelStrategyResolver
 from app.services.separation_algorithm_factory import SeparationAlgorithmFactory
+from app.services.time_service import current_time_text
 
 
 class SeparationError(Exception):
@@ -33,10 +33,6 @@ class SeparationResponse:
     processing_time_ms: int
 
 
-def utc_now_text() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-
-
 def get_uploaded_audio(db: Session, audio_id: int) -> UploadedAudio:
     uploaded_audio = db.get(UploadedAudio, audio_id)
     if uploaded_audio is None:
@@ -45,11 +41,13 @@ def get_uploaded_audio(db: Session, audio_id: int) -> UploadedAudio:
 
 
 def create_running_job(db: Session, uploaded_audio_id: int, model_id: int) -> SeparationJob:
+    started_at = current_time_text()
     job = SeparationJob(
         uploaded_audio_id=uploaded_audio_id,
         model_id=model_id,
         status="running",
-        started_at=utc_now_text(),
+        requested_at=started_at,
+        started_at=started_at,
     )
     db.add(job)
     db.commit()
@@ -79,6 +77,7 @@ def add_system_log(
             source_component=source_component,
             event_type=event_type,
             message=message,
+            created_at=current_time_text(),
         )
     )
 
@@ -99,7 +98,7 @@ def mark_job_failed(
     processing_time_ms: int,
 ) -> None:
     job.status = "failed"
-    job.completed_at = utc_now_text()
+    job.completed_at = current_time_text()
     job.processing_time_ms = processing_time_ms
     job.error_message = str(error)
     add_system_log(
@@ -132,6 +131,7 @@ class SeparationService:
         audio_id: int,
         model_id: int | None = None,
     ) -> SeparationResponse:
+        workflow_start = time.perf_counter()
         uploaded_audio = get_uploaded_audio(db, audio_id)
         model = model_service.get_model_for_separation(db, model_id)
         algorithm = create_algorithm_from_factory(self.algorithm_factory, model)
@@ -155,7 +155,6 @@ class SeparationService:
         )
         output_paths = storage_service.build_separation_output_paths(job.job_id)
 
-        start_time = time.perf_counter()
         try:
             inference_result = engine.separate(
                 input_wav_path=input_path,
@@ -164,15 +163,15 @@ class SeparationService:
                 heart_output_path=output_paths.heart_file_path,
                 lung_output_path=output_paths.lung_file_path,
             )
-            processing_time_ms = int((time.perf_counter() - start_time) * 1000)
 
             result = result_service.create_separation_result(
                 db=db,
                 job_id=job.job_id,
                 inference_result=inference_result,
             )
+            processing_time_ms = int((time.perf_counter() - workflow_start) * 1000)
             job.status = "completed"
-            job.completed_at = utc_now_text()
+            job.completed_at = current_time_text()
             job.processing_time_ms = processing_time_ms
             add_system_log(
                 db=db,
@@ -195,7 +194,7 @@ class SeparationService:
                 processing_time_ms=job.processing_time_ms or processing_time_ms,
             )
         except Exception as error:
-            processing_time_ms = int((time.perf_counter() - start_time) * 1000)
+            processing_time_ms = int((time.perf_counter() - workflow_start) * 1000)
             db.rollback()
             try:
                 mark_job_failed(db, job, error, processing_time_ms)

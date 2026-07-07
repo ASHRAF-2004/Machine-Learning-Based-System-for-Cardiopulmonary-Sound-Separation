@@ -1,0 +1,86 @@
+@startuml
+' Component Level Diagram for the FastAPI cardiopulmonary sound separation prototype.
+' Suggested LaTeX placement: landscape page.
+
+left to right direction
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam shadowing false
+skinparam nodesep 44
+skinparam ranksep 48
+skinparam ArrowFontSize 10
+skinparam component {
+  BackgroundColor #FFFFFF
+  BorderColor #2F3A4A
+}
+skinparam package {
+  BorderColor #2F3A4A
+  FontStyle bold
+}
+
+actor "User" as User
+
+package "UI Layer" as UILayer #DCEBFF {
+  component "Browser Web App\nindex.html + main.js" as WebApp
+  component "Audio Preview /\nDownload / History" as UserViews
+}
+
+package "FastAPI Router Layer" as RouterLayer #E8F3FF {
+  component "UploadRouter\nPOST /upload" as UploadRouter
+  component "SeparationRouter\nPOST /separate/{audio_id}" as SeparationRouter
+  component "ModelsRouter\nGET /models" as ModelsRouter
+  component "ResultsRouter\n/result /download /history" as ResultsRouter
+}
+
+package "Business Service Layer" as ServiceLayer #FFF1CC {
+  component "Audio Validation Factory\nAudioValidatorFactory\nWavAudioValidatorFactory" as AudioValidation
+  component "SeparationService\nFacade" as SeparationService
+  component "ModelService" as ModelService
+  component "StorageService" as StorageService
+  component "ResultService" as ResultService
+}
+
+package "ML Layer" as MLLayer #E4F7E7 {
+  component "SeparationEngine\nContext" as SeparationEngine
+  interface "SeparationAlgorithm\nStrategy" as SeparationAlgorithm
+  component "NeoSSNetStrategy\nConcreteStrategy" as NeoSSNetStrategy
+  component "NeoSSNet Inference\nPyTorch" as NeoSSNetInference
+}
+
+package "Persistence and Storage" as PersistenceLayer #F4F6F8 {
+  database "SQLite\ncardiopulmonary.db" as SQLite
+  component "Local Storage Folders\nuploads/raw\noutputs/heart\noutputs/lung\nml_models\nlogs" as StorageFolders
+}
+
+User --> WebApp
+WebApp --> UserViews
+
+WebApp --> UploadRouter : upload WAV
+WebApp --> SeparationRouter : run separation
+WebApp --> ModelsRouter : load models
+WebApp --> ResultsRouter : result/history
+
+UploadRouter --> AudioValidation : Factory Method
+UploadRouter --> StorageService
+UploadRouter --> SQLite
+
+SeparationRouter --> SeparationService : Facade call
+SeparationService --> ModelService
+SeparationService --> StorageService
+SeparationService --> ResultService
+SeparationService --> SeparationEngine
+
+SeparationEngine --> SeparationAlgorithm
+SeparationAlgorithm <|.. NeoSSNetStrategy
+NeoSSNetStrategy --> NeoSSNetInference
+
+ModelService --> SQLite
+ResultService --> SQLite
+SeparationService --> SQLite
+
+StorageService --> StorageFolders
+ModelService --> StorageFolders
+NeoSSNetInference --> StorageFolders
+
+@enduml

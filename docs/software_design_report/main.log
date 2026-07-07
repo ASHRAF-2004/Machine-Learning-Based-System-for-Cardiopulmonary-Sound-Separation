@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.5.14)  18 JUN 2026 13:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.5.14)  24 JUN 2026 21:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -849,7 +849,7 @@ Package biblatex Info: ... file 'main.bbl' found.
 Package biblatex Info: Reference section=0 on input line 84.
 Package biblatex Info: Reference segment=0 on input line 84.
 Package hyperref Info: Option `pageanchor' set `false' on input line 85.
-<../elements/FCI__MMU_LOGO.png, id=239, 431.6125pt x 85.31876pt>
+<../elements/FCI__MMU_LOGO.png, id=247, 431.6125pt x 85.31876pt>
 File: ../elements/FCI__MMU_LOGO.png Graphic file (type png)
 <use ../elements/FCI__MMU_LOGO.png>
 Package pdftex.def Info: ../elements/FCI__MMU_LOGO.png  used on input line 96.
@@ -914,7 +914,7 @@ Chapter 1.
 
 ] [2] [3] [4]) (chapters/02_system_overview.tex [5]
 Chapter 2.
-<diagrams/img/use_case_diagram.png, id=358, 744.7825pt x 445.665pt>
+<diagrams/img/use_case_diagram.png, id=368, 744.7825pt x 445.665pt>
 File: diagrams/img/use_case_diagram.png Graphic file (type png)
 <use diagrams/img/use_case_diagram.png>
 Package pdftex.def Info: diagrams/img/use_case_diagram.png  used on input line 
@@ -922,7 +922,7 @@ Package pdftex.def Info: diagrams/img/use_case_diagram.png  used on input line
 (pdftex.def)             Requested size: 430.31812pt x 257.49983pt.
 [6
 
- <./diagrams/img/use_case_diagram.png>] [7] [8
+] [7 <./diagrams/img/use_case_diagram.png>] [8
 
 ] [9
 
@@ -933,38 +933,52 @@ Package pdftex.def Info: diagrams/img/use_case_diagram.png  used on input line
 ] [12
 
 ]
-<diagrams/img/overall_class_diagram.png, id=397, 1729.46124pt x 2044.63875pt>
+<diagrams/img/architecture_diagram.png, id=407, 1350.04375pt x 1105.12875pt>
+File: diagrams/img/architecture_diagram.png Graphic file (type png)
+<use diagrams/img/architecture_diagram.png>
+Package pdftex.def Info: diagrams/img/architecture_diagram.png  used on input l
+ine 202.
+(pdftex.def)             Requested size: 430.31303pt x 352.24881pt.
+ [13
+
+ <./diagrams/img/architecture_diagram.png (PNG copy)>]
+<diagrams/img/component_level_diagram.png, id=414, 1704.3675pt x 715.67375pt>
+File: diagrams/img/component_level_diagram.png Graphic file (type png)
+<use diagrams/img/component_level_diagram.png>
+Package pdftex.def Info: diagrams/img/component_level_diagram.png  used on inpu
+t line 215.
+(pdftex.def)             Requested size: 552.61255pt x 232.0452pt.
+ [14
+
+
+ <./diagrams/img/component_level_diagram.png (PNG copy)>] [15
+
+]
+<diagrams/img/overall_class_diagram.png, id=427, 1459.4525pt x 2148.025pt>
 File: diagrams/img/overall_class_diagram.png Graphic file (type png)
 <use diagrams/img/overall_class_diagram.png>
 Package pdftex.def Info: diagrams/img/overall_class_diagram.png  used on input 
-line 203.
-(pdftex.def)             Requested size: 298.83379pt x 353.29333pt.
- [13
+line 229.
+(pdftex.def)             Requested size: 240.04211pt x 353.29445pt.
+ [16
 
 
  <./diagrams/img/overall_class_diagram.png (PNG copy)>]
-Underfull \hbox (badness 2318) in paragraph at lines 211--212
-\T1/ptm/m/n/12 se-lected SQLite \T1/cmtt/m/n/12 Model \T1/ptm/m/n/12 record. \T
-1/cmtt/m/n/12 NeoSSNetStrategy \T1/ptm/m/n/12 is the cur-rent Con-creteProd-uct
-.
- []
-
-<diagrams/img/erd.png, id=404, 665.48625pt x 1030.85126pt>
+<diagrams/img/erd.png, id=434, 665.48625pt x 1030.85126pt>
 File: diagrams/img/erd.png Graphic file (type png)
 <use diagrams/img/erd.png>
-Package pdftex.def Info: diagrams/img/erd.png  used on input line 217.
+Package pdftex.def Info: diagrams/img/erd.png  used on input line 243.
 (pdftex.def)             Requested size: 371.43698pt x 575.3695pt.
-[14
+ [17
 
-] [15 <./diagrams/img/erd.png>]
-<diagrams/img/object_diagram.png, id=418, 764.8575pt x 692.5875pt>
+] [18 <./diagrams/img/erd.png>]
+<diagrams/img/object_diagram.png, id=446, 764.8575pt x 692.5875pt>
 File: diagrams/img/object_diagram.png Graphic file (type png)
 <use diagrams/img/object_diagram.png>
-Package pdftex.def Info: diagrams/img/object_diagram.png  used on input line 23
-0.
+Package pdftex.def Info: diagrams/img/object_diagram.png  used on input line 25
+6.
 (pdftex.def)             Requested size: 398.61395pt x 360.95074pt.
- [16 <./diagrams/img/object_diagram.png>])
-(chapters/03_requirements.tex [17]
+ [19 <./diagrams/img/object_diagram.png>]) (chapters/03_requirements.tex [20]
 Chapter 3.
 
 Underfull \hbox (badness 10000) in paragraph at lines 27--27
@@ -976,14 +990,14 @@ Underfull \hbox (badness 1005) in paragraph at lines 27--27
 []|\T1/ptm/m/n/10.95 Download sep-a-rated au-
  []
 
-[18
+[21
 
-] [19] [20] [21]
+] [22] [23] [24]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 96.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 97.
- [22] [23] [24] [25]
+ [25] [26] [27] [28]
 Underfull \hbox (badness 10000) in paragraph at lines 270--270
 []|\T1/ptm/m/n/10.95 FastAPI ap-pli-ca-tion and
  []
@@ -998,7 +1012,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 270--270
 []|\T1/ptm/m/n/10.95 Audio pre-pro-cess-ing and
  []
 
-[26]) (chapters/04_design_patterns.tex [27]
+[29]) (chapters/04_design_patterns.tex [30]
 Chapter 4.
 
 Underfull \hbox (badness 10000) in paragraph at lines 20--21
@@ -1012,16 +1026,16 @@ Underfull \hbox (badness 1264) in paragraph at lines 20--21
 di-nates the service-level sub-sys-tems:
  []
 
-[28
+[31
 
 ]
-<diagrams/img/facade_template.png, id=595, 579.16376pt x 379.4175pt>
+<diagrams/img/facade_template.png, id=623, 579.16376pt x 379.4175pt>
 File: diagrams/img/facade_template.png Graphic file (type png)
 <use diagrams/img/facade_template.png>
 Package pdftex.def Info: diagrams/img/facade_template.png  used on input line 2
 6.
 (pdftex.def)             Requested size: 371.43698pt x 243.33005pt.
- [29 <./diagrams/img/facade_template.png>]
+ [32 <./diagrams/img/facade_template.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 61--62
 \T1/ptm/m/n/12 The af-fected com-po-nent is the back-end sep-a-ra-tion work-flo
 w in
@@ -1033,21 +1047,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 61--62
 /12 SeparationRouter \T1/ptm/m/n/12 in
  []
 
-<diagrams/img/facade_project.png, id=605, 975.645pt x 459.7175pt>
+<diagrams/img/facade_project.png, id=634, 975.645pt x 459.7175pt>
 File: diagrams/img/facade_project.png Graphic file (type png)
 <use diagrams/img/facade_project.png>
 Package pdftex.def Info: diagrams/img/facade_project.png  used on input line 71
 .
 (pdftex.def)             Requested size: 452.9679pt x 213.43672pt.
-[30]
-<diagrams/img/facade_sequence.png, id=613, 953.5625pt x 374.39874pt>
+[33]
+<diagrams/img/facade_sequence.png, id=642, 953.5625pt x 374.39874pt>
 File: diagrams/img/facade_sequence.png Graphic file (type png)
 <use diagrams/img/facade_sequence.png>
 Package pdftex.def Info: diagrams/img/facade_sequence.png  used on input line 8
 0.
 (pdftex.def)             Requested size: 452.9679pt x 177.85268pt.
- [31 <./diagrams/img/facade_project.png> <./diagrams/img/facade_sequence.png>] 
-[32]
+ [34 <./diagrams/img/facade_project.png> <./diagrams/img/facade_sequence.png>] 
+[35]
 Underfull \hbox (badness 10000) in paragraph at lines 143--144
 \T1/cmtt/m/n/12 SeparationEngine \T1/ptm/m/n/12 is in-tro-duced as the Strat-eg
 y Con-text. It de-pends on
@@ -1065,120 +1079,64 @@ Underfull \hbox (badness 10000) in paragraph at lines 143--144
 and wraps the ex-ist-ing real
  []
 
-<diagrams/img/strategy_template.png, id=664, 611.28375pt x 356.33125pt>
+<diagrams/img/strategy_template.png, id=692, 611.28375pt x 356.33125pt>
 File: diagrams/img/strategy_template.png Graphic file (type png)
 <use diagrams/img/strategy_template.png>
 Package pdftex.def Info: diagrams/img/strategy_template.png  used on input line
  149.
 (pdftex.def)             Requested size: 371.43698pt x 216.51897pt.
-[33] [34 <./diagrams/img/strategy_template.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 186--187
-\T1/ptm/m/n/12 for a match-ing \T1/cmtt/m/n/12 SeparationAlgorithm\T1/ptm/m/n/1
-2 . The ser-vice passes the al-go-rithm to
- []
-
-<diagrams/img/strategy_project.png, id=680, 420.57124pt x 251.94125pt>
+[36] [37 <./diagrams/img/strategy_template.png>]
+<diagrams/img/strategy_project.png, id=708, 420.57124pt x 251.94125pt>
 File: diagrams/img/strategy_project.png Graphic file (type png)
 <use diagrams/img/strategy_project.png>
 Package pdftex.def Info: diagrams/img/strategy_project.png  used on input line 
 192.
 (pdftex.def)             Requested size: 452.9679pt x 271.35054pt.
-<diagrams/img/strategy_sequence.png, id=681, 650.43pt x 251.94125pt>
+<diagrams/img/strategy_sequence.png, id=709, 650.43pt x 251.94125pt>
 File: diagrams/img/strategy_sequence.png Graphic file (type png)
 <use diagrams/img/strategy_sequence.png>
 Package pdftex.def Info: diagrams/img/strategy_sequence.png  used on input line
  201.
 (pdftex.def)             Requested size: 452.9679pt x 175.4581pt.
-[35 <./diagrams/img/strategy_project.png>] [36 <./diagrams/img/strategy_sequenc
-e.png>] [37]
-Underfull \hbox (badness 6380) in paragraph at lines 261--262
-\T1/ptm/m/n/12 It reads the se-lected model record, checks the model ar-chi-tec
--ture, and re-turns
+ [38 <./diagrams/img/strategy_project.png>] [39 <./diagrams/img/strategy_sequen
+ce.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
+\T1/cmtt/m/n/12 UploadRouter \T1/ptm/m/n/12 should not di-rectly in-stan-ti-ate
+ a con-crete val-ida-tor such as
  []
 
-
-Underfull \hbox (badness 6725) in paragraph at lines 261--262
-\T1/ptm/m/n/12 a \T1/cmtt/m/n/12 SeparationAlgorithm\T1/ptm/m/n/12 . The cur-re
-nt con-crete prod-uct is \T1/cmtt/m/n/12 NeoSSNetStrategy\T1/ptm/m/n/12 .
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 261--262
-\T1/cmtt/m/n/12 ModelStrategyResolver \T1/ptm/m/n/12 re-mains as a com-pat-i-bi
-l-ity name that in-her-its from
- []
-
-
-Underfull \hbox (badness 3098) in paragraph at lines 261--262
-\T1/cmtt/m/n/12 SeparationAlgorithmFactory\T1/ptm/m/n/12 , but new doc-u-men-ta
--tion and de-mos should re-fer to
- []
-
-<diagrams/img/factory_method_template.png, id=735, 660.4675pt x 392.46625pt>
+[40]
+<diagrams/img/factory_method_template.png, id=764, 660.4675pt x 392.46625pt>
 File: diagrams/img/factory_method_template.png Graphic file (type png)
 <use diagrams/img/factory_method_template.png>
 Package pdftex.def Info: diagrams/img/factory_method_template.png  used on inpu
 t line 267.
 (pdftex.def)             Requested size: 371.43698pt x 220.72577pt.
-
-Overfull \hbox (11.2259pt too wide) in paragraph at lines 296--296
-[]|\T1/cmtt/m/n/10.95 SeparationAlgorithmFactory| 
+ [41 <./diagrams/img/factory_method_template.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 304--305
+\T1/ptm/m/n/12 The af-fected com-po-nent is up-load val-i-da-tion in \T1/cmtt/m
+/n/12 app/routers/upload.py \T1/ptm/m/n/12 and
  []
 
-[38 <./diagrams/img/factory_method_template.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 303--304
-\T1/ptm/m/n/12 The af-fected com-po-nent is model-selection sup-port in
- []
-
-
-Underfull \hbox (badness 3735) in paragraph at lines 303--304
-\T1/cmtt/m/n/12 app/services/separation_algorithm_factory.py \T1/ptm/m/n/12 and
- the sep-a-ra-tion work-flow in
- []
-
-
-Underfull \hbox (badness 5954) in paragraph at lines 307--308
-\T1/ptm/m/n/12 The user starts sep-a-ra-tion for an up-loaded au-dio record. \T
-1/cmtt/m/n/12 SeparationService
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 307--308
-\T1/ptm/m/n/12 loads the se-lected or ac-tive \T1/cmtt/m/n/12 Model \T1/ptm/m/n
-/12 row from SQLite. It then calls
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 307--308
-\T1/cmtt/m/n/12 SeparationAlgorithmFactory.create_algorithm(model)\T1/ptm/m/n/1
-2 . The fac-tory reads
- []
-
-
-Underfull \hbox (badness 1221) in paragraph at lines 307--308
-\T1/cmtt/m/n/12 model.architecture\T1/ptm/m/n/12 . For the cur-rent ac-tive row
-, the ar-chi-tec-ture is \T1/cmtt/m/n/12 NeoSSNet\T1/ptm/m/n/12 , so
- []
-
-<diagrams/img/factory_method_project.png, id=746, 700.6175pt x 561.09625pt>
+<diagrams/img/factory_method_project.png, id=775, 819.06pt x 288.07625pt>
 File: diagrams/img/factory_method_project.png Graphic file (type png)
 <use diagrams/img/factory_method_project.png>
 Package pdftex.def Info: diagrams/img/factory_method_project.png  used on input
- line 313.
-(pdftex.def)             Requested size: 452.9679pt x 362.77332pt.
-[39]
-<diagrams/img/factory_method_sequence.png, id=754, 1098.1025pt x 540.0175pt>
+ line 314.
+(pdftex.def)             Requested size: 452.9679pt x 159.31715pt.
+[42]
+<diagrams/img/factory_method_sequence.png, id=783, 1013.7875pt x 481.8pt>
 File: diagrams/img/factory_method_sequence.png Graphic file (type png)
 <use diagrams/img/factory_method_sequence.png>
 Package pdftex.def Info: diagrams/img/factory_method_sequence.png  used on inpu
-t line 322.
-(pdftex.def)             Requested size: 452.9679pt x 222.75172pt.
- [40 <./diagrams/img/factory_method_project.png>] [41 <./diagrams/img/factory_m
-ethod_sequence.png>]) (chapters/05_conclusion.tex [42]
+t line 323.
+(pdftex.def)             Requested size: 452.9679pt x 215.27148pt.
+ [43 <./diagrams/img/factory_method_project.png> <./diagrams/img/factory_method
+_sequence.png>]) (chapters/05_conclusion.tex [44]
 Chapter 5.
-[43
+[45
 
-]) [44] [45
+]) [46] [47
 
 ] (main.aux)
  ***********
@@ -1186,16 +1144,16 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2026-03-20>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 8BE2FC790BD41041B4DBCF6F36464274;9764.
+(rerunfilecheck)             Checksum: D01951C078FE3B847A2D797816DD091B;10103.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 22854 strings out of 467691
- 403847 string characters out of 5414503
- 1595081 words of memory out of 5000000
- 51260 multiletter control sequences out of 15000+600000
+ 22891 strings out of 467691
+ 404925 string characters out of 5414503
+ 1595202 words of memory out of 5000000
+ 51282 multiletter control sequences out of 15000+600000
  675065 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,10n,79p,1199b,5052s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1205,9 +1163,9 @@ t1200.pk> <C:\Users\ASHRAF\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi
 times/utmb8a.pfb><C:/Users/ASHRAF/AppData/Local/Programs/MiKTeX/fonts/type1/urw
 /times/utmr8a.pfb><C:/Users/ASHRAF/AppData/Local/Programs/MiKTeX/fonts/type1/ur
 w/times/utmri8a.pfb>
-Output written on main.pdf (50 pages, 693854 bytes).
+Output written on main.pdf (52 pages, 827875 bytes).
 PDF statistics:
- 1031 PDF objects out of 1200 (max. 8388607)
- 383 named destinations out of 1000 (max. 500000)
- 543 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1069 PDF objects out of 1200 (max. 8388607)
+ 398 named destinations out of 1000 (max. 500000)
+ 569 words of extra memory for PDF output out of 10000 (max. 10000000)
 
