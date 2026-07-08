@@ -32,13 +32,18 @@ class Model(Base):
 
     model_id = Column(Integer, primary_key=True)
     model_name = Column(Text, nullable=False)
+    display_name = Column(Text)
     version = Column(Text, nullable=False)
     architecture = Column(Text, nullable=False, server_default=text("'NeoSSNet'"))
     framework = Column(Text, nullable=False, server_default=text("'PyTorch'"))
     checkpoint_path = Column(Text, nullable=False, unique=True)
     config_path = Column(Text)
+    strategy_key = Column(Text)
+    method_type = Column(Text, nullable=False, server_default=text("'deep_learning'"))
+    requires_checkpoint = Column(Integer, nullable=False, server_default=text("1"))
     description = Column(Text)
     is_active = Column(Integer, nullable=False, server_default=text("1"))
+    is_default = Column(Integer, nullable=False, server_default=text("0"))
     created_at = Column(Text, nullable=False, server_default=text("CURRENT_TIMESTAMP"))
 
     jobs = relationship("SeparationJob", back_populates="model")

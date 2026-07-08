@@ -18,13 +18,22 @@
   CREATE TABLE IF NOT EXISTS model (
       model_id INTEGER PRIMARY KEY,
       model_name TEXT NOT NULL,
+      display_name TEXT,
       version TEXT NOT NULL,
       architecture TEXT NOT NULL DEFAULT 'NeoSSNet',
       framework TEXT NOT NULL DEFAULT 'PyTorch',
       checkpoint_path TEXT NOT NULL UNIQUE,
       config_path TEXT,
+      strategy_key TEXT,
+      method_type TEXT NOT NULL DEFAULT 'deep_learning' CHECK (
+          method_type IN ('baseline', 'decomposition', 'deep_learning')
+      ),
+      requires_checkpoint INTEGER NOT NULL DEFAULT 1 CHECK (
+          requires_checkpoint IN (0, 1)
+      ),
       description TEXT,
       is_active INTEGER NOT NULL DEFAULT 1 CHECK (is_active IN (0, 1)),
+      is_default INTEGER NOT NULL DEFAULT 0 CHECK (is_default IN (0, 1)),
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       UNIQUE (model_name, version)
   );
@@ -34,7 +43,7 @@
       uploaded_audio_id INTEGER NOT NULL,
       model_id INTEGER NOT NULL,
       status TEXT NOT NULL CHECK (
-          status IN ('queued', 'running', 'completed', 'failed', 'cancelled')
+          status IN ('pending', 'queued', 'running', 'completed', 'failed', 'cancelled')
       ),
       requested_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       started_at TEXT,

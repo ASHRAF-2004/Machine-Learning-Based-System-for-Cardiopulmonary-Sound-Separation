@@ -30,6 +30,7 @@ REQUIRED_FOLDERS = [
     "storage/outputs",
     "storage/outputs/heart",
     "storage/outputs/lung",
+    "storage/visualizations",
     "storage/ml_models",
     "storage/logs",
     "scripts",

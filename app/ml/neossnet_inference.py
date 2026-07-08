@@ -6,16 +6,26 @@ import sys
 import wave
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from app.database.db import PROJECT_ROOT
 
 
 VENDORED_NEOSSNET_SOURCE_DIR = PROJECT_ROOT / "app" / "ml" / "neossnet_source"
 EXTERNAL_NEOSSNET_SOURCE_DIR = PROJECT_ROOT / "external" / "neossnet_source"
+REFERENCE_NEOSSNET_SOURCE_DIR = (
+    PROJECT_ROOT
+    / "external"
+    / "Neonatal-Chest-Sound-Separation-using-Deep-Learning-main"
+)
 NEOSSNET_SOURCE_DIR = (
     VENDORED_NEOSSNET_SOURCE_DIR
     if VENDORED_NEOSSNET_SOURCE_DIR.is_dir()
-    else EXTERNAL_NEOSSNET_SOURCE_DIR
+    else (
+        REFERENCE_NEOSSNET_SOURCE_DIR
+        if REFERENCE_NEOSSNET_SOURCE_DIR.is_dir()
+        else EXTERNAL_NEOSSNET_SOURCE_DIR
+    )
 )
 MODEL_SAMPLE_RATE = 4000
 
@@ -30,6 +40,21 @@ class NeoSSNetInferenceResult:
     lung_file_size_bytes: int
     input_shape: tuple[int, ...]
     output_shape: tuple[int, ...]
+    input_min: float
+    input_max: float
+    input_rms: float
+    heart_min: float
+    heart_max: float
+    heart_rms: float
+    lung_min: float
+    lung_max: float
+    lung_rms: float
+    checkpoint_path: Path
+    config_path: Path
+    bandpass_enabled: bool
+
+
+_MODEL_CACHE: dict[tuple[str, float, str, float, str], Any] = {}
 
 
 def add_neossnet_source_to_path() -> None:
@@ -61,6 +86,52 @@ def ensure_required_files(model_path: Path, model_config_path: Path) -> None:
         except ValueError:
             display_path = model_path
         raise ValueError(f"NeoSSNet checkpoint is empty: {display_path}")
+
+
+def _tensor_stats(waveform) -> dict[str, float]:
+    import torch
+
+    waveform = waveform.detach().cpu().to(dtype=torch.float32)
+    return {
+        "min": float(torch.min(waveform).item()) if waveform.numel() else 0.0,
+        "max": float(torch.max(waveform).item()) if waveform.numel() else 0.0,
+        "rms": float(torch.sqrt(torch.mean(torch.square(waveform))).item())
+        if waveform.numel()
+        else 0.0,
+    }
+
+
+def load_neossnet_model_cached(
+    model_path: Path,
+    model_config_path: Path,
+    device_name: str,
+):
+    add_neossnet_source_to_path()
+
+    import torch
+    from utils import load_model
+
+    model_path = model_path.resolve()
+    model_config_path = model_config_path.resolve()
+    device = torch.device(device_name)
+    cache_key = (
+        str(model_path),
+        model_path.stat().st_mtime,
+        str(model_config_path),
+        model_config_path.stat().st_mtime,
+        str(device),
+    )
+    model = _MODEL_CACHE.get(cache_key)
+    if model is None:
+        model = load_model(
+            model_path=str(model_path),
+            model_config=str(model_config_path),
+            device=device,
+        )
+        model.eval()
+        _MODEL_CACHE.clear()
+        _MODEL_CACHE[cache_key] = model
+    return model, device
 
 
 def load_wav_for_neossnet(input_path: Path):
@@ -131,6 +202,10 @@ def save_mono_wav(path: Path, waveform, sample_rate: int) -> None:
     if waveform.ndim == 1:
         waveform = waveform.unsqueeze(0)
 
+    max_abs = torch.max(torch.abs(waveform))
+    if max_abs > 0.95:
+        waveform = waveform / max_abs * 0.95
+
     audio = waveform.squeeze(0).numpy()
     audio_i16 = (audio * 32767.0).astype(np.int16)
 
@@ -148,23 +223,28 @@ def run_neossnet_inference(
     heart_output_path: Path,
     lung_output_path: Path,
     device_name: str = "cpu",
+    bandpass: bool = False,
 ) -> NeoSSNetInferenceResult:
     ensure_required_files(model_path, model_config_path)
-    add_neossnet_source_to_path()
 
     import torch
-    from utils import generate_output
 
     input_wav, sample_rate = load_wav_for_neossnet(input_wav_path)
-    device = torch.device(device_name)
+    input_stats = _tensor_stats(input_wav)
+    model, device = load_neossnet_model_cached(model_path, model_config_path, device_name)
+    input_batch = input_wav.unsqueeze(0).to(device)
+    if bandpass:
+        from utils import bandpass_filter
+
+        input_batch = bandpass_filter(input_batch, 0.0125, 0.25, 51)
 
     with torch.inference_mode():
-        heart_wav, lung_wav = generate_output(
-            input_wav=input_wav,
-            model_path=str(model_path),
-            model_config=str(model_config_path),
-            device=device,
-        )
+        output = model(input_batch)[:, 0:2, :]
+        heart_wav = output[0, 0, :].detach()
+        lung_wav = output[0, 1, :].detach()
+
+    heart_stats = _tensor_stats(heart_wav)
+    lung_stats = _tensor_stats(lung_wav)
 
     save_mono_wav(heart_output_path, heart_wav, sample_rate)
     save_mono_wav(lung_output_path, lung_wav, sample_rate)
@@ -178,5 +258,17 @@ def run_neossnet_inference(
         heart_file_size_bytes=heart_output_path.stat().st_size,
         lung_file_size_bytes=lung_output_path.stat().st_size,
         input_shape=tuple(input_wav.shape),
-        output_shape=(1, 2, frame_count),
+        output_shape=tuple(output.shape),
+        input_min=input_stats["min"],
+        input_max=input_stats["max"],
+        input_rms=input_stats["rms"],
+        heart_min=heart_stats["min"],
+        heart_max=heart_stats["max"],
+        heart_rms=heart_stats["rms"],
+        lung_min=lung_stats["min"],
+        lung_max=lung_stats["max"],
+        lung_rms=lung_stats["rms"],
+        checkpoint_path=model_path,
+        config_path=model_config_path,
+        bandpass_enabled=bandpass,
     )

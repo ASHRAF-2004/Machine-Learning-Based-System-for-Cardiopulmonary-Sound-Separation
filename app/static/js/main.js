@@ -2,6 +2,7 @@ const state = {
     selectedFile: null,
     latestUpload: null,
     latestResult: null,
+    methods: [],
     modelsAvailable: false,
 };
 
@@ -15,6 +16,7 @@ const elements = {
     dropZone: document.querySelector("#dropZone"),
     modelSelect: document.querySelector("#modelSelect"),
     modelHelp: document.querySelector("#modelHelp"),
+    methodDetails: document.querySelector("#methodDetails"),
     runButton: document.querySelector("#runButton"),
     statusMessage: document.querySelector("#statusMessage"),
     progressBar: document.querySelector("#progressBar"),
@@ -22,11 +24,16 @@ const elements = {
     jobChip: document.querySelector("#jobChip"),
     originalFilename: document.querySelector("#originalFilename"),
     jobStatus: document.querySelector("#jobStatus"),
+    methodName: document.querySelector("#methodName"),
     processingTime: document.querySelector("#processingTime"),
     heartPlayer: document.querySelector("#heartPlayer"),
     lungPlayer: document.querySelector("#lungPlayer"),
     heartDownload: document.querySelector("#heartDownload"),
     lungDownload: document.querySelector("#lungDownload"),
+    metricsPanel: document.querySelector("#metricsPanel"),
+    metricsList: document.querySelector("#metricsList"),
+    visualizationPanel: document.querySelector("#visualizationPanel"),
+    visualizationGrid: document.querySelector("#visualizationGrid"),
     historyList: document.querySelector("#historyList"),
     refreshHistory: document.querySelector("#refreshHistory"),
 };
@@ -120,10 +127,108 @@ function resetAudioPlayers() {
     setDownloadLink(elements.lungDownload, null);
 }
 
+function renderVisualizations(visualizations = {}) {
+    elements.visualizationGrid.innerHTML = "";
+    const sourceLabels = {
+        mixed: "Mixed input",
+        heart: "Heart output",
+        lung: "Lung output",
+    };
+    const imageLabels = {
+        waveform: "Waveform",
+        spectrogram: "Spectrogram",
+    };
+
+    Object.entries(visualizations).forEach(([sourceName, images]) => {
+        Object.entries(images).forEach(([imageType, image]) => {
+            if (!image?.url) {
+                return;
+            }
+            const figure = document.createElement("figure");
+            figure.className = "visualization-card";
+
+            const img = document.createElement("img");
+            img.src = image.url;
+            img.alt = `${sourceLabels[sourceName] || sourceName} ${imageLabels[imageType] || imageType}`;
+            img.loading = "lazy";
+
+            const caption = document.createElement("figcaption");
+            caption.textContent = `${sourceLabels[sourceName] || sourceName} - ${imageLabels[imageType] || imageType}`;
+
+            figure.append(img, caption);
+            elements.visualizationGrid.appendChild(figure);
+        });
+    });
+
+    elements.visualizationPanel.hidden = !elements.visualizationGrid.children.length;
+}
+
+function selectedMethod() {
+    if (!state.modelsAvailable || !elements.modelSelect?.value) {
+        return null;
+    }
+    return state.methods.find((model) => String(model.model_id) === String(elements.modelSelect.value)) || null;
+}
+
+function renderMethodDetails(model = selectedMethod()) {
+    if (!elements.methodDetails) {
+        return;
+    }
+    if (!model) {
+        elements.methodDetails.innerHTML = `
+            <strong>Method details</strong>
+            <span>The backend default method will be used.</span>
+        `;
+        return;
+    }
+    const name = model.display_name || model.model_name || "Separation method";
+    const type = model.method_type_label || model.method_type || "Method";
+    const framework = model.framework ? ` · ${model.framework}` : "";
+    const slowNote = model.strategy_key === "vmd" || model.strategy_key === "vmd_quality"
+        ? " Uses safe VMD speed controls for longer audio."
+        : "";
+    elements.methodDetails.innerHTML = `
+        <strong>${name} — ${type}${framework}</strong>
+        <span>${model.description || "Runs through the common separation workflow."}${slowNote}</span>
+    `;
+}
+
+function formatMetricName(value) {
+    return String(value || "")
+        .replaceAll("_", " ")
+        .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function renderMetrics(metrics = []) {
+    elements.metricsList.innerHTML = "";
+    if (!metrics.length) {
+        elements.metricsPanel.hidden = true;
+        return;
+    }
+
+    metrics.forEach((metric) => {
+        const item = document.createElement("div");
+        item.className = "metric-item";
+
+        const label = document.createElement("span");
+        label.textContent = `${formatMetricName(metric.metric_scope)} ${formatMetricName(metric.metric_name)}`;
+
+        const value = document.createElement("strong");
+        const number = Number(metric.metric_value);
+        const formattedValue = Number.isFinite(number) ? number.toFixed(3) : metric.metric_value;
+        value.textContent = metric.metric_unit ? `${formattedValue} ${metric.metric_unit}` : formattedValue;
+
+        item.append(label, value);
+        elements.metricsList.appendChild(item);
+    });
+    elements.metricsPanel.hidden = false;
+}
+
 function updateResultPanel(result, upload = state.latestUpload) {
     state.latestResult = result;
     const jobId = result.job_id;
     const status = result.status || "unknown";
+    const method = result.separation_method;
 
     elements.jobChip.textContent = `Job ${jobId}`;
     elements.jobChip.className = `job-chip ${status}`;
@@ -132,9 +237,14 @@ function updateResultPanel(result, upload = state.latestUpload) {
         result.uploaded_audio?.original_filename ||
         "Uploaded WAV";
     elements.jobStatus.textContent = status;
+    elements.methodName.textContent = method
+        ? `${method.display_name} - ${method.method_type_label}`
+        : result.strategy_key || "Not selected";
     elements.processingTime.textContent = formatMs(result.processing_time_ms);
+    renderMetrics(result.metrics || []);
+    renderVisualizations(result.visualizations || {});
 
-    if (status === "completed") {
+    if (status === "completed" && result.heart_file_path && result.lung_file_path) {
         const heartUrl = `/download/${jobId}/heart`;
         const lungUrl = `/download/${jobId}/lung`;
         elements.heartPlayer.src = heartUrl;
@@ -160,6 +270,23 @@ async function parseResponse(response) {
     }
 
     return payload;
+}
+
+function friendlyError(error) {
+    const message = String(error?.message || error || "");
+    if (message.includes("Only .wav")) {
+        return "Unsupported file. Please upload a valid WAV audio file.";
+    }
+    if (message.includes("checkpoint") || message.includes("model_best.pt")) {
+        return "Selected method cannot run because its checkpoint or config file is missing.";
+    }
+    if (message.includes("Separation job not found")) {
+        return "Result is missing. Refresh history or run separation again.";
+    }
+    if (message.includes("Separation inference failed")) {
+        return message;
+    }
+    return message || "Request failed.";
 }
 
 async function checkHealth() {
@@ -188,7 +315,9 @@ async function uploadFile(file) {
 
 function modelLabel(model) {
     const version = model.version ? ` ${model.version}` : "";
-    return `${model.model_name}${version} (${model.architecture})`;
+    const name = model.display_name || model.model_name;
+    const type = model.method_type_label ? ` - ${model.method_type_label}` : "";
+    return `${name}${version}${type}`;
 }
 
 async function loadModels() {
@@ -197,34 +326,41 @@ async function loadModels() {
     }
 
     try {
-        const models = await parseResponse(await fetch("/models"));
+        const models = await parseResponse(await fetch("/methods"));
+        state.methods = models;
         elements.modelSelect.innerHTML = "";
 
         if (!models.length) {
             state.modelsAvailable = false;
             elements.modelSelect.disabled = true;
-            elements.modelSelect.append(new Option("Default active model", ""));
-            elements.modelHelp.textContent = "No models are listed. The backend will use its active model.";
+            elements.modelSelect.append(new Option("Default separation method", ""));
+            elements.modelHelp.textContent = "No methods are listed. The backend will use its default method.";
+            renderMethodDetails(null);
             return;
         }
 
         models.forEach((model) => {
             const option = new Option(modelLabel(model), model.model_id);
-            option.selected = Boolean(model.is_active);
+            option.selected = Boolean(model.is_default);
             elements.modelSelect.append(option);
         });
 
         state.modelsAvailable = true;
         elements.modelSelect.disabled = false;
-        const selected = models.find((model) => model.is_active) || models[0];
+        const selected = models.find((model) => model.is_default) ||
+            models.find((model) => model.is_active) ||
+            models[0];
         elements.modelSelect.value = String(selected.model_id);
-        elements.modelHelp.textContent = "NeoSSNet is the current working separation model.";
+        elements.modelHelp.textContent = "NeoSSNet is the deep learning method; baselines are available for comparison.";
+        renderMethodDetails(selected);
     } catch (error) {
+        state.methods = [];
         state.modelsAvailable = false;
         elements.modelSelect.disabled = true;
         elements.modelSelect.innerHTML = "";
-        elements.modelSelect.append(new Option("Default active model", ""));
-        elements.modelHelp.textContent = "Model list unavailable. Separation will use the active backend model.";
+        elements.modelSelect.append(new Option("Default separation method", ""));
+        elements.modelHelp.textContent = "Method list unavailable. Separation will use the backend default.";
+        renderMethodDetails(null);
     }
 }
 
@@ -235,11 +371,35 @@ function selectedModelId() {
     return elements.modelSelect.value;
 }
 
-async function separateAudio(audioId, modelId = null) {
-    const suffix = modelId ? `?model_id=${encodeURIComponent(modelId)}` : "";
-    return parseResponse(await fetch(`/separate/${audioId}${suffix}`, {
+async function startSeparation(audioId, modelId = null) {
+    const params = new URLSearchParams({ background: "true" });
+    if (modelId) {
+        params.set("model_id", modelId);
+    }
+    return parseResponse(await fetch(`/separate/${audioId}?${params.toString()}`, {
         method: "POST",
     }));
+}
+
+function wait(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function pollResult(jobId) {
+    const maxAttempts = 180;
+    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+        const result = await parseResponse(await fetch(`/result/${jobId}`));
+        updateResultPanel(result);
+        const status = result.status || "unknown";
+        if (status === "completed" || status === "failed") {
+            return result;
+        }
+        const progress = Math.min(92, 55 + attempt * 2);
+        setProgress(progress);
+        setStatus(`Job ${jobId} is ${status}. Waiting for separated outputs...`);
+        await wait(1200);
+    }
+    throw new Error("Separation is still running. Open history later to check the result.");
 }
 
 async function loadResult(jobId) {
@@ -273,7 +433,11 @@ function historyItemTemplate(job) {
 
     const meta = document.createElement("span");
     meta.className = "history-meta";
-    meta.textContent = `${formatDate(job.requested_at)} - ${formatMs(job.processing_time_ms)}`;
+    meta.textContent = [
+        formatDate(job.requested_at),
+        job.method_name || job.strategy_key || "Method not recorded",
+        formatMs(job.processing_time_ms),
+    ].join(" - ");
 
     name.append(strong, meta);
 
@@ -350,37 +514,46 @@ async function handleSubmit(event) {
 
     setBusy(true);
     resetAudioPlayers();
+    renderVisualizations({});
     elements.jobChip.textContent = "Running";
-    elements.jobChip.className = "job-chip";
-    elements.jobStatus.textContent = "Uploading";
+    elements.jobChip.className = "job-chip running";
+    elements.jobStatus.textContent = "validating";
+    elements.methodName.textContent = selectedMethod()?.display_name || "Pending";
     elements.processingTime.textContent = "-";
+    renderMetrics([]);
 
     try {
         setProgress(20);
         setStatus("Uploading mixed WAV...");
         const upload = await uploadFile(file);
         elements.originalFilename.textContent = upload.original_filename;
+        elements.jobStatus.textContent = "uploaded";
 
-        setProgress(52);
-        elements.jobStatus.textContent = "running";
+        setProgress(38);
+        setStatus("Validating upload and selected method...");
         const modelId = selectedModelId();
-        setStatus(modelId ? "Running selected separation model..." : "Running active separation model...");
-        const separation = await separateAudio(upload.audio_id, modelId);
+        const separation = await startSeparation(upload.audio_id, modelId);
+        updateResultPanel(separation, upload);
 
-        setProgress(82);
-        setStatus("Loading separated outputs...");
-        const result = await parseResponse(await fetch(`/result/${separation.job_id}`));
+        setProgress(55);
+        elements.jobStatus.textContent = "pending";
+        setStatus("Separation job is pending...");
+        const result = await pollResult(separation.job_id);
         updateResultPanel(result, upload);
 
         setProgress(100);
-        setStatus("Separation complete.", "ok");
+        if (result.status === "completed") {
+            setStatus("Separation complete.", "ok");
+        } else {
+            setStatus(result.error_message || "Separation failed.", "error");
+        }
         await refreshHistory();
     } catch (error) {
         elements.jobStatus.textContent = "failed";
         elements.jobChip.textContent = "Failed";
         elements.jobChip.className = "job-chip failed";
         setProgress(100);
-        setStatus(error.message, "error");
+        setStatus(friendlyError(error), "error");
     } finally {
         setBusy(false);
         setTimeout(() => setProgress(0), 1100);
@@ -392,6 +565,12 @@ elements.fileInput.addEventListener("change", () => {
 });
 
 elements.form.addEventListener("submit", handleSubmit);
+
+if (elements.modelSelect) {
+    elements.modelSelect.addEventListener("change", () => {
+        renderMethodDetails();
+    });
+}
 
 elements.refreshHistory.addEventListener("click", refreshHistory);
 

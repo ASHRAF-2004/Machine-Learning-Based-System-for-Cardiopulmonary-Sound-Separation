@@ -21,7 +21,7 @@ class SeparationEngine:
     def separate(
         self,
         input_wav_path: Path,
-        model_path: Path,
+        model_path: Path | None,
         model_config_path: Path | None,
         heart_output_path: Path,
         lung_output_path: Path,

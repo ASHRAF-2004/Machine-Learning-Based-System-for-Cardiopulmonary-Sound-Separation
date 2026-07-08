@@ -5,6 +5,7 @@ import uuid
 from pathlib import Path
 
 import pytest
+from fastapi import BackgroundTasks
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -132,13 +133,21 @@ def test_models_and_separation_routes_keep_working(api_db) -> None:
         db=db,
     )
     assert explicit_payload["status"] == "completed"
+    background_payload = separate_audio(
+        uploaded_audio.uploaded_audio_id,
+        background_tasks=BackgroundTasks(),
+        model_id=model.model_id,
+        background=True,
+        db=db,
+    )
+    assert background_payload["status"] == "pending"
     assert RouteFakeResolver.model_ids == [model.model_id, model.model_id]
 
     result_payload = result_details(default_payload["job_id"], db)
     assert result_payload["heart_file_path"].endswith("_heart.wav")
 
     history_payload = history(limit=20, db=db)
-    assert len(history_payload) == 2
+    assert len(history_payload) == 3
 
     download_response = download_heart(default_payload["job_id"], db)
     assert Path(download_response.path).read_bytes() == b"RIFFheart"

@@ -23,17 +23,27 @@ async def lifespan(_app: FastAPI):
 
 app = FastAPI(
     title="Cardiopulmonary Sound Separation API",
-    description="Upload mixed WAV files before running NeoSSNet separation.",
+    description=(
+        "Upload mixed WAV files and run a selected cardiopulmonary "
+        "sound separation method."
+    ),
     version="0.1.0",
     lifespan=lifespan,
 )
 
 templates = Jinja2Templates(directory=PROJECT_ROOT / "app" / "templates")
+VISUALIZATION_STATIC_DIR = PROJECT_ROOT / "storage" / "visualizations"
+VISUALIZATION_STATIC_DIR.mkdir(parents=True, exist_ok=True)
 
 app.mount(
     "/static",
     StaticFiles(directory=PROJECT_ROOT / "app" / "static"),
     name="static",
+)
+app.mount(
+    "/visualizations",
+    StaticFiles(directory=VISUALIZATION_STATIC_DIR),
+    name="visualizations",
 )
 
 app.include_router(upload_router)

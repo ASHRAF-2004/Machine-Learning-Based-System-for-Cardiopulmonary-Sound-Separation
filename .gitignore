@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.pyc
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Environment and local settings
+.env
+.env.*
+!.env.example
+
+# Runtime SQLite database
+database/cardiopulmonary.db
+
+# Runtime audio and generated outputs
+storage/uploads/
+storage/outputs/
+storage/logs/
+storage/visualizations/
+storage/ml_models/*.pt
+storage/ml_models/*.pth
+storage/ml_models/*.onnx
+
+# Datasets and extracted archives
+datasets/
+*.zip
+*.tar
+*.tar.gz
+
+# Generated or large audio artifacts
+*.wav
+*.mp3
+*.flac
+
+# Dataset junk files
+.DS_Store
+._*
+__MACOSX/
+
+# Model weights anywhere in the repo
+*.pt
+*.pth
+*.onnx
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# OS/editor files
+Thumbs.db
+.vscode/
+.idea/

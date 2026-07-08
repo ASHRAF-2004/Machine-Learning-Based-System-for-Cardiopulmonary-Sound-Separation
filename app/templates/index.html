@@ -16,8 +16,8 @@
                 </svg>
             </span>
             <div>
-                <strong>NeoSSNet Separation</strong>
-                <span>Cardiopulmonary audio workspace</span>
+                <strong>Sound Separation</strong>
+                <span>Cardiopulmonary separation workspace</span>
             </div>
         </div>
         <nav class="top-nav" aria-label="Primary">
@@ -31,10 +31,10 @@
         <section class="workspace-section" id="workspace" aria-labelledby="workspaceTitle">
             <div class="hero-shell">
                 <div class="hero-copy">
-                    <p class="eyebrow">FastAPI + PyTorch inference</p>
+                    <p class="eyebrow">FastAPI separation workflow</p>
                     <h1 id="workspaceTitle">Separate mixed chest sound into heart and lung audio.</h1>
                     <p class="hero-text">
-                        Upload a WAV recording, run NeoSSNet, and review the generated output files in one clean demo flow.
+                        Upload a WAV recording, choose a separation method, and review the generated heart and lung WAV files.
                     </p>
                 </div>
 
@@ -60,12 +60,16 @@
                         </label>
 
                         <label class="model-field" for="modelSelect">
-                            <span>Separation model</span>
+                            <span>Separation Method</span>
                             <select id="modelSelect" name="model_id" disabled>
-                                <option value="">Default active model</option>
+                                <option value="">Default separation method</option>
                             </select>
-                            <small id="modelHelp">Loading available models...</small>
+                            <small id="modelHelp">Loading available methods...</small>
                         </label>
+                        <div class="method-details" id="methodDetails" aria-live="polite">
+                            <strong>Method details</strong>
+                            <span>Select a separation method to see its type and runtime note.</span>
+                        </div>
 
                         <button class="primary-button" id="runButton" type="submit">
                             <span class="button-icon" aria-hidden="true">
@@ -105,6 +109,10 @@
                         <strong id="jobStatus">Idle</strong>
                     </div>
                     <div>
+                        <span>Method</span>
+                        <strong id="methodName">Not selected</strong>
+                    </div>
+                    <div>
                         <span>Processing</span>
                         <strong id="processingTime">-</strong>
                     </div>
@@ -126,6 +134,21 @@
                         </div>
                         <audio id="lungPlayer" controls preload="metadata"></audio>
                     </div>
+                </div>
+
+                <div class="visualization-panel" id="visualizationPanel" hidden>
+                    <div class="section-heading compact-heading">
+                        <div>
+                            <p class="eyebrow">Visuals</p>
+                            <h3>Waveform and spectrogram</h3>
+                        </div>
+                    </div>
+                    <div class="visualization-grid" id="visualizationGrid"></div>
+                </div>
+
+                <div class="metrics-panel" id="metricsPanel" hidden>
+                    <h3>Evaluation metrics</h3>
+                    <div class="metrics-list" id="metricsList"></div>
                 </div>
             </article>
         </section>

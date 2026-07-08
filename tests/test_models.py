@@ -10,8 +10,12 @@ from sqlalchemy.orm import sessionmaker
 
 from app.database.db import Base
 from app.models.db_models import Model
-from app.routers.models import available_models
-from app.services.model_service import get_model_for_separation, list_models
+from app.routers.models import available_methods, available_models
+from app.services.model_service import (
+    ensure_finetuned_model_record,
+    get_model_for_separation,
+    list_models,
+)
 
 
 @pytest.fixture()
@@ -42,13 +46,18 @@ def seed_model(db, runtime_dir: Path, is_active: int = 1) -> Model:
 
     model = Model(
         model_name="NeoSSNet",
+        display_name="NeoSSNet",
         version="1.0",
         architecture="NeoSSNet",
         framework="PyTorch",
         checkpoint_path=str(model_path),
         config_path=str(config_path),
+        strategy_key="neossnet",
+        method_type="deep_learning",
+        requires_checkpoint=1,
         description="Current working model",
         is_active=is_active,
+        is_default=1,
     )
     db.add(model)
     db.commit()
@@ -86,10 +95,48 @@ def test_models_route_returns_safe_model_payload(db_session) -> None:
         {
             "model_id": model.model_id,
             "model_name": "NeoSSNet",
+            "display_name": "NeoSSNet",
             "version": "1.0",
             "architecture": "NeoSSNet",
+            "strategy_key": "neossnet",
+            "method_type": "deep_learning",
+            "method_type_label": "Deep learning model",
             "framework": "PyTorch",
             "description": "Current working model",
             "is_active": True,
+            "is_default": True,
+            "requires_checkpoint": True,
         }
     ]
+
+
+def test_methods_route_alias_returns_same_payload(db_session) -> None:
+    db, runtime_dir = db_session
+    seed_model(db, runtime_dir)
+
+    assert available_methods(db) == available_models(db)
+
+
+def test_finetuned_neossnet_registry_row_is_added_when_files_exist(db_session) -> None:
+    db, runtime_dir = db_session
+    seed_model(db, runtime_dir)
+    checkpoint = runtime_dir / "neossnet_hls_finetuned.pt"
+    config = runtime_dir / "neossnet_hls_finetuned.yaml"
+    checkpoint.write_bytes(b"weights")
+    config.write_text("num_sources: 2", encoding="utf-8")
+
+    fine_tuned = ensure_finetuned_model_record(
+        db,
+        checkpoint_path=checkpoint,
+        config_path=config,
+    )
+
+    models = list_models(db)
+    names = {model.model_name for model in models}
+    assert fine_tuned is not None
+    assert "NeoSSNet" in names
+    assert "NeoSSNet HLS Fine-tuned" in names
+    assert fine_tuned.strategy_key == "neossnet"
+    assert fine_tuned.method_type == "deep_learning"
+    assert fine_tuned.is_active == 1
+    assert fine_tuned.is_default == 0

@@ -55,7 +55,7 @@ class TransformerEncoder(nn.Module):
 
     def forward(self, x:torch.Tensor) -> torch.Tensor:
         _, seq_len, _ = x.size()
-        x += self.pos_enc(seq_len)
+        x = x + self.pos_enc(seq_len)
         for layer in self.layers:
             x = layer(x)
         return x

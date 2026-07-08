@@ -57,9 +57,16 @@ def seed_completed_job(db, runtime_dir: Path) -> int:
     )
     model = Model(
         model_name="NeoSSNet",
+        display_name="NeoSSNet",
         version="1.0",
+        architecture="NeoSSNet",
+        framework="PyTorch",
         checkpoint_path="storage/ml_models/model_best.pt",
         config_path="storage/ml_models/model.yaml",
+        strategy_key="neossnet",
+        method_type="deep_learning",
+        requires_checkpoint=1,
+        is_default=1,
     )
     db.add_all([uploaded_audio, model])
     db.commit()
@@ -110,6 +117,12 @@ def test_get_result_details_returns_job_and_output_paths(db_session) -> None:
     assert result["heart_file_path"].endswith("1_heart.wav")
     assert result["lung_file_path"].endswith("1_lung.wav")
     assert result["processing_time_ms"] == 1234
+    assert result["separation_method"]["strategy_key"] == "neossnet"
+    assert result["selected_method_name"] == "NeoSSNet"
+    assert result["method_type"] == "deep_learning"
+    assert result["heart_output_path"].endswith("1_heart.wav")
+    assert result["lung_output_path"].endswith("1_lung.wav")
+    assert result["metrics"] == []
 
 
 def test_get_download_file_returns_existing_heart_file(db_session) -> None:
@@ -134,6 +147,8 @@ def test_get_history_returns_recent_jobs(db_session) -> None:
     assert history[0]["original_filename"] == "mixed.wav"
     assert history[0]["status"] == "completed"
     assert history[0]["heart_file_path"].endswith("1_heart.wav")
+    assert history[0]["strategy_key"] == "neossnet"
+    assert history[0]["method_name"] == "NeoSSNet"
 
 
 def test_get_result_details_missing_job_raises_404_service_error(db_session) -> None:

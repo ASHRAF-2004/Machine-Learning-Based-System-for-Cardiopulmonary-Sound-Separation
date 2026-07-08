@@ -51,19 +51,43 @@ def test_initialize_database_creates_database_tables_and_default_model(
         }
         model_row = connection.execute(
             """
-            SELECT checkpoint_path, config_path, is_active
+            SELECT checkpoint_path, config_path, is_active, strategy_key, method_type
             FROM model
             WHERE model_name = 'NeoSSNet'
               AND version = '1.0'
             """
         ).fetchone()
+        method_rows = connection.execute(
+            """
+            SELECT strategy_key, method_type
+            FROM model
+            ORDER BY strategy_key
+            """
+        ).fetchall()
+        job_table_sql = connection.execute(
+            """
+            SELECT sql
+            FROM sqlite_master
+            WHERE type = 'table'
+              AND name = 'separation_job'
+            """
+        ).fetchone()[0]
 
     assert REQUIRED_TABLES <= tables
     assert model_row == (
         "storage/ml_models/model_best.pt",
         "storage/ml_models/model.yaml",
         1,
+        "neossnet",
+        "deep_learning",
     )
+    assert {
+        ("fixed_filter", "baseline"),
+        ("neossnet", "deep_learning"),
+        ("nmf", "decomposition"),
+        ("vmd", "decomposition"),
+    } <= set(method_rows)
+    assert "'pending'" in job_table_sql
 
 
 def test_initialize_database_creates_required_runtime_directories(

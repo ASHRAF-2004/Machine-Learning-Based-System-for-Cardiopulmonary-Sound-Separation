@@ -233,6 +233,13 @@ h3 {
     color: var(--accent-strong);
 }
 
+.job-chip.pending,
+.job-chip.running {
+    border-color: rgba(216, 107, 79, 0.28);
+    background: rgba(216, 107, 79, 0.1);
+    color: var(--warning);
+}
+
 .status-pill.error,
 .job-chip.failed {
     border-color: rgba(180, 35, 24, 0.2);
@@ -351,6 +358,26 @@ h3 {
     line-height: 1.4;
 }
 
+.method-details {
+    display: grid;
+    gap: 5px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fbfdfc;
+    padding: 12px;
+}
+
+.method-details strong {
+    overflow-wrap: anywhere;
+    font-size: 13px;
+}
+
+.method-details span {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
 .primary-button,
 .secondary-button,
 .icon-button {
@@ -428,7 +455,7 @@ h3 {
 
 .result-summary {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
     margin-bottom: 18px;
 }
@@ -478,6 +505,79 @@ h3 {
 audio {
     width: 100%;
     min-height: 44px;
+}
+
+.visualization-panel,
+.metrics-panel {
+    margin-top: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fbfdfc;
+    padding: 16px;
+}
+
+.compact-heading {
+    margin-bottom: 14px;
+}
+
+.visualization-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.visualization-card {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.visualization-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #f8fbfa;
+    object-fit: contain;
+}
+
+.visualization-card figcaption {
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 9px 10px;
+}
+
+.metrics-panel h3 {
+    margin-bottom: 12px;
+}
+
+.metrics-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.metric-item {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 11px;
+}
+
+.metric-item span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.metric-item strong {
+    display: block;
+    margin-top: 4px;
+    overflow-wrap: anywhere;
+    font-size: 14px;
 }
 
 .secondary-button {
@@ -583,6 +683,12 @@ audio {
     color: var(--accent-strong);
 }
 
+.mini-status.pending,
+.mini-status.running {
+    background: rgba(216, 107, 79, 0.1);
+    color: var(--warning);
+}
+
 .mini-status.failed {
     background: rgba(180, 35, 24, 0.08);
     color: var(--danger);
@@ -637,6 +743,8 @@ audio {
     }
 
     .result-summary,
+    .visualization-grid,
+    .metrics-list,
     .audio-grid {
         grid-template-columns: 1fr;
     }

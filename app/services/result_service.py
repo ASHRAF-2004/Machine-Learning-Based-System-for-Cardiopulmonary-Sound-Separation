@@ -9,7 +9,8 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.database.db import PROJECT_ROOT
 from app.ml.separation_algorithm import SeparationAlgorithmResult
-from app.models.db_models import SeparationJob, SeparationResult
+from app.models.db_models import EvaluationMetric, SeparationJob, SeparationResult
+from app.services import model_service, visualization_service
 from app.services.storage_service import relative_project_path
 from app.services.time_service import current_time_text
 
@@ -48,6 +49,8 @@ def get_job_or_raise(db: Session, job_id: int) -> SeparationJob:
         db.query(SeparationJob)
         .options(
             joinedload(SeparationJob.uploaded_audio),
+            joinedload(SeparationJob.model),
+            joinedload(SeparationJob.result).joinedload(SeparationResult.metrics),
             joinedload(SeparationJob.result),
         )
         .filter(SeparationJob.job_id == job_id)
@@ -74,17 +77,51 @@ def format_uploaded_audio(job: SeparationJob) -> dict[str, object] | None:
     }
 
 
+def format_metric(metric: EvaluationMetric) -> dict[str, object]:
+    return {
+        "metric_name": metric.metric_name,
+        "metric_scope": metric.metric_scope,
+        "metric_value": metric.metric_value,
+        "metric_unit": metric.metric_unit,
+        "reference_type": metric.reference_type,
+        "recorded_at": metric.recorded_at,
+    }
+
+
+def format_separation_method(job: SeparationJob) -> dict[str, object] | None:
+    if job.model is None:
+        return None
+    return model_service.format_model(job.model)
+
+
 def get_result_details(db: Session, job_id: int) -> dict[str, object]:
     job = get_job_or_raise(db, job_id)
     result = job.result
+    method = format_separation_method(job)
+    heart_file_path = result.heart_file_path if result else None
+    lung_file_path = result.lung_file_path if result else None
 
     return {
         "job_id": job.job_id,
         "status": job.status,
         "uploaded_audio": format_uploaded_audio(job),
-        "heart_file_path": result.heart_file_path if result else None,
-        "lung_file_path": result.lung_file_path if result else None,
+        "separation_method": method,
+        "selected_method_name": method["display_name"] if method else None,
+        "method_name": method["display_name"] if method else None,
+        "strategy_key": method["strategy_key"] if method else None,
+        "method_type": method["method_type"] if method else None,
+        "method_type_label": method["method_type_label"] if method else None,
+        "heart_file_path": heart_file_path,
+        "lung_file_path": lung_file_path,
+        "heart_output_path": heart_file_path,
+        "lung_output_path": lung_file_path,
+        "heart_output_url": f"/download/{job.job_id}/heart" if result else None,
+        "lung_output_url": f"/download/{job.job_id}/lung" if result else None,
         "created_at": result.created_at if result else None,
+        "output_sample_rate_hz": result.output_sample_rate_hz if result else None,
+        "output_duration_sec": result.output_duration_sec if result else None,
+        "metrics": [format_metric(metric) for metric in result.metrics] if result else [],
+        "visualizations": visualization_service.existing_visualizations(job.job_id),
         "processing_time_ms": job.processing_time_ms,
         "requested_at": job.requested_at,
         "completed_at": job.completed_at,
@@ -138,6 +175,7 @@ def get_history(db: Session, limit: int = 20) -> list[dict[str, object]]:
         db.query(SeparationJob)
         .options(
             joinedload(SeparationJob.uploaded_audio),
+            joinedload(SeparationJob.model),
             joinedload(SeparationJob.result),
         )
         .order_by(SeparationJob.requested_at.desc(), SeparationJob.job_id.desc())
@@ -149,6 +187,7 @@ def get_history(db: Session, limit: int = 20) -> list[dict[str, object]]:
     for job in jobs:
         result = job.result
         uploaded_audio = job.uploaded_audio
+        method = format_separation_method(job)
         history.append(
             {
                 "job_id": job.job_id,
@@ -161,6 +200,10 @@ def get_history(db: Session, limit: int = 20) -> list[dict[str, object]]:
                 "processing_time_ms": job.processing_time_ms,
                 "heart_file_path": result.heart_file_path if result else None,
                 "lung_file_path": result.lung_file_path if result else None,
+                "separation_method": method,
+                "strategy_key": method["strategy_key"] if method else None,
+                "method_type": method["method_type"] if method else None,
+                "method_name": method["display_name"] if method else None,
             }
         )
 

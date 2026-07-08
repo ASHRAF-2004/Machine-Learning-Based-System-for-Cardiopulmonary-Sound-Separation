@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Protocol
 
@@ -17,6 +17,7 @@ class SeparationAlgorithmResult:
     lung_file_size_bytes: int
     input_shape: tuple[int, ...]
     output_shape: tuple[int, ...]
+    metadata: dict[str, object] = field(default_factory=dict)
 
 
 class SeparationAlgorithm(Protocol):
@@ -25,7 +26,7 @@ class SeparationAlgorithm(Protocol):
     def separate(
         self,
         input_wav_path: Path,
-        model_path: Path,
+        model_path: Path | None,
         model_config_path: Path | None,
         heart_output_path: Path,
         lung_output_path: Path,

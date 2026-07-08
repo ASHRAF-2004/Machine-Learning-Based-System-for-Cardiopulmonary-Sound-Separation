@@ -17,6 +17,7 @@ from app.database.db import PROJECT_ROOT
 RAW_UPLOAD_DIR = PROJECT_ROOT / "storage" / "uploads" / "raw"
 HEART_OUTPUT_DIR = PROJECT_ROOT / "storage" / "outputs" / "heart"
 LUNG_OUTPUT_DIR = PROJECT_ROOT / "storage" / "outputs" / "lung"
+VISUALIZATION_DIR = PROJECT_ROOT / "storage" / "visualizations"
 CHUNK_SIZE_BYTES = 1024 * 1024
 
 
@@ -37,6 +38,16 @@ class StoredAudio:
 class SeparationOutputPaths:
     heart_file_path: Path
     lung_file_path: Path
+
+
+@dataclass(frozen=True)
+class VisualizationOutputPaths:
+    mixed_waveform_path: Path
+    mixed_spectrogram_path: Path
+    heart_waveform_path: Path
+    heart_spectrogram_path: Path
+    lung_waveform_path: Path
+    lung_spectrogram_path: Path
 
 
 def clean_filename(filename: str) -> str:
@@ -72,6 +83,16 @@ def resolve_project_path(path_value: str | None) -> Path:
     return PROJECT_ROOT / path
 
 
+def is_builtin_path(path_value: str | None) -> bool:
+    return bool(path_value and path_value.startswith("builtin://"))
+
+
+def resolve_optional_project_path(path_value: str | None) -> Path | None:
+    if not path_value or is_builtin_path(path_value):
+        return None
+    return resolve_project_path(path_value)
+
+
 def build_separation_output_paths(job_id: int) -> SeparationOutputPaths:
     HEART_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     LUNG_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -79,6 +100,18 @@ def build_separation_output_paths(job_id: int) -> SeparationOutputPaths:
     return SeparationOutputPaths(
         heart_file_path=HEART_OUTPUT_DIR / f"{job_id}_heart.wav",
         lung_file_path=LUNG_OUTPUT_DIR / f"{job_id}_lung.wav",
+    )
+
+
+def build_visualization_output_paths(job_id: int) -> VisualizationOutputPaths:
+    VISUALIZATION_DIR.mkdir(parents=True, exist_ok=True)
+    return VisualizationOutputPaths(
+        mixed_waveform_path=VISUALIZATION_DIR / f"{job_id}_mixed_waveform.png",
+        mixed_spectrogram_path=VISUALIZATION_DIR / f"{job_id}_mixed_spectrogram.png",
+        heart_waveform_path=VISUALIZATION_DIR / f"{job_id}_heart_waveform.png",
+        heart_spectrogram_path=VISUALIZATION_DIR / f"{job_id}_heart_spectrogram.png",
+        lung_waveform_path=VISUALIZATION_DIR / f"{job_id}_lung_waveform.png",
+        lung_spectrogram_path=VISUALIZATION_DIR / f"{job_id}_lung_spectrogram.png",
     )
 
 

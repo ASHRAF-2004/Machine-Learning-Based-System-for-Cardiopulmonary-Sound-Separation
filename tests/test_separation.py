@@ -1,18 +1,23 @@
 from __future__ import annotations
 
 import shutil
+import json
 import uuid
 from datetime import datetime
 from pathlib import Path
 
+import numpy as np
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.database.db import Base
+from app.ml.audio_utils import save_wav_mono
 from app.ml.separation_algorithm import SeparationAlgorithmResult
+from app.ml.strategy_factory import SeparationAlgorithmFactory
 from app.models.db_models import Model, SeparationJob, SystemLog, UploadedAudio
 from app.services import separation_service, storage_service
+from app.services.result_service import get_result_details
 
 
 class FakeAlgorithm:
@@ -75,6 +80,11 @@ def db_session(monkeypatch):
     db = TestingSession()
     monkeypatch.setattr(storage_service, "HEART_OUTPUT_DIR", runtime_dir / "heart")
     monkeypatch.setattr(storage_service, "LUNG_OUTPUT_DIR", runtime_dir / "lung")
+    monkeypatch.setattr(
+        storage_service,
+        "VISUALIZATION_DIR",
+        runtime_dir / "visualizations",
+    )
     FakeResolver.algorithm = FakeAlgorithm()
     FakeResolver.model_ids = []
     monkeypatch.setattr(separation_service, "ModelStrategyResolver", FakeResolver)
@@ -108,12 +118,60 @@ def seed_uploaded_audio_and_model(db, runtime_dir: Path) -> tuple[UploadedAudio,
     )
     model = Model(
         model_name="NeoSSNet",
+        display_name="NeoSSNet",
         version="1.0",
         architecture="NeoSSNet",
         framework="PyTorch",
         checkpoint_path=str(model_path),
         config_path=str(config_path),
+        strategy_key="neossnet",
+        method_type="deep_learning",
+        requires_checkpoint=1,
         description="Current working model",
+        is_active=1,
+        is_default=1,
+    )
+    db.add_all([uploaded_audio, model])
+    db.commit()
+    db.refresh(uploaded_audio)
+    db.refresh(model)
+    return uploaded_audio, model
+
+
+def seed_uploaded_audio_and_fixed_filter_model(
+    db,
+    runtime_dir: Path,
+) -> tuple[UploadedAudio, Model]:
+    sample_rate_hz = 4000
+    input_path = runtime_dir / "M0001.wav"
+    time_axis = np.arange(sample_rate_hz, dtype=np.float32) / sample_rate_hz
+    waveform = (
+        0.5 * np.sin(2 * np.pi * 80.0 * time_axis)
+        + 0.25 * np.sin(2 * np.pi * 650.0 * time_axis)
+    )
+    save_wav_mono(input_path, waveform, sample_rate_hz)
+
+    uploaded_audio = UploadedAudio(
+        original_filename="M0001.wav",
+        stored_path=str(input_path),
+        mime_type="audio/wav",
+        sample_rate_hz=sample_rate_hz,
+        channels=1,
+        bit_depth=16,
+        duration_sec=1.0,
+        file_size_bytes=input_path.stat().st_size,
+    )
+    model = Model(
+        model_name="Fixed Filter Baseline",
+        display_name="Fixed Filter Baseline",
+        version="1.0",
+        architecture="FixedFilter",
+        framework="NumPy",
+        checkpoint_path="builtin://fixed_filter",
+        strategy_key="fixed_filter",
+        method_type="baseline",
+        requires_checkpoint=0,
+        description="Conventional baseline",
         is_active=1,
     )
     db.add_all([uploaded_audio, model])
@@ -142,16 +200,18 @@ def test_separation_uses_active_model_by_default(db_session) -> None:
     assert response.status == "completed"
     assert job is not None
     assert job.model_id == model.model_id
+    assert response.model_id == model.model_id
+    assert response.strategy_key == "neossnet"
+    assert json.loads(job.parameters_json)["strategy_key"] == "neossnet"
     for timestamp in (job.requested_at, job.started_at, job.completed_at):
         parsed_timestamp = datetime.fromisoformat(timestamp)
         assert parsed_timestamp.tzinfo is not None
     assert FakeResolver.model_ids == [model.model_id]
     assert response.heart_file_path.endswith(f"{response.job_id}_heart.wav")
     assert response.lung_file_path.endswith(f"{response.job_id}_lung.wav")
-    assert [log.event_type for log in logs] == [
-        "separation_started",
-        "separation_completed",
-    ]
+    event_types = [log.event_type for log in logs]
+    assert "separation_started" in event_types
+    assert "separation_completed" in event_types
 
 
 def test_separation_accepts_explicit_model_id(db_session) -> None:
@@ -169,3 +229,54 @@ def test_separation_accepts_explicit_model_id(db_session) -> None:
     assert job is not None
     assert job.model_id == model.model_id
     assert FakeResolver.model_ids == [model.model_id]
+
+
+def test_background_job_status_can_move_from_pending_to_completed(db_session) -> None:
+    db, runtime_dir = db_session
+    uploaded_audio, model = seed_uploaded_audio_and_model(db, runtime_dir)
+    service = separation_service.SeparationService()
+
+    pending = service.create_pending_separation_job(
+        db,
+        uploaded_audio.uploaded_audio_id,
+        model_id=model.model_id,
+    )
+    job = db.get(SeparationJob, pending.job_id)
+    assert pending.status == "pending"
+    assert job.status == "pending"
+
+    completed = service.process_separation_job(db, pending.job_id)
+
+    db.refresh(job)
+    assert completed.status == "completed"
+    assert job.status == "completed"
+
+
+def test_visualizations_are_created_after_successful_separation(db_session) -> None:
+    db, runtime_dir = db_session
+    uploaded_audio, model = seed_uploaded_audio_and_fixed_filter_model(db, runtime_dir)
+    service = separation_service.SeparationService(
+        algorithm_factory=SeparationAlgorithmFactory,
+    )
+
+    response = service.separate_uploaded_audio(
+        db,
+        uploaded_audio.uploaded_audio_id,
+        model_id=model.model_id,
+    )
+
+    visualization_dir = runtime_dir / "visualizations"
+    expected_files = [
+        visualization_dir / f"{response.job_id}_mixed_waveform.png",
+        visualization_dir / f"{response.job_id}_mixed_spectrogram.png",
+        visualization_dir / f"{response.job_id}_heart_waveform.png",
+        visualization_dir / f"{response.job_id}_heart_spectrogram.png",
+        visualization_dir / f"{response.job_id}_lung_waveform.png",
+        visualization_dir / f"{response.job_id}_lung_spectrogram.png",
+    ]
+    assert response.status == "completed"
+    assert all(path.is_file() and path.stat().st_size > 0 for path in expected_files)
+    result_details = get_result_details(db, response.job_id)
+    assert result_details["visualizations"]["mixed"]["waveform"]["url"].endswith(
+        f"{response.job_id}_mixed_waveform.png"
+    )

@@ -7,6 +7,13 @@ from app.ml import neossnet_strategy as neossnet_strategy_module
 from app.ml.neossnet_strategy import NeoSSNetStrategy
 from app.ml.separation_algorithm import SeparationAlgorithmResult
 from app.ml.separation_engine import SeparationEngine
+from app.ml.strategies.fixed_filter_strategy import FixedFilterSeparationStrategy
+from app.ml.strategies.nmf_strategy import NmfSeparationStrategy
+from app.ml.strategies.vmd_strategy import (
+    VmdFastSeparationStrategy,
+    VmdQualitySeparationStrategy,
+    VmdSeparationStrategy,
+)
 from app.models.db_models import Model
 from app.services.separation_algorithm_factory import SeparationAlgorithmFactory
 
@@ -85,6 +92,18 @@ def test_neossnet_strategy_wraps_real_inference_boundary(monkeypatch) -> None:
             lung_file_size_bytes=16,
             input_shape=(1, 4000),
             output_shape=(1, 2, 4000),
+            input_min=-0.5,
+            input_max=0.5,
+            input_rms=0.1,
+            heart_min=-0.25,
+            heart_max=0.25,
+            heart_rms=0.05,
+            lung_min=-0.2,
+            lung_max=0.2,
+            lung_rms=0.04,
+            checkpoint_path=kwargs["model_path"],
+            config_path=kwargs["model_config_path"],
+            bandpass_enabled=False,
         )
 
     monkeypatch.setattr(
@@ -106,6 +125,8 @@ def test_neossnet_strategy_wraps_real_inference_boundary(monkeypatch) -> None:
     assert calls["model_path"] == Path("neossnet.pth")
     assert calls["model_config_path"] == Path("neossnet.yaml")
     assert result.output_shape == (1, 2, 4000)
+    assert result.metadata["checkpoint_path"] == "neossnet.pth"
+    assert result.metadata["input_rms"] == 0.1
 
 
 def test_separation_algorithm_factory_creates_neossnet_strategy() -> None:
@@ -121,3 +142,77 @@ def test_separation_algorithm_factory_creates_neossnet_strategy() -> None:
     algorithm = SeparationAlgorithmFactory.create_algorithm(model)
 
     assert isinstance(algorithm, NeoSSNetStrategy)
+
+
+def test_separation_algorithm_factory_creates_baseline_strategies() -> None:
+    fixed_filter = Model(
+        model_name="Fixed Filter Baseline",
+        version="1.0",
+        architecture="FixedFilter",
+        framework="NumPy",
+        checkpoint_path="builtin://fixed_filter",
+        strategy_key="fixed_filter",
+        method_type="baseline",
+        requires_checkpoint=0,
+    )
+    nmf = Model(
+        model_name="NMF Decomposition",
+        version="1.0",
+        architecture="NMF",
+        framework="NumPy",
+        checkpoint_path="builtin://nmf",
+        strategy_key="nmf",
+        method_type="decomposition",
+        requires_checkpoint=0,
+    )
+    vmd = Model(
+        model_name="VMD Decomposition",
+        version="1.0",
+        architecture="VMD",
+        framework="vmdpy",
+        checkpoint_path="builtin://vmd",
+        strategy_key="vmd",
+        method_type="decomposition",
+        requires_checkpoint=0,
+    )
+    vmd_fast = Model(
+        model_name="VMD Decomposition (Fast)",
+        version="1.0",
+        architecture="VMDFast",
+        framework="vmdpy",
+        checkpoint_path="builtin://vmd",
+        strategy_key="vmd_fast",
+        method_type="decomposition",
+        requires_checkpoint=0,
+    )
+    vmd_quality = Model(
+        model_name="VMD Decomposition (Quality)",
+        version="1.0",
+        architecture="VMDQuality",
+        framework="vmdpy",
+        checkpoint_path="builtin://vmd",
+        strategy_key="vmd_quality",
+        method_type="decomposition",
+        requires_checkpoint=0,
+    )
+
+    assert isinstance(
+        SeparationAlgorithmFactory.create_algorithm(fixed_filter),
+        FixedFilterSeparationStrategy,
+    )
+    assert isinstance(
+        SeparationAlgorithmFactory.create_algorithm(nmf),
+        NmfSeparationStrategy,
+    )
+    assert isinstance(
+        SeparationAlgorithmFactory.create_algorithm(vmd),
+        VmdSeparationStrategy,
+    )
+    assert isinstance(
+        SeparationAlgorithmFactory.create_algorithm(vmd_fast),
+        VmdFastSeparationStrategy,
+    )
+    assert isinstance(
+        SeparationAlgorithmFactory.create_algorithm(vmd_quality),
+        VmdQualitySeparationStrategy,
+    )

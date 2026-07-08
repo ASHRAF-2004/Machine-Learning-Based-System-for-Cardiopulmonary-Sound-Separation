@@ -1,136 +1,106 @@
-# Cardiopulmonary Sound Separation Prototype
+# Cardiopulmonary Sound Separation System
 
-## Project Overview
+Final Year Project implementation for separating mixed cardiopulmonary WAV audio into heart-sound and lung-sound outputs. The system is a local FastAPI web app with SQLite metadata, filesystem audio storage, strategy-based separation methods, browser preview/download, processing history, and evaluation metrics when paired references are available.
 
-This project is a Final Year Project prototype for separating mixed cardiopulmonary audio into heart sound and lung sound outputs. It provides a FastAPI web interface where a user can upload a mixed WAV file, run real NeoSSNet inference, preview the separated outputs, download the generated WAV files, and view recent processing history.
+This project is for sound separation research/demo use only. It is not a clinical diagnostic system.
 
-The system is designed for local academic demonstration, testing, and research workflow support. It is not a clinical diagnostic system.
+## Supported Separation Methods
 
-## Features
+| Method | Type | Implementation status |
+| --- | --- | --- |
+| Fixed Filter Baseline | Conventional baseline | Implemented with smooth frequency-domain masks. Useful for validating the full workflow. |
+| NMF Decomposition | Decomposition baseline | Implemented as an unsupervised NumPy NMF spectrogram soft-mask baseline. Not a trained ML model. |
+| VMD Decomposition | Decomposition baseline | Implemented with `vmdpy`, mode grouping by dominant frequency, and a fast/safe preset for local UI use. Not a trained ML model. |
+| NeoSSNet | Deep learning model | Main ML method. Uses PyTorch, `model_best.pt`, and `model.yaml` for real inference. |
 
-- Upload mixed cardiopulmonary `.wav` files through a browser UI.
-- Validate and store uploaded WAV files under `storage/uploads/raw/`.
-- Run real PyTorch-based NeoSSNet inference using the configured model files.
-- Save separated heart and lung WAV outputs under `storage/outputs/`.
-- Play the original upload and separated outputs in the browser.
-- Download separated heart and lung WAV files.
-- Store upload metadata, model metadata, job status, result paths, and processing timing in SQLite.
-- View recent separation history.
-- Validate project folders, database tables, and dataset hygiene with a helper script.
-
-## Folder Structure
+The app uses a Strategy + Factory structure:
 
 ```text
-app/
-  database/              SQLite connection helpers
-  ml/                    NeoSSNet inference wrapper and vendored source
-  models/                SQLAlchemy database models
-  routers/               FastAPI route modules
-  services/              Upload, separation, and result business logic
-  static/                CSS and JavaScript for the browser UI
-  templates/             FastAPI/Jinja2 HTML templates
-database/
-  cardiopulmonary.db     Local SQLite database, auto-created at startup
-  schema.sql             Database schema
-  seed.sql               Seed data reference
-datasets/
-  hls_cmds/              HLS-CMDS dataset folders
-docs/                    Project explanation and demo notes
-sample_inputs/           Small sample WAV files for testing
-scripts/                 Project validation and inference test scripts
-storage/
-  ml_models/             NeoSSNet checkpoint and config files
-  outputs/heart/         Generated heart sound WAV files
-  outputs/lung/          Generated lung sound WAV files
-  uploads/raw/           Uploaded mixed WAV files
-  uploads/temp/          Temporary files used by tests/runtime helpers
-  logs/                  Local log folder
-tests/                   Pytest tests
+app/ml/strategies/base.py
+app/ml/strategies/fixed_filter_strategy.py
+app/ml/strategies/nmf_strategy.py
+app/ml/strategies/vmd_strategy.py
+app/ml/neossnet_strategy.py
+app/ml/strategy_factory.py
+app/services/separation_service.py
 ```
 
-## Installation
+Routers do not hard-code separation algorithms. They call `SeparationService`, which selects a strategy from the database model registry.
 
-Use Python 3.10+ in a local virtual environment.
+## Quick Start
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-```
-
-If PyTorch installation fails on your machine, install the correct CPU build from the official PyTorch installation command for your Python version, then run `python -m pip install -r requirements.txt` again.
-
-The app automatically creates `database/cardiopulmonary.db` and required `storage/` folders when FastAPI starts. If you want to initialize them manually first, run:
-
-```powershell
 python scripts/init_db.py
-```
-
-## How To Run
-
-Start the FastAPI development server from the project root:
-
-```powershell
+python scripts/prepare_dataset.py
 uvicorn app.main:app --reload
 ```
 
-Open the web interface:
+Open:
 
 ```text
 http://127.0.0.1:8000/
 ```
 
-Basic workflow:
+If PyTorch installation fails, install the correct CPU build from the official PyTorch instructions for your Python version, then rerun `python -m pip install -r requirements.txt`.
 
-1. Choose a mixed `.wav` file.
-2. Click upload/run separation in the web UI.
-3. Wait for NeoSSNet inference to finish.
-4. Preview the heart and lung output audio.
-5. Download the generated output files if needed.
+## Database Setup
 
-## How To Test
+The project does not commit the runtime SQLite database file because it changes whenever the system is used.
 
-Run the automated tests:
+When someone clones this repository, they should run:
 
-```powershell
-pytest -q
+```bash
+python scripts/init_db.py
 ```
 
-Validate the project structure, database, and HLS-CMDS dataset folders:
+This command creates a fresh local database:
 
-```powershell
-python scripts/check_project.py
+```text
+database/cardiopulmonary.db
 ```
 
-Run the standalone NeoSSNet inference smoke test:
+The repository should keep the database recipe files:
 
-```powershell
-python scripts/test_neossnet_inference.py
+```text
+database/schema.sql
+database/seed.sql
+scripts/init_db.py
 ```
 
-The standalone inference test reads `sample_inputs/H0001.wav` and writes:
+The project should not rely on committing the local runtime database file:
 
-- `storage/outputs/heart/test_heart.wav`
-- `storage/outputs/lung/test_lung.wav`
+```text
+database/cardiopulmonary.db
+```
 
-## API Endpoints
+`cardiopulmonary.db` stores local uploads, separation jobs, output paths, logs, and metrics. It is generated runtime data rather than source code.
 
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `GET` | `/` | Browser interface |
-| `GET` | `/health` | Health check and database existence status |
-| `POST` | `/upload` | Upload and store a WAV file |
-| `POST` | `/separate/{audio_id}` | Run NeoSSNet separation for an uploaded audio record |
-| `GET` | `/result/{job_id}` | Return job status, uploaded audio metadata, output paths, and timing |
-| `GET` | `/download/{job_id}/heart` | Download separated heart sound WAV |
-| `GET` | `/download/{job_id}/lung` | Download separated lung sound WAV |
-| `GET` | `/history` | Return recent separation jobs |
+## Workflow
 
-## Dataset Notes
+1. Upload a mixed `.wav` file.
+2. Select a Separation Method.
+3. Run separation.
+4. Preview heart and lung output WAV files.
+5. Download outputs.
+6. Review metrics when HLS-CMDS paired references are available.
+7. View history.
 
-The HLS-CMDS dataset is kept outside the application source code under `datasets/hls_cmds/`.
+Generated files are stored under:
 
-Expected dataset folders:
+```text
+storage/uploads/raw/
+storage/outputs/heart/
+storage/outputs/lung/
+```
+
+SQLite stores metadata only. WAV files are not stored as database blobs.
+
+## Dataset Setup
+
+HLS-CMDS is expected under:
 
 ```text
 datasets/hls_cmds/raw/HS/
@@ -142,37 +112,155 @@ datasets/hls_cmds/processed/val/
 datasets/hls_cmds/processed/test/
 ```
 
-Runtime uploads and outputs are separate from the dataset. The backend reads uploaded files from `storage/uploads/raw/` during inference and writes generated outputs to `storage/outputs/heart/` and `storage/outputs/lung/`.
+Run:
 
-Dataset junk files such as `.DS_Store`, `._*`, and `__MACOSX` should not be kept under `datasets/hls_cmds/`. Use `python scripts/check_project.py` to check this.
-
-## Model Files Notes
-
-NeoSSNet source code used by the FastAPI app is stored in:
-
-```text
-app/ml/neossnet_source/
+```powershell
+python scripts/prepare_dataset.py
 ```
 
-The active model entry in `database/cardiopulmonary.db` should point to:
+The script reads `datasets/hls_cmds/metadata/Mix.csv`, copies paired `M####.wav`, `H####.wav`, and `L####.wav` files from `raw/Mix/`, and writes processed train/val/test folders plus split CSV files. Raw files are not modified.
+
+Dataset source notes:
+
+- HLS-CMDS: Mendeley Data and UCI repository.
+- License/access note: CC BY 4.0 according to the public dataset pages.
+- Contains mixed audio plus corresponding heart and lung references for paired examples.
+
+## NeoSSNet Checkpoint Setup
+
+NeoSSNet is the main ML/deep-learning method. The runtime registry expects:
 
 ```text
 storage/ml_models/model_best.pt
 storage/ml_models/model.yaml
 ```
 
-The backend loads the active model row from the `model` table, uses `checkpoint_path` and `config_path`, runs CPU inference by default, and writes one heart WAV and one lung WAV per completed job.
+The bundled/reference NeoSSNet code documents:
 
-If the database is rebuilt from SQL files, verify that the active `model` row contains both the checkpoint path and config path used by the working prototype.
+- input waveform shape: `(1, T)` for helper inference
+- direct model input shape: `(B, 1, T)`
+- direct model output shape: `(B, 2, T)`
+- output channel order: channel 0 heart, channel 1 lung
+- pretrained files: `models/model_best.pt` and `models/model.yaml`
 
-## Documentation
+NeoSSNet source reference:
 
-- `docs/system_architecture.md` explains the frontend, backend, database, storage, and NeoSSNet inference flow.
-- `docs/database_design.md` explains the SQLite tables, relationships, and why WAV files are stored on the filesystem.
-- `docs/demo_steps.md` provides a step-by-step demo flow for presentation.
+```text
+external/Neonatal-Chest-Sound-Separation-using-Deep-Learning-main/
+```
 
-## Current Limitations
+No fake ML output is used. If the checkpoint/config are missing, NeoSSNet separation fails clearly instead of silently using a placeholder.
 
-- The prototype is intended for local demonstration and academic evaluation, not diagnosis.
-- Inference currently runs synchronously inside the request/response flow.
-- SQLite and local filesystem storage are suitable for this student prototype, but a production deployment would need stronger job queueing, storage management, authentication, and validation.
+### Fine-Tuning NeoSSNet On HLS-CMDS
+
+The project includes a real PyTorch fine-tuning script for the processed HLS-CMDS train/validation split:
+
+```powershell
+python scripts/train_neossnet_hls.py --quick-test --epochs 1
+python scripts/train_neossnet_hls.py --epochs 10 --batch-size 4
+```
+
+The loader uses:
+
+- `datasets/hls_cmds/processed/train/` for training
+- `datasets/hls_cmds/processed/val/` for validation checkpoint selection
+- `datasets/hls_cmds/processed/test/` only for final evaluation
+
+The fine-tuned files are saved to:
+
+```text
+storage/ml_models/neossnet_hls_finetuned.pt
+storage/ml_models/neossnet_hls_finetuned.yaml
+```
+
+When those files exist, `python scripts/init_db.py` registers `NeoSSNet HLS Fine-tuned` as an active method while keeping the original NeoSSNet checkpoint available. The fine-tuned model is not made the default automatically; final claims should be based on evaluation CSV results.
+
+NeoSSNet remains a Python/PyTorch model. The training script uses 4000 Hz mono audio, 60000-sample segments, `(B, 1, T)` mixed inputs, and `(B, 2, T)` heart/lung targets.
+
+## Evaluation Metrics
+
+When uploaded audio exposes an HLS-CMDS ID such as `M0001.wav`, the service looks for:
+
+```text
+datasets/hls_cmds/raw/Mix/H0001.wav
+datasets/hls_cmds/raw/Mix/L0001.wav
+```
+
+Then it stores real metrics in `evaluation_metric`:
+
+- SDR
+- SI-SDR
+- SNR improvement
+- MSE
+- MAE
+- correlation
+- alignment lag in samples
+
+Processing time, sample rate, duration, selected method, output paths, and job status are stored with each run.
+
+SI-SDR is reported in dB, and higher values are better. Evaluation claims should be based on the generated CSV files, not on a single run or a single audio sample. The metric calculation uses a bounded alignment search for paired references so small timing offsets do not dominate the score.
+
+## API Endpoints
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/` | Browser interface |
+| `GET` | `/health` | Health check |
+| `GET` | `/methods` | List separation methods |
+| `GET` | `/models` | Backward-compatible alias for method registry |
+| `POST` | `/upload` | Upload and store a WAV file |
+| `POST` | `/separate/{audio_id}?model_id={id}` | Run selected separation method |
+| `GET` | `/result/{job_id}` | Job, method, output, and metric details |
+| `GET` | `/download/{job_id}/heart` | Download heart output WAV |
+| `GET` | `/download/{job_id}/lung` | Download lung output WAV |
+| `GET` | `/history` | Recent processing jobs |
+
+## Testing
+
+```powershell
+pytest -q
+python scripts/check_project.py
+python scripts/test_neossnet_inference.py
+python scripts/evaluate_strategies.py --max-samples 20
+```
+
+`scripts/test_neossnet_inference.py` runs a standalone NeoSSNet validation test through the same backend wrapper used by FastAPI. It prints sample rate, duration, tensor shapes, checkpoint/config paths, input/output min/max/RMS values, channel-order evidence, and paired-reference metrics when an HLS-CMDS test pair is available. It writes:
+
+```text
+storage/outputs/heart/test_heart.wav
+storage/outputs/lung/test_lung.wav
+```
+
+`scripts/evaluate_strategies.py` compares selected methods on paired HLS-CMDS test samples and writes:
+
+```text
+evaluation/results_strategy_comparison.csv
+evaluation/summary_strategy_comparison.csv
+```
+
+Useful evaluation commands:
+
+```powershell
+python scripts/evaluate_strategies.py --max-samples 20
+python scripts/evaluate_strategies.py --max-samples 20 --strategies fixed_filter,nmf,vmd,neossnet
+python scripts/evaluate_strategies.py --max-samples 20 --skip-slow
+python scripts/evaluate_strategies.py --max-samples 20 --output-dir evaluation
+```
+
+After fine-tuning, rerun:
+
+```powershell
+python scripts/init_db.py
+python scripts/evaluate_strategies.py --max-samples 23
+```
+
+The evaluator will list both `NeoSSNet Original` and `NeoSSNet HLS Fine-tuned` when the fine-tuned checkpoint/config are available.
+
+The default VMD method uses the fast preset for the local web workflow. A quality preset is available in code as `vmd_quality` for experiments, but it is slower. Optional C++ acceleration was not added because profiling showed the Python fast preset reduced 15-second VMD processing from about 12 seconds to well under 1 second on the local machine. NeoSSNet remains Python/PyTorch.
+
+## External Algorithm Notes
+
+- NeoSSNet GitHub reference: `yangyipoh/Neonatal-Chest-Sound-Separation-using-Deep-Learning`. No explicit license file was found in the local/reference copy, so keep attribution and avoid redistributing it outside the project without checking.
+- `vmdpy` is MIT licensed and is used for the VMD decomposition baseline.
+- The NMF strategy is a practical NumPy implementation using standard multiplicative-update NMF on the magnitude spectrogram. It is not the MATLAB NMF/NMCF method from the NeoSSNet reference repository.
+- Fixed Filter, NMF, and VMD are baseline/decomposition methods, not trained ML models.
