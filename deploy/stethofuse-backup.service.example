@@ -1,0 +1,38 @@
+[Unit]
+Description=Encrypted StethoFuse off-host backup
+Wants=network-online.target docker.service
+After=network-online.target docker.service
+Requires=docker.service
+ConditionPathExists=/etc/stethofuse/backup.env
+ConditionPathExists=/etc/stethofuse/restic-password
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+UMask=0077
+EnvironmentFile=/etc/stethofuse/backup.env
+LoadCredential=restic-password:/etc/stethofuse/restic-password
+Environment=RESTIC_PASSWORD_FILE=%d/restic-password
+ExecStart=/usr/local/libexec/stethofuse/backup-restic.sh
+TimeoutStartSec=2h
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=strict
+CacheDirectory=stethofuse-restic
+ReadWritePaths=/run/docker.sock
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native

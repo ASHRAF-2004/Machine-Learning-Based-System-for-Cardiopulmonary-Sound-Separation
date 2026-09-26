@@ -130,28 +130,53 @@ recorded in FYP2 notes.
 
 ## Backup and restore
 
-Back up during a maintenance window after stopping the stack so SQLite and
-private files form a consistent snapshot. Store backups encrypted and outside
-this host; restrict them to authorized operators because they contain private
-recordings. Do not include `.env`, ADC files, or credentials in the archive.
+The production backup target is **not provisioned yet**. Host discovery found
+no remote filesystem, configured object-store client, or StethoFuse backup
+repository. `/srv`, `/var/backups`, and the workspace share the host's root
+storage; those are local rollback copies, not disaster-recovery backups. The
+prepared default is Restic to a private Backblaze B2 bucket through its
+S3-compatible endpoint. Restic encrypts/authenticates repository contents on
+the client before upload. B2's published price is currently $6.95/TB per 30
+days, with the first 10 GB free and egress allowances; exact charges depend on
+the stored data, region, and restore volume. B2 currently offers US East, US
+West, EU Central and Canada East regions, not an Asia region, so the selected
+region and institutional/privacy suitability must be considered before
+creating the bucket. No account, bucket, key, paid resource, or backup has been
+created. The workspace-level decision record is `planning/PRODUCTION_IDENTITY_AND_BACKUP.md`.
 
-```sh
-docker compose --project-name stethofuse-production --env-file /etc/stethofuse/runtime.env \
-  -f deploy/compose.yaml -f deploy/compose.firebase.yaml stop
-sudo tar --numeric-owner -C /srv/stethofuse -czf \
-  /secure-backup/stethofuse-YYYYMMDDTHHMMSSZ.tar.gz data private
-sudo chmod 0600 /secure-backup/stethofuse-YYYYMMDDTHHMMSSZ.tar.gz
-docker compose --project-name stethofuse-production --env-file /etc/stethofuse/runtime.env \
-  -f deploy/compose.yaml -f deploy/compose.firebase.yaml up -d
-```
+`backup-restic.sh`, `backup.env.example`, and the example systemd service/timer
+are prepared deployment files, not an installed/verified production job. The
+helper requires the future bucket-scoped B2 S3 key from a root-only systemd
+environment file and the Restic password delivered to the service through
+systemd's private credential mechanism from a separate root-only source file.
+Do not place either value in Git,
+Compose images, shell history, or chat. Keep the Restic encryption password in
+an independently recoverable offline password manager/escrow; losing it makes
+the encrypted repository unrecoverable. Keep B2 key material separate from
+the encryption secret. The environment file and runtime data are included
+inside Restic's encrypted snapshots; B2 and Restic credentials are not.
 
-Restore to a **new empty staging root** first; never extract over the active
-runtime. Validate file ownership/modes, run SQLite integrity checks, start the
-matching image against the staged data, and verify health/authorized synthetic
-checks before switching the runtime root. Retain the original root untouched
-until the restore is accepted. A local tar-copy check should use only the
-synthetic smoke directory; it is not a substitute for an encrypted off-host
-restore drill or documented retention policy.
+After the destination is approved and provisioned, install the helper outside
+the checkout, create the private repository once, and run it under a dedicated
+root-owned systemd oneshot/timer. The helper refuses non-B2/local targets and
+requires one healthy API and web container before stopping the pair for a
+consistent SQLite and media snapshot. It attempts to bring them back even if
+the backup fails. It backs up only the persistent database, private original/result files, runtime
+environment and an encrypted snapshot's SHA-256 file manifest; image layers,
+caches, build outputs, and developer ADC are excluded. Choose a retention
+policy and repository maintenance schedule only after estimating actual data
+volume, privacy requirements and restore needs; do not prune snapshots before
+that policy is approved.
+
+For a recovery drill, restore a named snapshot into a **new empty staging
+directory**, never over the active runtime. Check `PRAGMA integrity_check` on
+the restored SQLite file, verify manifest/file hashes and ownership/modes,
+start the matching image against staged copies, and perform health plus
+authorized synthetic-media checks before any root switch. Periodically run
+`restic check`; at least quarterly perform a full isolated restore. A local
+synthetic tar/copy test is not an off-host backup or restore proof. The actual
+encrypted off-host restore remains blocked until an approved remote bucket and
+key exist.
 
 ## Rollback
 
