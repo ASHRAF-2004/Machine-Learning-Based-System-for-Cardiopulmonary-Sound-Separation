@@ -4,12 +4,16 @@ The newer frontend is preserved in pre-M1 commit `c681839`. M1 now adds official
 Firebase client authentication and protected same-origin API integration without changing
 approved owl/artwork or shared theme files. Normal mode is LIVE/fail-closed if configuration
 is missing; fictional personas require explicit development demo mode (`npm run dev:demo`).
-The existing preview at127.0.0.1:4180 may therefore show "Authentication setup required";
-this is intentional, not a completed real-provider connection or a lost demo account.
+Selected project `stethofuse-c18cd-3cca0` now has Web App
+`1:923213197696:web:e1810085b8db2b77a2d165`; its real public configuration is in ignored
+`.env.local`. Email/password and Google providers are enabled and read-verified. Local
+login was inspected at **http://localhost:4180/login** with enabled controls and no missing
+configuration notice. Only localhost and default Firebase domains are currently authorized.
+The build passes with this configuration; no real account sign-in has been completed.
 
-Selected project `stethofuse-c18cd-3cca0` has no Web App and Auth is at Get started.
-Real Google/email sign-in, mail delivery, backend ADC and intended admin UID/bootstrap
-are pending user-operated provider setup. Never invent config or use browser roles as
+Developer CLI consent and restricted backend IAM setup are complete; user-operated ADC
+consent, real Google/email sign-in, mail delivery and intended admin UID/bootstrap remain.
+Never invent config or use browser roles as
 backend authority. Mock browser/API evidence is separate from real-provider verification.
 
 See parent `PAUSE_NOTES.md`, `planning/M1_LOCAL_CHECKPOINT.md`, current repository README

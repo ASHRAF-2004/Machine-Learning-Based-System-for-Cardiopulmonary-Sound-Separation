@@ -73,10 +73,19 @@ was hidden by these corrections.
 
 ## Implemented but not verified live
 
-Official Firebase 12.19.0 SDK flows are implemented; required web-app config is
-intentionally absent and fails closed. Provider setup, authorized domains,
-password/email policy, email templates/action handler routing, real Google/email
-consent/delivery and deployed HTTPS behavior remain external verification gates.
+Official Firebase 12.19.0 SDK flows are implemented. After the historical test run,
+the selected project's Web App was registered and genuine public config added to
+ignored `.env.local`; email/password and Google enablement were read-verified.
+This is configuration evidence, not a successful real sign-in. Backend ADC consent,
+password/email policy review, action-handler/delivery tests, actual Google/email
+account flows and deployed HTTPS behavior remain external verification gates.
+
+`browser.mjs` deliberately starts with a missing-configuration assertion. To reproduce
+that historical suite after local provider configuration, start its loopback4180 Vite
+server with `VITE_FIREBASE_API_KEY= npm run dev` (environment overrides `.env.local`).
+Do not run that suite against a real signed-in user or mistake the expected configured
+login page for a regression. Preserve existing preview processes until a test restart
+is deliberately scheduled. Other mock suites remain explicitly isolated.
 SDK browser-session persistence is JavaScript-accessible and is not HttpOnly or
 XSS-proof. No manual credential/token localStorage/sessionStorage writes exist in
 the application. Test-only storage contains a fictional UID/verified flag only.

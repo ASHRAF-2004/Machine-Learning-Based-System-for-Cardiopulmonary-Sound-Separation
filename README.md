@@ -28,8 +28,10 @@ Read [the M1 API contract](docs/M1_API_CONTRACT.md) and
 | Testing | Pytest API/permission integration and real Chrome browser automation; mocks distinguished from live providers |
 
 Live identity cannot be inferred from a successful build or mock test. The selected project
-`stethofuse-c18cd-3cca0` currently requires Web App/Authentication configuration, CLI consent
-and separately approved server credentials. No Firebase project is created automatically.
+`stethofuse-c18cd-3cca0` now has its registered Web App and enabled email/password and Google
+providers. Developer CLI consent and restricted backend IAM setup are verified. The separate
+user-operated ADC consent and genuine application sign-in/API tests remain pending.
+No Firebase project is created automatically.
 No application administrator has been bootstrapped in this milestone yet.
 
 ## Identity and access
@@ -63,6 +65,9 @@ npm run dev -- --host 127.0.0.1 --port 4180 --strictPort
 Copy `frontend/.env.example` to an ignored local configuration only after obtaining the
 existing project's genuine Web App settings. Firebase web configuration is public client
 configuration; Firebase Admin credentials and OAuth secrets must never go into `VITE_*`.
+The prepared workspace already has its genuine configuration in ignored `frontend/.env.local`.
+Use **http://localhost:4180/login** for local provider tests: `localhost` is currently an
+authorized Firebase domain; `127.0.0.1` and the not-yet-deployed final hostname are not.
 Use the existing provider auth domain, not an invented callback URL. No email is sent by tests
 without an explicitly designated recipient.
 
@@ -85,6 +90,21 @@ server credentials are separate. Do not generate keys, copy tokens into this rep
 disable verification to make local startup appear connected. Exact initialization/bootstrap
 commands and runtime limitations are maintained in the M1 route audit. Do not start an
 additional process if the relevant loopback port already serves this project.
+
+The approved local credential mechanism is keyless impersonation of
+`stethofuse-m1-auth-reader@stethofuse-c18cd-3cca0.iam.gserviceaccount.com`, with Firebase
+Authentication Viewer only. After the user's pending ADC consent and harmless provider
+check succeed, the backend command above additionally needs:
+
+```sh
+export CLOUDSDK_CONFIG=/home/ashraf/.config/stethofuse-gcloud
+export STETHOFUSE_FIREBASE_ENABLED=1
+```
+
+Do not enable this flag merely because IAM permissions exist. The isolated ADC directory
+is outside the repository, owner-only, and must never be copied into reports or backups.
+Keyless ADC still contains sensitive source-user credentials. No application admin role
+is conferred by these infrastructure settings.
 
 Explicit fictional preview (development server only):
 
