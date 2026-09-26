@@ -46,6 +46,9 @@ Firebase sign-in → current ID token → Authorization: Bearer → FastAPI veri
 - Public registration defaults to `healthcare_staff`; no requested browser role is accepted.
 - `audio_analyst` can review only explicitly assigned resources.
 - `admin` manages accounts and safe operational metadata, not everyone's private audio.
+- The current administrator's own User Management row is read-only: FastAPI rejects
+  self role/status changes with `403`; another administrator must act, and the last-active
+  administrator safeguard remains enforced.
 - First-admin bootstrap is a trusted operator action against a real, verified UID, never an
   email match, first-user promotion, browser toggle or public HTTP endpoint.
 - Role/status/grant checks use trusted records; UI guards only support navigation.
@@ -57,6 +60,10 @@ See [roles, signup/sign-in and administrator provisioning](docs/ROLES_AND_ACCOUN
 for the permission matrix, steps for promoting another verified account and FYP2 use-case actors.
 The user confirmed that an existing administrator may promote additional administrators;
 public signup still never grants privileged roles.
+
+The current development branch is backed up at GitHub as
+`codex/fyp2-application-rebuild`; its draft review is PR #8. This is not a production
+deployment or a claim that the final hostname is live.
 
 ## Local development (Ubuntu)
 
