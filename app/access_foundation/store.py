@@ -217,6 +217,8 @@ class DevelopmentAccessStore:
             target = db.execute("SELECT * FROM af_users WHERE id=?", (target_id,)).fetchone()
             if target is None:
                 raise AccessDenied("Access denied.")
+            if role is not None and target["email_verified"] != 1:
+                raise AccessDenied("Role changes require an existing verified account.")
             new_role = role.value if role is not None else target["role"]
             new_status = status.value if status is not None else target["status"]
             was_active_admin = target["role"] == "admin" and target["status"] == "active" and target["email_verified"] == 1

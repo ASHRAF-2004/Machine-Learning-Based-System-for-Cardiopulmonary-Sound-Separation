@@ -184,9 +184,83 @@ def test_admin_capabilities_and_last_admin_guard(env):
         assert env.client.get(path).status_code == 401
         assert env.client.get(path, headers=auth()).status_code == 403
         assert env.client.get(path, headers=auth("admin")).status_code == 200
-    response = env.client.patch(f"/api/admin/users/{target}", headers=auth("admin"), json={"status": "disabled", "confirmed_target_id": target})
-    assert response.status_code == 409 and response.json()["detail"]["code"] == "last_admin"
+    for change in ({"status": "disabled"}, {"status": "suspended"},
+                   {"role": "healthcare_staff"}, {"role": "audio_analyst"}):
+        response = env.client.patch(f"/api/admin/users/{target}", headers=auth("admin"),
+                                    json={**change, "confirmed_target_id": target})
+        assert response.status_code == 409 and response.json()["detail"]["code"] == "last_admin"
     assert env.store.bootstrap_first_admin(env.verifier, provider_uid="fictional-admin", confirmed_uid="fictional-admin") is False
+
+
+def test_admin_promotion_demotion_verified_target_and_audit(env):
+    target = env.users["other"]["id"]
+    path = f"/api/admin/users/{target}"
+    body = {"role": "admin", "confirmed_target_id": target}
+    with patch.object(env.verifier, "lookup_existing", wraps=env.verifier.lookup_existing) as lookup:
+        assert env.client.patch(path, headers=auth(), json=body).status_code == 403
+        lookup.assert_not_called()
+        response = env.client.patch(path, headers=auth("admin"), json=body)
+        assert response.status_code == 200 and response.json()["role"] == "admin"
+        lookup.assert_called_once_with("fictional-other")
+    assert env.client.get("/api/admin/users", headers=auth("other")).status_code == 200
+    body["role"] = "healthcare_staff"
+    assert env.client.patch(path, headers=auth("admin"), json=body).status_code == 200
+    assert env.client.get("/api/admin/users", headers=auth("other")).status_code == 403
+    events = env.client.get("/api/admin/audit", headers=auth("admin")).json()["items"]
+    changes = [e for e in events if e["target_id"] == target and e["action"] == "account.changed"]
+    assert len(changes) == 2
+    assert all(e["actor_id"] == env.users["admin"]["id"] for e in changes)
+
+
+@pytest.mark.parametrize("failure_kind", ["unverified", "disabled", "deleted", "mismatch", "outage"])
+@pytest.mark.parametrize("demotion", [False, True])
+def test_admin_role_change_rechecks_current_provider_target(env, failure_kind, demotion):
+    target = env.users["other"]["id"]
+    identity = env.verifier.identities["other"]
+    if demotion:
+        env.store.change_account(env.verifier.identities["admin"], target,
+                                 confirmed_target_id=target, role=Role.ADMIN)
+    with env.store._connection() as db:
+        before = db.execute("SELECT COUNT(*) FROM af_audit").fetchone()[0]
+    if failure_kind == "unverified":
+        replacement = {"return_value": VerifiedIdentity(identity.uid, identity.email, False)}
+    elif failure_kind == "disabled":
+        replacement = {"return_value": VerifiedIdentity(identity.uid, identity.email, True, disabled=True)}
+    elif failure_kind == "mismatch":
+        replacement = {"return_value": env.verifier.identities["owner"]}
+    else:
+        error = ProviderUnavailable if failure_kind == "outage" else AuthenticationDenied
+        replacement = {"side_effect": error("Private provider diagnostic must not escape")}
+    with patch.object(env.verifier, "lookup_existing", **replacement):
+        response = env.client.patch(f"/api/admin/users/{target}", headers=auth("admin"), json={
+            "role": "healthcare_staff" if demotion else "admin", "confirmed_target_id": target})
+    assert response.status_code == (503 if failure_kind == "outage" else 403)
+    assert "Private provider" not in response.text
+    with env.store._connection() as db:
+        assert db.execute("SELECT role FROM af_users WHERE id=?", (target,)).fetchone()[0] == (
+            "admin" if demotion else "healthcare_staff")
+        assert db.execute("SELECT COUNT(*) FROM af_audit").fetchone()[0] == before
+
+
+def test_admin_role_change_rejects_unverified_local_target_and_unknown_account(env):
+    target = env.users["other"]["id"]
+    with env.store._connection(write=True) as db:
+        db.execute("UPDATE af_users SET email_verified=0 WHERE id=?", (target,))
+    body = {"role": "admin", "confirmed_target_id": target}
+    assert env.client.patch(f"/api/admin/users/{target}", headers=auth("admin"), json=body).status_code == 403
+    with patch.object(env.verifier, "lookup_existing") as lookup:
+        body["confirmed_target_id"] = "nonexistent"
+        assert env.client.patch("/api/admin/users/nonexistent", headers=auth("admin"), json=body).status_code == 404
+        lookup.assert_not_called()
+
+
+def test_admin_role_change_audit_failure_rolls_back(env):
+    target = env.users["other"]["id"]
+    with patch.object(env.store, "_audit", side_effect=sqlite3.IntegrityError("Private diagnostic")):
+        response = env.client.patch(f"/api/admin/users/{target}", headers=auth("admin"), json={
+            "role": "admin", "confirmed_target_id": target})
+    assert response.status_code == 503 and "Private diagnostic" not in response.text
+    assert env.store.resolve_account(env.verifier.identities["other"]).role == Role.HEALTHCARE_STAFF
 
 
 def test_disabled_and_suspended_accounts_refresh_immediately(env):

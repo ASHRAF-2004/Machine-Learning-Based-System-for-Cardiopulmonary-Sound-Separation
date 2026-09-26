@@ -3,7 +3,11 @@
 2026-09-26. Implementation evidence, not production approval. Default entrypoint remains
 `app.main:app`; it now constructs `app.m1.api.create_app`. Legacy routers are preserved
 on disk but are neither imported nor registered. No production deployment, Firebase
-account mutation, first-admin bootstrap, or legacy-data migration was performed.
+account mutation or legacy-data migration was performed by the route implementation.
+Subsequent approved local first-admin bootstrap is recorded in
+[account provisioning](ROLES_AND_ACCOUNT_PROVISIONING.md). A later narrow hardening
+also rechecks the target's current verified/enabled Firebase UID before role changes;
+existing actor authorization, audit transaction and last-admin protection are preserved.
 
 ## Before: complete legacy HTTP inventory
 

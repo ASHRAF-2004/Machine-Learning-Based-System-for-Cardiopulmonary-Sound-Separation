@@ -4,8 +4,10 @@
 `app/m1/` API using these primitives. Legacy unowned content routes are retired, not
 left publicly available. Read [M1 route audit](M1_ROUTE_AUDIT.md),
 [API contract](M1_API_CONTRACT.md) and [security boundaries](M1_SECURITY_BOUNDARIES.md)
-for the current behavior and test limits. Official Firebase SDKs are installed;
-real provider configuration and live verification remain pending. M1 also permits an
+for the current behavior and test limits. Official Firebase SDKs/providers and restricted
+keyless ADC are configured; the intended primary admin has now been verified and bootstrapped
+locally. Full real-provider workflow acceptance remains open. See
+[current account provisioning](ROLES_AND_ACCOUNT_PROVISIONING.md). M1 also permits an
 exact original-audio review assignment, not only an exact result assignment.
 
 The original preparation record below is retained to explain the starting state;

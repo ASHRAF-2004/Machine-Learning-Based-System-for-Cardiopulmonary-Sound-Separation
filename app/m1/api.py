@@ -15,7 +15,7 @@ from starlette.background import BackgroundTask
 from starlette.datastructures import UploadFile
 
 from app.access_foundation import AccessDenied, AuthenticationDenied, DisabledVerifier, Role, Status
-from app.access_foundation.identity import EmailVerificationRequired, ProviderAccountDisabled, ProviderUnavailable
+from app.access_foundation.identity import EmailVerificationRequired, ProviderAccountDisabled, ProviderUnavailable, require_verified
 from .config import PROJECT_ROOT, Settings
 from .media import BodyLimitMiddleware, byte_range, failure, open_authorized_media, persist_upload
 from .provider import configured_verifier
@@ -313,10 +313,23 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
         return {"items": store.users(who)}
 
     @app.patch("/api/admin/users/{user_id}")
-    def update_user(user_id: str, body: UserChangeBody, who=Depends(admin), store=Depends(database)):
+    def update_user(user_id: str, body: UserChangeBody, request: Request, who=Depends(admin), store=Depends(database)):
         target = next((u for u in store.users(who) if u["id"] == user_id), None)
         if target is None:
             raise failure(404, "user_missing", "Account not found.")
+        if body.role is not None:
+            # Recheck the exact server-owned UID: onboarding verification can be
+            # stale after a provider-side email change, disablement or deletion.
+            # Never interpret the target's failure as the acting admin's 401.
+            try:
+                verified_target = request.app.state.verifier.lookup_existing(target["uid"])
+                require_verified(verified_target)
+                if verified_target.uid != target["uid"]:
+                    raise AuthenticationDenied("Identity mismatch.")
+            except ProviderUnavailable:
+                raise failure(503, "provider_unavailable", "Account verification is temporarily unavailable.") from None
+            except AuthenticationDenied:
+                raise failure(403, "target_not_verified", "Role changes require an existing, verified, enabled provider account.") from None
         account = store.change_account(who, user_id, **body.model_dump())
         return {**target, "role": account.role.value, "status": account.status.value}
 

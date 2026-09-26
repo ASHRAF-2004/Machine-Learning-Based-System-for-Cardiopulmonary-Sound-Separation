@@ -29,10 +29,12 @@ Read [the M1 API contract](docs/M1_API_CONTRACT.md) and
 
 Live identity cannot be inferred from a successful build or mock test. The selected project
 `stethofuse-c18cd-3cca0` now has its registered Web App and enabled email/password and Google
-providers. Developer CLI consent and restricted backend IAM setup are verified. The separate
-user-operated ADC consent and genuine application sign-in/API tests remain pending.
+providers. Developer CLI consent, restricted keyless backend ADC and harmless provider
+reads are verified. The user reports a successful Google application sign-in; the verified
+provider UID matches the backend account. The approved primary admin is now initialized
+in the isolated local database. Post-promotion real-browser admin/ordinary-user checks
+and remaining email/recovery flows are still pending; this is not complete live acceptance.
 No Firebase project is created automatically.
-No application administrator has been bootstrapped in this milestone yet.
 
 ## Identity and access
 
@@ -50,6 +52,11 @@ Firebase sign-in → current ID token → Authorization: Bearer → FastAPI veri
 - Legacy unowned data stays quarantined. No automatic ownership inference or destructive
   database migration is performed on startup.
 - Demo personas and synthetic audio are development-only and isolated from live mode.
+
+See [roles, signup/sign-in and administrator provisioning](docs/ROLES_AND_ACCOUNT_PROVISIONING.md)
+for the permission matrix, steps for promoting another verified account and FYP2 use-case actors.
+The user confirmed that an existing administrator may promote additional administrators;
+public signup still never grants privileged roles.
 
 ## Local development (Ubuntu)
 
@@ -93,8 +100,8 @@ additional process if the relevant loopback port already serves this project.
 
 The approved local credential mechanism is keyless impersonation of
 `stethofuse-m1-auth-reader@stethofuse-c18cd-3cca0.iam.gserviceaccount.com`, with Firebase
-Authentication Viewer only. After the user's pending ADC consent and harmless provider
-check succeed, the backend command above additionally needs:
+Authentication Viewer only. The user's ADC consent and harmless provider check have
+succeeded. The backend command above additionally needs these settings before startup:
 
 ```sh
 export CLOUDSDK_CONFIG=/home/ashraf/.config/stethofuse-gcloud

@@ -9,10 +9,15 @@ Selected project `stethofuse-c18cd-3cca0` now has Web App
 `.env.local`. Email/password and Google providers are enabled and read-verified. Local
 login was inspected at **http://localhost:4180/login** with enabled controls and no missing
 configuration notice. Only localhost and default Firebase domains are currently authorized.
-The build passes with this configuration; no real account sign-in has been completed.
+The build passes with this configuration. The user subsequently reported successful
+Google sign-in in a normal browser; official provider lookup and the UID-linked backend
+account corroborate the intended identity. Embedded-browser Google sign-in failed earlier.
 
-Developer CLI consent and restricted backend IAM setup are complete; user-operated ADC
-consent, real Google/email sign-in, mail delivery and intended admin UID/bootstrap remain.
+Developer CLI consent, restricted keyless backend ADC and primary-admin bootstrap are
+complete locally. The approved primary account is now Administrator. Refresh/refocus the
+normal browser tab to reload its server-owned role; no frontend or owl edits were needed.
+Existing admins may promote verified accounts through Administration → Users (user-confirmed).
+Real post-promotion browser checks, ordinary-account denial and email/recovery delivery remain.
 Never invent config or use browser roles as
 backend authority. Mock browser/API evidence is separate from real-provider verification.
 
