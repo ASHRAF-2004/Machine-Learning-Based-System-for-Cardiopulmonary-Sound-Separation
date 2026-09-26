@@ -69,6 +69,12 @@ through application account management. There is no arbitrary two-admin limit. P
 side deletion/disablement is outside that database safeguard; exceptional recovery must
 be reviewed by the trusted operator, not solved by a public recovery/admin bypass.
 
+The current administrator is deliberately excluded from editable role and status controls.
+The User Management row shows the backend-authoritative role with a **You** marker and
+the active status, while FastAPI rejects any self role/status mutation with `403` before
+the last-administrator calculation. Another active administrator must perform such a
+change. This is a security rule, not a presentation-only restriction.
+
 ## Actors for the application use-case diagram
 
 The three primary authenticated human actors are **Healthcare Staff**, **Audio Analyst**

@@ -210,6 +210,10 @@
 .workspace-page {min-width:0}
 .app-shell .workspace-page .panel p,.app-shell .workspace-page .metadata dd {font-size:14px}
 .app-shell .workspace-page .note-text {font-size:13px;line-height:1.5}
+.app-shell .workspace-page .user-you {display:inline-flex;align-items:center;margin-left:6px;padding:2px 7px;border:1px solid rgba(39,91,151,.2);border-radius:999px;color:#245a9c;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.app-shell .workspace-page .role-static,.app-shell .workspace-page .status-static {font-weight:650;color:#173765}
+.app-shell .workspace-page .status-static {display:inline-flex;padding:5px 9px;border-radius:999px;background:rgba(221,244,235,.75);color:#17634d}
+.app-shell .workspace-page .note-text[title] {cursor:help;color:#6b7d95}
 .app-shell .workspace-page .list-row strong {font-size:14px}
 .app-shell .workspace-page .list-row p {font-size:12px}
 .app-shell .workspace-page-dashboard .workspace-overview {grid-template-columns:minmax(0,1fr) 420px;gap:24px;height:231px;padding:20px 15px 12px 52px;border-radius:15px;align-items:start}

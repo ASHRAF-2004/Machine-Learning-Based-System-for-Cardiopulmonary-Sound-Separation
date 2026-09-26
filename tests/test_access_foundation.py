@@ -251,7 +251,8 @@ class AccessFoundationTests(unittest.TestCase):
 
         def demote(identity):
             store = DevelopmentAccessStore(self.path)
-            target = self.accounts[identity.uid].id
+            target_uid = self.other.uid if identity.uid == self.admin.uid else self.admin.uid
+            target = self.accounts[target_uid].id
             barrier.wait(timeout=5)
             try:
                 store.change_account(identity, target, confirmed_target_id=target, role=Role.HEALTHCARE_STAFF)
@@ -285,7 +286,8 @@ class AccessFoundationTests(unittest.TestCase):
 
     def test_consumed_bootstrap_cannot_restore_demoted_first_admin(self):
         self.change(self.other, role=Role.ADMIN)
-        self.change(self.admin, role=Role.HEALTHCARE_STAFF)
+        admin_id = self.accounts[self.admin.uid].id
+        self.store.change_account(self.other, admin_id, confirmed_target_id=admin_id, role=Role.HEALTHCARE_STAFF)
         with self.assertRaises(AccessDenied):
             self.store.bootstrap_first_admin(self.directory, provider_uid=self.admin.uid, confirmed_uid=self.admin.uid)
 

@@ -188,8 +188,36 @@ def test_admin_capabilities_and_last_admin_guard(env):
                    {"role": "healthcare_staff"}, {"role": "audio_analyst"}):
         response = env.client.patch(f"/api/admin/users/{target}", headers=auth("admin"),
                                     json={**change, "confirmed_target_id": target})
-        assert response.status_code == 409 and response.json()["detail"]["code"] == "last_admin"
+        assert response.status_code == 403 and response.json()["detail"]["code"] == "forbidden"
     assert env.store.bootstrap_first_admin(env.verifier, provider_uid="fictional-admin", confirmed_uid="fictional-admin") is False
+
+
+def test_admin_can_change_other_verified_roles_but_not_self(env):
+    admin_id = env.users["admin"]["id"]
+    target_id = env.users["other"]["id"]
+    target_path = f"/api/admin/users/{target_id}"
+    self_path = f"/api/admin/users/{admin_id}"
+
+    promoted = env.client.patch(target_path, headers=auth("admin"), json={
+        "role": "admin", "confirmed_target_id": target_id,
+    })
+    assert promoted.status_code == 200 and promoted.json()["role"] == "admin"
+
+    demoted = env.client.patch(target_path, headers=auth("admin"), json={
+        "role": "healthcare_staff", "confirmed_target_id": target_id,
+    })
+    assert demoted.status_code == 200 and demoted.json()["role"] == "healthcare_staff"
+
+    disabled = env.client.patch(target_path, headers=auth("admin"), json={
+        "status": "disabled", "confirmed_target_id": target_id,
+    })
+    assert disabled.status_code == 200 and disabled.json()["status"] == "disabled"
+
+    for change in ({"role": "healthcare_staff"}, {"status": "disabled"}):
+        response = env.client.patch(self_path, headers=auth("admin"), json={
+            **change, "confirmed_target_id": admin_id,
+        })
+        assert response.status_code == 403
 
 
 def test_admin_promotion_demotion_verified_target_and_audit(env):
