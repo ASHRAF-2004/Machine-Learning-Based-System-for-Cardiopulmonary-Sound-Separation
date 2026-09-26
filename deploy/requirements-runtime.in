@@ -1,0 +1,6 @@
+# Production API runtime only. Direct versions match the existing tested M1 contract.
+# Resolve this input to requirements-runtime.lock.txt before building an image.
+fastapi==0.136.0
+uvicorn==0.45.0
+python-multipart==0.0.26
+firebase-admin==7.7.0

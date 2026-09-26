@@ -66,7 +66,8 @@ for the permission matrix, steps for promoting another verified account and FYP2
 The user confirmed that an existing administrator may promote additional administrators;
 public signup still never grants privileged roles.
 
-The working branch is `fyp2/application`, based on the preserved `16af63c` checkpoint.
+The development branch is `fyp2/application`; its Git history and the earlier
+`codex/fyp2-application-rebuild` branch remain preserved.
 Its author configuration matches the existing human-authored repository identity
 `ASHRAF-2004 <adoashraf103@gmail.com>` and the authenticated GitHub account. The earlier
 `codex/fyp2-application-rebuild` remote branch remains preserved. Its duplicate draft PR #8
@@ -203,12 +204,30 @@ new Git commits; approved runtime owl assets and source scripts are retained. No
 was regenerated during M1. Environment files, credentials, databases, recordings, model weights,
 caches and build output are ignored. Never serve the parent workspace.
 
+## Production-like local runtime
+
+An isolated Docker Compose package now builds the current M1 frontend/API for local
+production-like testing. It serves the SPA and `/api` through the same Caddy origin, keeps
+the API unpublished to the host, and stores SQLite/private audio in external bind mounts.
+It has no connection to Axora's network and does not include a separation worker or GPU
+service. Follow [the deployment package runbook](deploy/README.md) for configuration,
+build/run, health/auth smoke checks, backup and restore guidance.
+
+Local validation on 27 September 2026 passed: both images built; `/` and a nested SPA route
+returned 200; `/api/health` reported storage/provider configured and ensemble unavailable;
+tokenless protected auth/admin/media requests returned 401; an API restart preserved
+synthetic-only database/private-file state. This is local package evidence, not a production
+test, a backup-recovery drill, or evidence of connected ensemble processing.
+
 ## Deployment target — not deployed
 
-Target: **https://stethofuse.ashraf-alsaloul.com**, on the owner's Linux server. Frontend and
-`/api` should share this origin. Firebase provides identity, not application hosting.
+Target: **https://stethofuse.ashraf-alsaloul.com**, on the owner's Linux server. Firebase
+provides identity; Firebase Hosting is not the intended application host. An isolated
+StethoFuse tunnel/Compose route is preferred over sharing Axora's existing tunnel/network.
+The observed production zone has no StethoFuse DNS record or tunnel route. The exact proposed
+topology, changes, backup/rollback and verification plan are in
+[`planning/PRODUCTION_RUNTIME_PROPOSAL.md`](../planning/PRODUCTION_RUNTIME_PROPOSAL.md).
 
-Existing Cloudflare/Caddy infrastructure must be inspected and reviewed before routing
-changes. No DNS edits, service restarts, public tunnels, pushes or production deployment are
-authorized by this local M1 milestone. Production requires separate approval, provider/edge
-configuration, secure storage/backup review and real-account authorization evidence.
+No production DNS, tunnel, Caddy, Firebase-domain or service writes were made. Deployment
+remains pending one explicit approval after preparation; Axora is to remain untouched. Do
+not label the target live until real post-deployment verification is complete.

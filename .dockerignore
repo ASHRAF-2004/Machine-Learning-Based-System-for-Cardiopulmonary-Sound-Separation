@@ -1,0 +1,19 @@
+# Backend image build context is allow-listed to the current authenticated API.
+**
+!deploy/
+deploy/*
+!deploy/Dockerfile.backend
+!deploy/requirements-runtime.lock.txt
+!app/
+app/*
+!app/main.py
+!app/access_foundation/
+app/access_foundation/*
+!app/access_foundation/*.py
+!app/access_foundation/schema.sql
+!app/m1/
+app/m1/*
+!app/m1/*.py
+!app/m1/schema.sql
+!app/static/
+!app/static/**

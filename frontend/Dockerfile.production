@@ -1,0 +1,24 @@
+FROM node:24.18.0-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432d679c54fbfd AS build
+WORKDIR /workspace
+COPY package.json package-lock.json tsconfig.json vite.config.ts index.html ./
+COPY src ./src
+COPY tools/owl_diagnostics.ts ./tools/owl_diagnostics.ts
+COPY public ./public
+RUN npm ci --no-audit --no-fund
+
+RUN --mount=type=secret,id=firebase-project-id,env=VITE_FIREBASE_PROJECT_ID \
+    --mount=type=secret,id=firebase-api-key,env=VITE_FIREBASE_API_KEY \
+    --mount=type=secret,id=firebase-auth-domain,env=VITE_FIREBASE_AUTH_DOMAIN \
+    --mount=type=secret,id=firebase-app-id,env=VITE_FIREBASE_APP_ID \
+    VITE_APP_MODE=live node -e 'for (const key of ["VITE_FIREBASE_PROJECT_ID", "VITE_FIREBASE_API_KEY", "VITE_FIREBASE_AUTH_DOMAIN", "VITE_FIREBASE_APP_ID"]) if (!process.env[key]) process.exit(1)' \
+    && VITE_APP_MODE=live npm run build
+
+FROM caddy:2.11.4-alpine@sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648 AS runtime
+RUN apk add --no-cache libcap && setcap -r /usr/bin/caddy && apk del libcap
+COPY Caddyfile.production /etc/caddy/Caddyfile
+COPY --from=build /workspace/dist /srv
+USER 1000:1000
+EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+  CMD ["wget", "-q", "--spider", "http://127.0.0.1:8080/health"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
