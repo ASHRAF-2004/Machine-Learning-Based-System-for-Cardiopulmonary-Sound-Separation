@@ -35,10 +35,11 @@ verified primary Administrator and an existing Healthcare Staff account were acc
 the local FastAPI verifier. Admin Users returned 200 to the Administrator and 403 to Staff;
 Staff also received 403 when submitting a forged admin-role request. A synthetic silent WAV
 verified owner access, exact-resource sharing, direct-media/download denial before sharing,
-and denial again immediately after revocation. This is **LOCAL REAL PROVIDER** plus
-**LOCAL BACKEND** evidence, not production verification. Email/password and recovery flows
-remain untested, and no verification/reset email was sent. No Firebase project is created
-automatically.
+and denial again immediately after revocation. A second Staff-owned silent fixture returned
+403 to the Administrator for metadata, media and download and remained absent from the
+Admin recording list. This is **LOCAL REAL PROVIDER** plus **LOCAL BACKEND** evidence, not
+production verification. Email/password and recovery flows remain untested, and no
+verification/reset email was sent. No Firebase project is created automatically.
 
 ## Identity and access
 
