@@ -67,7 +67,10 @@ restore_stack() {
   result=$?
   trap - EXIT
   if [[ -n "$manifest_file" ]]; then
-    rm -f -- "$manifest_file"
+    if ! rm -f -- "$manifest_file"; then
+      printf 'StethoFuse backup: temporary manifest cleanup failed.\n' >&2
+      result=1
+    fi
   fi
   if [[ "$restart_stack" == 1 ]]; then
     if ! "${compose[@]}" up -d web api >/dev/null; then
@@ -78,6 +81,9 @@ restore_stack() {
   exit "$result"
 }
 trap restore_stack EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 # Quiesce SQLite and file writes so the database and private media form one
 # consistent point-in-time snapshot. The EXIT trap attempts to restore service.
