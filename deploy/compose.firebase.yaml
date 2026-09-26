@@ -1,15 +1,11 @@
-# Production/local-real-provider overlay. The ADC file remains on the host,
-# outside the repository and image, and is mounted read-only.
+# Firebase identity overlay. The API verifies JWT signatures locally, then
+# calls the minimal revocation/current-user verifier on Cloud Run over HTTPS.
+# No Google credential file or developer ADC is mounted into this runtime.
 services:
   api:
     environment:
       STETHOFUSE_FIREBASE_ENABLED: "1"
-      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/firebase-adc.json
-    volumes:
-      - type: bind
-        source: ${STETHOFUSE_ADC_FILE:?Set STETHOFUSE_ADC_FILE to an external ADC JSON file}
-        target: /run/secrets/firebase-adc.json
-        read_only: true
+      STETHOFUSE_FIREBASE_VERIFIER_URL: "${STETHOFUSE_FIREBASE_VERIFIER_URL:?Set the approved Cloud Run verifier HTTPS URL}"
     healthcheck:
       test:
         - CMD

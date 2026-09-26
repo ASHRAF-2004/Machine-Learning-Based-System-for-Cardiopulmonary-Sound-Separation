@@ -41,6 +41,12 @@ Admin recording list. This is **LOCAL REAL PROVIDER** plus **LOCAL BACKEND** evi
 production verification. Email/password and recovery flows remain untested, and no
 verification/reset email was sent. No Firebase project is created automatically.
 
+The current production API identity path is being changed to local Firebase ID-token
+signature/claim verification plus a minimal Cloud Run service for revocation and current
+Firebase account state. The current code is not yet verified against a deployed verifier;
+the real-provider acceptance above predates that integration and is not evidence for the
+new service.
+
 ## Identity and access
 
 ```text
@@ -109,26 +115,19 @@ export STETHOFUSE_FIREBASE_PROJECT=stethofuse-c18cd-3cca0
 /home/ashraf/Documents/StethoFuse/.local/venvs/backend-smoke/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --no-access-log
 ```
 
-Firebase Admin needs an approved Application Default Credentials mechanism. CLI sign-in and
-server credentials are separate. Do not generate keys, copy tokens into this repository or
-disable verification to make local startup appear connected. Exact initialization/bootstrap
-commands and runtime limitations are maintained in the M1 route audit. Do not start an
-additional process if the relevant loopback port already serves this project.
+The API runtime no longer uses Firebase Admin ADC. It verifies Firebase ID-token signatures
+locally using Google's public signing certificates, then calls the narrowly scoped
+`deploy/auth-verifier/` Cloud Run service to check revocation, deletion/disablement and fresh
+email-verification state. That Cloud Run service is not provisioned yet; the real-provider
+API path therefore remains blocked until its separate deployment is approved and verified.
+Never substitute browser roles or local state for this boundary, and never copy developer
+ADC or credentials into Compose.
 
-The approved local credential mechanism is keyless impersonation of
-`stethofuse-m1-auth-reader@stethofuse-c18cd-3cca0.iam.gserviceaccount.com`, with Firebase
-Authentication Viewer only. The user's ADC consent and harmless provider check have
-succeeded. The backend command above additionally needs these settings before startup:
-
-```sh
-export CLOUDSDK_CONFIG=/home/ashraf/.config/stethofuse-gcloud
-export STETHOFUSE_FIREBASE_ENABLED=1
-```
-
-Do not enable this flag merely because IAM permissions exist. The isolated ADC directory
-is outside the repository, owner-only, and must never be copied into reports or backups.
-Keyless ADC still contains sensitive source-user credentials. No application admin role
-is conferred by these infrastructure settings.
+The trusted first-admin bootstrap is a separate operator-only CLI path in
+`scripts/bootstrap_m1_admin.py` and `app/m1/bootstrap_provider.py`. It uses a separately
+authorized local ADC session only when explicitly invoked with `--apply`; those credentials
+are not API runtime credentials and must not be copied into Docker or backups. Existing
+bootstrap is complete; do not rerun it as setup.
 
 Explicit fictional preview (development server only):
 

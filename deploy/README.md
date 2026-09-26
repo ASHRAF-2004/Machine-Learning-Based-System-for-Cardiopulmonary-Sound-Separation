@@ -9,7 +9,8 @@ containers, Caddy configuration, Cloudflare tunnel, or DNS.
 
 - React/Vite static frontend served by Caddy on container port 8080.
 - Same-origin `/api`, `/health`, and `/static/*` reverse proxy to FastAPI.
-- FastAPI with Firebase Admin ID-token verification and trusted M1 authorization.
+- FastAPI with local Firebase ID-token signature/claim verification and trusted M1
+  authorization; a separate minimal Cloud Run verifier checks revocation/current Auth state.
 - Separate persistent SQLite and private-file bind mounts; neither is exposed by
   the web container or served from the public frontend directory.
 - Non-root processes, read-only container roots, dropped capabilities, resource
@@ -33,16 +34,19 @@ the production Vite build fails if any required browser configuration is absent.
 Those Firebase Web SDK values are public client configuration, not Admin
 credentials.
 
-The API needs Firebase Admin Application Default Credentials (ADC) for the
-selected project. Use a dedicated, least-privilege production identity and a
-secure host credential mechanism. Do not copy developer ADC, CLI state, service
-account keys, or tokens from a workstation into production. The Firebase overlay
-mounts the selected ADC file read-only outside the image. Never commit that file.
-With the default runtime UID/GID, ensure the credential file is readable only by
-UID 10001 (for example owner `10001`, mode `0400`) and its parent directories are
-not writable by the application; grant host-operator access separately. The
-production identity/source-credential mechanism itself remains to be provisioned
-and reviewed.
+The API runtime does not use Google ADC or a Firebase Admin credential. It verifies
+ID-token signatures locally against Google's public Firebase signing certificates and
+validates Firebase's project, issuer, time and subject claims. For each API identity
+check, it also calls the HTTPS Cloud Run service in `auth-verifier/` to check revocation
+and current Firebase user state. The Cloud Run service uses its own dedicated native
+service identity; it has no role, ownership, grant or audio-access authority. Neither
+the service nor its identity has been provisioned yet. Production auth stays fail-closed
+until an approved verifier URL is configured and the service is verified. Do not mount
+developer ADC or service-account JSON into either runtime.
+
+The trusted first-admin CLI is separate and operator-only. It may use a separately
+authorized local ADC session when explicitly invoked for that action; never place that
+credential in the API container, production environment, image or backup.
 
 Prepare empty persistent paths owned by the configured API UID/GID, with private
 storage mode `0700` and data directory mode `0700`; do not put them beneath
@@ -59,10 +63,11 @@ schema or image version.
 
 ## Build and run locally
 
-The Firebase-enabled invocation requires the ADC file path and Firebase web
-settings in the external env file. Missing Web App settings fail the frontend
-image build; missing ADC path fails Compose configuration, and unreadable/invalid
-ADC or unavailable provider fails API startup/health rather than granting access.
+The Firebase-enabled invocation requires the exact HTTPS `*.run.app` verifier URL and
+Firebase Web App settings in the external env file. Missing Web App settings fail the
+frontend image build; missing verifier URL fails Compose configuration, and an unavailable
+verifier fails API authorization closed. Do not insert a placeholder URL for a real-provider
+check.
 
 ```sh
 docker compose \
@@ -112,9 +117,12 @@ use `down -v`; persistent bind-mounted data is user data.
 
 ## Local production-like smoke evidence
 
-On 27 September 2026, both images built locally and the isolated Compose stack
-was exercised with the existing local development ADC (not production
-credentials) and synthetic-only data. Results:
+On 27 September 2026, before replacing runtime ADC with the Cloud Run identity
+boundary, both images built locally and the isolated Compose stack was exercised
+with the existing local development ADC (not production credentials) and synthetic-only
+data. Those results remain historical package evidence; the updated verifier/API image
+and current real-provider path require targeted revalidation. Results at that earlier
+checkpoint:
 
 - frontend `/` and SPA route `/app/admin/users`: HTTP 200;
 - same-origin `/api/health`: `ok`, storage/provider configured, ensemble false;
@@ -123,6 +131,17 @@ credentials) and synthetic-only data. Results:
 - API SQLite record and synthetic private marker survived container restart;
 - web container had no private-storage bind mount and API port was not host-published.
 
+Current boundary validation (27 September 2026): verifier and API images built from
+hash-locked dependencies; the verifier image was rebuilt after the production emulator
+guard. A credential-free API container with networking disabled returned health 200,
+401 for protected endpoints without tokens, and 401 for a malformed token. Compose
+interpolation passed with a placeholder service URL. There were 42 focused verifier /
+manifest tests and 91 M1/access/operator regression tests plus 26 subtests passing.
+The initial broader attempt lacked the already-locked upload parser in its temporary
+environment and used a stale bootstrap mock name; both were corrected. No live Cloud
+Run or B2 acceptance was performed. Exactly two test functions (four parameterized
+executions) were added in this final sprint, reusing the preceding work's tests.
+
 This is local packaging evidence, not a production deployment, live user
 acceptance, real media authorization test, backup disaster-recovery proof, or
 ensemble evaluation. The M1 real-provider authorization evidence is separately
@@ -130,25 +149,24 @@ recorded in FYP2 notes.
 
 ## Backup and restore
 
-The production backup target is **not provisioned yet**. Host discovery found
+The approved production backup target is **Backblaze B2 via Restic's S3-compatible
+backend**, but it is **not provisioned yet**. Host discovery found
 no remote filesystem, configured object-store client, or StethoFuse backup
 repository. `/srv`, `/var/backups`, and the workspace share the host's root
-storage; those are local rollback copies, not disaster-recovery backups. The
-prepared default is Restic to a private Backblaze B2 bucket through its
-S3-compatible endpoint. Restic encrypts/authenticates repository contents on
-the client before upload. B2's published price is currently $6.95/TB per 30
-days, with the first 10 GB free and egress allowances; exact charges depend on
-the stored data, region, and restore volume. B2 currently offers US East, US
-West, EU Central and Canada East regions, not an Asia region, so the selected
-region and institutional/privacy suitability must be considered before
-creating the bucket. No account, bucket, key, paid resource, or backup has been
-created. The workspace-level decision record is `planning/PRODUCTION_IDENTITY_AND_BACKUP.md`.
+storage; those are local rollback copies, not disaster-recovery backups. Restic
+encrypts/authenticates repository contents client-side before upload. B2 offers no Asia
+region; the prepared recommendation is EU Central for this Malaysia-based project, subject
+to the owner selecting it during account setup and later reviewing any formal data-residency
+requirement. No account, bucket, key, paid commitment, remote backup, or restore test has
+been created. Use only a private dedicated bucket and a bucket-scoped app key with the
+minimum Restic file list/read/write/delete capabilities plus scoped S3 bucket metadata
+reads (`listBuckets`, `readBuckets`); never a master key. The workspace
+decision record is `planning/PRODUCTION_IDENTITY_AND_BACKUP.md`.
 
-`backup-restic.sh`, `backup.env.example`, and the example systemd service/timer
-are prepared deployment files, not an installed/verified production job. The
-helper requires the future bucket-scoped B2 S3 key from a root-only systemd
-environment file and the Restic password delivered to the service through
-systemd's private credential mechanism from a separate root-only source file.
+`backup-restic.sh`, `backup-manifest.py`, `backup-restore-drill.sh`, `backup.env.example`, and the example systemd
+service/timer are prepared deployment files, not an installed/verified production job.
+The helper receives the future bucket-scoped B2 S3 key ID, secret, and separate Restic
+password through systemd's private credential mechanism from root-only source files.
 Do not place either value in Git,
 Compose images, shell history, or chat. Keep the Restic encryption password in
 an independently recoverable offline password manager/escrow; losing it makes
@@ -166,7 +184,10 @@ environment and an encrypted snapshot's SHA-256 file manifest; image layers,
 caches, build outputs, and developer ADC are excluded. Choose a retention
 policy and repository maintenance schedule only after estimating actual data
 volume, privacy requirements and restore needs; do not prune snapshots before
-that policy is approved.
+that policy is approved. Retention is prepared as 7 daily, 4 weekly, and 6 monthly
+snapshots. The helper skips `forget --prune` until a root-owned
+`/etc/stethofuse/remote-restore-verified` marker is installed after the first successful
+remote restore drill. Do not install that marker before the drill.
 
 For a recovery drill, restore a named snapshot into a **new empty staging
 directory**, never over the active runtime. Check `PRAGMA integrity_check` on
@@ -176,11 +197,13 @@ authorized synthetic-media checks before any root switch. Periodically run
 `restic check`; at least quarterly perform a full isolated restore. A local
 synthetic tar/copy test is not an off-host backup or restore proof. The actual
 encrypted off-host restore remains blocked until an approved remote bucket and
-key exist.
+key exist. See [`BACKUP_B2_RUNBOOK.md`](BACKUP_B2_RUNBOOK.md) for the owner
+account/bucket/key action, secure credential handling, region, retention and exact
+synthetic remote-restore proof. No B2 credentials are to be sent in chat.
 
 ## Rollback
 
-Keep the prior image digest, runtime env file, ADC source, and data root. For an
+Keep the prior image digest, runtime env file, verifier URL/revision, and data root. For an
 application-only rollback, stop the new Compose stack and start the previously
 recorded image with the same verified configuration and compatible database
 schema. Do not roll back a schema change by overwriting the active DB: take a

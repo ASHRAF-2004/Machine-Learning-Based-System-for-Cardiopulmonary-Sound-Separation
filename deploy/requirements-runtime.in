@@ -3,4 +3,7 @@
 fastapi==0.136.0
 uvicorn==0.45.0
 python-multipart==0.0.26
-firebase-admin==7.7.0
+google-auth==2.58.1
+cachecontrol==0.14.4
+requests==2.34.2
+httpx==0.28.1

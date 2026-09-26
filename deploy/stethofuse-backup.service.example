@@ -5,6 +5,8 @@ After=network-online.target docker.service
 Requires=docker.service
 ConditionPathExists=/etc/stethofuse/backup.env
 ConditionPathExists=/etc/stethofuse/restic-password
+ConditionPathExists=/etc/stethofuse/b2-application-key-id
+ConditionPathExists=/etc/stethofuse/b2-application-key-secret
 
 [Service]
 Type=oneshot
@@ -13,7 +15,11 @@ Group=root
 UMask=0077
 EnvironmentFile=/etc/stethofuse/backup.env
 LoadCredential=restic-password:/etc/stethofuse/restic-password
+LoadCredential=b2-application-key-id:/etc/stethofuse/b2-application-key-id
+LoadCredential=b2-application-key-secret:/etc/stethofuse/b2-application-key-secret
 Environment=RESTIC_PASSWORD_FILE=%d/restic-password
+Environment=STETHOFUSE_B2_ACCESS_KEY_ID_FILE=%d/b2-application-key-id
+Environment=STETHOFUSE_B2_SECRET_ACCESS_KEY_FILE=%d/b2-application-key-secret
 ExecStart=/usr/local/libexec/stethofuse/backup-restic.sh
 TimeoutStartSec=2h
 Nice=10

@@ -48,11 +48,16 @@ No production database or deployed application was changed.
    (`/app/admin/users`). Search by the application User ID; check the account details.
 4. Set **Role → Administrator**, leave the intended status **Active**, choose
    **Confirm changes**, and check the exact target in the confirmation dialog.
-5. FastAPI verifies the acting administrator, rechecks the target's exact server-owned
-   UID in Firebase (existing, enabled, verified), checks local verification and the
-   confirmed target, and commits the role/status change with an `account.changed` audit
+5. FastAPI verifies the acting administrator's current Firebase account, requires an
+   existing target whose verification came from its own authenticated provider session,
+   checks the confirmed target, and commits the role/status change with an `account.changed` audit
    event in the same transaction. A normal user cannot
    invoke this operation successfully, even with a forged request or hidden UI exposed.
+   The token-only Cloud Run boundary does not look up arbitrary target UIDs. Target
+   verification in this operation is stored provenance, not a fresh provider lookup;
+   the target's next protected request must pass current revocation/disabled/email checks
+   before the new local role can be used. A provider-disabled/deleted account cannot use
+   its role. This distinction supersedes the earlier ADC-based target recheck design.
 6. The promoted person refreshes or refocuses their application tab. Account roles are
    fetched from the backend (also periodically), so no Firebase custom-claim edit or
    new Google account is required. Verify that Administration opens for them.

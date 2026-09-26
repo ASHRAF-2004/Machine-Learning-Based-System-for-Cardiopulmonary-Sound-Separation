@@ -229,7 +229,8 @@ def test_admin_promotion_demotion_verified_target_and_audit(env):
         lookup.assert_not_called()
         response = env.client.patch(path, headers=auth("admin"), json=body)
         assert response.status_code == 200 and response.json()["role"] == "admin"
-        lookup.assert_called_once_with("fictional-other")
+        # The production verifier intentionally has no arbitrary-UID lookup API.
+        lookup.assert_not_called()
     assert env.client.get("/api/admin/users", headers=auth("other")).status_code == 200
     body["role"] = "healthcare_staff"
     assert env.client.patch(path, headers=auth("admin"), json=body).status_code == 200
@@ -240,34 +241,23 @@ def test_admin_promotion_demotion_verified_target_and_audit(env):
     assert all(e["actor_id"] == env.users["admin"]["id"] for e in changes)
 
 
-@pytest.mark.parametrize("failure_kind", ["unverified", "disabled", "deleted", "mismatch", "outage"])
-@pytest.mark.parametrize("demotion", [False, True])
-def test_admin_role_change_rechecks_current_provider_target(env, failure_kind, demotion):
+def test_admin_role_change_uses_only_existing_provider_verified_local_account(env):
     target = env.users["other"]["id"]
-    identity = env.verifier.identities["other"]
-    if demotion:
-        env.store.change_account(env.verifier.identities["admin"], target,
-                                 confirmed_target_id=target, role=Role.ADMIN)
-    with env.store._connection() as db:
-        before = db.execute("SELECT COUNT(*) FROM af_audit").fetchone()[0]
-    if failure_kind == "unverified":
-        replacement = {"return_value": VerifiedIdentity(identity.uid, identity.email, False)}
-    elif failure_kind == "disabled":
-        replacement = {"return_value": VerifiedIdentity(identity.uid, identity.email, True, disabled=True)}
-    elif failure_kind == "mismatch":
-        replacement = {"return_value": env.verifier.identities["owner"]}
-    else:
-        error = ProviderUnavailable if failure_kind == "outage" else AuthenticationDenied
-        replacement = {"side_effect": error("Private provider diagnostic must not escape")}
-    with patch.object(env.verifier, "lookup_existing", **replacement):
-        response = env.client.patch(f"/api/admin/users/{target}", headers=auth("admin"), json={
-            "role": "healthcare_staff" if demotion else "admin", "confirmed_target_id": target})
-    assert response.status_code == (503 if failure_kind == "outage" else 403)
-    assert "Private provider" not in response.text
-    with env.store._connection() as db:
-        assert db.execute("SELECT role FROM af_users WHERE id=?", (target,)).fetchone()[0] == (
-            "admin" if demotion else "healthcare_staff")
-        assert db.execute("SELECT COUNT(*) FROM af_audit").fetchone()[0] == before
+    path = f"/api/admin/users/{target}"
+    with patch.object(env.verifier, "lookup_existing", side_effect=AssertionError("UID lookup is forbidden")):
+        response = env.client.patch(path, headers=auth("admin"), json={
+            "role": "audio_analyst", "confirmed_target_id": target})
+    assert response.status_code == 200 and response.json()["role"] == "audio_analyst"
+
+    # Local verification provenance is created only by an authenticated,
+    # provider-verified session; the transactional store rejects stale/unverified
+    # local targets before mutation. Current auth state is checked at next login.
+    with env.store._connection(write=True) as db:
+        db.execute("UPDATE af_users SET email_verified=0 WHERE id=?", (target,))
+    with patch.object(env.verifier, "lookup_existing", side_effect=AssertionError("UID lookup is forbidden")):
+        denied = env.client.patch(path, headers=auth("admin"), json={
+            "role": "healthcare_staff", "confirmed_target_id": target})
+    assert denied.status_code == 403
 
 
 def test_admin_role_change_rejects_unverified_local_target_and_unknown_account(env):
@@ -447,7 +437,7 @@ def test_bootstrap_cli_dry_run_never_calls_provider_or_mutates(env, monkeypatch)
     spec.loader.exec_module(module)
     monkeypatch.setenv("STETHOFUSE_M1_DATABASE", str(env.settings.database))
     monkeypatch.setenv("STETHOFUSE_M1_PRIVATE_STORAGE", str(env.settings.private_storage))
-    with patch.object(module, "configured_verifier", side_effect=AssertionError("No network")):
+    with patch.object(module, "configured_bootstrap_directory", side_effect=AssertionError("No network")):
         assert module.main(["--uid", "fictional-owner", "--confirm-uid", "fictional-owner"]) == 0
     assert env.store.resolve_account(env.verifier.identities["owner"]).role == Role.HEALTHCARE_STAFF
     with pytest.raises(SystemExit):

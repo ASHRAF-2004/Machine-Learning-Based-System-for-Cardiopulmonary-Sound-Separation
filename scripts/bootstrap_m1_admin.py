@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app.access_foundation import DisabledVerifier
 from app.m1.config import Settings
-from app.m1.provider import configured_verifier
+from app.m1.bootstrap_provider import configured_bootstrap_directory
 from app.m1.store import M1Store
 
 
@@ -40,7 +40,7 @@ def main(argv=None):
         if not args.apply:
             print("DRY RUN: existing local account found; no provider call or role change. Confirm the intended UID and obtain explicit approval before --apply.")
             return 0
-        directory = configured_verifier(settings)
+        directory = configured_bootstrap_directory(settings)
         if isinstance(directory, DisabledVerifier):
             raise ValueError("Firebase server verification must be explicitly configured.")
         changed = store.bootstrap_first_admin(directory, provider_uid=args.uid, confirmed_uid=args.confirm_uid)

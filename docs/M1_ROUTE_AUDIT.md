@@ -9,6 +9,55 @@ Subsequent approved local first-admin bootstrap is recorded in
 also rechecks the target's current verified/enabled Firebase UID before role changes;
 existing actor authorization, audit transaction and last-admin protection are preserved.
 
+## Current Firebase production identity path — 27 September 2026
+
+The current `fyp2/application` working tree supersedes the former API-runtime ADC
+adapter described later in this audit. The path is now:
+
+```text
+protected FastAPI request
+  → Firebase RS256 signature/public-certificate + issuer/audience/time/sub validation
+  → HTTPS Cloud Run verifier: Firebase Admin check_revoked + current get_user(uid)
+  → UID-linked local application record
+  → local active status / role / owner / grant / assignment authorization
+```
+
+The self-hosted API runtime needs no Google ADC or private key. The only Google
+permission required by the inspected Admin SDK calls is `firebaseauth.users.get`;
+the prepared Cloud Run identity will receive it through a project custom role with
+that one permission. Cloud Run has no StethoFuse role, ownership, grant or media
+authority and exposes no user enumeration or mutation route. Its proposed public
+HTTPS endpoint accepts only a signed Firebase ID token, resolves only the UID
+inside that token and returns minimal current identity state. Cloud Run/IAM resources
+do not exist yet. The real Firebase acceptance recorded below applies to the prior
+local backend path, not a live Cloud Run verifier.
+
+Admin role PATCH no longer issues an arbitrary-UID provider lookup. It requires an
+existing locally provider-verified target and applies role/status/audit transactionally;
+that account's future API calls still require its own valid, unrevoked provider token.
+This keeps the verifier from becoming a UID-enumeration oracle. New verifier and role
+tests use mocked/controlled providers only.
+
+The final focused local run recorded 42 passed across
+`test_auth_verifier_service.py`, `test_firebase_token_boundary.py`,
+`test_backup_manifest.py`. One broader M1/access/operator batch passed 91 cases plus
+26 subtests after its temporary environment was aligned with the existing runtime
+lock and the bootstrap test's old patch target was corrected. It includes generated
+RSA test keys and synthetic backup data; it is not a live Firebase/Cloud Run test.
+The existing Starlette/httpx deprecation warning is non-failing. No production write
+occurred.
+
+Only two new test functions (four parameterized executions) were added in the final
+security sprint: transport timeout and untrusted successful verifier responses.
+Eighteen already-written verifier/manifest test functions were preserved, and existing
+revocation/disabled/error tests gained token/header log-redaction assertions. The
+new production Cloud Run service, IAM identity and encrypted B2 repository remain
+unprovisioned; their source/runbooks and restore drill are ready for owner actions.
+
+The sections below are the route inventory and original September 26 M1 evidence;
+they remain useful for endpoint/data-policy scope but must not be read as the current
+production credential implementation.
+
 ## Before: complete legacy HTTP inventory
 
 | Legacy entrypoint | Former exposure | M1 disposition |
@@ -76,14 +125,14 @@ old file paths are adopted. No timestamps, emails, device details or first login
 used to infer an owner. Later import requires an explicitly approved ownership mapping
 and audited migration; no such utility is implemented here.
 
-Every protected call verifies the provider token, loads current provider user state,
-then resolves current local active account/role. The official Firebase Admin SDK is
-called with `verify_id_token(..., check_revoked=True, clock_skew_seconds=0)`; custom
-role claims are ignored. Expected project is `stethofuse-c18cd-3cca0`; SDK project
-validation is retained, and Firebase emulator mode is rejected. Missing/invalid,
-expired, revoked or wrong-project tokens fail `401`; unverified/provider-disabled or
-locally inactive users fail `403`. Configuration/provider outages fail `503`, not open.
-HTTP tests use injected identities/SDK mocks, not real issued tokens.
+Under the current path, FastAPI verifies the signed token and Firebase claims locally,
+then calls the Cloud Run verifier for revocation/current-user state before resolving
+the UID to the trusted local active account/role. Custom role claims and frontend role
+state are ignored. Expected project is `stethofuse-c18cd-3cca0`; invalid, expired,
+revoked or wrong-project tokens fail `401`; unverified, provider-disabled or locally
+inactive users fail `403`. Missing verifier configuration or provider outages fail
+closed. The Cloud Run service is not yet provisioned; current new tests use injected
+identities, not live Cloud Run or production requests.
 
 Admin has no implicit private-content access. All role/status changes, original/result
 review writes, grants and revocations recheck policy inside a transaction. Concurrent
@@ -119,10 +168,12 @@ backups, shared production DB, storage quotas and production deployment remain g
 
 ## Local operator commands (not live operations performed)
 
-The minimal environment is `/home/ashraf/Documents/StethoFuse/.local/venvs/backend-smoke`.
-`requirements-m1.txt` pins direct API/auth/test dependencies including Firebase Admin
-7.7.0, FastAPI 0.136.0, Starlette 1.7.0 and Pydantic 2.13.5. No model weights/Torch were
-installed. `pip check` reports no broken requirements.
+The minimal local test environment is `/home/ashraf/Documents/StethoFuse/.local/venvs/backend-smoke`.
+`requirements-m1.txt` contains development/bootstrap and test dependencies. The production
+API image now uses `deploy/requirements-runtime.lock.txt` with `google-auth`, certificate
+caching/transport and HTTPX; Firebase Admin is retained only in the standalone Cloud Run
+verifier image and trusted operator bootstrap environment. No model weights/Torch were
+installed for M1.
 
 From `implementation`, trusted local startup:
 
@@ -135,12 +186,13 @@ export STETHOFUSE_FIREBASE_PROJECT=stethofuse-c18cd-3cca0
 
 Startup initializes only that explicit isolated DB/private directory. With no explicit
 paths, health is available and private operations fail closed; with no provider enable
-flag, authentication remains unavailable. For separately approved real-provider testing,
-configure server-side Application Default Credentials outside the repository and set
-`STETHOFUSE_FIREBASE_ENABLED=1` before starting. Do not paste credentials or tokens into
-source, screenshots, shell command arguments, logs or evidence. Keep browser Firebase
-web configuration separate from private server credentials. No credentials were loaded
-or inspected during this task.
+flag, authentication remains unavailable. The current live API path needs
+`STETHOFUSE_FIREBASE_ENABLED=1` and the exact approved
+`STETHOFUSE_FIREBASE_VERIFIER_URL` in the external environment. Cloud Run is not deployed,
+so do not use a placeholder or call this new path live-verified. The separate trusted
+bootstrap CLI may use separately approved local ADC for that operator action only. Do not
+paste credentials or tokens into source, screenshots, shell arguments, logs or evidence;
+keep browser Firebase Web App settings separate from private operator credentials.
 Port 8000 matches the frontend's default API proxy. Access logging is disabled because
 even rejected unexpected URL query strings can contain sensitive caller-supplied text.
 
@@ -156,7 +208,8 @@ Only after explicit user/operator approval add `--apply` to that same command. A
 requires the real existing verified provider UID and existing local active account;
 atomic singleton bootstrap is idempotent only for the unchanged same administrator.
 No primary/backup account is auto-created; any backup requires separate approval.
-This task did **not** execute apply or bootstrap a real account.
+The initial bootstrap was already completed in a prior milestone. This task did **not**
+execute apply or repeat bootstrap.
 
 ## Executed evidence and limitations
 
