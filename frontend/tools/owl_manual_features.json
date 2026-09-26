@@ -1,0 +1,329 @@
+{
+  "version": 1,
+  "coordinateSpace": "original assembled RGBA image pixels; 1163 by 1353",
+  "status": "Manually inspected source constraints; not runtime or visual approval",
+  "beakNotes": "The base is the attachment of the exposed solid lower bill, below the feather-filled dark gap. Left/right trace the rigid bill rather than connected feather shadows. The left/right arrays follow the same seven base-to-tip fractions and preserve the current 19-control ordering: base, tip, alternating left/right, then three axis controls. Fractional positions are approximate because feather occlusion changes the visible attachment. Do not mix a manual exposed-bill base with the old dark-gap base on a pair without checking the resulting morph.",
+  "beakFractions": [0.12, 0.25, 0.4, 0.55, 0.7, 0.85, 0.94],
+  "axisFractions": [0.32, 0.63, 0.9],
+  "eyeOrder": ["left_corner", "upper_left", "top_mid", "upper_right", "right_corner", "lower_right", "bottom_mid", "lower_left"],
+  "eyeNotes": "Eyes are in viewer-left, viewer-right order. Outer and inner contours follow the observed lid/opening and iris/lid boundary in anatomical arc order, not rays from the pupil. A feather occlusion edge is tagged separately: it is not a visible black eyelid. Pupil visibleArc contains observed curved pupil boundary only; occlusionBoundary identifies the observed clipping edge. Null center and bounds mean no distinct pupil is visible, not a pupil at the aperture centroid. Do not invent hidden pupil geometry from the empty entries. Coordinates are manually inspected source estimates and still require warped-donor review.",
+  "throatNotes": "These are candidate anatomical-band constraints, not exact same-feather correspondences. The generated views do not preserve individual feather identity. Ruff points follow the lower facial ruff from viewer-left to viewer-right; breast points follow the next broad feather row below it. They distribute jaw movement before the fixed body boundary. Inspect all annotations and the warped donors before adoption. The breast band must not be pinned immediately beneath the moving beak.",
+  "throatLabels": ["ruff_left", "ruff_left_mid", "ruff_under_bill", "ruff_right_mid", "ruff_right", "breast_left", "breast_left_mid", "breast_center", "breast_right_mid", "breast_right"],
+  "poses": {
+    "neutral-original": {
+      "eyes": [
+        {
+          "outer": [[354, 218], [369, 207], [389, 209], [416, 218], [437, 236], [425, 258], [395, 270], [364, 256]],
+          "inner": [[364, 219], [373, 213], [389, 214], [412, 220], [428, 238], [417, 253], [395, 264], [370, 253]],
+          "pupil": {"center": [399.5, 230.5], "bounds": [386, 214, 414, 245], "visibleArc": [[386, 229], [390, 218], [400, 214], [410, 219], [414, 231], [410, 241], [399, 245], [390, 240]], "occlusionBoundary": []},
+          "pupilRing8": [[386.55, 230.5], [389.2, 220.2], [399.5, 217.09], [410.17, 219.83], [413.83, 230.5], [410, 241], [399.5, 244.82], [390, 240]],
+          "pupilRing8ClippedStations": [2, 3],
+          "pupilRing8Notes": "Order: left, upper-left, up, upper-right, right, lower-right, down, lower-left. Observed pupil shape intersected with eight camera-plane rays; clipped stations stop 0.35 px inside the existing inner8 polygon. Clipping is a topology constraint, not a claim that the anatomical pupil ends there.",
+          "featherOcclusionSegments": [], "confidence": "clear pupil and lower rim; upper rim partly feather-covered"
+        },
+        {
+          "outer": [[557, 245], [569, 229], [596, 213], [620, 207], [641, 212], [637, 247], [602, 270], [568, 260]],
+          "inner": [[567, 243], [575, 230], [597, 217], [620, 212], [631, 218], [626, 245], [600, 264], [574, 254]],
+          "pupil": {"center": [593.5, 230.5], "bounds": [579, 214, 608, 244], "visibleArc": [[579, 230], [583, 220], [594, 214], [603, 220], [608, 231], [603, 240], [593, 244], [584, 240]], "occlusionBoundary": []},
+          "pupilRing8": [[579.25, 230.5], [586.56, 223.56], [593.5, 219.42], [603.31, 220.69], [607.77, 230.5], [603, 240], [593.5, 243.8], [584, 240]],
+          "pupilRing8ClippedStations": [1, 2],
+          "pupilRing8Notes": "Camera-plane order L, UL, U, UR, R, DR, D, DL. Upper stations clipped inside coarse inner8; no hidden extension.",
+          "featherOcclusionSegments": [], "confidence": "clear pupil and lower rim; upper-left rim partly feather-covered"
+        }
+      ],
+      "beak": {
+        "base": [497, 314],
+        "baseLeft": [488, 314],
+        "baseRight": [508, 314],
+        "tip": [498, 395],
+        "left": [[488, 324], [486, 334], [484, 346], [484, 359], [488, 371], [493, 383], [496, 390]],
+        "right": [[510, 324], [513, 334], [513, 346], [510, 359], [506, 371], [502, 383], [500, 390]],
+        "axis": [[499, 340], [497, 365], [498, 387]]
+      },
+      "throat": [[315, 405], [412, 411], [498, 413], [579, 414], [647, 400], [310, 464], [406, 471], [507, 476], [594, 458], [647, 440]],
+      "confidence": {"beak": "high for lower solid bill; medium at feather-covered base", "throat": "candidate anatomical correspondence; requires rendered comparison"}
+    },
+    "yaw-minus15-pitch-minus9": {
+      "eyes": [
+        {
+          "outer": [[300, 244], [302, 238], [309, 246], [315, 255], [327, 267], [326, 276], [315, 282], [304, 265]],
+          "inner": [[304, 246], [305, 242], [310, 250], [315, 258], [324, 270], [322, 273], [314, 276], [307, 264]],
+          "pupil": {"center": null, "bounds": null, "visibleArc": [], "occlusionBoundary": []},
+          "featherOcclusionSegments": [[1, 2], [2, 3], [3, 4]], "confidence": "visible blue crescent only; pupil is hidden, and dark outside-left arc is lid"
+        },
+        {
+          "outer": [[430, 271], [442, 261], [473, 255], [503, 256], [519, 267], [503, 299], [471, 315], [440, 302]],
+          "inner": [[440, 272], [449, 264], [473, 261], [500, 264], [508, 275], [493, 299], [467, 309], [446, 298]],
+          "pupil": {"center": [466.5, 274], "bounds": [453, 258, 480, 289], "visibleArc": [[454, 273], [457, 263], [467, 258], [476, 265], [480, 277], [476, 285], [467, 289], [458, 285]], "occlusionBoundary": []},
+          "featherOcclusionSegments": [], "confidence": "clear near eye; pupil top touches upper lid shadow"
+        }
+      ],
+      "beak": {
+        "base": [336, 340],
+        "baseLeft": [329, 340],
+        "baseRight": [346, 340],
+        "tip": [342, 422],
+        "left": [[325, 350], [322, 360], [320, 373], [321, 385], [325, 397], [332, 410], [338, 417]],
+        "right": [[353, 350], [358, 360], [371, 373], [367, 385], [354, 397], [347, 410], [344, 417]],
+        "axis": [[335, 366], [337, 392], [341, 414]]
+      },
+      "throat": [[286, 425], [320, 432], [359, 436], [482, 440], [621, 424], [301, 479], [389, 490], [487, 490], [594, 468], [647, 445]],
+      "rejectedDetectorPoints": [{"index": 127, "position": [383, 386], "reason": "Attached feather-shadow fan, outside the rigid bill. Dark hook ridge is about x349, but the lateral bill surface extends to about x367; preserve that side surface."}],
+      "confidence": {"beak": "high at hook/tip; medium where the lateral bill surface meets cheek feathers", "throat": "candidate anatomical correspondence; requires rendered comparison"}
+    },
+    "yaw-minus30-pitch-minus18": {
+      "eyes": [
+        {
+          "outer": [[295, 253], [297, 245], [304, 254], [312, 265], [325, 280], [321, 287], [309, 291], [298, 277]],
+          "inner": [[299, 254], [301, 250], [307, 259], [314, 270], [320, 279], [317, 284], [309, 285], [303, 275]],
+          "pupil": {"center": null, "bounds": null, "visibleArc": [], "occlusionBoundary": []},
+          "featherOcclusionSegments": [[1, 2], [2, 3], [3, 4]], "confidence": "visible blue crescent only; pupil is hidden, and dark outside-left arc is lid"
+        },
+        {
+          "outer": [[430, 278], [444, 267], [475, 257], [506, 259], [519, 270], [503, 299], [470, 316], [442, 304]],
+          "inner": [[440, 280], [450, 271], [475, 264], [499, 265], [508, 276], [492, 298], [469, 308], [447, 299]],
+          "pupil": {"center": [468.5, 275], "bounds": [454, 260, 482, 289], "visibleArc": [[455, 276], [458, 265], [468, 260], [478, 265], [482, 277], [478, 285], [469, 289], [459, 285]], "occlusionBoundary": []},
+          "featherOcclusionSegments": [], "confidence": "clear near eye; pupil top touches upper lid shadow"
+        }
+      ],
+      "beak": {
+        "base": [342, 352],
+        "baseLeft": [334, 352],
+        "baseRight": [353, 352],
+        "tip": [348.5, 429],
+        "left": [[330, 361], [328, 371], [328, 383], [329, 394], [334, 406], [341, 417], [346, 424]],
+        "right": [[360, 361], [366, 371], [376, 383], [369, 394], [357, 406], [353, 417], [351, 424]],
+        "axis": [[342, 377], [343, 400], [348, 421]]
+      },
+      "throat": [[292, 432], [327, 440], [365, 444], [490, 447], [628, 430], [304, 485], [395, 494], [494, 493], [600, 473], [652, 451]],
+      "rejectedDetectorPoints": [{"index": 125, "position": [389, 379], "reason": "Feather shadow outside the bill."}, {"index": 127, "position": [380, 396], "reason": "Feather shadow outside the bill."}],
+      "confidence": {"beak": "high at hook/tip; medium where the lateral bill surface meets cheek feathers", "throat": "candidate anatomical correspondence; requires rendered comparison"}
+    },
+    "yaw-plus15-pitch-plus9": {
+      "eyes": [
+        {
+          "outer": [[461, 174], [474, 160], [500, 155], [526, 155], [544, 169], [540, 192], [508, 214], [474, 202]],
+          "inner": [[473, 174], [484, 165], [505, 160], [526, 163], [536, 176], [529, 196], [505, 209], [482, 199]],
+          "pupil": {"center": [506.5, 176], "bounds": [493, 162, 520, 190], "visibleArc": [[493, 174], [497, 165], [506, 162], [514, 166], [520, 178], [516, 187], [507, 190], [497, 186]], "occlusionBoundary": []},
+          "pupilRing8": [[493.67, 176], [496.54, 166.04], [506.5, 162.25], [514.83, 167.67], [519, 176], [516.46, 185.96], [506.5, 189.8], [496.88, 185.62]],
+          "pupilRing8ClippedStations": [],
+          "pupilRing8Notes": "Camera-plane order L, UL, U, UR, R, DR, D, DL; observed visible pupil only.",
+          "featherOcclusionSegments": [], "confidence": "clear near eye"
+        },
+        {
+          "outer": [[630, 137], [636.5, 125.3], [648, 121], [660, 136], [669, 153], [669, 166], [662, 173], [642.9, 158]],
+          "inner": [[631.3, 137], [637.5, 126.5], [648, 124], [657, 136], [666, 150], [666, 162], [660, 169], [643.7, 156]],
+          "pupil": {"center": [643, 141], "bounds": [633, 129, 652, 154], "visibleArc": [[640, 129], [646, 132], [650, 137], [652, 145], [650, 152], [645, 154]], "occlusionBoundary": [[645, 154], [640, 149], [637, 144], [633, 139], [634, 133], [640, 129]]},
+          "pupilRing8": [[634.6, 141], [634.6, 132.6], [643, 130.5], [648.67, 135.33], [651, 141], [650.89, 148.89], [643, 152], [638.12, 145.88]],
+          "pupilRing8ClippedStations": [],
+          "pupilRing8Notes": "Camera-plane order L, UL, U, UR, R, DR, D, DL. Recomputed from the observed visible arc and feather clipping boundary after correcting outer/inner stations 0,1,7. Every visible pupil boundary annotation and ring station lies inside inner8; no artificial inward clipping remains. The occlusion-side contour bounds the feather-clipped aperture, not an invented black rim or hidden round pupil.",
+          "featherOcclusionSegments": [[6, 7], [7, 0], [0, 1]], "confidence": "partly visible pupil; left aperture boundary is feather occlusion, not a black eyelid; excludes brown shadow spike above eye"
+        }
+      ],
+      "beak": {
+        "base": [647, 201],
+        "baseLeft": [639, 201],
+        "baseRight": [663, 201],
+        "tip": [669.5, 273],
+        "left": [[642, 210], [644, 219], [647, 230], [652, 241], [660, 251], [666, 262], [669, 269]],
+        "right": [[668, 210], [672, 219], [675, 230], [676, 241], [675, 251], [673, 262], [671, 269]],
+        "axis": [[659, 224], [667, 246], [670, 266]]
+      },
+      "confidence": {"beak": "high for exposed lower hooked bill; medium at feather-covered left attachment"}
+    },
+    "yaw-plus30-pitch-plus18": {
+      "eyes": [
+        {
+          "outer": [[466, 164], [480, 150], [508, 144], [537, 147], [548, 161], [541, 189], [510, 206], [477, 194]],
+          "inner": [[478, 164], [489, 155], [511, 150], [532, 154], [540, 166], [535, 187], [510, 200], [488, 191]],
+          "pupil": {"center": [510.5, 168], "bounds": [497, 153, 524, 182], "visibleArc": [[497, 168], [501, 157], [511, 153], [520, 157], [524, 170], [520, 179], [511, 182], [501, 178]], "occlusionBoundary": []},
+          "pupilRing8": [[497, 168], [500.6, 158.1], [510.5, 153.2], [520.35, 158.15], [523.38, 168], [520.46, 177.96], [510.5, 181.8], [500.86, 177.64]],
+          "pupilRing8ClippedStations": [],
+          "pupilRing8Notes": "Camera-plane order L, UL, U, UR, R, DR, D, DL; observed visible pupil only.",
+          "featherOcclusionSegments": [], "confidence": "clear near eye"
+        },
+        {
+          "outer": [[634.5, 129], [640.5, 117.3], [651, 113], [664, 127], [674, 145], [673, 157], [666, 164], [645.7, 149.5]],
+          "inner": [[635.5, 129], [642.5, 118.5], [651, 116], [661, 128], [670, 143], [670, 154], [665, 160], [646.5, 147.5]],
+          "pupil": {"center": [647, 132.5], "bounds": [638, 122, 658, 145], "visibleArc": [[644, 122], [650, 125], [655, 130], [658, 138], [656, 144], [650, 145]], "occlusionBoundary": [[650, 145], [645, 139], [641, 138], [638, 132], [639, 126], [644, 122]]},
+          "pupilRing8": [[638.25, 132.5], [639.83, 125.33], [647, 123.5], [652.25, 127.25], [655.94, 132.5], [656.62, 142.12], [647, 141.4], [641.4, 138.1]],
+          "pupilRing8ClippedStations": [],
+          "pupilRing8Notes": "Camera-plane order L, UL, U, UR, R, DR, D, DL. Recomputed from the observed visible arc and feather clipping boundary after correcting outer/inner stations 0,1,7. Every visible pupil boundary annotation and ring station lies inside inner8; no artificial inward clipping remains. The occlusion-side contour bounds the feather-clipped aperture, not an invented black rim or hidden round pupil.",
+          "featherOcclusionSegments": [[6, 7], [7, 0], [0, 1]], "confidence": "partly visible pupil; left aperture boundary is feather occlusion, not a black eyelid; excludes brown shadow spike above eye"
+        }
+      ],
+      "beak": {
+        "base": [656, 190],
+        "baseLeft": [648, 190],
+        "baseRight": [669, 190],
+        "tip": [680, 262],
+        "left": [[651, 199], [652, 208], [655, 219], [661, 230], [670, 240], [678, 251], [680, 258]],
+        "right": [[675, 199], [680, 208], [683, 219], [685, 230], [685, 240], [682, 251], [681, 258]],
+        "axis": [[667, 213], [677, 235], [680, 255]]
+      },
+      "confidence": {"beak": "high for exposed lower hooked bill; medium at feather-covered left attachment"}
+    },
+    "yaw-minus15-pitch-plus9": {
+      "beak": {
+        "base": [359, 234], "baseLeft": [344, 234], "baseRight": [373, 234], "tip": [338, 304],
+        "left": [[339, 242], [336, 251], [333, 262], [332, 272], [332, 283], [334, 294], [336, 300]],
+        "right": [[375, 242], [375, 251], [375, 262], [366, 272], [350, 283], [343, 294], [340, 300]],
+        "axis": [[353, 256], [347, 278], [338, 297]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw-minus15-pitch0": {
+      "beak": {
+        "base": [378, 303], "baseLeft": [365, 303], "baseRight": [393, 303], "tip": [382, 386],
+        "left": [[363, 313], [360, 324], [359, 336], [362, 349], [368, 361], [375, 374], [379, 381]],
+        "right": [[396, 313], [401, 324], [408, 336], [402, 349], [395, 361], [389, 374], [385, 381]],
+        "axis": [[378, 330], [381, 355], [382, 378]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw-minus30-pitch-plus18": {
+      "beak": {
+        "base": [370, 191], "baseLeft": [351, 191], "baseRight": [384, 191], "tip": [342, 255],
+        "left": [[347, 199], [344, 207], [341, 217], [339, 226], [339, 236], [340, 245], [341, 251]],
+        "right": [[386, 199], [386, 207], [388, 217], [388, 226], [360, 236], [349, 245], [344, 251]],
+        "axis": [[360, 211], [352, 231], [342, 249]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw-minus30-pitch0": {
+      "beak": {
+        "base": [302, 301], "baseLeft": [289, 301], "baseRight": [320, 301], "tip": [305, 382],
+        "left": [[288, 311], [287, 321], [287, 333], [289, 346], [294, 358], [301, 370], [303, 377]],
+        "right": [[322, 311], [325, 321], [329, 333], [327, 346], [319, 358], [311, 370], [308, 377]],
+        "axis": [[302, 327], [306, 352], [305, 374]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw-plus15-pitch-minus9": {
+      "beak": {
+        "base": [658, 342], "baseLeft": [646, 342], "baseRight": [668, 342], "tip": [637, 421],
+        "left": [[644, 352], [637, 362], [627, 374], [631, 385], [639, 397], [639, 409], [637, 416]],
+        "right": [[670, 352], [669, 362], [666, 374], [660, 385], [651, 397], [643, 409], [640, 416]],
+        "axis": [[654, 367], [648, 392], [640, 413]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw-plus15-pitch0": {
+      "beak": {
+        "base": [633, 306], "baseLeft": [623, 306], "baseRight": [647, 306], "tip": [632, 387],
+        "left": [[621, 316], [618, 326], [610, 338], [616, 351], [624, 363], [630, 375], [632, 382]],
+        "right": [[650, 316], [650, 326], [652, 338], [649, 351], [645, 363], [640, 375], [636, 382]],
+        "axis": [[634, 332], [636, 357], [633, 379]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw-plus30-pitch-minus18": {
+      "beak": {
+        "base": [638, 347], "baseLeft": [629, 347], "baseRight": [648, 347], "tip": [612, 421],
+        "left": [[626, 356], [619, 365], [608, 377], [611, 388], [616, 399], [613, 410], [612, 417]],
+        "right": [[648, 356], [647, 365], [643, 377], [636, 388], [629, 399], [620, 410], [616, 417]],
+        "axis": [[633, 371], [625, 394], [615, 414]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw-plus30-pitch0": {
+      "beak": {
+        "base": [662, 299], "baseLeft": [653, 299], "baseRight": [679, 299], "tip": [662, 372],
+        "left": [[650, 308], [647, 317], [637, 328], [641, 339], [651, 350], [657, 361], [660, 368]],
+        "right": [[681, 308], [682, 317], [681, 328], [677, 339], [673, 350], [668, 361], [665, 368]],
+        "axis": [[664, 322], [664, 345], [662, 365]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw0-pitch-minus18": {
+      "beak": {
+        "base": [499, 419], "baseLeft": [489, 419], "baseRight": [510, 419], "tip": [498, 489],
+        "left": [[487, 427], [485, 437], [486, 447], [490, 458], [493, 468], [496, 479], [497, 485]],
+        "right": [[512, 427], [514, 437], [513, 447], [510, 458], [508, 468], [503, 479], [500, 485]],
+        "axis": [[499, 441], [500, 463], [498, 482]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw0-pitch-minus9": {
+      "beak": {
+        "base": [499, 370], "baseLeft": [488, 370], "baseRight": [509, 370], "tip": [498, 449],
+        "left": [[486, 379], [485, 390], [485, 402], [488, 413], [492, 425], [496, 437], [497, 444]],
+        "right": [[511, 379], [512, 390], [511, 402], [509, 413], [506, 425], [503, 437], [501, 444]],
+        "axis": [[499, 395], [499, 420], [498, 441]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw0-pitch-plus18": {
+      "beak": {
+        "base": [499, 191], "baseLeft": [485, 191], "baseRight": [515, 191], "tip": [499, 250],
+        "left": [[484, 198], [483, 206], [486, 215], [491, 223], [495, 232], [497, 241], [498, 246]],
+        "right": [[516, 198], [516, 206], [514, 215], [510, 223], [506, 232], [502, 241], [500, 246]],
+        "axis": [[499, 210], [500, 228], [499, 244]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "yaw0-pitch-plus9": {
+      "beak": {
+        "base": [502, 241], "baseLeft": [488, 241], "baseRight": [516, 241], "tip": [504, 307],
+        "left": [[487, 249], [486, 258], [488, 267], [495, 277], [500, 287], [502, 297], [503, 303]],
+        "right": [[517, 249], [518, 258], [517, 267], [513, 277], [509, 287], [507, 297], [506, 303]],
+        "axis": [[502, 262], [504, 283], [504, 300]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "repair-up-right": {
+      "sourcePath": "assets/owl-repairs/2026-09-24/repair-up-right.png",
+      "eyes": [
+        {
+          "outer": [[406, 205], [419, 190], [449, 182], [476, 190], [491, 205], [478, 229], [447, 242], [418, 231]],
+          "inner": [[417, 204], [425, 194], [449, 188], [475, 198], [481, 211], [472, 227], [447, 237], [425, 227]],
+          "pupil": {"center": [452, 204], "bounds": [438, 190, 466, 218], "visibleArc": [[438, 203], [442, 194], [452, 190], [462, 195], [466, 205], [462, 214], [452, 218], [442, 213]], "occlusionBoundary": []},
+          "pupilRing8": [[438.4, 204], [442, 194], [452, 190], [461.33, 194.67], [465.6, 204], [462, 214], [452, 218], [442.67, 213.33]],
+          "pupilRing8ClippedStations": [],
+          "pupilRing8Notes": "Camera-plane order L, UL, U, UR, R, DR, D, DL; observed visible pupil only.",
+          "featherOcclusionSegments": [], "confidence": "clear near eye"
+        },
+        {
+          "outer": [[589, 195], [604, 178], [627, 164], [642, 171], [649, 185], [646, 205], [629, 217], [606, 211]],
+          "inner": [[598, 194], [610, 181], [627, 170], [639, 175], [644, 189], [640, 205], [625, 212], [608, 205]],
+          "pupil": {"center": [620, 184], "bounds": [610, 171, 629, 197], "visibleArc": [[610, 182], [613, 174], [620, 171], [626, 177], [629, 186], [626, 194], [621, 197], [614, 192]], "occlusionBoundary": []},
+          "pupilRing8": [[610.8, 184], [614.5, 178.5], [620, 174.88], [626.25, 177.75], [628.33, 184], [627.09, 191.09], [620, 196.29], [613.43, 190.57]],
+          "pupilRing8ClippedStations": [1, 2],
+          "pupilRing8Notes": "Camera-plane order L, UL, U, UR, R, DR, D, DL. Upper stations clipped inside coarse inner8; no invented hidden extension.",
+          "featherOcclusionSegments": [], "confidence": "visible far pupil; upper-left aperture partially feather-covered"
+        }
+      ],
+      "beak": {
+        "base": [577, 261], "baseLeft": [566, 261], "baseRight": [591, 261], "tip": [584, 334],
+        "left": [[565, 270], [564, 279], [564, 290], [570, 301], [578, 312], [581, 323], [583, 330]],
+        "right": [[593, 270], [595, 279], [597, 290], [595, 301], [592, 312], [588, 323], [586, 330]],
+        "axis": [[580, 284], [585, 307], [584, 327]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    },
+    "repair-down-left": {
+      "sourcePath": "assets/owl-repairs/2026-09-24/repair-down-left.png",
+      "eyes": [
+        {
+          "outer": [[328, 240], [333, 231], [344, 223], [363, 233], [378, 245], [375, 263], [354, 274], [334, 260]],
+          "inner": [[335, 242], [339, 234], [346, 231], [362, 238], [372, 250], [368, 263], [353, 268], [339, 256]],
+          "pupil": {"center": [355.5, 241.5], "bounds": [346, 229, 366, 254], "visibleArc": [[346, 240], [350, 232], [357, 229], [363, 235], [366, 245], [362, 251], [355, 254], [348, 248]], "occlusionBoundary": []},
+          "featherOcclusionSegments": [], "confidence": "visible far pupil; upper-right edge partly feather-covered"
+        },
+        {
+          "outer": [[495, 256], [509, 243], [542, 233], [565, 233], [577, 245], [563, 280], [536, 292], [508, 283]],
+          "inner": [[505, 256], [516, 245], [542, 239], [561, 240], [569, 250], [555, 277], [533, 285], [513, 276]],
+          "pupil": {"center": [532.5, 251], "bounds": [518, 235, 546, 267], "visibleArc": [[518, 249], [522, 239], [531, 235], [541, 239], [546, 251], [542, 262], [533, 267], [523, 262]], "occlusionBoundary": []},
+          "featherOcclusionSegments": [], "confidence": "clear near eye; upper pupil slightly overlapped by lid shadow"
+        }
+      ],
+      "beak": {
+        "base": [418, 326], "baseLeft": [407, 326], "baseRight": [429, 326], "tip": [420.5, 408],
+        "left": [[403, 336], [399, 347], [399, 359], [403, 371], [411, 383], [416, 396], [419, 403]],
+        "right": [[432, 336], [435, 347], [438, 359], [433, 371], [428, 383], [424, 396], [422, 403]],
+        "axis": [[418, 352], [419, 378], [420.5, 400]]
+      },
+      "confidence": {"beak": "high for hook/tip; medium along feather-covered attachment and lateral sheath"}
+    }
+  }
+}

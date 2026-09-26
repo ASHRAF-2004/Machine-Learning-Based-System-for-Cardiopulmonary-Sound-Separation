@@ -1,0 +1,52 @@
+{
+  "reference": "/home/ashraf/Documents/StethoFuse/ChatGPT Image Sep 24, 2026, 01_44_30 PM.png",
+  "referencePixels": "Lossless RGB copy. SVG mask includes only the original owl and a small margin of scenery; all baked UI is excluded. Mask blending ends outside the owl feathers.",
+  "backplate": "Built-in image_gen cleanup of the supplied reference. UI and owl removed; missing scenery reconstructed. Original owl pixels overlay it on authentication pages. Landscape is a close reconstruction, not pixel-identical.",
+  "files": [
+    {
+      "path": "/home/ashraf/Documents/StethoFuse/ChatGPT Image Sep 24, 2026, 01_44_30 PM.png",
+      "bytes": 1842878,
+      "sha256": "f0f7ccc46d68356bfc6c29b204cae251ee09f19f75a55055d8555883d94d28a3",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "path": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/public-reference/login-backplate.png",
+      "bytes": 1985140,
+      "sha256": "054db580f32edec3fc043aa0249613c299e949ac3be0c4c312c039a68be3b77f",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "path": "/home/ashraf/Documents/StethoFuse/implementation/frontend/public/assets/public-reference/lake-1536.webp",
+      "bytes": 132632,
+      "sha256": "1bfa822820d85bd5bef1d6a80261d4aba06a82a34e44e954a0cb12b102784ef0",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "path": "/home/ashraf/Documents/StethoFuse/implementation/frontend/public/assets/public-reference/lake-800.webp",
+      "bytes": 63868,
+      "sha256": "4f0d43385d4fde260c237e9c126000b2d54b71d4ff6525108b94823a00e88d3a",
+      "dimensions": [
+        800,
+        533
+      ]
+    },
+    {
+      "path": "/home/ashraf/Documents/StethoFuse/implementation/frontend/public/assets/public-reference/login-reference.webp",
+      "bytes": 1209210,
+      "sha256": "4d800266a40e806e062ded8bb5f8e1db8abe4ef33ae3f3d02b838df92b6ac3d6",
+      "dimensions": [
+        1536,
+        1024
+      ]
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "version": 2,
+  "width": 1163,
+  "height": 600,
+  "meshWidth": 233,
+  "meshHeight": 121,
+  "views": [
+    {
+      "id": 0,
+      "name": "neutral-original",
+      "yaw": 0,
+      "pitch": 0,
+      "texture": "view-0.webp",
+      "map": "map-0.bin",
+      "source_sha256": "9215004380eca970bdcaa0f831e3b0b64e7805812afdfd29dd677019ad747d8e",
+      "bytes": 351936
+    },
+    {
+      "id": 1,
+      "name": "yaw-plus30-pitch0",
+      "yaw": 30,
+      "pitch": 0,
+      "texture": "view-1.webp",
+      "map": "map-1.bin",
+      "source_sha256": "8185b8edc1e7666eb72ea47ca4ec289f136e90d79de66494f86520ac5e49882d",
+      "bytes": 322364
+    },
+    {
+      "id": 2,
+      "name": "yaw-plus30-pitch-plus18",
+      "yaw": 30,
+      "pitch": 18,
+      "texture": "view-2.webp",
+      "map": "map-2.bin",
+      "source_sha256": "2ea43684837063094e6008f93f6026e3637a01b6fbd593fa94cee2da5e3ffc93",
+      "bytes": 324226
+    },
+    {
+      "id": 3,
+      "name": "yaw0-pitch-plus18",
+      "yaw": 0,
+      "pitch": 18,
+      "texture": "view-3.webp",
+      "map": "map-3.bin",
+      "source_sha256": "3c2c29a17c4b8ed21579050a8d0977fb7eb0cbf7086f05d91e0efec03cabc30e",
+      "bytes": 320366
+    },
+    {
+      "id": 4,
+      "name": "yaw-minus30-pitch-plus18",
+      "yaw": -30,
+      "pitch": 18,
+      "texture": "view-4.webp",
+      "map": "map-4.bin",
+      "source_sha256": "7e88e8b0cd47fd107806f24040738d5fd2635a59cbf98df357d2a65962436cc1",
+      "bytes": 326746
+    },
+    {
+      "id": 5,
+      "name": "yaw-minus30-pitch0",
+      "yaw": -30,
+      "pitch": 0,
+      "texture": "view-5.webp",
+      "map": "map-5.bin",
+      "source_sha256": "55ebe337597460c3951d85df2ef8e148d7e74417086bd218aa4e66ee4b5e5e14",
+      "bytes": 337142
+    },
+    {
+      "id": 6,
+      "name": "yaw-minus30-pitch-minus18",
+      "yaw": -30,
+      "pitch": -18,
+      "texture": "view-6.webp",
+      "map": "map-6.bin",
+      "source_sha256": "b764a94a4353ffd9cf30dd2252d8699cb0c359e6a6dbe9fbb97d99cc96677d54",
+      "bytes": 335194
+    },
+    {
+      "id": 7,
+      "name": "yaw0-pitch-minus18",
+      "yaw": 0,
+      "pitch": -18,
+      "texture": "view-7.webp",
+      "map": "map-7.bin",
+      "source_sha256": "732bd976e87b3e619c244a79e25a1ef56c41aecbd44c8b616ae66e8f04aafe4c",
+      "bytes": 332606
+    },
+    {
+      "id": 8,
+      "name": "yaw-plus30-pitch-minus18",
+      "yaw": 30,
+      "pitch": -18,
+      "texture": "view-8.webp",
+      "map": "map-8.bin",
+      "source_sha256": "e47507052c306de91112cfd19f1357d9f7940784e8dc14ed8602ba33c84c7759",
+      "bytes": 333106
+    }
+  ],
+  "source_role": "existing approved appearance poses; nominal artistic angles",
+  "refine": true
+}

@@ -1,0 +1,146 @@
+{
+  "views": [
+    {
+      "name": "repair-up-right",
+      "yaw": 7.5,
+      "pitch": 4.5,
+      "file": "repair-up-right.png",
+      "source": "up-right-generated.png",
+      "sourceSha256": "536129c5c90d9943afbd355978901020015e1265d33d40471087218206f871fc",
+      "sha256": "95ed3ee9fe8221b220c0306ac4abcec7a2654055cfc292f2f747602c51159994",
+      "crop": [
+        180,
+        0,
+        820,
+        560
+      ],
+      "generatedSize": [
+        1341,
+        1173
+      ],
+      "landmarks_xy": {
+        "eye_screen_left": [
+          448.5,
+          212.5
+        ],
+        "eye_screen_right": [
+          623.5,
+          190.5
+        ],
+        "beak_tip": [
+          584.1111111111111,
+          334.0
+        ],
+        "beak_base": [
+          569.0,
+          233.58695652173913
+        ]
+      },
+      "detection_evidence": {
+        "blue_iris_boxes_xyxy": [
+          [
+            417,
+            189,
+            481,
+            237
+          ],
+          [
+            600,
+            169,
+            648,
+            213
+          ]
+        ],
+        "blue_iris_areas_px": [
+          1697,
+          1213
+        ],
+        "dark_beak_box_xyxy": [
+          548,
+          227,
+          602,
+          335
+        ],
+        "dark_beak_search_roi_xyxy": [
+          381,
+          214,
+          691,
+          412
+        ]
+      },
+      "role": "built-in imagegen corrected intermediate head; original remains identity reference",
+      "approval": "candidate, pending assembled visual review"
+    },
+    {
+      "name": "repair-down-left",
+      "yaw": -7.5,
+      "pitch": -4.5,
+      "file": "repair-down-left.png",
+      "source": "down-left-generated.png",
+      "sourceSha256": "d09b514dc5a857c4bac13c540e601f45911c699650428d53d77e68b2541d3b16",
+      "sha256": "31a51bbcf4d72e4b65b4538bd9abac807bf1102c403c8b0917633a339147cec5",
+      "crop": [
+        180,
+        0,
+        820,
+        560
+      ],
+      "generatedSize": [
+        1341,
+        1173
+      ],
+      "landmarks_xy": {
+        "eye_screen_left": [
+          355.0,
+          247.5
+        ],
+        "eye_screen_right": [
+          536.5,
+          261.0
+        ],
+        "beak_tip": [
+          420.6363636363636,
+          408.0
+        ],
+        "beak_base": [
+          422.51851851851853,
+          295.9382716049383
+        ]
+      },
+      "detection_evidence": {
+        "blue_iris_boxes_xyxy": [
+          [
+            336,
+            229,
+            375,
+            267
+          ],
+          [
+            504,
+            237,
+            570,
+            286
+          ]
+        ],
+        "blue_iris_areas_px": [
+          739,
+          1762
+        ],
+        "dark_beak_box_xyxy": [
+          393,
+          289,
+          453,
+          409
+        ],
+        "dark_beak_search_roi_xyxy": [
+          291,
+          272,
+          601,
+          461
+        ]
+      },
+      "role": "built-in imagegen corrected intermediate head; original remains identity reference",
+      "approval": "candidate, pending assembled visual review"
+    }
+  ]
+}

@@ -1,0 +1,1334 @@
+{
+  "version": 5,
+  "revision": "diagonal-repair-2026-09-24",
+  "width": 1163,
+  "height": 600,
+  "views": [
+    {
+      "id": 0,
+      "name": "neutral-original",
+      "yaw": 0.0,
+      "pitch": 0.0,
+      "texture": "view-0-8da1358cca5d.webp",
+      "bytes": 126392,
+      "source_sha256": "9215004380eca970bdcaa0f831e3b0b64e7805812afdfd29dd677019ad747d8e",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/neutral-original.png"
+    },
+    {
+      "id": 1,
+      "name": "yaw-minus15-pitch-minus9",
+      "yaw": -15.0,
+      "pitch": -9.0,
+      "texture": "view-1-b49f43c8da80.webp",
+      "bytes": 101242,
+      "source_sha256": "a3bad4ac08e5312eb703ed9ab5c0287ebff635d90f2b76597dae236dd02c42d2",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-minus15-pitch-minus9.png"
+    },
+    {
+      "id": 2,
+      "name": "yaw-minus15-pitch-plus9",
+      "yaw": -15.0,
+      "pitch": 9.0,
+      "texture": "view-2-dde2c98cac97.webp",
+      "bytes": 95486,
+      "source_sha256": "ad8d2b516be288d6eca744f30703f43e925537f6b476e768b9e5996293cf6509",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-minus15-pitch-plus9.png"
+    },
+    {
+      "id": 3,
+      "name": "yaw-minus15-pitch0",
+      "yaw": -15.0,
+      "pitch": 0.0,
+      "texture": "view-3-b70e0cb910ac.webp",
+      "bytes": 104436,
+      "source_sha256": "66e720d6908db56f1587a3ef9ae82a162371050d3bc65656b6399d42502f6fdf",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-minus15-pitch0.png"
+    },
+    {
+      "id": 4,
+      "name": "yaw-minus30-pitch-minus18",
+      "yaw": -30.0,
+      "pitch": -18.0,
+      "texture": "view-4-ef0d3f6bff5d.webp",
+      "bytes": 110296,
+      "source_sha256": "b764a94a4353ffd9cf30dd2252d8699cb0c359e6a6dbe9fbb97d99cc96677d54",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-minus30-pitch-minus18.png"
+    },
+    {
+      "id": 5,
+      "name": "yaw-minus30-pitch-plus18",
+      "yaw": -30.0,
+      "pitch": 18.0,
+      "texture": "view-5-aa5dc5a3443a.webp",
+      "bytes": 102132,
+      "source_sha256": "7e88e8b0cd47fd107806f24040738d5fd2635a59cbf98df357d2a65962436cc1",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-minus30-pitch-plus18.png"
+    },
+    {
+      "id": 6,
+      "name": "yaw-minus30-pitch0",
+      "yaw": -30.0,
+      "pitch": 0.0,
+      "texture": "view-6-5eb25ea11dd1.webp",
+      "bytes": 110976,
+      "source_sha256": "55ebe337597460c3951d85df2ef8e148d7e74417086bd218aa4e66ee4b5e5e14",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-minus30-pitch0.png"
+    },
+    {
+      "id": 7,
+      "name": "yaw-plus15-pitch-minus9",
+      "yaw": 15.0,
+      "pitch": -9.0,
+      "texture": "view-7-0931c8d58477.webp",
+      "bytes": 97242,
+      "source_sha256": "356ca914b131507bc1e0251aac4b9dca3b23b0dfbce5095afae9c230fe4788da",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-plus15-pitch-minus9.png"
+    },
+    {
+      "id": 8,
+      "name": "yaw-plus15-pitch-plus9",
+      "yaw": 15.0,
+      "pitch": 9.0,
+      "texture": "view-8-8d4db1af77c3.webp",
+      "bytes": 94904,
+      "source_sha256": "a4b7d21a41189d5d7d18f6293ecbe78379ba1f84f8b09699575c7d7f4342f9fc",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-plus15-pitch-plus9.png"
+    },
+    {
+      "id": 9,
+      "name": "yaw-plus15-pitch0",
+      "yaw": 15.0,
+      "pitch": 0.0,
+      "texture": "view-9-0498f1fc0648.webp",
+      "bytes": 104314,
+      "source_sha256": "6a7cdca80fbda9a50958050564148c1af0f81a3ab404ac0fb06830535756d761",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-plus15-pitch0.png"
+    },
+    {
+      "id": 10,
+      "name": "yaw-plus30-pitch-minus18",
+      "yaw": 30.0,
+      "pitch": -18.0,
+      "texture": "view-10-afddfdc0d156.webp",
+      "bytes": 108310,
+      "source_sha256": "e47507052c306de91112cfd19f1357d9f7940784e8dc14ed8602ba33c84c7759",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-plus30-pitch-minus18.png"
+    },
+    {
+      "id": 11,
+      "name": "yaw-plus30-pitch-plus18",
+      "yaw": 30.0,
+      "pitch": 18.0,
+      "texture": "view-11-3a0a8f44ff0b.webp",
+      "bytes": 100150,
+      "source_sha256": "2ea43684837063094e6008f93f6026e3637a01b6fbd593fa94cee2da5e3ffc93",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-plus30-pitch-plus18.png"
+    },
+    {
+      "id": 12,
+      "name": "yaw-plus30-pitch0",
+      "yaw": 30.0,
+      "pitch": 0.0,
+      "texture": "view-12-f6abef2d7ebf.webp",
+      "bytes": 98404,
+      "source_sha256": "8185b8edc1e7666eb72ea47ca4ec289f136e90d79de66494f86520ac5e49882d",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw-plus30-pitch0.png"
+    },
+    {
+      "id": 13,
+      "name": "yaw0-pitch-minus18",
+      "yaw": 0.0,
+      "pitch": -18.0,
+      "texture": "view-13-08d6467360fe.webp",
+      "bytes": 108418,
+      "source_sha256": "732bd976e87b3e619c244a79e25a1ef56c41aecbd44c8b616ae66e8f04aafe4c",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw0-pitch-minus18.png"
+    },
+    {
+      "id": 14,
+      "name": "yaw0-pitch-minus9",
+      "yaw": 0.0,
+      "pitch": -9.0,
+      "texture": "view-14-5bc684aee6b6.webp",
+      "bytes": 102022,
+      "source_sha256": "8190361f2f68f24d1e7e9d98c0b68a0fc5291e20b7c2a40ee3cb40e3cad79fa8",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw0-pitch-minus9.png"
+    },
+    {
+      "id": 15,
+      "name": "yaw0-pitch-plus18",
+      "yaw": 0.0,
+      "pitch": 18.0,
+      "texture": "view-15-068e4638363f.webp",
+      "bytes": 95616,
+      "source_sha256": "3c2c29a17c4b8ed21579050a8d0977fb7eb0cbf7086f05d91e0efec03cabc30e",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw0-pitch-plus18.png"
+    },
+    {
+      "id": 16,
+      "name": "yaw0-pitch-plus9",
+      "yaw": 0.0,
+      "pitch": 9.0,
+      "texture": "view-16-635f8176f22e.webp",
+      "bytes": 93602,
+      "source_sha256": "22de6c3f7e24985ffa5ce56f72561f1a9e2e8a5bfe8323dcb942981de6b8a27c",
+      "source_path": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/assembled/yaw0-pitch-plus9.png"
+    },
+    {
+      "id": 17,
+      "name": "repair-up-right",
+      "yaw": 7.5,
+      "pitch": 4.5,
+      "texture": "view-17-e79fb8ac0c25.webp",
+      "bytes": 103942,
+      "source_sha256": "95ed3ee9fe8221b220c0306ac4abcec7a2654055cfc292f2f747602c51159994",
+      "source_path": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-repairs/2026-09-24/repair-up-right.png"
+    },
+    {
+      "id": 18,
+      "name": "repair-down-left",
+      "yaw": -7.5,
+      "pitch": -4.5,
+      "texture": "view-18-1828e7e91698.webp",
+      "bytes": 117936,
+      "source_sha256": "31a51bbcf4d72e4b65b4538bd9abac807bf1102c403c8b0917633a339147cec5",
+      "source_path": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-repairs/2026-09-24/repair-down-left.png"
+    }
+  ],
+  "triangles": [
+    [
+      8,
+      17,
+      9
+    ],
+    [
+      17,
+      8,
+      16
+    ],
+    [
+      15,
+      16,
+      8
+    ],
+    [
+      16,
+      15,
+      2
+    ],
+    [
+      1,
+      13,
+      14
+    ],
+    [
+      13,
+      1,
+      4
+    ],
+    [
+      1,
+      18,
+      3
+    ],
+    [
+      18,
+      1,
+      14
+    ],
+    [
+      1,
+      3,
+      6
+    ],
+    [
+      0,
+      2,
+      3
+    ],
+    [
+      2,
+      0,
+      16
+    ],
+    [
+      2,
+      15,
+      5
+    ],
+    [
+      0,
+      3,
+      18
+    ],
+    [
+      3,
+      2,
+      6
+    ],
+    [
+      6,
+      2,
+      5
+    ],
+    [
+      4,
+      1,
+      6
+    ],
+    [
+      0,
+      7,
+      9
+    ],
+    [
+      7,
+      0,
+      14
+    ],
+    [
+      14,
+      0,
+      18
+    ],
+    [
+      7,
+      12,
+      9
+    ],
+    [
+      12,
+      7,
+      10
+    ],
+    [
+      8,
+      9,
+      12
+    ],
+    [
+      0,
+      9,
+      17
+    ],
+    [
+      8,
+      12,
+      11
+    ],
+    [
+      10,
+      7,
+      13
+    ],
+    [
+      8,
+      11,
+      15
+    ],
+    [
+      13,
+      7,
+      14
+    ],
+    [
+      16,
+      0,
+      17
+    ]
+  ],
+  "meshes": [
+    {
+      "id": 0,
+      "vertexCount": 466,
+      "indexCount": 2700,
+      "positions": {
+        "file": "mesh-0-423859f0e8f5.bin.gz",
+        "bytes": 2935,
+        "decodedBytes": 3728
+      },
+      "indices": {
+        "file": "indices-0-001b25af0cc7.bin.gz",
+        "bytes": 3475,
+        "decodedBytes": 10800
+      }
+    },
+    {
+      "id": 1,
+      "vertexCount": 432,
+      "indexCount": 2496,
+      "positions": {
+        "file": "mesh-1-7452f1b568f8.bin.gz",
+        "bytes": 2662,
+        "decodedBytes": 3456
+      },
+      "indices": {
+        "file": "indices-1-2d21788f5682.bin.gz",
+        "bytes": 3188,
+        "decodedBytes": 9984
+      }
+    },
+    {
+      "id": 2,
+      "vertexCount": 624,
+      "indexCount": 3654,
+      "positions": {
+        "file": "mesh-2-b96902e433f6.bin.gz",
+        "bytes": 4078,
+        "decodedBytes": 4992
+      },
+      "indices": {
+        "file": "indices-2-295f4ba9892d.bin.gz",
+        "bytes": 4821,
+        "decodedBytes": 14616
+      }
+    },
+    {
+      "id": 3,
+      "vertexCount": 476,
+      "indexCount": 2760,
+      "positions": {
+        "file": "mesh-3-06341214d5df.bin.gz",
+        "bytes": 3074,
+        "decodedBytes": 3808
+      },
+      "indices": {
+        "file": "indices-3-c36ec6289f7c.bin.gz",
+        "bytes": 3611,
+        "decodedBytes": 11040
+      }
+    },
+    {
+      "id": 4,
+      "vertexCount": 363,
+      "indexCount": 2088,
+      "positions": {
+        "file": "mesh-4-7c362b74c6e5.bin.gz",
+        "bytes": 2202,
+        "decodedBytes": 2904
+      },
+      "indices": {
+        "file": "indices-4-eb09d3caed50.bin.gz",
+        "bytes": 2753,
+        "decodedBytes": 8352
+      }
+    },
+    {
+      "id": 5,
+      "vertexCount": 431,
+      "indexCount": 2496,
+      "positions": {
+        "file": "mesh-5-6f01af999041.bin.gz",
+        "bytes": 2774,
+        "decodedBytes": 3448
+      },
+      "indices": {
+        "file": "indices-5-b827e099b76a.bin.gz",
+        "bytes": 3263,
+        "decodedBytes": 9984
+      }
+    },
+    {
+      "id": 6,
+      "vertexCount": 503,
+      "indexCount": 2922,
+      "positions": {
+        "file": "mesh-6-b8764b672b9c.bin.gz",
+        "bytes": 3234,
+        "decodedBytes": 4024
+      },
+      "indices": {
+        "file": "indices-6-1032ea8a5492.bin.gz",
+        "bytes": 3803,
+        "decodedBytes": 11688
+      }
+    },
+    {
+      "id": 7,
+      "vertexCount": 475,
+      "indexCount": 2760,
+      "positions": {
+        "file": "mesh-7-3365507822d8.bin.gz",
+        "bytes": 3098,
+        "decodedBytes": 3800
+      },
+      "indices": {
+        "file": "indices-7-0b1aa5883495.bin.gz",
+        "bytes": 3576,
+        "decodedBytes": 11040
+      }
+    },
+    {
+      "id": 8,
+      "vertexCount": 546,
+      "indexCount": 3186,
+      "positions": {
+        "file": "mesh-8-d968e10f2a35.bin.gz",
+        "bytes": 3496,
+        "decodedBytes": 4368
+      },
+      "indices": {
+        "file": "indices-8-10b51d9fc174.bin.gz",
+        "bytes": 4174,
+        "decodedBytes": 12744
+      }
+    },
+    {
+      "id": 9,
+      "vertexCount": 479,
+      "indexCount": 2784,
+      "positions": {
+        "file": "mesh-9-e9f55565fa01.bin.gz",
+        "bytes": 3133,
+        "decodedBytes": 3832
+      },
+      "indices": {
+        "file": "indices-9-fee978845086.bin.gz",
+        "bytes": 3635,
+        "decodedBytes": 11136
+      }
+    },
+    {
+      "id": 10,
+      "vertexCount": 388,
+      "indexCount": 2232,
+      "positions": {
+        "file": "mesh-10-d14badac9a14.bin.gz",
+        "bytes": 2492,
+        "decodedBytes": 3104
+      },
+      "indices": {
+        "file": "indices-10-d94f75e7d17f.bin.gz",
+        "bytes": 2937,
+        "decodedBytes": 8928
+      }
+    },
+    {
+      "id": 11,
+      "vertexCount": 454,
+      "indexCount": 2634,
+      "positions": {
+        "file": "mesh-11-fe9a532e6007.bin.gz",
+        "bytes": 2838,
+        "decodedBytes": 3632
+      },
+      "indices": {
+        "file": "indices-11-10f0e4e63539.bin.gz",
+        "bytes": 3508,
+        "decodedBytes": 10536
+      }
+    },
+    {
+      "id": 12,
+      "vertexCount": 476,
+      "indexCount": 2766,
+      "positions": {
+        "file": "mesh-12-8aa26aa54bda.bin.gz",
+        "bytes": 3131,
+        "decodedBytes": 3808
+      },
+      "indices": {
+        "file": "indices-12-2c22d931ee00.bin.gz",
+        "bytes": 3581,
+        "decodedBytes": 11064
+      }
+    },
+    {
+      "id": 13,
+      "vertexCount": 516,
+      "indexCount": 3006,
+      "positions": {
+        "file": "mesh-13-35f054a8f561.bin.gz",
+        "bytes": 3412,
+        "decodedBytes": 4128
+      },
+      "indices": {
+        "file": "indices-13-e23496bc44e3.bin.gz",
+        "bytes": 3851,
+        "decodedBytes": 12024
+      }
+    },
+    {
+      "id": 14,
+      "vertexCount": 746,
+      "indexCount": 4380,
+      "positions": {
+        "file": "mesh-14-a74619845e69.bin.gz",
+        "bytes": 5037,
+        "decodedBytes": 5968
+      },
+      "indices": {
+        "file": "indices-14-31da2b8082a8.bin.gz",
+        "bytes": 5613,
+        "decodedBytes": 17520
+      }
+    },
+    {
+      "id": 15,
+      "vertexCount": 466,
+      "indexCount": 2706,
+      "positions": {
+        "file": "mesh-15-6c3caa1c0e05.bin.gz",
+        "bytes": 3070,
+        "decodedBytes": 3728
+      },
+      "indices": {
+        "file": "indices-15-5951c614d4b4.bin.gz",
+        "bytes": 3528,
+        "decodedBytes": 10824
+      }
+    },
+    {
+      "id": 16,
+      "vertexCount": 629,
+      "indexCount": 3684,
+      "positions": {
+        "file": "mesh-16-0f370df78b77.bin.gz",
+        "bytes": 4214,
+        "decodedBytes": 5032
+      },
+      "indices": {
+        "file": "indices-16-1642c0ea8dd1.bin.gz",
+        "bytes": 4845,
+        "decodedBytes": 14736
+      }
+    },
+    {
+      "id": 17,
+      "vertexCount": 562,
+      "indexCount": 3282,
+      "positions": {
+        "file": "mesh-17-c90298f7b1c8.bin.gz",
+        "bytes": 3655,
+        "decodedBytes": 4496
+      },
+      "indices": {
+        "file": "indices-17-ff7e32f9019d.bin.gz",
+        "bytes": 4338,
+        "decodedBytes": 13128
+      }
+    },
+    {
+      "id": 18,
+      "vertexCount": 310,
+      "indexCount": 1770,
+      "positions": {
+        "file": "mesh-18-70fcaa730a7e.bin.gz",
+        "bytes": 1858,
+        "decodedBytes": 2480
+      },
+      "indices": {
+        "file": "indices-18-88f42f91df0c.bin.gz",
+        "bytes": 2348,
+        "decodedBytes": 7080
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": 0,
+      "to": 2,
+      "file": "exact-flow-0-2-7616426c7ddc.bin.gz",
+      "bytes": 2946,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 0,
+      "to": 3,
+      "file": "exact-flow-0-3-5a6e3d964c49.bin.gz",
+      "bytes": 2795,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 0,
+      "to": 7,
+      "file": "exact-flow-0-7-cc8eac6d0b87.bin.gz",
+      "bytes": 2973,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 0,
+      "to": 9,
+      "file": "exact-flow-0-9-72eef19207f5.bin.gz",
+      "bytes": 2873,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 0,
+      "to": 14,
+      "file": "exact-flow-0-14-2a00d6e0c1ba.bin.gz",
+      "bytes": 2886,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 0,
+      "to": 16,
+      "file": "exact-flow-0-16-62c01e59c6bc.bin.gz",
+      "bytes": 2863,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 0,
+      "to": 17,
+      "file": "exact-flow-0-17-42aab416f8da.bin.gz",
+      "bytes": 2826,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 0,
+      "to": 18,
+      "file": "exact-flow-0-18-d1c492d04e07.bin.gz",
+      "bytes": 2864,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 1,
+      "to": 3,
+      "file": "exact-flow-1-3-c998a9cdd2e6.bin.gz",
+      "bytes": 2734,
+      "decodedBytes": 3456
+    },
+    {
+      "from": 1,
+      "to": 4,
+      "file": "exact-flow-1-4-99a1ce77e03c.bin.gz",
+      "bytes": 2463,
+      "decodedBytes": 3456
+    },
+    {
+      "from": 1,
+      "to": 6,
+      "file": "exact-flow-1-6-3f0d7129b1cd.bin.gz",
+      "bytes": 2594,
+      "decodedBytes": 3456
+    },
+    {
+      "from": 1,
+      "to": 13,
+      "file": "exact-flow-1-13-7463dbe348fb.bin.gz",
+      "bytes": 2693,
+      "decodedBytes": 3456
+    },
+    {
+      "from": 1,
+      "to": 14,
+      "file": "exact-flow-1-14-fdda9290b1bd.bin.gz",
+      "bytes": 2719,
+      "decodedBytes": 3456
+    },
+    {
+      "from": 1,
+      "to": 18,
+      "file": "exact-flow-1-18-66094854f473.bin.gz",
+      "bytes": 2557,
+      "decodedBytes": 3456
+    },
+    {
+      "from": 2,
+      "to": 0,
+      "file": "exact-flow-2-0-6889b9aaaf8a.bin.gz",
+      "bytes": 4141,
+      "decodedBytes": 4992
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "file": "exact-flow-2-3-8576e0005da5.bin.gz",
+      "bytes": 4117,
+      "decodedBytes": 4992
+    },
+    {
+      "from": 2,
+      "to": 5,
+      "file": "exact-flow-2-5-690269456b42.bin.gz",
+      "bytes": 4055,
+      "decodedBytes": 4992
+    },
+    {
+      "from": 2,
+      "to": 6,
+      "file": "exact-flow-2-6-4a45e9ac809b.bin.gz",
+      "bytes": 4059,
+      "decodedBytes": 4992
+    },
+    {
+      "from": 2,
+      "to": 15,
+      "file": "exact-flow-2-15-185569811f13.bin.gz",
+      "bytes": 4140,
+      "decodedBytes": 4992
+    },
+    {
+      "from": 2,
+      "to": 16,
+      "file": "exact-flow-2-16-b7e955c1a941.bin.gz",
+      "bytes": 4210,
+      "decodedBytes": 4992
+    },
+    {
+      "from": 3,
+      "to": 0,
+      "file": "exact-flow-3-0-dc1b828ff29e.bin.gz",
+      "bytes": 2905,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 3,
+      "to": 1,
+      "file": "exact-flow-3-1-3ac08139c333.bin.gz",
+      "bytes": 3062,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 3,
+      "to": 2,
+      "file": "exact-flow-3-2-1cfc96f78188.bin.gz",
+      "bytes": 3046,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 3,
+      "to": 6,
+      "file": "exact-flow-3-6-5ec05fb9ed76.bin.gz",
+      "bytes": 2985,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 3,
+      "to": 18,
+      "file": "exact-flow-3-18-6de594c6798e.bin.gz",
+      "bytes": 3001,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 4,
+      "to": 1,
+      "file": "exact-flow-4-1-09326f1244aa.bin.gz",
+      "bytes": 1951,
+      "decodedBytes": 2904
+    },
+    {
+      "from": 4,
+      "to": 6,
+      "file": "exact-flow-4-6-3cafe9e9b837.bin.gz",
+      "bytes": 2128,
+      "decodedBytes": 2904
+    },
+    {
+      "from": 4,
+      "to": 13,
+      "file": "exact-flow-4-13-9d023778d623.bin.gz",
+      "bytes": 2181,
+      "decodedBytes": 2904
+    },
+    {
+      "from": 5,
+      "to": 2,
+      "file": "exact-flow-5-2-a4d979bf1861.bin.gz",
+      "bytes": 2637,
+      "decodedBytes": 3448
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "file": "exact-flow-5-6-7f15d5e3f1a9.bin.gz",
+      "bytes": 2731,
+      "decodedBytes": 3448
+    },
+    {
+      "from": 5,
+      "to": 15,
+      "file": "exact-flow-5-15-99c30cdbed98.bin.gz",
+      "bytes": 2744,
+      "decodedBytes": 3448
+    },
+    {
+      "from": 6,
+      "to": 1,
+      "file": "exact-flow-6-1-0c3aa8d29082.bin.gz",
+      "bytes": 3109,
+      "decodedBytes": 4024
+    },
+    {
+      "from": 6,
+      "to": 2,
+      "file": "exact-flow-6-2-a9fabfd4eadc.bin.gz",
+      "bytes": 3187,
+      "decodedBytes": 4024
+    },
+    {
+      "from": 6,
+      "to": 3,
+      "file": "exact-flow-6-3-7059dcf0bc65.bin.gz",
+      "bytes": 3175,
+      "decodedBytes": 4024
+    },
+    {
+      "from": 6,
+      "to": 4,
+      "file": "exact-flow-6-4-e6c8d4c0fe36.bin.gz",
+      "bytes": 3109,
+      "decodedBytes": 4024
+    },
+    {
+      "from": 6,
+      "to": 5,
+      "file": "exact-flow-6-5-adf6169deae1.bin.gz",
+      "bytes": 3234,
+      "decodedBytes": 4024
+    },
+    {
+      "from": 7,
+      "to": 0,
+      "file": "exact-flow-7-0-8f1ec91978e7.bin.gz",
+      "bytes": 3051,
+      "decodedBytes": 3800
+    },
+    {
+      "from": 7,
+      "to": 9,
+      "file": "exact-flow-7-9-c9ca1097e675.bin.gz",
+      "bytes": 3036,
+      "decodedBytes": 3800
+    },
+    {
+      "from": 7,
+      "to": 10,
+      "file": "exact-flow-7-10-531b23005537.bin.gz",
+      "bytes": 3009,
+      "decodedBytes": 3800
+    },
+    {
+      "from": 7,
+      "to": 12,
+      "file": "exact-flow-7-12-c8f885799329.bin.gz",
+      "bytes": 3030,
+      "decodedBytes": 3800
+    },
+    {
+      "from": 7,
+      "to": 13,
+      "file": "exact-flow-7-13-6b17d43685c2.bin.gz",
+      "bytes": 3064,
+      "decodedBytes": 3800
+    },
+    {
+      "from": 7,
+      "to": 14,
+      "file": "exact-flow-7-14-131f9d7a19ab.bin.gz",
+      "bytes": 3025,
+      "decodedBytes": 3800
+    },
+    {
+      "from": 8,
+      "to": 9,
+      "file": "exact-flow-8-9-1e9fbf3a66ed.bin.gz",
+      "bytes": 3522,
+      "decodedBytes": 4368
+    },
+    {
+      "from": 8,
+      "to": 11,
+      "file": "exact-flow-8-11-0094de1a2e28.bin.gz",
+      "bytes": 3178,
+      "decodedBytes": 4368
+    },
+    {
+      "from": 8,
+      "to": 12,
+      "file": "exact-flow-8-12-5d5a432e1de2.bin.gz",
+      "bytes": 3461,
+      "decodedBytes": 4368
+    },
+    {
+      "from": 8,
+      "to": 15,
+      "file": "exact-flow-8-15-09613ed163d1.bin.gz",
+      "bytes": 3534,
+      "decodedBytes": 4368
+    },
+    {
+      "from": 8,
+      "to": 16,
+      "file": "exact-flow-8-16-c1582a4061dc.bin.gz",
+      "bytes": 3591,
+      "decodedBytes": 4368
+    },
+    {
+      "from": 8,
+      "to": 17,
+      "file": "exact-flow-8-17-01a4e818ea45.bin.gz",
+      "bytes": 3436,
+      "decodedBytes": 4368
+    },
+    {
+      "from": 9,
+      "to": 0,
+      "file": "exact-flow-9-0-e1e89fc16df2.bin.gz",
+      "bytes": 2957,
+      "decodedBytes": 3832
+    },
+    {
+      "from": 9,
+      "to": 7,
+      "file": "exact-flow-9-7-1189aaacb140.bin.gz",
+      "bytes": 2991,
+      "decodedBytes": 3832
+    },
+    {
+      "from": 9,
+      "to": 8,
+      "file": "exact-flow-9-8-23042601208c.bin.gz",
+      "bytes": 3045,
+      "decodedBytes": 3832
+    },
+    {
+      "from": 9,
+      "to": 12,
+      "file": "exact-flow-9-12-dd96fa26e9fd.bin.gz",
+      "bytes": 2865,
+      "decodedBytes": 3832
+    },
+    {
+      "from": 9,
+      "to": 17,
+      "file": "exact-flow-9-17-fa0a45284d60.bin.gz",
+      "bytes": 2980,
+      "decodedBytes": 3832
+    },
+    {
+      "from": 10,
+      "to": 7,
+      "file": "exact-flow-10-7-a7262a689fc5.bin.gz",
+      "bytes": 2354,
+      "decodedBytes": 3104
+    },
+    {
+      "from": 10,
+      "to": 12,
+      "file": "exact-flow-10-12-a2a4ce12aaf1.bin.gz",
+      "bytes": 2377,
+      "decodedBytes": 3104
+    },
+    {
+      "from": 10,
+      "to": 13,
+      "file": "exact-flow-10-13-66dba3691c94.bin.gz",
+      "bytes": 2393,
+      "decodedBytes": 3104
+    },
+    {
+      "from": 11,
+      "to": 8,
+      "file": "exact-flow-11-8-9611eea397ac.bin.gz",
+      "bytes": 2563,
+      "decodedBytes": 3632
+    },
+    {
+      "from": 11,
+      "to": 12,
+      "file": "exact-flow-11-12-6286e097f3dc.bin.gz",
+      "bytes": 2784,
+      "decodedBytes": 3632
+    },
+    {
+      "from": 11,
+      "to": 15,
+      "file": "exact-flow-11-15-775624151a73.bin.gz",
+      "bytes": 2816,
+      "decodedBytes": 3632
+    },
+    {
+      "from": 12,
+      "to": 7,
+      "file": "exact-flow-12-7-e10355205d6e.bin.gz",
+      "bytes": 2989,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 12,
+      "to": 8,
+      "file": "exact-flow-12-8-b6051b2af3bd.bin.gz",
+      "bytes": 2993,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 12,
+      "to": 9,
+      "file": "exact-flow-12-9-41c76596cf77.bin.gz",
+      "bytes": 2856,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 12,
+      "to": 10,
+      "file": "exact-flow-12-10-f42429a9f903.bin.gz",
+      "bytes": 3047,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 12,
+      "to": 11,
+      "file": "exact-flow-12-11-6c5af51b1f9a.bin.gz",
+      "bytes": 2991,
+      "decodedBytes": 3808
+    },
+    {
+      "from": 13,
+      "to": 1,
+      "file": "exact-flow-13-1-746e661d5fcd.bin.gz",
+      "bytes": 3298,
+      "decodedBytes": 4128
+    },
+    {
+      "from": 13,
+      "to": 4,
+      "file": "exact-flow-13-4-a1d7f004984f.bin.gz",
+      "bytes": 3222,
+      "decodedBytes": 4128
+    },
+    {
+      "from": 13,
+      "to": 7,
+      "file": "exact-flow-13-7-7c5079e42d58.bin.gz",
+      "bytes": 3323,
+      "decodedBytes": 4128
+    },
+    {
+      "from": 13,
+      "to": 10,
+      "file": "exact-flow-13-10-aaf9328cf30b.bin.gz",
+      "bytes": 3294,
+      "decodedBytes": 4128
+    },
+    {
+      "from": 13,
+      "to": 14,
+      "file": "exact-flow-13-14-c9fc12ec06e1.bin.gz",
+      "bytes": 3229,
+      "decodedBytes": 4128
+    },
+    {
+      "from": 14,
+      "to": 0,
+      "file": "exact-flow-14-0-673d9fecc74c.bin.gz",
+      "bytes": 4986,
+      "decodedBytes": 5968
+    },
+    {
+      "from": 14,
+      "to": 1,
+      "file": "exact-flow-14-1-798098702920.bin.gz",
+      "bytes": 5098,
+      "decodedBytes": 5968
+    },
+    {
+      "from": 14,
+      "to": 7,
+      "file": "exact-flow-14-7-a66aa0916f10.bin.gz",
+      "bytes": 4985,
+      "decodedBytes": 5968
+    },
+    {
+      "from": 14,
+      "to": 13,
+      "file": "exact-flow-14-13-f50d36adec72.bin.gz",
+      "bytes": 4859,
+      "decodedBytes": 5968
+    },
+    {
+      "from": 14,
+      "to": 18,
+      "file": "exact-flow-14-18-6f89845870e1.bin.gz",
+      "bytes": 4969,
+      "decodedBytes": 5968
+    },
+    {
+      "from": 15,
+      "to": 2,
+      "file": "exact-flow-15-2-2006517b0f26.bin.gz",
+      "bytes": 2996,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 15,
+      "to": 5,
+      "file": "exact-flow-15-5-a142aa1053ee.bin.gz",
+      "bytes": 2967,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 15,
+      "to": 8,
+      "file": "exact-flow-15-8-e2c4bb46c917.bin.gz",
+      "bytes": 2931,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 15,
+      "to": 11,
+      "file": "exact-flow-15-11-b14844e0a173.bin.gz",
+      "bytes": 2922,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 15,
+      "to": 16,
+      "file": "exact-flow-15-16-a0fed9944e53.bin.gz",
+      "bytes": 2906,
+      "decodedBytes": 3728
+    },
+    {
+      "from": 16,
+      "to": 0,
+      "file": "exact-flow-16-0-16ba60fc48e2.bin.gz",
+      "bytes": 4093,
+      "decodedBytes": 5032
+    },
+    {
+      "from": 16,
+      "to": 2,
+      "file": "exact-flow-16-2-4866bcd1b697.bin.gz",
+      "bytes": 4217,
+      "decodedBytes": 5032
+    },
+    {
+      "from": 16,
+      "to": 8,
+      "file": "exact-flow-16-8-3795627f4a9a.bin.gz",
+      "bytes": 4226,
+      "decodedBytes": 5032
+    },
+    {
+      "from": 16,
+      "to": 15,
+      "file": "exact-flow-16-15-1fd3a20e922c.bin.gz",
+      "bytes": 4119,
+      "decodedBytes": 5032
+    },
+    {
+      "from": 16,
+      "to": 17,
+      "file": "exact-flow-16-17-2948d5cd9613.bin.gz",
+      "bytes": 4121,
+      "decodedBytes": 5032
+    },
+    {
+      "from": 17,
+      "to": 0,
+      "file": "exact-flow-17-0-6179fb4f2adb.bin.gz",
+      "bytes": 3557,
+      "decodedBytes": 4496
+    },
+    {
+      "from": 17,
+      "to": 8,
+      "file": "exact-flow-17-8-40af1dac9f3b.bin.gz",
+      "bytes": 3568,
+      "decodedBytes": 4496
+    },
+    {
+      "from": 17,
+      "to": 9,
+      "file": "exact-flow-17-9-37abfc1d9e9c.bin.gz",
+      "bytes": 3559,
+      "decodedBytes": 4496
+    },
+    {
+      "from": 17,
+      "to": 16,
+      "file": "exact-flow-17-16-b383667f4b26.bin.gz",
+      "bytes": 3661,
+      "decodedBytes": 4496
+    },
+    {
+      "from": 18,
+      "to": 0,
+      "file": "exact-flow-18-0-6d72551f7024.bin.gz",
+      "bytes": 1716,
+      "decodedBytes": 2480
+    },
+    {
+      "from": 18,
+      "to": 1,
+      "file": "exact-flow-18-1-c2369a258fec.bin.gz",
+      "bytes": 1636,
+      "decodedBytes": 2480
+    },
+    {
+      "from": 18,
+      "to": 3,
+      "file": "exact-flow-18-3-f70c53d7bb70.bin.gz",
+      "bytes": 1768,
+      "decodedBytes": 2480
+    },
+    {
+      "from": 18,
+      "to": 14,
+      "file": "exact-flow-18-14-567751c81869.bin.gz",
+      "bytes": 1761,
+      "decodedBytes": 2480
+    }
+  ],
+  "floatEncoding": "float32-le-gzip",
+  "featherRefinement": false,
+  "fixedBodyBoundary": [
+    [
+      0.0,
+      555.0
+    ],
+    [
+      210.0,
+      555.0
+    ],
+    [
+      260.0,
+      535.0
+    ],
+    [
+      350.0,
+      535.0
+    ],
+    [
+      450.0,
+      550.0
+    ],
+    [
+      530.0,
+      555.0
+    ],
+    [
+      600.0,
+      515.0
+    ],
+    [
+      660.0,
+      465.0
+    ],
+    [
+      715.0,
+      436.0
+    ],
+    [
+      760.0,
+      438.0
+    ],
+    [
+      810.0,
+      459.0
+    ],
+    [
+      860.0,
+      500.0
+    ],
+    [
+      950.0,
+      555.0
+    ],
+    [
+      1163.0,
+      555.0
+    ]
+  ],
+  "source_role": "17 original appearance poses plus 2 generated repair crops; no video frames; nominal angles"
+}

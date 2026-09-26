@@ -1,0 +1,172 @@
+/* Supplied winter reference, translated to live HTML. Public surfaces only.
+ * Same light-theme serif/slate-blue language as the workspace, not a new theme. */
+.reference-auth,.welcome-page{--ink:#193a59;--secondary:#526e8a;--line:#c5d7e8;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.reference-auth{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:100dvh;background:#dfedf8}
+.auth-reference-scene{position:fixed;inset:0;z-index:-1;pointer-events:none;background:url('/assets/public-reference/lake-1536.webp') center/cover no-repeat}
+.auth-reference-scene>svg{display:block;width:100%;height:100%}
+.reference-auth .auth-brand{position:absolute;top:30px;left:44px;z-index:1}
+.reference-auth .auth-brand img{width:177px;height:auto}
+.reference-auth .auth-art-copy{position:fixed;left:auto;right:44px;top:102px;width:227px;display:block;pointer-events:none}
+.reference-auth .auth-art-copy h2{font:500 31px/1.01 var(--serif);letter-spacing:-.025em;margin:0 0 21px;padding:0 0 21px 44px;border-bottom:1px solid #9bb8d04d;color:#365873}
+.reference-auth .auth-art-copy p{padding-left:46px;max-width:none;font-size:12px;letter-spacing:.025em;line-height:1.5;color:#566f8c}
+.reference-auth .auth-form-wrap{display:block;flex:1;padding:clamp(106px,14.0625vh,154px) 24px 28px;min-width:0}
+.reference-auth .auth-form{width:534px;max-width:100%;margin:0 auto;padding:44px 76px 22px;border:1px solid #ffffffd9;border-radius:18px;background:linear-gradient(125deg,#f6fbffba,#e7f2fbc4 55%,#daebf8b8);box-shadow:inset 0 1px #ffffffa6,0 12px 40px #45668214;backdrop-filter:blur(17px);-webkit-backdrop-filter:blur(17px)}
+.reference-auth .auth-form h1{font:600 50px/1.12 var(--serif);letter-spacing:-.028em;text-align:center;margin:0 0 8px;color:#173753}
+.reference-auth .auth-form>.muted{font-size:14px;line-height:1.45;text-align:center;margin:0 0 25px;color:#526e8a}
+.reference-auth .auth-form .auth-demo-note{position:relative;font-size:12px!important;line-height:1.55!important;font-weight:400;background:#accdec40;border:0;border-radius:6px;padding:10px 14px 10px 22px;margin:0 0 31px;color:#526d8b!important}
+.reference-auth .auth-form .auth-demo-note::before{content:'';position:absolute;top:10px;bottom:10px;left:0;width:7px;border-radius:2px;background:#95c6ec}
+.reference-auth .auth-form .auth-demo-note strong{font-weight:600}
+.reference-auth .auth-form .field{font-size:13px;font-weight:500;margin-bottom:18px;line-height:1.25}
+.reference-auth .auth-form .field>span{margin-bottom:6px}
+.reference-auth .auth-form input:not([type=checkbox]),.reference-auth .auth-form select{min-height:46px;background:#f8fbffe0;border:1px solid #b5cde0;border-radius:8px;padding:11px 13px;font-size:13px;font-weight:400}
+.reference-auth .auth-form input::placeholder{color:#60768a;opacity:1}
+.reference-auth .auth-input-icon{position:relative}
+.reference-auth .auth-input-icon>svg{position:absolute;left:13px;top:14px;color:#5a7390;pointer-events:none}
+.reference-auth .auth-form .auth-input-icon input{padding-left:44px}
+.reference-auth .auth-form .password-field input{padding-right:43px}
+.reference-auth .auth-form .password-field .icon-button{width:38px;height:40px;top:3px;right:4px;color:#183752}
+.reference-auth .auth-form .auth-links{font-size:12px;gap:8px;margin:0 0 25px;line-height:1.4}
+.reference-auth .remember-option{display:flex;gap:8px;align-items:center;cursor:pointer;white-space:nowrap}
+.reference-auth .auth-form input[type=checkbox]{min-height:15px;height:15px;width:15px;border-radius:3px;margin:0;flex-shrink:0}
+.reference-auth .auth-links>a,.reference-auth .auth-meta a{color:#345e80;text-underline-offset:2px}
+.reference-auth .persistence-note{font-size:11px;line-height:1.5;margin:-10px 0 16px}
+.reference-auth .auth-form .button{min-height:51px;border-radius:9px;font-size:14px;font-weight:600;gap:12px}
+.reference-auth .button-primary{color:#fff;background:linear-gradient(115deg,#567997,#436a8e);border:1px solid #86a9c7;box-shadow:inset 0 1px 2px #ffffff54,0 4px 10px #2949651c}
+.reference-auth .button-primary:hover{background:linear-gradient(115deg,#496b8a,#355a7e)}
+.reference-auth .button-secondary{background:#f9fcffc4;border-color:#fff;color:#193a59;box-shadow:none}
+.reference-auth .auth-form .form-divider{font-size:12px;color:#55708a;margin:18px 0;line-height:13px}
+.reference-auth .form-divider::before,.reference-auth .form-divider::after{background:#b2cce0a8}
+.reference-auth .auth-meta{font-size:12px;margin:22px 0 25px;color:#4c6881}
+.reference-auth .demo-entry{margin:0;padding:22px 0 0;border-top:1px solid #f8fcffd9}
+.reference-auth .demo-entry>summary{font-size:12px;line-height:1.5;font-weight:400;min-height:24px}
+.reference-auth .demo-entry>summary::before{content:'';width:19px;height:23px;background:url('/assets/logo.svg') left center/105px auto no-repeat;flex-shrink:0;margin-right:4px;opacity:.65}
+.reference-auth .demo-entry>summary>svg{margin-left:auto;flex-shrink:0}
+.reference-auth .demo-entry>p{font-size:12px!important;color:#4d6780}
+.reference-auth .demo-entry .persona-option strong{font-size:12px}
+.reference-auth .demo-entry .persona-option small{font-size:11px}
+.reference-auth .auth-form .auth-state-picker{border:0;margin-top:16px;padding:0}
+.reference-login .auth-form .auth-demo-note{line-height:1.45!important;margin-bottom:27px}
+.reference-login .auth-form{position:relative;padding-bottom:23px}
+.reference-login .auth-state-picker:not([open]){position:absolute;top:calc(100% + 5px);left:76px;right:76px;margin:0;padding:0}
+.reference-login .auth-form-wrap{padding-bottom:52px}
+.reference-auth .auth-state-picker>summary{font-size:10px;color:#4f6d85;font-weight:400}
+.reference-auth .auth-form .auth-state-icon{width:max-content;margin:0 auto 16px}
+.reference-auth .auth-foot{position:relative;z-index:1;display:flex;justify-content:space-between;align-self:stretch;width:auto;max-width:none;margin:0;padding:20px 46px 31px;border:0;border-radius:0;background:none;font-size:12px;color:#415e78;line-height:1.5}
+.reference-auth .auth-foot a{padding-block:10px}
+.reference-auth .auth-form .field-error{font-size:12px}
+.reference-auth .auth-form .notice p,.reference-auth .auth-account-scope,.reference-auth .auth-consent{font-size:12px}
+.reference-auth .auth-form .notice-danger{background:#fff3f1;color:#813f46;border-color:#dfb8b9}
+.reference-auth .auth-form .notice-warning{background:#fff8ea;color:#715722;border-color:#d9c692}
+
+/* Public welcome: the approved animated owl and its coordinate space are retained. */
+.welcome-page{background:#edf5fd}
+.welcome-page .winter-hero{background:linear-gradient(90deg,#f5f9fcd4,#f5f9fc54 42%,transparent 73%),url('/assets/background-1800.webp') center/cover;border-bottom:1px solid #fff}
+.welcome-page .public-nav{max-width:none;padding:26px max(36px,calc((100vw - 1330px)/2));background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.welcome-page .public-nav img{width:211px}
+.welcome-page .public-nav-links{font-size:13px;color:#34516d;gap:30px}
+.welcome-page .public-nav .button{min-height:44px;background:linear-gradient(135deg,#ffffffa8,#e0eefb66);border:1px solid #ffffffe6;color:#294a68;box-shadow:inset 0 1px 2px #fff,0 5px 18px #42658816;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+/* Block lines remove inline baseline leading without clipping the italic g. */
+.welcome-page .hero-copy h1{color:#173853;line-height:1;letter-spacing:-.04em;font-weight:500;margin-top:20px}
+.welcome-page .hero-copy h1>span{display:block;line-height:.92}
+.welcome-page .hero-copy h1 em{display:block;width:max-content;max-width:100%;font-weight:500;font-style:italic;font-synthesis:style;line-height:1.1;padding:0 .07em .12em 0;margin-top:-.035em;margin-bottom:-.12em;color:#777d84;background:linear-gradient(115deg,#646b72 3%,#8e949b 48%,#b8bdc4 94%);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 1px 0 #ffffffb3)}
+.welcome-page .hero-copy .eyebrow{color:#526f92;letter-spacing:.17em;font-size:10px}
+.welcome-page .hero-copy>p:not(.eyebrow){font-size:18px;line-height:1.7;color:#4d6b88;max-width:520px}
+.welcome-page .hero-actions{gap:20px}
+/* Frosted glass is confined to controls, never a sheet across the scene. */
+.welcome-page .hero-actions .button{position:relative;isolation:isolate;border-radius:16px;min-height:64px;font-size:16px;font-weight:600;padding-inline:32px;gap:15px;white-space:nowrap;border:1px solid #fffffff0;backdrop-filter:blur(12px) saturate(1.12);-webkit-backdrop-filter:blur(12px) saturate(1.12);transition:box-shadow .2s ease,transform .2s ease}
+.welcome-page .hero-actions .button::before{content:'';position:absolute;inset:2px;z-index:-1;pointer-events:none;border-radius:13px;border:1px solid #ffffff38;background:linear-gradient(115deg,#ffffff26,transparent 38%,transparent 70%,#cbeaff17)}
+.welcome-page .hero-actions .button-primary{min-width:210px;background:linear-gradient(180deg,#ffffff24,transparent 48%,#bedffc18),#325b83e8;color:#fff;box-shadow:inset 0 2px 5px #ffffff7a,inset 0 -2px 5px #b5dcff55,0 12px 24px #365f8a30,0 2px 5px #365f8a24;text-shadow:0 1px 2px #1b3a5633}
+.welcome-page .hero-actions .button-primary:hover{box-shadow:inset 0 2px 7px #ffffff94,inset 0 -2px 5px #b5dcff66,0 15px 27px #365f8a3b,0 2px 5px #365f8a24}
+.welcome-page .hero-actions .button-secondary{min-width:156px;background:linear-gradient(140deg,#ffffff8c,#d5eafa75 55%,#ecf8ff8a);color:#214362;box-shadow:inset 0 2px 5px #ffffffd4,inset 0 -2px 6px #d4ebffa6,0 10px 22px #365f8a20}
+.welcome-page .hero-actions .button-secondary:hover{box-shadow:inset 0 2px 7px #fff,inset 0 -2px 6px #d4ebffaa,0 14px 25px #365f8a2e}
+.welcome-page .hero-actions .button:focus-visible,.welcome-page .public-nav a:focus-visible{outline:2px solid #284f75;outline-offset:5px}
+.welcome-page .hero-actions .button:active{transform:translateY(1px)}
+.welcome-page>.public-section{max-width:1330px;margin:0 auto;padding:75px 56px}
+.welcome-page .public-section h2{font-size:53px;line-height:1.08;font-weight:500;color:#173853}
+.welcome-page .welcome-section-intro{position:relative;max-width:none;padding-right:38%}
+.welcome-page .welcome-section-intro .winter-signalFine{position:absolute;right:0;top:6px;width:32%;height:100px;opacity:.8;mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent)}
+.welcome-page .welcome-section-intro>p{font-size:14px;line-height:1.85;max-width:520px}
+.welcome-page .workflow-grid{background:linear-gradient(125deg,#ffffffc2,#e0edfa66);border:1px solid #fff;border-radius:16px;padding:32px;box-shadow:inset 0 1px #fff,0 12px 30px #587eaa0c;gap:36px;margin-top:35px}
+.welcome-page .workflow-step{border:0;padding:0 28px 0 0;position:relative}
+.welcome-page .workflow-step:not(:last-child)::after{content:'';position:absolute;right:0;top:4px;bottom:8px;width:1px;background:linear-gradient(transparent,#b6cee3,transparent)}
+.welcome-page .workflow-step>svg{color:#4773a0;background:#dcebf975;box-sizing:content-box;padding:12px;border-radius:50%}
+.welcome-page .workflow-step h3{font-size:17px;color:#204263;margin:17px 0 10px}
+.welcome-page .workflow-step p{font-size:13px;line-height:1.85;color:#526e8a;margin:0}
+.welcome-page .public-band{background:linear-gradient(90deg,#ecf5fcea,#ebf5fbb8),url('/assets/reference-match/mountains-1536.webp') center/cover;border-block:1px solid #fff}
+.welcome-page .welcome-scope{max-width:1330px;gap:80px;padding:65px 56px}
+.welcome-page .scope-principles{padding:32px;background:linear-gradient(125deg,#ffffffc7,#eaf5fbc4);border-radius:16px;border:1px solid #fff;backdrop-filter:blur(8px)}
+.welcome-page .welcome-scope p,.welcome-page .scope-principles p{font-size:13px;color:#506b83}
+.welcome-page .welcome-help{background:transparent;gap:70px}
+.welcome-page .welcome-help>div:first-child{position:relative;padding-bottom:70px}
+.welcome-page .welcome-help .winter-feather{position:absolute;left:0;bottom:-5px;width:105px;height:98px;opacity:.8;mask-image:radial-gradient(ellipse,#000 40%,transparent 72%)}
+.welcome-page .welcome-help details{padding:20px 22px;border:1px solid #fff;border-radius:11px;margin-bottom:10px;background:linear-gradient(120deg,#ffffffbd,#e6f1fa70);box-shadow:0 5px 20px #4e72920a}
+.welcome-page .welcome-help details:first-child{padding-top:20px}
+.welcome-page .welcome-help summary{font-size:14px;font-weight:500;color:#284c6e}
+.welcome-page .welcome-help details p{font-size:13px;line-height:1.85}
+.welcome-page .public-footer{max-width:none;padding:30px max(36px,calc((100vw - 1218px)/2));font-size:11px;background:#f9fcff8c;border-top:1px solid #fff;color:#536e8a}
+
+@media(max-width:1100px){
+  .reference-auth .auth-art-copy{right:20px;width:170px;top:115px}
+  .reference-auth .auth-art-copy h2{font-size:27px;padding-left:0}
+  .reference-auth .auth-art-copy p{padding-left:0;font-size:11px}
+  .reference-auth .auth-form{width:500px;padding-inline:58px}
+  .welcome-page .public-nav{padding-inline:36px}
+  .welcome-page .welcome-section-intro{padding-right:32%}
+  .welcome-page .welcome-scope{gap:40px}
+}
+@media(max-width:900px){
+  .reference-auth .auth-art-copy{display:none}
+  .reference-auth .auth-form-wrap{padding-top:110px}
+  .reference-auth .auth-brand{left:30px;top:27px}
+  .reference-auth .auth-form{background:linear-gradient(125deg,#f5fbffdb,#e5f1fbdb)}
+  .welcome-page .public-section h2{font-size:44px}
+  .welcome-page .workflow-grid{padding:26px;gap:24px}
+  .welcome-page .workflow-step{padding-right:14px}
+  .welcome-page .welcome-help{gap:35px}
+}
+@media(max-width:600px){
+  .reference-auth .auth-reference-scene{background-image:url('/assets/public-reference/lake-800.webp');background-position:38% center}
+  .reference-auth .auth-reference-scene>svg{display:none}
+  .reference-auth .auth-brand{top:24px;left:24px}
+  .reference-auth .auth-brand img{width:170px}
+  .reference-auth .auth-form-wrap{padding:100px 18px 16px}
+  .reference-auth .auth-form{width:100%;padding:30px 24px 24px;border-radius:16px;backdrop-filter:blur(9px);background:linear-gradient(125deg,#f7fbffe3,#e2effbe8)}
+  .reference-auth .auth-form h1{font-size:43px}
+  .reference-auth .auth-form>.muted{font-size:13px;max-width:270px;margin:0 auto 23px}
+  .reference-auth .auth-form .auth-demo-note{margin-bottom:25px;font-size:11px!important}
+  .reference-auth .auth-form input:not([type=checkbox]),.reference-auth .auth-form select{font-size:16px}
+  .reference-auth .auth-form .auth-links{font-size:11px;gap:6px}
+  .reference-auth .demo-entry>summary{font-size:11px;gap:7px}
+  .reference-auth .auth-foot{padding:16px 25px 26px;background:#eaf4fcc9;font-size:12px}
+  .welcome-page .public-nav{padding:22px 24px;gap:15px}
+  .welcome-page .public-nav img{width:170px}
+  .welcome-page .public-nav-links{gap:0}
+  .welcome-page .public-nav .button{min-height:40px;padding-inline:16px;font-size:12px}
+  .welcome-page .winter-hero{background-image:linear-gradient(180deg,#f1f7fcb3,#f5f9fc40 65%,transparent),url('/assets/background-800.webp')}
+  .welcome-page .hero-copy h1{font-size:clamp(48px,15.64vw,61px);line-height:1}
+  .welcome-page .hero-copy>p:not(.eyebrow){font-size:14px;line-height:1.75}
+  .welcome-page .hero-copy .eyebrow{font-size:9px}
+  .welcome-page .hero-actions{gap:14px}
+  .welcome-page .hero-actions .button{font-size:14px;min-height:54px;min-width:0;padding-inline:24px;border-radius:13px;gap:12px}
+  .welcome-page .hero-actions .button::before{border-radius:10px}
+  .welcome-page>.public-section,.welcome-page .welcome-scope{padding:50px 25px}
+  .welcome-page .public-section h2{font-size:43px}
+  .welcome-page .welcome-section-intro{padding-right:0}
+  .welcome-page .welcome-section-intro .winter-signalFine{position:relative;width:100%;max-width:300px;top:0;height:75px;margin-top:15px}
+  .welcome-page .workflow-grid{grid-template-columns:1fr;padding:25px;gap:26px;margin-top:24px}
+  .welcome-page .workflow-step{padding:0}
+  .welcome-page .workflow-step:not(:last-child)::after{display:none}
+  .welcome-page .workflow-step>svg{padding:9px;width:24px;height:24px}
+  .welcome-page .workflow-step h3{margin-top:10px}
+  .welcome-page .welcome-help{gap:20px}
+  .welcome-page .welcome-help>div:first-child{padding-bottom:0}
+  .welcome-page .welcome-help .winter-feather{left:auto;right:0;bottom:10px;width:60px;height:60px;opacity:.45}
+  .welcome-page .public-footer{padding:25px;font-size:11px}
+}
+@media(prefers-reduced-transparency:reduce){
+  .reference-auth .auth-form,.welcome-page .scope-principles{backdrop-filter:none;background:#f1f7fc}
+  .welcome-page .hero-actions .button,.welcome-page .public-nav .button{backdrop-filter:none;-webkit-backdrop-filter:none;background:#f1f7fc}
+  .welcome-page .hero-actions .button-primary{background:#365e84}
+}
+@media(prefers-reduced-motion:reduce){.welcome-page .hero-actions .button{transition:none;transform:none}}
+@media(forced-colors:active){.welcome-page .hero-copy h1 em{background:none;-webkit-text-fill-color:CanvasText;filter:none}.auth-reference-scene{display:none}}

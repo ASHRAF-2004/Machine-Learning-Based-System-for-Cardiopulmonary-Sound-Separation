@@ -1,0 +1,82 @@
+[
+  {
+    "source": "assets/winter-glass/feather-source.png",
+    "source_sha256": "244d17bc91c05910935660850a5c18552efbf2f873551e918440af4ff892e63d",
+    "source_size": [
+      1024,
+      1536
+    ],
+    "source_bytes": 1916510,
+    "source_alpha": [
+      0,
+      254
+    ],
+    "output": "public/assets/winter/feather-240.webp",
+    "size": [
+      240,
+      360
+    ],
+    "bytes": 21136,
+    "decoded_rgba_bytes": 345600
+  },
+  {
+    "source": "assets/winter-glass/feather-source.png",
+    "source_sha256": "244d17bc91c05910935660850a5c18552efbf2f873551e918440af4ff892e63d",
+    "source_size": [
+      1024,
+      1536
+    ],
+    "source_bytes": 1916510,
+    "source_alpha": [
+      0,
+      254
+    ],
+    "output": "public/assets/winter/feather-480.webp",
+    "size": [
+      480,
+      720
+    ],
+    "bytes": 65338,
+    "decoded_rgba_bytes": 1382400
+  },
+  {
+    "source": "assets/winter-glass/collection-source.png",
+    "source_sha256": "d650a8cc50c004520595de5abf7306cfb46305c14dacf9bfc3249d71e7444e3e",
+    "source_size": [
+      1774,
+      887
+    ],
+    "source_bytes": 1226218,
+    "source_alpha": [
+      0,
+      255
+    ],
+    "output": "public/assets/winter/collection-360.webp",
+    "size": [
+      360,
+      180
+    ],
+    "bytes": 15906,
+    "decoded_rgba_bytes": 259200
+  },
+  {
+    "source": "assets/winter-glass/collection-source.png",
+    "source_sha256": "d650a8cc50c004520595de5abf7306cfb46305c14dacf9bfc3249d71e7444e3e",
+    "source_size": [
+      1774,
+      887
+    ],
+    "source_bytes": 1226218,
+    "source_alpha": [
+      0,
+      255
+    ],
+    "output": "public/assets/winter/collection-720.webp",
+    "size": [
+      720,
+      360
+    ],
+    "bytes": 50366,
+    "decoded_rgba_bytes": 1036800
+  }
+]

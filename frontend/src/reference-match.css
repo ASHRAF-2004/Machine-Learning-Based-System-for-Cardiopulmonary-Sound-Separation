@@ -1,0 +1,145 @@
+/* Literal layout pass against the user's 1586×992 references.
+   The working app remains real HTML; only decorative pixels use SVG frames.
+   Landing artwork and its animation are deliberately outside this scope. */
+.reference-art{display:block;pointer-events:none;user-select:none;max-width:100%;height:auto}
+.app-shell{--ink:#081d51;--secondary:#536fa5;--faint:#5d7bad;--accent:#2454a2;--line:#d0e2f7;--glass:linear-gradient(115deg,rgba(250,253,255,.80),rgba(237,247,255,.69));--glass-shadow:inset 0 1px 1px #fff,0 7px 26px #82a3ce14;font-family:Arial,Helvetica,sans-serif;font-size:14px;background:#e7f1fd}
+.app-shell::before{background:linear-gradient(180deg,#e9f3ff66,#eaf3ffc9 45%,#eaf3fff2 75%,#eaf3ff 98%),linear-gradient(90deg,#eef6ff9e,transparent 56%),url('/assets/reference-match/mountains-1536.webp') -240px -80px/calc(100% + 240px) 108vh no-repeat;background-color:#eaf3ff;filter:blur(2px)}
+.app-shell .sidebar{padding:25px 18px 18px;background:linear-gradient(180deg,#eaf4ffed,#eff7ffdc);border-color:#c8ddf7;backdrop-filter:none;overflow-x:hidden}
+.app-shell .sidebar::before{background:url('/assets/reference-match/mountains-800.webp') 32% bottom/auto 410px;inset:auto 0 76px;height:215px;opacity:.55;mask-image:linear-gradient(transparent,#000 40%,#000 83%,transparent)}
+.app-shell .sidebar-logo{padding:1px 10px 26px}.app-shell .sidebar-logo img{width:190px}
+.app-shell .sidebar nav a{font-size:14px;min-height:36px;height:36px;padding:6px 16px;gap:15px;font-weight:400;color:#466cab}
+.app-shell .sidebar nav a svg{width:21px;height:21px;color:#2253a2}
+.app-shell .sidebar nav a.active{color:#00359c;font-weight:500;border-color:#fff;background:linear-gradient(110deg,#fff,#f3f8ffc7);box-shadow:0 3px 14px #719bd126}
+.app-shell .sidebar nav a.nav-new{margin:0 8px 21px;min-height:46px;font-size:14px;gap:13px;background:linear-gradient(145deg,#557da5,#254a71);box-shadow:inset 0 1px 2px #bdd8efb8,0 4px 12px #537dab2b}
+.app-shell .nav-new svg{color:#fff!important}
+.app-shell .sidebar:not(:has(nav a[href='/app/admin'])) nav a:not(.nav-new){min-height:44px;height:44px}
+.app-shell .nav-group-label{font-size:10px;letter-spacing:.14em;margin:22px 16px 11px;color:#426aab}
+.app-shell .sidebar-footer{font-size:12px;line-height:1.5;margin:20px 9px 0;padding-top:16px;color:#5078b3;background:transparent}
+.app-shell .sidebar-footer p{font-size:11px;line-height:1.4;margin-top:8px;max-width:165px}
+.app-shell .topbar{height:58px;padding-inline:30px;background:#edf6ff94;border-bottom:1px solid #dbe9fa;backdrop-filter:blur(5px)}
+.app-shell .breadcrumbs{font-size:12px;color:#5678b0}
+.app-shell .topbar-actions{gap:17px}.app-shell .topbar .icon-button{color:#082c70}
+.app-shell .account-button{gap:13px}.app-shell .account-button strong{font-size:13px;font-weight:500}.app-shell .account-button small{font-size:12px;color:#5575ac}.app-shell .avatar{width:38px;height:38px;border:0;color:#2e5897;font-size:12px;background:linear-gradient(135deg,#e3f0ff,#ccdef4)}
+.app-shell .demo-banner{height:32px;min-height:32px;box-sizing:border-box;padding:3px 30px;font-size:10px;background:#cfe1f44d;border-color:#dceafa;color:#4069a5}.app-shell .demo-banner button{font-size:11px;min-height:24px}
+.app-shell .workspace{padding:0 30px 16px;max-width:none;min-height:calc(100dvh - 90px)}
+.app-shell .page-heading{height:210px;min-height:0;box-sizing:border-box;padding:24px 37px;margin:0;gap:20px;align-items:center;flex-wrap:nowrap}
+.app-shell .page-heading h1{font:600 56px/1.06 var(--serif);color:#071745;letter-spacing:-.03em;margin:0 0 11px;text-wrap:pretty;max-width:100%;}
+.app-shell .page-heading .page-heading-copy .eyebrow{font-size:10px;letter-spacing:.19em;color:#4369ac;margin-bottom:15px;font-weight:600}
+.app-shell .page-heading .page-description{font:400 16px/1.48 Arial,Helvetica,sans-serif;color:#5676ad;max-width:770px}
+.app-shell .page-heading-copy{max-width:850px;flex:1}
+.app-shell .page-heading-owl{padding-right:330px}
+.app-shell .page-heading-owl::after{display:none}
+.app-shell .page-heading-owl .page-heading-copy{z-index:1}
+.page-heading-art{position:absolute;right:-30px;bottom:0;width:472px;max-width:45%;height:auto;z-index:0;mask-image:linear-gradient(90deg,transparent,#000 9%,#000),linear-gradient(180deg,transparent,#000 14px);mask-composite:intersect;}
+.reference-sharedOwl{mask-image:linear-gradient(90deg,transparent,#000 9%,#000),linear-gradient(180deg,transparent,#000 20px)}
+.page-heading-quote{font:italic 500 23px/1.16 var(--serif);color:#5a7fb5;position:absolute;right:280px;top:35px;width:150px;pointer-events:none}
+.page-heading-quote span{display:block;width:22px;border-bottom:1px solid #5a7fb5;margin-top:17px}
+.app-shell .page-actions{max-width:440px;align-self:center;flex-shrink:0;flex-wrap:nowrap;justify-content:flex-end;margin:0;padding:0}
+.app-shell .page-heading-owl .page-actions{align-self:flex-end;margin:0 -310px 0 0;padding:0;background:none;z-index:2}
+.app-shell .page-heading .page-actions .button{min-height:48px;padding-inline:23px;white-space:nowrap}
+.app-shell .panel,.app-shell .filter-bar,.app-shell .settings-layout,.app-shell .help-search{border-radius:15px;backdrop-filter:blur(7px);border:1px solid #fffffff0;background:var(--glass);box-shadow:var(--glass-shadow)}
+.app-shell .panel{padding:24px 27px}.app-shell .panel h2{font:600 28px/1.12 var(--serif);color:#091b50;letter-spacing:-.025em}.app-shell .panel-heading{margin-bottom:18px}.app-shell .panel-heading p{font-size:14px;line-height:1.4;color:#5779b0}
+.app-shell .button{font-family:Arial,Helvetica,sans-serif;font-size:14px;border-radius:10px;min-height:46px;padding:10px 21px;gap:12px}
+.app-shell .button-primary{background:linear-gradient(140deg,#57799f,#244b72);border-color:#82a5cb;box-shadow:inset 0 1px 3px #d6e7f778,0 4px 12px #5a87b72b}
+.app-shell .button-secondary{background:linear-gradient(120deg,#fff,#eff7ffb8);color:#102f68;border-color:#c8def8;box-shadow:0 4px 10px #7ea5d126}
+.app-shell .button-ghost{color:#1851a6}
+.app-shell .field{font-size:14px;gap:10px;color:#18386e}.app-shell .field>span{font-weight:600}
+.app-shell .field small{font-size:13px;line-height:1.4;color:#597bad}
+.app-shell input:not([type=checkbox]):not([type=radio]):not([type=range]),.app-shell select,.app-shell textarea{font-family:Arial,Helvetica,sans-serif;font-size:14px;background:#fbfdffeb;border-color:#c9dcf4;min-height:46px;border-radius:10px;box-shadow:inset 0 1px 2px #7692b40a}
+.app-shell input::placeholder,.app-shell textarea::placeholder{color:#6a86b4}
+.app-shell input,.app-shell select,.app-shell textarea{font-weight:400}
+.app-shell .button{font-weight:500}
+.page-heading-quote,.winter-note>div,.account-reference-quote,.account-expert-decoration>p{font-synthesis:style}
+.app-shell .filter-bar{padding:25px 27px;gap:17px;margin:0 0 16px;min-height:107px;box-sizing:border-box;align-items:flex-end}
+.app-shell .filter-bar .field{margin:0;min-width:140px}.app-shell .filter-bar .field.search-field{flex:1;min-width:220px}
+.app-shell .tabs{border-radius:14px 14px 0 0;padding:0 10px;gap:12px;background:#eef6ffd4}.app-shell .tabs>button{font:400 15px Arial,Helvetica,sans-serif;min-height:52px;padding:14px 17px}.app-shell .tabs>button[aria-selected=true]{font-weight:600;color:#154286}.app-shell .tabs span{font-size:13px}
+.app-shell .table-scroll{background:#fcfeffdd;border:1px solid #cfe2fa;border-radius:13px;box-shadow:0 5px 15px #779fca10}
+.app-shell table{font-size:14px;font-family:Arial,Helvetica,sans-serif}.app-shell th{font-size:13px;font-weight:400;padding:15px 26px;color:#5e7eb1;background:#e6f1fc8f}.app-shell td{padding:19px 26px;color:#102f65;border-color:#dfebfa;line-height:1.4}.app-shell td strong{font-size:14px;font-weight:600}.app-shell td small{font-size:13px;margin-top:6px;color:#6484b6}.app-shell td .button{font-size:13px;min-height:35px;padding:6px 10px}.app-shell .badge{font-size:13px;padding:6px 10px;border-radius:7px;font-weight:400;line-height:1.2}
+.app-shell .badge-neutral{color:#557bb3;background:#e5effb}.app-shell .badge-warning{color:#936008;background:#f9f0ddde}.app-shell .badge-success{color:#176562;background:#e1f1ed}.app-shell .badge-danger{color:#b32846;background:#f9e8ed}
+.app-shell .notice{font-size:14px;padding:20px 24px;line-height:1.5;color:#4f74ae;background:linear-gradient(110deg,#f3f9ffad,#e4f1fe94);border:1px solid #cddffc;box-shadow:inset 0 1px #fff8;border-radius:12px}.app-shell .notice svg{width:23px;height:23px;flex-shrink:0;color:#1653b1}.app-shell .notice strong{font-size:14px;color:#214f96;margin-bottom:5px}
+.app-shell .notice-warning{background:#fff7e9ed;color:#805a22}.app-shell .notice-danger{background:#fff0f3f2;color:#9a3447}
+.app-shell .pagination{font-size:14px;padding:9px 8px;margin:18px 0 24px;color:#587ab3}.app-shell .pagination .button{font-size:14px;min-height:38px}
+.app-shell .empty-state{background:var(--glass);padding:45px 28px 40px;margin:16px 0;border-radius:16px}.app-shell .empty-state h2{font:600 38px/1.13 var(--serif);color:#0b2154;margin:0 0 15px}.app-shell .empty-state p{font-size:16px;line-height:1.45;color:#5a79ad;max-width:600px;margin-bottom:24px}
+.empty-state .winter-collection{width:650px;max-width:88%;margin:0 auto 5px;mask-image:radial-gradient(ellipse 51% 64% at 50% 50%,#000 45%,transparent 98%)}
+.winter-signal{mask-image:linear-gradient(90deg,transparent,#000 13%,#000 95%,transparent)}
+.winter-signalFine{mask-image:linear-gradient(90deg,transparent,#000 12%,#000 90%,transparent)}
+.winter-fusionForest{width:100%;height:100%;mask-image:linear-gradient(90deg,transparent,#000 20%)}
+.winter-feather{mask-image:radial-gradient(ellipse at 60% 48%,#000 35%,transparent 77%)}
+.winter-forest{border-radius:50%;width:111px;height:110px}
+.winter-dashboardCollection{mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent)}
+.winter-recordingCollection{mask-image:radial-gradient(ellipse 61% 60% at 45% 50%,#000 47%,transparent 97%)}
+.app-shell .empty-state:has(.winter-recordingCollection){position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:384px;padding:46px 135px 46px 520px;isolation:isolate}
+.app-shell .empty-state>.winter-recordingCollection{position:absolute;left:0;top:10px;width:500px;height:360px;max-width:45%;z-index:-1}
+@media(max-width:1250px){.app-shell .empty-state:has(.winter-recordingCollection){padding-left:40%;padding-right:30px}.app-shell .empty-state>.winter-recordingCollection{width:40%;height:auto;top:50%;transform:translateY(-50%)}}
+@media(max-width:700px){.app-shell .empty-state:has(.winter-recordingCollection){padding:20px;min-height:0}.app-shell .empty-state>.winter-recordingCollection{position:static;width:300px;max-width:100%;height:auto;transform:none;margin:0 auto 12px}}
+.winter-note{min-height:66px;padding:16px 110px 0 0;color:#6285bd;border-color:#d4e4f8;overflow:visible}
+.winter-note>div{font:italic 500 20px/1.15 var(--serif)}
+.winter-note .winter-feather{width:144px;right:-10px;bottom:-3px;opacity:1;transform:none;max-width:none}
+.app-shell .metadata dt{font-size:13px;color:#6484b5}.app-shell .metadata dd{font-size:14px}
+.app-shell .audio-workbench h2{font:600 30px/1.15 var(--serif)}
+.app-shell .workspace-footer{margin-top:36px;padding-top:22px;font-size:11px;color:#6383b3;border-color:#c9ddf6}.app-shell .workspace-footer>div{gap:18px}
+.app-shell .inline-link{color:#1046a4}
+
+/* Per-screen native reference heights; this is not a generic dashboard hero. */
+.app-shell .page-heading[data-route='/app/dashboard']{height:170px}
+.app-shell .page-heading[data-route='/app/dashboard'] h1{font-size:52px}
+.app-shell:has(.workspace-page-dashboard) .workspace-footer{margin-top:14px;padding:0 4px;border:0;line-height:16px;min-height:0}
+.app-shell .page-heading[data-route='/app/recordings']{height:155px}
+.app-shell .page-heading[data-route='/app/recordings'] h1{font-size:56px}
+.app-shell .page-heading[data-route='/app/results']{height:216px}
+.app-shell .page-heading[data-route='/app/history'],.app-shell .page-heading[data-route='/app/processing']{height:210px}
+.app-shell .page-heading[data-route='/app/settings']{height:188px;padding-inline:47px}
+.app-shell .page-heading[data-route='/app/settings'] h1{font-size:52px;white-space:nowrap;letter-spacing:-.04em}
+.app-shell .page-heading[data-route='/app/settings'] .page-heading-copy{max-width:none}
+.app-shell .page-heading[data-route='/app/settings'] .page-heading-art{width:466px}
+.app-shell .page-heading[data-route='/app/shared']{height:284px;padding-top:38px;padding-bottom:40px}
+.app-shell .page-heading[data-route='/app/shared'] h1{font-size:60px}
+.app-shell .page-heading[data-route='/app/shared'] .page-description{font-size:19px;max-width:630px}
+.app-shell .page-heading[data-route='/app/shared'] .page-heading-art{width:413px}
+.app-shell .page-heading[data-route='/app/review-queue']{height:210px}
+.app-shell .page-heading[data-route='/app/review-queue'] h1,.app-shell .page-heading[data-route='/app/assigned'] h1{font-size:64px}
+.app-shell .page-heading[data-route='/app/admin/ensemble']{height:131px;padding:10px 43px 17px}
+.app-shell .page-heading[data-route='/app/admin/ensemble'] h1{font-size:50px;margin-bottom:9px}
+.app-shell .page-heading[data-route='/app/admin/ensemble'] .page-heading-art{width:429px}
+.app-shell .page-heading[data-route='/app/admin/ensemble'] .eyebrow{margin-bottom:8px}
+.app-shell .page-heading[data-route='/app/admin/ensemble'] .page-description{line-height:1.42}
+.app-shell .page-heading[data-route='/app/admin/audit']{height:192px;padding-left:5px}
+.app-shell .page-heading[data-route='/app/admin/audit'] h1{font-size:66px}
+.app-shell .page-heading[data-route='/app/admin/settings']{height:147px;padding-left:44px}
+.app-shell .page-heading[data-route='/app/admin/settings'] h1{font-size:55px}
+.app-shell .page-heading[data-route^='/app/recordings/REC-']{height:165px;padding-left:30px}
+.app-shell .page-heading[data-route^='/app/recordings/REC-'] h1{font-size:48px}
+
+/* A fully opaque option remains available; imagery never carries interaction. */
+.public-page.utility-page{font-family:Arial,Helvetica,sans-serif;background:#e9f3ff;color:#123263}
+.public-page.utility-page .public-nav{height:82px;padding:15px max(28px,calc((100vw - 1150px)/2));background:#eff7ffb3;border:0}
+.public-page.utility-page .public-nav img{width:190px}
+.public-page.utility-page .public-footer{min-height:80px;align-items:center;padding:20px max(28px,calc((100vw - 1150px)/2));font-size:12px;color:#6181ad;background:#e8f2ff}
+.public-page.utility-page .utility-screen{position:relative;isolation:isolate;min-height:calc(100dvh - 162px);padding:60px 28px;background:url('/assets/reference-match/mountains-1536.webp') center/cover}
+.reference-utilityLandscape{position:absolute;inset:0;width:100%;height:100%;z-index:-1;max-width:none}
+.public-page.utility-page .utility-inner{max-width:862px;min-height:512px;padding:57px 68px 48px;border-radius:23px;background:linear-gradient(125deg,#f4faffc9,#eaf4ffc7);border:1px solid #fffffff5;box-shadow:0 13px 36px #618ec521;backdrop-filter:blur(9px)}
+.public-page.utility-page .utility-code{font:400 108px/1 var(--serif);color:#a8c1d9}
+.public-page.utility-page .utility-code-text{font-size:48px}
+.public-page.utility-page .utility-inner h1{font:600 64px/1.05 var(--serif);margin:18px 0 25px;letter-spacing:-.025em;color:#183a60}
+.public-page.utility-page .utility-inner>p{font:400 18px/1.5 Arial,Helvetica,sans-serif;max-width:680px;color:#5779a8;margin-bottom:33px}
+.public-page.utility-page .utility-inner .button{min-height:53px;font:500 16px Arial,Helvetica,sans-serif;border-radius:13px;padding-inline:28px}
+.public-page.utility-page .utility-inner .button-secondary{background:linear-gradient(135deg,#4b6b8f,#2b5f9a)}
+.public-page.utility-page .utility-inner>.inline-link{font-size:16px;color:#5678a6;margin-top:32px}
+.public-page.utility-page .utility-inner>.winter-signal{opacity:.13;width:407px;bottom:-35px;right:-65px}
+.public-page.utility-page .utility-inner>.winter-utilitySignal{position:absolute;right:0;bottom:0;width:300px;opacity:.5;mask-image:linear-gradient(130deg,transparent,#000)}
+@media(max-width:600px){.public-page.utility-page .public-nav{height:78px;padding:18px}.public-page.utility-page .public-nav img{width:168px}.public-page.utility-page .utility-screen{padding:38px 18px;min-height:70vh}.public-page.utility-page .utility-inner{padding:35px 23px;min-height:0;backdrop-filter:none}.public-page.utility-page .utility-inner h1{font-size:43px}.public-page.utility-page .utility-code{font-size:80px}.public-page.utility-page .utility-code-text{font-size:36px}.public-page.utility-page .utility-inner>p{font-size:14px}.public-page.utility-page .utility-inner .button{font-size:14px;min-height:46px}.public-page.utility-page .public-footer{padding:25px;font-size:11px}.reference-utilityLandscape{opacity:.5}}
+.app-shell.high-contrast{--secondary:#314d7b;--glass:#f7fbff;--line:#8ea5c3}
+.app-shell.high-contrast .page-heading-art{opacity:.55}
+.app-shell.high-contrast .page-heading .page-description,.app-shell.high-contrast p,.app-shell.high-contrast small{color:#314d7b}
+@media(prefers-reduced-transparency:reduce){.app-shell{--glass:#f5faff}.app-shell .panel,.app-shell .filter-bar,.app-shell .settings-layout{backdrop-filter:none}}
+@media(max-width:1250px){
+ .app-shell .workspace{padding-inline:24px}.app-shell .page-heading{padding-inline:18px}.app-shell .page-heading h1{font-size:48px!important;white-space:normal!important}.app-shell .page-heading-owl{padding-right:265px}.page-heading-art{right:-24px;max-width:38%}.app-shell .page-heading .page-description{font-size:14px}.page-heading-quote{display:none}.app-shell .page-heading-owl .page-actions{margin-right:-250px}.app-shell .page-heading .page-actions .button{padding-inline:15px;font-size:13px}.app-shell .page-heading[data-route='/app/settings'] h1{font-size:42px!important}.app-shell .topbar-actions{gap:8px}.app-shell .filter-bar{gap:12px;padding-inline:20px}.app-shell td{padding-inline:18px}
+}
+@media(max-width:900px){
+ .app-shell .sidebar{width:250px;background:#eef6fff7}.app-shell .sidebar nav a{min-height:44px}.app-shell .topbar{height:60px;padding-inline:17px}.app-shell .workspace{padding-inline:22px}.app-shell .demo-banner{padding-inline:22px}.app-shell .page-heading{height:auto!important;min-height:190px;padding:24px 10px;flex-wrap:wrap;gap:14px}.app-shell .page-heading-owl{padding-right:215px}.app-shell .page-heading-copy{flex-basis:100%}.app-shell .page-actions{justify-content:flex-start}.app-shell .page-heading-owl .page-actions{margin:0}.app-shell .page-heading-art{max-width:40%;width:300px;right:-22px}.app-shell .page-heading h1{font-size:44px!important}.app-shell .page-heading[data-route='/app/settings'] h1{font-size:40px!important}.app-shell .page-heading .eyebrow{font-size:9px}.app-shell .page-heading .page-description{font-size:14px}.app-shell .panel{padding:23px}.app-shell .sidebar-logo img{width:190px}
+}
+@media(max-width:700px){.app-shell .dashboard-forest{display:none}}
+@media(max-width:600px){
+ .app-shell::before{background:linear-gradient(#edf5ff63,#edf5ffb5),url('/assets/reference-match/mountains-800.webp') 64% top/auto 100vh no-repeat;background-color:#eaf3fd}
+ .app-shell .workspace{padding:0 16px 24px}.app-shell .page-heading{min-height:0;padding:28px 0 24px!important;gap:15px}.app-shell .page-heading-owl{padding-right:0}.app-shell .page-heading-art{display:none}.app-shell .page-heading .page-heading-copy{max-width:none}.app-shell .page-heading h1{font-size:40px!important;line-height:1.05}.app-shell .page-heading .page-description{font-size:14px!important;line-height:1.5}.app-shell .page-heading .page-actions{margin:0;width:100%;flex-wrap:wrap;justify-content:flex-start}.app-shell .page-heading .page-actions .button{white-space:normal;min-height:44px}.app-shell .topbar-actions{gap:1px}.app-shell .demo-banner{padding-inline:16px;font-size:9px;height:35px}.app-shell .demo-banner button{font-size:10px}.app-shell .panel{padding:21px 17px;backdrop-filter:none}.app-shell .panel h2{font-size:28px}.app-shell .filter-bar{padding:18px 16px;flex-wrap:wrap;gap:14px;min-height:0;backdrop-filter:none}.app-shell .filter-bar .field.search-field{flex:1 1 100%;min-width:0}.app-shell .filter-bar .field{min-width:120px;flex:1}.app-shell .field{font-size:13px}.app-shell .field small{font-size:12px}.app-shell .empty-state{padding:26px 18px 30px}.app-shell .empty-state h2{font-size:32px}.app-shell .empty-state p{font-size:14px}.app-shell .notice{font-size:12px;padding:16px}.app-shell .notice strong{font-size:13px}.app-shell .tabs>button{font-size:13px;padding-inline:13px}.app-shell .pagination{font-size:12px;gap:6px}.app-shell .pagination .button{font-size:12px;padding-inline:8px}.app-shell .workspace-footer{font-size:10px;line-height:1.6}.app-shell .winter-collection{max-width:100%;width:500px}.app-shell .winter-note>div{font-size:20px}.app-shell .winter-note .winter-feather{width:125px}.app-shell .table-scroll{max-width:100%}
+}
