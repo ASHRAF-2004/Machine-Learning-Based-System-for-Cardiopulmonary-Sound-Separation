@@ -1,5 +1,12 @@
 # Account/ownership migration proposal — not executed
 
+**M1 update, 26 September 2026:** the isolated `app/m1/` schema and protected API are
+now implemented. They reuse trusted foundation policies and retire legacy unowned
+content routes. No legacy database/file backfill has been run: that migration remains
+a proposal requiring copied-data rehearsal and approved ownership mapping. Current
+scope and evidence are in [M1 route audit](M1_ROUTE_AUDIT.md). The preparation-phase
+statements below about unchanged/unprotected entrypoints are historical.
+
 This document proposes a staged migration. It is **not** SQL to run against the current
 database. The executable `app/access_foundation/schema.sql` is exclusively for an isolated
 development harness. No current recordings, jobs, results or model rows were changed.

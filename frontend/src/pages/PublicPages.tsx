@@ -9,6 +9,7 @@ import {AuthScenery, AuthGoogleMark} from '../components/AuthScenery';
 import {brand, DEMO_ENABLED} from '../brand';
 import {useApp, roleLabel} from '../data/store';
 import {authAdapter} from '../data/adapters';
+import LiveAuthPages,{isLiveAuthPath} from './LiveAuthPages';
 import './public-pages.css';
 import './public-reference.css';
 
@@ -17,7 +18,7 @@ const delay = () => new Promise(resolve => setTimeout(resolve, 450));
 const passwordAdvice = 'Use at least 12 characters, including a letter and a number. Do not use a real password in this demo.';
 
 // Only application paths are eligible. Secrets and arbitrary query parameters are never propagated.
-function safeReturn(value: string | null, fallback = '/app/dashboard') {
+export function safeReturn(value: string | null, fallback = '/app/dashboard') {
   if (!value || !value.startsWith('/app/') || /[\\\u0000-\u0020]/.test(value)) return fallback;
   try {
     const url = new URL(value, window.location.origin);
@@ -62,11 +63,11 @@ function Welcome() {
   </div>;
 }
 
-function AuthLayout({children}: {children: ReactNode}) {
+export function AuthLayout({children}: {children: ReactNode}) {
   const {pathname} = useLocation();
   return <div className={`auth-page reference-auth ${pathname === '/login' ? 'reference-login' : ''}`}><AuthScenery/><header className="auth-brand"><Logo/></header><aside className="auth-art-copy"><h2>A little space<br/>to listen closely.</h2><p>Heart and lung signals,<br/>brought into focus for<br/>research and review.</p></aside><div className="auth-form-wrap"><main className="auth-form" id="main">{children}</main></div><footer className="auth-foot"><Link to="/">Back to home</Link><span><Link to="/privacy">Privacy</Link><span aria-hidden="true"> · </span><Link to="/terms">Terms</Link></span></footer></div>;
 }
-function AuthTitle({title, description, icon}: {title: string; description: string; icon?: ReactNode}) {
+export function AuthTitle({title, description, icon}: {title: string; description: string; icon?: ReactNode}) {
   return <>{icon && <div className="auth-state-icon" aria-hidden="true">{icon}</div>}<h1>{title}</h1><p className="muted">{description}</p></>;
 }
 function DemoNotice({children}: {children?: ReactNode}) {
@@ -90,7 +91,7 @@ function usePageState(fallback: string, choices: string[]) {
   };
   return [value, update] as const;
 }
-function PasswordInput({id, label, value, onChange, error, autoComplete = 'new-password', hint}: {id: string; label: string; value: string; onChange: (value: string) => void; error?: string; autoComplete?: string; hint?: string}) {
+export function PasswordInput({id, label, value, onChange, error, autoComplete = 'new-password', hint}: {id: string; label: string; value: string; onChange: (value: string) => void; error?: string; autoComplete?: string; hint?: string}) {
   const [visible, setVisible] = useState(false);
   return <Field label={label} error={error}><div className="password-field auth-input-icon"><LockKey size={18} aria-hidden="true"/><input id={id} name={id} aria-label={label} type={visible ? 'text' : 'password'} autoComplete={autoComplete} placeholder={autoComplete === 'current-password' ? 'Your password' : undefined} value={value} onChange={e => onChange(e.target.value)} aria-invalid={!!error} aria-describedby={hint ? `${id}-hint` : undefined} required/><button className="icon-button" type="button" aria-label={`${visible ? 'Hide' : 'Show'} ${label.toLowerCase()}`} aria-pressed={visible} onClick={() => setVisible(v => !v)}>{visible ? <EyeSlash size={19}/> : <Eye size={19}/>}</button></div>{hint && <small id={`${id}-hint`}>{hint}</small>}</Field>;
 }
@@ -242,17 +243,17 @@ function AccountState({session = false}: {session?: boolean}) {
 function Legal({terms = false}: {terms?: boolean}) {
   return <div className="public-page legal-page"><PublicNav/><main id="main" className="legal-content"><p className="eyebrow">For project-owner review</p><h1>{terms ? 'Terms of use' : 'Privacy notice'}</h1><Notice title="Draft copy, not a legal-compliance statement"><p>This text describes the demonstration and the intended integration boundaries. The owner must approve operational policies, contact details and applicable legal terms before a live service is offered.</p></Notice>{terms ? <>
     <h2>A research workspace</h2><p>{brand.name} supports cardiopulmonary recording management, sound separation and audio review for research and education. It is not a diagnostic service, a certified medical device or a source of treatment recommendations.</p>
-    <h2>Using the demonstration</h2><p>Use fictional account details and non-sensitive demonstration content. Do not enter patient identifiers or real passwords. Processing stages and outputs in demonstration mode are simulated and do not establish accuracy or comparative algorithm performance.</p>
+    <h2>{DEMO_ENABLED?'Using the demonstration':'Using this research prototype'}</h2><p>{DEMO_ENABLED?'Use fictional account details and non-sensitive demonstration content. Do not enter patient identifiers or real passwords. Processing stages and outputs in demonstration mode are simulated and do not establish accuracy or comparative algorithm performance.':'Use only non-sensitive audio you are authorized to use. Do not enter patient identifiers. Configured authentication is handled by Firebase; private recording access is enforced by the application backend. Ensemble execution is not connected in this milestone.'}</p>
     <h2>Your account and access</h2><p>In the intended connected application, identity is verified by the configured provider. Roles and recording access are controlled by the backend. A Healthcare Staff application role does not verify professional qualifications. You may only access recordings you own or have been explicitly permitted to review.</p>
     <h2>Audio and review content</h2><p>You are responsible for obtaining authorization to use any audio in a future live service. Review notes must remain non-diagnostic. Do not attempt to bypass access restrictions or use another person’s account. Separation outputs must be considered alongside their original recording and processing provenance.</p>
     <h2>Availability and changes</h2><p>This prototype may contain limitations, interruptions and incomplete integrations. No service-level commitment, clinical guarantee or suitability for patient care is offered. Availability, retention, liability and dispute terms require owner and appropriate legal review before deployment.</p>
     <h2>Questions or access problems</h2><p>Use your existing project-owner contact channel. A public support address has not yet been configured. Do not send credentials, reset links or sensitive recordings with a support request.</p>
   </> : <>
-    <h2>What this build stores</h2><p>The local demonstration stores fictional accounts, recording metadata, preferences, notes and simulated processing history in your browser. The selected fictional persona is kept in session storage. This is not secure authentication.</p>
-    <h2>What this build does not send</h2><p>The demonstration does not send authentication emails, upload your audio or execute separation models. Password inputs are temporary form state and are discarded after the preview action. Passwords, reset codes, provider tokens and private audio must not be stored in local storage.</p>
+    <h2>What this build stores</h2><p>{DEMO_ENABLED?'The local demonstration stores fictional accounts, recording metadata, preferences, notes and simulated processing history in your browser. The selected fictional persona is kept in session storage. This is not secure authentication.':'When configured, account metadata, recordings, grants and reviews are stored by the application service. Firebase manages identity and browser-session persistence. This application does not manually store passwords, action codes or tokens. SDK-managed session data remains accessible to same-origin JavaScript, so session persistence does not eliminate XSS risk.'}</p>
+    <h2>{DEMO_ENABLED?'What this build does not send':'Connected operations and limitations'}</h2><p>{DEMO_ENABLED?'The demonstration does not send authentication emails, upload your audio or execute separation models. Password inputs are temporary form state and are discarded after the preview action. Passwords, reset codes, provider tokens and private audio must not be stored in local storage.':'Sign-in and email actions use the configured Firebase provider. Authorized file uploads and account operations use the same-origin API. Private media is loaded into temporary in-memory browser URLs and released when the page is left or the account signs out. Ensemble execution is unavailable; no synthetic outputs are substituted. Missing configuration fails closed.'}</p>
     <h2>Recording access</h2><p>Each intended live account owns its recordings and processing history. Sharing and review assignments grant explicit, revocable access. Administrator privileges do not automatically include access to private audio, passwords, reset links or account impersonation.</p>
-    <h2>Future connected services</h2><p>Firebase Authentication is the intended identity provider. A future FastAPI integration must enforce authorization for every record, stream, download, visualization and mutation. Hosting location, provider disclosures, legal basis and real retention periods have not been finalized by this draft.</p>
-    <h2>Your demonstration data</h2><p>Signed-in demo users can inspect Data and storage settings and request simulated export or deletion actions. Browser data can also be cleared through browser settings. Demo deletion does not claim to delete live server data. Do not place real health information in this build.</p>
+    <h2>Connected services</h2><p>Firebase Authentication is the identity provider and FastAPI enforces application authorization. Configuration and real-provider validation are separate deployment steps. Hosting location, provider disclosures, legal basis and real retention periods have not been finalized by this draft.</p>
+    <h2>{DEMO_ENABLED?'Your demonstration data':'Managing your data'}</h2><p>{DEMO_ENABLED?'Signed-in demo users can inspect Data and storage settings and request simulated export or deletion actions. Browser data can also be cleared through browser settings. Demo deletion does not claim to delete live server data. Do not place real health information in this build.':'Export, account deletion and retention workflows are not connected in this milestone; contact the project owner through your existing channel. Revocation prevents future access but cannot recall already downloaded copies. Do not place real health information in this build.'}</p>
     <h2>Before live use</h2><p>The project owner must confirm the operating organization, contact channel, data categories, security controls, retention policy and applicable rights before collecting real data. This notice is not a claim of GDPR, HIPAA or any other regulatory compliance.</p>
   </>}<div className="toolbar"><Button to="/" variant="secondary"><ArrowLeft size={17}/> Back to home</Button><InlineLink to={terms ? '/privacy' : '/terms'}>{terms ? 'Read privacy notice' : 'Read terms of use'}</InlineLink></div></main><Footer/></div>;
 }
@@ -271,6 +272,7 @@ function Utility({path}: {path: string}) {
 
 export default function PublicPages() {
   const {pathname} = useLocation();
+  if(!DEMO_ENABLED&&isLiveAuthPath(pathname))return <LiveAuthPages key={pathname} path={pathname}/>;
   switch (pathname.replace(/\/$/, '') || '/') {
     case '/': return <Welcome/>;
     case '/login': return <Login/>;

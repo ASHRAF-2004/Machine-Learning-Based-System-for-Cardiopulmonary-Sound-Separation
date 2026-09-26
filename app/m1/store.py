@@ -1,0 +1,256 @@
+"""Persistent M1 repository extending the tested foundation in one transaction domain.
+
+Only the explicit separate M1 DB is initialized. Legacy uploaded_audio IDs are not
+accepted or mapped automatically. No demo data is inserted.
+"""
+from __future__ import annotations
+
+import json
+import sqlite3
+import time
+from pathlib import Path
+from uuid import uuid4
+
+from app.access_foundation import AccessDenied, DevelopmentAccessStore, VerifiedIdentity
+from app.access_foundation.store import TABLES
+
+M1_TABLES = {"m1_meta", "m1_recording_data", "m1_files", "m1_jobs", "m1_results",
+             "m1_result_files", "m1_reviews", "m1_preferences"}
+
+
+class M1Store(DevelopmentAccessStore):
+    @staticmethod
+    def _check_schema(db):
+        names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
+        if names != TABLES | M1_TABLES:
+            raise ValueError("Not an isolated M1 database; legacy data is quarantined.")
+        if [r[0] for r in db.execute("SELECT version FROM af_meta")] != [1] or [r[0] for r in db.execute("SELECT version FROM m1_meta")] != [1]:
+            raise ValueError("Unsupported M1 schema.")
+
+    def initialize(self):
+        self.path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+        db = sqlite3.connect(self.path, timeout=10)
+        try:
+            db.execute("PRAGMA foreign_keys=ON")
+            db.execute("BEGIN IMMEDIATE")
+            names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
+            if names:
+                self._check_schema(db)
+            else:
+                schemas = [Path(__file__).parents[1] / "access_foundation" / "schema.sql", Path(__file__).with_name("schema.sql")]
+                for schema in schemas:
+                    for statement in schema.read_text().split(";"):
+                        if statement.strip():
+                            db.execute(statement)
+            db.commit()
+        except BaseException:
+            db.rollback()
+            raise
+        finally:
+            db.close()
+        self.path.chmod(0o600)
+
+    @staticmethod
+    def user_dto(row):
+        return {"id": row["id"], "uid": row["provider_uid"], "email": row["email"],
+                "display_name": row["display_name"], "role": row["role"],
+                "status": row["status"], "email_verified": bool(row["email_verified"])}
+
+    def me(self, identity):
+        with self._connection() as db:
+            return self.user_dto(self._actor(db, identity))
+
+    def account_exists(self, identity):
+        with self._connection() as db:
+            return db.execute("SELECT 1 FROM af_users WHERE provider_uid=?", (identity.uid,)).fetchone() is not None
+
+    def update_profile(self, identity, display_name):
+        with self._connection(write=True) as db:
+            actor = self._actor(db, identity)
+            db.execute("UPDATE af_users SET display_name=?,updated_at=? WHERE id=?", (display_name, int(time.time()), actor["id"]))
+            self._audit(db, actor["id"], "profile.changed", actor["id"])
+        return self.me(identity)
+
+    def preferences(self, identity, changes=None):
+        with self._connection(write=changes is not None) as db:
+            actor = self._actor(db, identity)
+            row = db.execute("SELECT preferences_json FROM m1_preferences WHERE user_id=?", (actor["id"],)).fetchone()
+            preferences = json.loads(row[0]) if row else {}
+            if changes is not None:
+                preferences.update(changes)
+                db.execute("INSERT INTO m1_preferences VALUES (?,?) ON CONFLICT(user_id) DO UPDATE SET preferences_json=excluded.preferences_json", (actor["id"], json.dumps(preferences)))
+                self._audit(db, actor["id"], "preferences.changed", actor["id"])
+            return preferences
+
+    def add_upload(self, identity, *, title, original_filename, relative_path, duration_sec, sample_rate_hz, channels, file_size_bytes):
+        with self._connection(write=True) as db:
+            actor = self._actor(db, identity)
+            recording_id, resource_id = uuid4().hex, uuid4().hex
+            db.execute("INSERT INTO af_recordings VALUES (?,?,?)", (recording_id, actor["id"], int(time.time())))
+            db.execute("INSERT INTO af_resources VALUES (?,?,?)", (resource_id, recording_id, "original_audio"))
+            db.execute("INSERT INTO m1_recording_data VALUES (?,?,?,?,?,?,?,?)", (recording_id, title, original_filename, duration_sec, sample_rate_hz, channels, file_size_bytes, resource_id))
+            db.execute("INSERT INTO m1_files VALUES (?,?,?,?)", (resource_id, relative_path, "audio/wav", file_size_bytes))
+            self._audit(db, actor["id"], "recording.uploaded", recording_id)
+        return self.recording(identity, recording_id)
+
+    def _visible_resources(self, db, actor, recording_id):
+        owner = db.execute("SELECT owner_id FROM af_recordings WHERE id=?", (recording_id,)).fetchone()
+        if owner is None:
+            raise AccessDenied("Access denied.")
+        self._active_user(db, owner[0])
+        return db.execute(
+            "SELECT r.*,f.media_type FROM af_resources r LEFT JOIN m1_files f ON f.resource_id=r.id "
+            "WHERE r.recording_id=? AND (?=? OR EXISTS(SELECT 1 FROM af_grants g "
+            "WHERE g.recording_id=r.recording_id AND g.recipient_id=? AND g.grantor_id=? "
+            "AND g.status='active' AND g.permission IN ('read','review') "
+            "AND (g.resource_id IS NULL OR g.resource_id=r.id) AND (g.expires_at IS NULL OR g.expires_at>?)))",
+            (recording_id, actor["id"], owner[0], actor["id"], owner[0], int(time.time())),
+        ).fetchall()
+
+    @staticmethod
+    def _resource_dto(row):
+        return {"id": row["id"], "kind": row["kind"], "media_type": row["media_type"],
+                "url": f"/api/media/{row['id']}" if row["media_type"] else None}
+
+    def _recording(self, db, actor, recording_id):
+        row = db.execute("SELECT d.*,o.owner_id,o.created_at FROM m1_recording_data d JOIN af_recordings o ON o.id=d.recording_id WHERE d.recording_id=?", (recording_id,)).fetchone()
+        if row is None:
+            raise AccessDenied("Access denied.")
+        resources = self._visible_resources(db, actor, recording_id)
+        if not resources:
+            raise AccessDenied("Access denied.")
+        dto = dict(row)
+        dto["id"] = dto.pop("recording_id")
+        dto["is_owner"] = dto["owner_id"] == actor["id"]
+        dto["resources"] = [self._resource_dto(r) for r in resources]
+        if dto["original_resource_id"] not in {r["id"] for r in resources}:
+            dto["original_resource_id"] = None
+            dto["original_filename"] = None
+        return dto
+
+    def recording(self, identity, recording_id):
+        with self._connection() as db:
+            return self._recording(db, self._actor(db, identity), recording_id)
+
+    def recordings(self, identity):
+        with self._connection() as db:
+            actor = self._actor(db, identity)
+            ids = db.execute(
+                "SELECT DISTINCT o.id FROM af_recordings o JOIN af_users u ON u.id=o.owner_id "
+                "WHERE u.status='active' AND u.email_verified=1 AND (o.owner_id=? OR EXISTS "
+                "(SELECT 1 FROM af_grants g WHERE g.recording_id=o.id AND g.recipient_id=? AND g.grantor_id=o.owner_id "
+                "AND g.status='active' AND (g.expires_at IS NULL OR g.expires_at>?))) ORDER BY o.created_at DESC",
+                (actor["id"], actor["id"], int(time.time())),
+            ).fetchall()
+            return [self._recording(db, actor, r[0]) for r in ids]
+
+    def update_recording(self, identity, recording_id, title):
+        with self._connection(write=True) as db:
+            actor = self._actor(db, identity)
+            self._owner(db, actor, recording_id)
+            db.execute("UPDATE m1_recording_data SET title=? WHERE recording_id=?", (title, recording_id))
+            self._audit(db, actor["id"], "recording.updated", recording_id)
+        return self.recording(identity, recording_id)
+
+    def media(self, identity, resource_id):
+        # Reuse the exact foundation policy. Immediately rechecked by API before open.
+        self.authorize_resource(identity, resource_id)
+        with self._connection() as db:
+            row = db.execute("SELECT * FROM m1_files WHERE resource_id=?", (resource_id,)).fetchone()
+            if row is None:
+                raise AccessDenied("Access denied.")
+            return dict(row)
+
+    def grants(self, identity, recording_id):
+        with self._connection() as db:
+            actor = self._actor(db, identity)
+            self._owner(db, actor, recording_id)
+            return [dict(r) for r in db.execute("SELECT * FROM af_grants WHERE recording_id=? ORDER BY created_at DESC", (recording_id,))]
+
+    def grant_dto(self, identity, grant_id):
+        with self._connection() as db:
+            actor = self._actor(db, identity)
+            row = db.execute("SELECT * FROM af_grants WHERE id=?", (grant_id,)).fetchone()
+            if row is None or actor["id"] not in {row["grantor_id"], row["recipient_id"]}:
+                raise AccessDenied("Access denied.")
+            return dict(row)
+
+    def revoke_all(self, identity, recording_id, recipient_id, confirmed_recording_id):
+        if recording_id != confirmed_recording_id:
+            raise AccessDenied("Explicit recording confirmation required.")
+        with self._connection(write=True) as db:
+            actor = self._actor(db, identity)
+            self._owner(db, actor, recording_id)
+            grants = db.execute("SELECT id FROM af_grants WHERE recording_id=? AND recipient_id=? AND status='active'", (recording_id, recipient_id)).fetchall()
+            for grant in grants:
+                db.execute("UPDATE af_grants SET status='revoked',revoked_at=? WHERE id=?", (int(time.time()), grant[0]))
+                self._audit(db, actor["id"], "grant.revoked", grant[0])
+            return len(grants)
+
+    def assignments(self, identity):
+        with self._connection() as db:
+            actor = self._actor(db, identity)
+            if actor["role"] != "audio_analyst":
+                raise AccessDenied("Access denied.")
+            return [dict(r) for r in db.execute(
+                "SELECT g.* FROM af_grants g JOIN af_recordings o ON o.id=g.recording_id JOIN af_users u ON u.id=o.owner_id "
+                "WHERE g.recipient_id=? AND g.permission='review' AND g.status='active' AND g.grantor_id=o.owner_id "
+                "AND u.status='active' AND u.email_verified=1 AND (g.expires_at IS NULL OR g.expires_at>?)",
+                (actor["id"], int(time.time())),
+            )]
+
+    def review(self, identity, grant_id, *, decision=None, notes=None):
+        with self._connection(write=decision is not None) as db:
+            actor = self._actor(db, identity)
+            grant = db.execute("SELECT resource_id FROM af_grants WHERE id=?", (grant_id,)).fetchone()
+            if grant is None:
+                raise AccessDenied("Access denied.")
+            self._authorize_review(db, identity, grant_id, grant[0])
+            if decision is not None:
+                db.execute("INSERT INTO m1_reviews VALUES (?,?,?,?,?,?) ON CONFLICT(assignment_id) DO UPDATE SET decision=excluded.decision,notes=excluded.notes,updated_at=excluded.updated_at", (grant_id, grant[0], actor["id"], decision, notes, int(time.time())))
+                self._audit(db, actor["id"], "review.updated", grant_id)
+            row = db.execute("SELECT * FROM m1_reviews WHERE assignment_id=?", (grant_id,)).fetchone()
+            return dict(row) if row else {"assignment_id": grant_id, "resource_id": grant[0], "reviewer_id": actor["id"], "decision": "pending", "notes": "", "updated_at": None}
+
+    def results(self, identity, result_id=None):
+        with self._connection() as db:
+            actor = self._actor(db, identity)
+            rows = db.execute("SELECT * FROM m1_results WHERE (? IS NULL OR id=?) ORDER BY created_at DESC", (result_id, result_id)).fetchall()
+            results = []
+            for row in rows:
+                try:
+                    resources = self._visible_resources(db, actor, row["recording_id"])
+                except AccessDenied:
+                    continue
+                allowed = {r["id"] for r in resources}
+                if row["id"] not in allowed:
+                    continue
+                file_ids = {r[0] for r in db.execute("SELECT resource_id FROM m1_result_files WHERE result_id=?", (row["id"],))}
+                owner = db.execute("SELECT owner_id FROM af_recordings WHERE id=?", (row["recording_id"],)).fetchone()[0]
+                results.append({**dict(row), "resources": [self._resource_dto(r) for r in resources if r["id"] in file_ids], "is_owner": owner == actor["id"]})
+            if result_id:
+                if not results:
+                    raise AccessDenied("Access denied.")
+                return results[0]
+            return results
+
+    def jobs(self, identity, job_id=None):
+        with self._connection() as db:
+            actor = self._actor(db, identity)
+            # Jobs expose owner operational state; scoped-result recipients use result DTOs.
+            rows = db.execute("SELECT j.* FROM m1_jobs j JOIN af_recordings o ON o.id=j.recording_id WHERE o.owner_id=? AND (? IS NULL OR j.id=?) ORDER BY j.created_at DESC", (actor["id"], job_id, job_id)).fetchall()
+            if job_id:
+                if not rows:
+                    raise AccessDenied("Access denied.")
+                return dict(rows[0])
+            return [dict(r) for r in rows]
+
+    def users(self, identity):
+        with self._connection() as db:
+            self._admin(db, identity)
+            return [self.user_dto(r) for r in db.execute("SELECT * FROM af_users ORDER BY created_at,id")]
+
+    def audit(self, identity):
+        with self._connection() as db:
+            self._admin(db, identity)
+            return [dict(r) for r in db.execute("SELECT * FROM af_audit ORDER BY created_at DESC,id LIMIT 200")]

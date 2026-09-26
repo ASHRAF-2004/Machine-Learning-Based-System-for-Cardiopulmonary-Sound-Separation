@@ -1,4 +1,24 @@
-# Current checkpoint — workspace preparation, 2026-09-26
+# M1 authentication continuation — 2026-09-26
+
+The newer frontend is preserved in pre-M1 commit `c681839`. M1 now adds official
+Firebase client authentication and protected same-origin API integration without changing
+approved owl/artwork or shared theme files. Normal mode is LIVE/fail-closed if configuration
+is missing; fictional personas require explicit development demo mode (`npm run dev:demo`).
+The existing preview at127.0.0.1:4180 may therefore show "Authentication setup required";
+this is intentional, not a completed real-provider connection or a lost demo account.
+
+Selected project `stethofuse-c18cd-3cca0` has no Web App and Auth is at Get started.
+Real Google/email sign-in, mail delivery, backend ADC and intended admin UID/bootstrap
+are pending user-operated provider setup. Never invent config or use browser roles as
+backend authority. Mock browser/API evidence is separate from real-provider verification.
+
+See parent `PAUSE_NOTES.md`, `planning/M1_LOCAL_CHECKPOINT.md`, current repository README
+and `docs/M1_API_CONTRACT.md`. Historical notes below are retained, not current blockers.
+Owl is DONE/PRESERVE. No redesign, DNS, push or deployment is authorized in this checkpoint.
+
+---
+
+# Previous checkpoint — workspace preparation, 2026-09-26
 
 Frontend and approved continuous owl preserved; no UI/assets/controller edits in this task.
 Parent workspace now includes independent implementation/documentation repositories, planning,

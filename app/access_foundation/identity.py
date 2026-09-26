@@ -16,6 +16,18 @@ class AuthenticationDenied(PermissionError):
     """Generic failure; never include provider exceptions or tokens in responses."""
 
 
+class EmailVerificationRequired(AuthenticationDenied):
+    pass
+
+
+class ProviderAccountDisabled(AuthenticationDenied):
+    pass
+
+
+class ProviderUnavailable(AuthenticationDenied):
+    pass
+
+
 @dataclass(frozen=True)
 class VerifiedIdentity:
     """Internal adapter result, NOT a request schema or client-supplied principal."""
@@ -91,13 +103,29 @@ class FirebaseIdentityAdapter:
                 uid=user.uid, email=user.email,
                 email_verified=user.email_verified, disabled=user.disabled,
             )
+            if identity.disabled:
+                raise ProviderAccountDisabled("Account disabled.")
+            if identity.email_verified is not True:
+                raise EmailVerificationRequired("Email verification required.")
             require_verified(identity)
             if identity.uid != uid:
                 raise AuthenticationDenied("Identity mismatch.")
             return identity
-        except Exception:
+        except AuthenticationDenied:
+            raise
+        except Exception as error:
             # Includes absent/disabled users and provider outages. No fail-open.
+            self._raise_provider_error(error)
+
+    def _raise_provider_error(self, error: Exception):
+        if isinstance(error, getattr(self._auth, "UserDisabledError", ())):
+            raise ProviderAccountDisabled("Account disabled.") from None
+        if isinstance(error, (ValueError, KeyError)) or any(
+            isinstance(error, getattr(self._auth, name, ()))
+            for name in ("InvalidIdTokenError", "ExpiredIdTokenError", "RevokedIdTokenError", "UserNotFoundError")
+        ):
             raise AuthenticationDenied("Identity could not be verified.") from None
+        raise ProviderUnavailable("Authentication provider is unavailable.") from None
 
     def verify(self, id_token: str) -> VerifiedIdentity:
         try:
@@ -109,8 +137,10 @@ class FirebaseIdentityAdapter:
                 id_token, app=self._app, check_revoked=True, clock_skew_seconds=0,
             )
             if claims.get("email_verified") is not True:
-                raise AuthenticationDenied("Verified identity required.")
+                raise EmailVerificationRequired("Email verification required.")
             # Current provider record also checks disabled/deleted/unverified state.
             return self.lookup_existing(claims["uid"])
-        except Exception:
-            raise AuthenticationDenied("Identity could not be verified.") from None
+        except AuthenticationDenied:
+            raise
+        except Exception as error:
+            self._raise_provider_error(error)

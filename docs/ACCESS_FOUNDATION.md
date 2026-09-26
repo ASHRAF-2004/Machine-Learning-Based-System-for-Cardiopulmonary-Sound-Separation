@@ -1,4 +1,15 @@
-# Access foundation — preparation only
+# Access foundation — historical preparation design
+
+**M1 update, 26 September 2026:** the current `app/main.py` now mounts the protected
+`app/m1/` API using these primitives. Legacy unowned content routes are retired, not
+left publicly available. Read [M1 route audit](M1_ROUTE_AUDIT.md),
+[API contract](M1_API_CONTRACT.md) and [security boundaries](M1_SECURITY_BOUNDARIES.md)
+for the current behavior and test limits. Official Firebase SDKs are installed;
+real provider configuration and live verification remain pending. M1 also permits an
+exact original-audio review assignment, not only an exact result assignment.
+
+The original preparation record below is retained to explain the starting state;
+its unwired-route/dependency statements are **historical**, not current run instructions.
 
 Status: isolated development scaffold, **not integrated with the legacy application**.
 

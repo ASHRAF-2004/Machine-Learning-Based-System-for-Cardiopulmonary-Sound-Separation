@@ -1,266 +1,171 @@
-# Cardiopulmonary Sound Separation System
+<img src="frontend/public/assets/logo.svg" alt="StethoFuse — Listen further" width="250">
 
-Final Year Project implementation for separating mixed cardiopulmonary WAV audio into heart-sound and lung-sound outputs. The system is a local FastAPI web app with SQLite metadata, filesystem audio storage, strategy-based separation methods, browser preview/download, processing history, and evaluation metrics when paired references are available.
+# StethoFuse
 
-This project is for sound separation research/demo use only. It is not a clinical diagnostic system.
+A cardiopulmonary sound-separation application for research and education, with a calm
+winter workspace for recordings, separation runs and explicitly shared audio review.
+**Not a diagnostic system. No production deployment is claimed.**
 
-## Supported Separation Methods
+Academic project: **Machine Learning-Based System for Cardiopulmonary Sound Separation**.
+The application and FYP report remain separate Git repositories. Submitted FYP1 evidence
+is preserved in the sibling documentation repository.
 
-| Method | Type | Implementation status |
-| --- | --- | --- |
-| Fixed Filter Baseline | Conventional baseline | Implemented with smooth frequency-domain masks. Useful for validating the full workflow. |
-| NMF Decomposition | Decomposition baseline | Implemented as an unsupervised NumPy NMF spectrogram soft-mask baseline. Not a trained ML model. |
-| VMD Decomposition | Decomposition baseline | Implemented with `vmdpy`, mode grouping by dominant frequency, and a fast/safe preset for local UI use. Not a trained ML model. |
-| NeoSSNet | Deep learning model | Main ML method. Uses PyTorch, `model_best.pt`, and `model.yaml` for real inference. |
+## Current milestone
 
-The app uses a Strategy + Factory structure:
+M1 connects Firebase identity to FastAPI authorization and private, persistent user data.
+The approved frontend/artwork and continuous two-axis owl renderer are preserved.
+Read [the M1 API contract](docs/M1_API_CONTRACT.md) and
+[route protection evidence](docs/M1_ROUTE_AUDIT.md) for exact scope and limitations.
 
-```text
-app/ml/strategies/base.py
-app/ml/strategies/fixed_filter_strategy.py
-app/ml/strategies/nmf_strategy.py
-app/ml/strategies/vmd_strategy.py
-app/ml/neossnet_strategy.py
-app/ml/strategy_factory.py
-app/services/separation_service.py
-```
+| Layer | Technology / boundary |
+| --- | --- |
+| Interface | React19, TypeScript, Vite, React Router; existing winter/glass design |
+| Identity | Official Firebase Web SDK; email/password and Google flows |
+| Authorization | FastAPI + trusted application SQLite records; verified Firebase UID |
+| Private data | Explicit development database and private filesystem, outside public assets |
+| Media | Authorized API delivery; no public upload/output/visualization mount |
+| ML/evaluation | Preserved Python Strategy/Factory services, PyTorch NeoSSNet adapter and individual baselines |
+| Testing | Pytest API/permission integration and real Chrome browser automation; mocks distinguished from live providers |
 
-Routers do not hard-code separation algorithms. They call `SeparationService`, which selects a strategy from the database model registry.
+Live identity cannot be inferred from a successful build or mock test. The selected project
+`stethofuse-c18cd-3cca0` currently requires Web App/Authentication configuration, CLI consent
+and separately approved server credentials. No Firebase project is created automatically.
+No application administrator has been bootstrapped in this milestone yet.
 
-## Quick Start
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python scripts/init_db.py
-python scripts/prepare_dataset.py
-uvicorn app.main:app --reload
-```
-
-Open:
+## Identity and access
 
 ```text
-http://127.0.0.1:8000/
+Firebase sign-in → current ID token → Authorization: Bearer → FastAPI verification
+  → UID-linked application account → active status + role + owner/grant check → resource
 ```
 
-If PyTorch installation fails, install the correct CPU build from the official PyTorch instructions for your Python version, then rerun `python -m pip install -r requirements.txt`.
+- Public registration defaults to `healthcare_staff`; no requested browser role is accepted.
+- `audio_analyst` can review only explicitly assigned resources.
+- `admin` manages accounts and safe operational metadata, not everyone's private audio.
+- First-admin bootstrap is a trusted operator action against a real, verified UID, never an
+  email match, first-user promotion, browser toggle or public HTTP endpoint.
+- Role/status/grant checks use trusted records; UI guards only support navigation.
+- Legacy unowned data stays quarantined. No automatic ownership inference or destructive
+  database migration is performed on startup.
+- Demo personas and synthetic audio are development-only and isolated from live mode.
 
-## Database Setup
+## Local development (Ubuntu)
 
-The project does not commit the runtime SQLite database file because it changes whenever the system is used.
+Reuse installed dependencies. This repository does not require reinstallation of the working
+frontend, Blender or ML stack to test authentication. From this repository:
 
-When someone clones this repository, they should run:
-
-```bash
-python scripts/init_db.py
+```sh
+# Existing frontend: normal mode is live and fails closed if configuration is absent.
+cd frontend
+npm run dev -- --host 127.0.0.1 --port 4180 --strictPort
 ```
 
-This command creates a fresh local database:
+Copy `frontend/.env.example` to an ignored local configuration only after obtaining the
+existing project's genuine Web App settings. Firebase web configuration is public client
+configuration; Firebase Admin credentials and OAuth secrets must never go into `VITE_*`.
+Use the existing provider auth domain, not an invented callback URL. No email is sent by tests
+without an explicitly designated recipient.
+
+The API-only dependencies are pinned in `requirements-m1.txt`. The prepared workspace uses
+`../.local/venvs/backend-smoke/`; a standalone checkout may use its own ignored virtualenv.
+
+```sh
+# Prepared workspace environment, not system Python:
+../.local/venvs/backend-smoke/bin/python -m pip install -r requirements-m1.txt
+
+# Explicit isolated paths, never the legacy database or frontend public directory:
+export STETHOFUSE_M1_DATABASE=/home/ashraf/Documents/StethoFuse/.local/data/m1.sqlite3
+export STETHOFUSE_M1_PRIVATE_STORAGE=/home/ashraf/Documents/StethoFuse/.local/private-storage/m1
+export STETHOFUSE_FIREBASE_PROJECT=stethofuse-c18cd-3cca0
+/home/ashraf/Documents/StethoFuse/.local/venvs/backend-smoke/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --no-access-log
+```
+
+Firebase Admin needs an approved Application Default Credentials mechanism. CLI sign-in and
+server credentials are separate. Do not generate keys, copy tokens into this repository or
+disable verification to make local startup appear connected. Exact initialization/bootstrap
+commands and runtime limitations are maintained in the M1 route audit. Do not start an
+additional process if the relevant loopback port already serves this project.
+
+Explicit fictional preview (development server only):
+
+```sh
+cd frontend
+VITE_APP_MODE=demo npm run dev -- --host 127.0.0.1 --port 4181 --strictPort
+```
+
+## Checks and evidence
+
+```sh
+cd frontend
+npm run build
+
+# From repository root; isolated temporary databases/private files and mock identity:
+/home/ashraf/Documents/StethoFuse/.local/venvs/backend-smoke/bin/python -m pytest tests/test_access_foundation.py tests/test_m1_api.py tests/test_m1_operator_safety.py -q
+```
+
+Use the exact test filenames/commands recorded in the route audit if additional suites are
+added. **MOCK** proves application behavior against controlled identities, not successful
+Google login or Firebase project configuration. **EMULATOR**, **LOCAL REAL PROVIDER** and
+**PRODUCTION** results must be separately identified. No production tests are implied.
+
+From `frontend/`, the focused live-client tests are `node tests/m1/client.mjs` and
+`node tests/m1/browser.mjs` (running loopback Vite required). `node tests/m1/cross-layer.mjs`
+starts an ephemeral loopback FastAPI instance with temporary SQLite/private files and
+exercises actual browser upload/media/isolation using **mock identity only**. Test SDK
+substitutions live under `tests/`, not in an application login bypass. Use a new
+`EVIDENCE_ROOT` for repeat runs; evidence is never silently overwritten.
+
+## Separation and research provenance
+
+The normal workflow requests **one ensemble separation**, not a choice of individual
+algorithm. Ensemble Learning remains in scope; Federated Learning is excluded.
+The M1 API must report unavailable execution honestly while the verified ensemble executor
+is not connected—it must not manufacture jobs, outputs or superiority scores.
+
+| Component | Preserved implementation and evidence boundary |
+| --- | --- |
+| Fixed-filter baseline | Frequency-domain baseline for controlled benchmarking |
+| NMF baseline | NumPy multiplicative-update spectrogram decomposition; not a complete published NMF/NMCF reproduction |
+| VMD baseline | `vmdpy` mode decomposition/grouping; not the combined DAE-NMF-VMD method |
+| NeoSSNet | Existing PyTorch adapter and source reference; checkpoint identity, license and exact paper correspondence require verification |
+| Ensemble | Intended expert/fusion direction; no superiority claim without appropriate experiments |
+
+Existing training, dataset preparation and evaluation scripts remain in `scripts/` and
+`evaluation/`. They are **not** run as part of M1 setup. See the preserved
+[legacy baseline instructions](docs/LEGACY_BASELINE_README.md) for historical commands, not
+for current public API/security instructions. Its old performance/availability statements
+are historical, not newly verified results. The report's candidate attribution register is
+`../documentation/fyp2/provenance/METHOD_ATTRIBUTION.md`.
+
+Reference-based metrics require valid paired references, documented splits/alignment and
+real executions. Synthetic demo waveforms are never evaluation results. Do not collect
+participant/patient recordings as development fixtures.
+
+## Repository map
 
 ```text
-database/cardiopulmonary.db
+frontend/             existing responsive application, approved assets, auth adapters/tests
+app/access_foundation/ shared identity/role/last-admin primitives
+app/m1/               protected API, persistent authorization and private-media integration
+app/ml/               preserved individual-method adapters
+app/services/         preserved preprocessing, separation and evaluation services
+database/             legacy schema/seed recipes (not runtime data)
+scripts/              trusted local tools and preserved experiment commands
+tests/                foundation, API and legacy tests
+docs/                 contracts, route inventory, migration and evidence boundaries
 ```
 
-The repository should keep the database recipe files:
+Large historical render evidence and inactive frame libraries remain on disk, excluded from
+new Git commits; approved runtime owl assets and source scripts are retained. No frame library
+was regenerated during M1. Environment files, credentials, databases, recordings, model weights,
+caches and build output are ignored. Never serve the parent workspace.
 
-```text
-database/schema.sql
-database/seed.sql
-scripts/init_db.py
-```
+## Deployment target — not deployed
 
-The project should not rely on committing the local runtime database file:
+Target: **https://stethofuse.ashraf-alsaloul.com**, on the owner's Linux server. Frontend and
+`/api` should share this origin. Firebase provides identity, not application hosting.
 
-```text
-database/cardiopulmonary.db
-```
-
-`cardiopulmonary.db` stores local uploads, separation jobs, output paths, logs, and metrics. It is generated runtime data rather than source code.
-
-## Workflow
-
-1. Upload a mixed `.wav` file.
-2. Select a Separation Method.
-3. Run separation.
-4. Preview heart and lung output WAV files.
-5. Download outputs.
-6. Review metrics when HLS-CMDS paired references are available.
-7. View history.
-
-Generated files are stored under:
-
-```text
-storage/uploads/raw/
-storage/outputs/heart/
-storage/outputs/lung/
-```
-
-SQLite stores metadata only. WAV files are not stored as database blobs.
-
-## Dataset Setup
-
-HLS-CMDS is expected under:
-
-```text
-datasets/hls_cmds/raw/HS/
-datasets/hls_cmds/raw/LS/
-datasets/hls_cmds/raw/Mix/
-datasets/hls_cmds/metadata/
-datasets/hls_cmds/processed/train/
-datasets/hls_cmds/processed/val/
-datasets/hls_cmds/processed/test/
-```
-
-Run:
-
-```powershell
-python scripts/prepare_dataset.py
-```
-
-The script reads `datasets/hls_cmds/metadata/Mix.csv`, copies paired `M####.wav`, `H####.wav`, and `L####.wav` files from `raw/Mix/`, and writes processed train/val/test folders plus split CSV files. Raw files are not modified.
-
-Dataset source notes:
-
-- HLS-CMDS: Mendeley Data and UCI repository.
-- License/access note: CC BY 4.0 according to the public dataset pages.
-- Contains mixed audio plus corresponding heart and lung references for paired examples.
-
-## NeoSSNet Checkpoint Setup
-
-NeoSSNet is the main ML/deep-learning method. The runtime registry expects:
-
-```text
-storage/ml_models/model_best.pt
-storage/ml_models/model.yaml
-```
-
-The bundled/reference NeoSSNet code documents:
-
-- input waveform shape: `(1, T)` for helper inference
-- direct model input shape: `(B, 1, T)`
-- direct model output shape: `(B, 2, T)`
-- output channel order: channel 0 heart, channel 1 lung
-- pretrained files: `models/model_best.pt` and `models/model.yaml`
-
-NeoSSNet source reference:
-
-```text
-external/Neonatal-Chest-Sound-Separation-using-Deep-Learning-main/
-```
-
-No fake ML output is used. If the checkpoint/config are missing, NeoSSNet separation fails clearly instead of silently using a placeholder.
-
-### Fine-Tuning NeoSSNet On HLS-CMDS
-
-The project includes a real PyTorch fine-tuning script for the processed HLS-CMDS train/validation split:
-
-```powershell
-python scripts/train_neossnet_hls.py --quick-test --epochs 1
-python scripts/train_neossnet_hls.py --epochs 10 --batch-size 4
-```
-
-The loader uses:
-
-- `datasets/hls_cmds/processed/train/` for training
-- `datasets/hls_cmds/processed/val/` for validation checkpoint selection
-- `datasets/hls_cmds/processed/test/` only for final evaluation
-
-The fine-tuned files are saved to:
-
-```text
-storage/ml_models/neossnet_hls_finetuned.pt
-storage/ml_models/neossnet_hls_finetuned.yaml
-```
-
-When those files exist, `python scripts/init_db.py` registers `NeoSSNet HLS Fine-tuned` as an active method while keeping the original NeoSSNet checkpoint available. The fine-tuned model is not made the default automatically; final claims should be based on evaluation CSV results.
-
-NeoSSNet remains a Python/PyTorch model. The training script uses 4000 Hz mono audio, 60000-sample segments, `(B, 1, T)` mixed inputs, and `(B, 2, T)` heart/lung targets.
-
-## Evaluation Metrics
-
-When uploaded audio exposes an HLS-CMDS ID such as `M0001.wav`, the service looks for:
-
-```text
-datasets/hls_cmds/raw/Mix/H0001.wav
-datasets/hls_cmds/raw/Mix/L0001.wav
-```
-
-Then it stores real metrics in `evaluation_metric`:
-
-- SDR
-- SI-SDR
-- SNR improvement
-- MSE
-- MAE
-- correlation
-- alignment lag in samples
-
-Processing time, sample rate, duration, selected method, output paths, and job status are stored with each run.
-
-SI-SDR is reported in dB, and higher values are better. Evaluation claims should be based on the generated CSV files, not on a single run or a single audio sample. The metric calculation uses a bounded alignment search for paired references so small timing offsets do not dominate the score.
-
-## API Endpoints
-
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `GET` | `/` | Browser interface |
-| `GET` | `/health` | Health check |
-| `GET` | `/methods` | List separation methods |
-| `GET` | `/models` | Backward-compatible alias for method registry |
-| `POST` | `/upload` | Upload and store a WAV file |
-| `POST` | `/separate/{audio_id}?model_id={id}` | Run selected separation method |
-| `GET` | `/result/{job_id}` | Job, method, output, and metric details |
-| `GET` | `/download/{job_id}/heart` | Download heart output WAV |
-| `GET` | `/download/{job_id}/lung` | Download lung output WAV |
-| `GET` | `/history` | Recent processing jobs |
-
-## Testing
-
-```powershell
-pytest -q
-python scripts/check_project.py
-python scripts/test_neossnet_inference.py
-python scripts/evaluate_strategies.py --max-samples 20
-```
-
-`scripts/test_neossnet_inference.py` runs a standalone NeoSSNet validation test through the same backend wrapper used by FastAPI. It prints sample rate, duration, tensor shapes, checkpoint/config paths, input/output min/max/RMS values, channel-order evidence, and paired-reference metrics when an HLS-CMDS test pair is available. It writes:
-
-```text
-storage/outputs/heart/test_heart.wav
-storage/outputs/lung/test_lung.wav
-```
-
-`scripts/evaluate_strategies.py` compares selected methods on paired HLS-CMDS test samples and writes:
-
-```text
-evaluation/results_strategy_comparison.csv
-evaluation/summary_strategy_comparison.csv
-```
-
-Useful evaluation commands:
-
-```powershell
-python scripts/evaluate_strategies.py --max-samples 20
-python scripts/evaluate_strategies.py --max-samples 20 --strategies fixed_filter,nmf,vmd,neossnet
-python scripts/evaluate_strategies.py --max-samples 20 --skip-slow
-python scripts/evaluate_strategies.py --max-samples 20 --output-dir evaluation
-```
-
-After fine-tuning, rerun:
-
-```powershell
-python scripts/init_db.py
-python scripts/evaluate_strategies.py --max-samples 23
-```
-
-The evaluator will list both `NeoSSNet Original` and `NeoSSNet HLS Fine-tuned` when the fine-tuned checkpoint/config are available.
-
-The default VMD method uses the fast preset for the local web workflow. A quality preset is available in code as `vmd_quality` for experiments, but it is slower. Optional C++ acceleration was not added because profiling showed the Python fast preset reduced 15-second VMD processing from about 12 seconds to well under 1 second on the local machine. NeoSSNet remains Python/PyTorch.
-
-## External Algorithm Notes
-
-- NeoSSNet GitHub reference: `yangyipoh/Neonatal-Chest-Sound-Separation-using-Deep-Learning`. No explicit license file was found in the local/reference copy, so keep attribution and avoid redistributing it outside the project without checking.
-- `vmdpy` is MIT licensed and is used for the VMD decomposition baseline.
-- The NMF strategy is a practical NumPy implementation using standard multiplicative-update NMF on the magnitude spectrogram. It is not the MATLAB NMF/NMCF method from the NeoSSNet reference repository.
-- Fixed Filter, NMF, and VMD are baseline/decomposition methods, not trained ML models.
+Existing Cloudflare/Caddy infrastructure must be inspected and reviewed before routing
+changes. No DNS edits, service restarts, public tunnels, pushes or production deployment are
+authorized by this local M1 milestone. Production requires separate approval, provider/edge
+configuration, secure storage/backup review and real-account authorization evidence.

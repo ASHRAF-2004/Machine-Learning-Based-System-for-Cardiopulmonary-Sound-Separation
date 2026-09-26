@@ -278,9 +278,9 @@ class DevelopmentAccessStore:
             if resource_id is not None and resource is None:
                 raise AccessDenied("Access denied.")
             if permission == "review" and (
-                recipient["role"] != "audio_analyst" or resource is None or resource["kind"] != "result"
+                recipient["role"] != "audio_analyst" or resource is None or resource["kind"] not in {"original_audio", "result"}
             ):
-                raise AccessDenied("Review requires an analyst and an explicitly scoped result.")
+                raise AccessDenied("Review requires an analyst and an explicitly scoped original or result.")
             grant_id = uuid4().hex
             db.execute("INSERT INTO af_grants VALUES (?,?,?,?,?,?,?,?,?,?)", (
                 grant_id, recording_id, resource_id, actor["id"], recipient_id,
@@ -329,17 +329,21 @@ class DevelopmentAccessStore:
     def authorize_review(self, identity: VerifiedIdentity, grant_id: str, resource_id: str) -> None:
         """Review-note/decision predicate, NOT review persistence or an API endpoint."""
         with self._connection() as db:
-            actor = self._actor(db, identity)
-            if actor["role"] != Role.AUDIO_ANALYST.value:
-                raise AccessDenied("Access denied.")
-            row = db.execute(
-                "SELECT o.owner_id,g.grantor_id FROM af_grants g "
-                "JOIN af_recordings o ON o.id=g.recording_id "
-                "JOIN af_resources r ON r.id=g.resource_id AND r.recording_id=g.recording_id "
-                "WHERE g.id=? AND g.resource_id=? AND g.recipient_id=? AND g.permission='review' "
-                "AND g.status='active' AND r.kind='result' AND (g.expires_at IS NULL OR g.expires_at>?)",
-                (grant_id, resource_id, actor["id"], int(time.time())),
-            ).fetchone()
-            if row is None or row["owner_id"] != row["grantor_id"]:
-                raise AccessDenied("Access denied.")
-            self._active_user(db, row["owner_id"])
+            self._authorize_review(db, identity, grant_id, resource_id)
+
+    def _authorize_review(self, db: sqlite3.Connection, identity: VerifiedIdentity, grant_id: str, resource_id: str) -> None:
+        """Reusable predicate inside the caller's write transaction."""
+        actor = self._actor(db, identity)
+        if actor["role"] != Role.AUDIO_ANALYST.value:
+            raise AccessDenied("Access denied.")
+        row = db.execute(
+            "SELECT o.owner_id,g.grantor_id FROM af_grants g "
+            "JOIN af_recordings o ON o.id=g.recording_id "
+            "JOIN af_resources r ON r.id=g.resource_id AND r.recording_id=g.recording_id "
+            "WHERE g.id=? AND g.resource_id=? AND g.recipient_id=? AND g.permission='review' "
+            "AND g.status='active' AND r.kind IN ('original_audio','result') AND (g.expires_at IS NULL OR g.expires_at>?)",
+            (grant_id, resource_id, actor["id"], int(time.time())),
+        ).fetchone()
+        if row is None or row["owner_id"] != row["grantor_id"]:
+            raise AccessDenied("Access denied.")
+        self._active_user(db, row["owner_id"])

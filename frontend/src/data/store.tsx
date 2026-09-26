@@ -1,5 +1,6 @@
 import {createContext,useContext,useEffect,useState,type ReactNode} from 'react';
 import {DEMO_ENABLED} from '../brand';
+import {LiveAppProvider} from './live';
 import {createFixtures,defaultPreferences,personas} from './fixtures';
 import type {DemoState,User,Recording,ProcessingJob,SeparationResult,Assignment,Review,UserPreferences,Role,UserStatus} from './types';
 const KEY='stethofuse-demo-v1'; const SESSION='stethofuse-demo-persona';
@@ -10,9 +11,9 @@ function restore(raw:string|null):DemoState|null {if(!raw)return null;try{const 
 function load():DemoState {if(!DEMO_ENABLED)return createFixtures();try{return restore(localStorage.getItem(KEY))||createFixtures();}catch{return createFixtures();}}
 export function canAccess(state:DemoState,user:User|null,recordingId:string){if(!user||user.status!=='active')return false;const r=state.recordings.find(r=>r.id===recordingId);return !!r&&(r.ownerId===user.id||state.assignments.some(a=>a.recordingId===recordingId&&a.analystId===user.id&&a.status!=='revoked'));}
 function reviewNotifications(state:DemoState,userId:string,title:string,body:string,href:string):DemoState['notifications'] {return (state.preferences[userId]?.reviewNotifications??defaultPreferences.reviewNotifications)?[{id:id('NTF'),userId,title,body,href,read:false,createdAt:now()},...state.notifications]:state.notifications;}
-interface AppContextValue {
+export interface AppContextValue {
  state:DemoState;user:User|null;personas:User[];preferences:UserPreferences;toast:string;
- notify:(message:string)=>void;loginPersona:(id:string)=>void;logout:()=>void;resetDemo:()=>void;
+ notify:(message:string)=>void;loginPersona:(id:string)=>void;logout:()=>void|Promise<void>;resetDemo:()=>void;
  saveProfile:(patch:Pick<User,'name'>)=>void;savePreferences:(patch:Partial<UserPreferences>)=>void;
  saveDraft:(key:string,values:Record<string,string>)=>void;getDraft:(key:string)=>Record<string,string>;
  createRecording:(values:Omit<Recording,'id'|'ownerId'|'createdAt'|'isDemo'|'archived'>)=>string;
@@ -24,8 +25,11 @@ interface AppContextValue {
  markNotification:(id:string,read:boolean)=>void;markAllRead:()=>void;
  saveSystem:(patch:Partial<DemoState['system']>)=>void;recordEvent:(action:string,targetId:string,detail:string)=>void;
 }
-const Context=createContext<AppContextValue|null>(null);
+export const Context=createContext<AppContextValue|null>(null);
 export function AppProvider({children}:{children:ReactNode}) {
+ return DEMO_ENABLED?<DemoAppProvider>{children}</DemoAppProvider>:<LiveAppProvider>{children}</LiveAppProvider>;
+}
+function DemoAppProvider({children}:{children:ReactNode}) {
  const [state,setState]=useState(load); const [persona,setPersona]=useState(()=>DEMO_ENABLED?sessionStorage.getItem(SESSION):null);const [toast,setToast]=useState('');
  const user=state.users.find(u=>u.id===persona)||null;
  useEffect(()=>{if(!DEMO_ENABLED)return;const receive=(event:StorageEvent)=>{if(event.key!==KEY||event.storageArea!==localStorage)return;const next=restore(event.newValue);if(next)setState(current=>JSON.stringify(current)===JSON.stringify(next)?current:next);};window.addEventListener('storage',receive);return()=>window.removeEventListener('storage',receive);},[]);
