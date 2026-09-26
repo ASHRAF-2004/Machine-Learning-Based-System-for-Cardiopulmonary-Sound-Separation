@@ -28,13 +28,17 @@ Read [the M1 API contract](docs/M1_API_CONTRACT.md) and
 | Testing | Pytest API/permission integration and real Chrome browser automation; mocks distinguished from live providers |
 
 Live identity cannot be inferred from a successful build or mock test. The selected project
-`stethofuse-c18cd-3cca0` now has its registered Web App and enabled email/password and Google
+`stethofuse-c18cd-3cca0` has its registered Web App and enabled email/password and Google
 providers. Developer CLI consent, restricted keyless backend ADC and harmless provider
-reads are verified. The user reports a successful Google application sign-in; the verified
-provider UID matches the backend account. The approved primary admin is now initialized
-in the isolated local database. Post-promotion real-browser admin/ordinary-user checks
-and remaining email/recovery flows are still pending; this is not complete live acceptance.
-No Firebase project is created automatically.
+reads are verified. On 27 September 2026, real Google-authenticated sessions for the
+verified primary Administrator and an existing Healthcare Staff account were accepted by
+the local FastAPI verifier. Admin Users returned 200 to the Administrator and 403 to Staff;
+Staff also received 403 when submitting a forged admin-role request. A synthetic silent WAV
+verified owner access, exact-resource sharing, direct-media/download denial before sharing,
+and denial again immediately after revocation. This is **LOCAL REAL PROVIDER** plus
+**LOCAL BACKEND** evidence, not production verification. Email/password and recovery flows
+remain untested, and no verification/reset email was sent. No Firebase project is created
+automatically.
 
 ## Identity and access
 
@@ -61,9 +65,12 @@ for the permission matrix, steps for promoting another verified account and FYP2
 The user confirmed that an existing administrator may promote additional administrators;
 public signup still never grants privileged roles.
 
-The current development branch is backed up at GitHub as
-`codex/fyp2-application-rebuild`; its draft review is PR #8. This is not a production
-deployment or a claim that the final hostname is live.
+The working branch is `fyp2/application`, based on the preserved `16af63c` checkpoint.
+Its author configuration matches the existing human-authored repository identity
+`ASHRAF-2004 <adoashraf103@gmail.com>` and the authenticated GitHub account. The earlier
+`codex/fyp2-application-rebuild` remote branch and draft PR #8 remain preserved; no history
+was rewritten. The normal branch is prepared for remote backup/review, not merged to main.
+This is not a production deployment or a claim that the final hostname is live.
 
 ## Local development (Ubuntu)
 
