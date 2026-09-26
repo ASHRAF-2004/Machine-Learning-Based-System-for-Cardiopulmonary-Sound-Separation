@@ -65,11 +65,12 @@ for the permission matrix, steps for promoting another verified account and FYP2
 The user confirmed that an existing administrator may promote additional administrators;
 public signup still never grants privileged roles.
 
-The working branch is `fyp2/application`, based on the preserved `16af63c` checkpoint.
+The working branch is `fyp2/application` (`939052f`), based on the preserved `16af63c` checkpoint.
 Its author configuration matches the existing human-authored repository identity
 `ASHRAF-2004 <adoashraf103@gmail.com>` and the authenticated GitHub account. The earlier
-`codex/fyp2-application-rebuild` remote branch and draft PR #8 remain preserved; no history
-was rewritten. The normal branch is prepared for remote backup/review, not merged to main.
+`codex/fyp2-application-rebuild` remote branch remains preserved. Its duplicate draft PR #8
+was closed as superseded by owner-maintained draft PR #9; no history was rewritten. The
+normal branch is pushed for review, not merged to main.
 This is not a production deployment or a claim that the final hostname is live.
 
 ## Local development (Ubuntu)
