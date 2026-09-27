@@ -1,5 +1,23 @@
 # StethoFuse encrypted off-host backup runbook
 
+## Production activation — 27 September 2026
+
+The first real application-data snapshot succeeded at 12:50 +08:
+`e0772dc0f83823e7d04b692ab0f54031f3fd8731bba811340de964383dca1df4`.
+Restic listed it remotely after the systemd job exited successfully. Database,
+private synthetic files, runtime configuration and SHA-256 manifest are encrypted
+in B2; backup credentials, developer ADC and unrelated server data are excluded.
+Both application services recovered healthy after quiescing. The daily timer is
+enabled (03:15 Asia/Kuala_Lumpur plus up to 45 minutes jitter); this method entails
+a short maintenance outage. **Pruning remains disabled** and the opt-in marker is
+absent. Retention target is unchanged at 7/4/6.
+
+This is a verified remote production backup completion, not a new full restore
+drill. The earlier synthetic restore and independently entered paper-password
+recovery remain separate evidence. Exact installed paths/commands and rollback:
+[production receipt](PRODUCTION_2026-09-27.md). Earlier not-installed statements
+below describe their historical checkpoint and are superseded by this section.
+
 ## Decision and state
 
 Backblaze B2 through its S3-compatible endpoint plus Restic is the approved

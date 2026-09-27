@@ -1,5 +1,14 @@
 # StethoFuse production-like runtime
 
+## Applied production release — 27 September 2026
+
+The isolated M1 application is now deployed and its bounded HTTPS/auth/media/
+persistence checks are verified live. Read [the deployment receipt](PRODUCTION_2026-09-27.md)
+for exact source/images, installed paths, tunnel/DNS, first B2 snapshot, daily
+schedule, limitations and rollback commands. It supersedes historical
+not-deployed/Cloud Run/backup-not-installed status below. No Google Cloud billing
+was enabled; Axora is unchanged. Retention pruning remains disabled.
+
 ## Current Firebase auth configuration — 27 September 2026
 
 This section supersedes earlier Cloud Run verifier instructions in this file.
@@ -39,8 +48,8 @@ billing was enabled. The earlier Cloud Run verifier source/runbook is retained
 as superseded history and is not part of the active runtime.
 
 This package builds the current authenticated M1 application into an isolated
-Docker Compose stack. It is a **local production-like validation package**, not
-an applied production deployment. It does not join or modify Axora's networks,
+Docker Compose stack, usable locally and now deployed as the release identified
+above. It does not join or modify Axora's networks,
 containers, Caddy configuration, Cloudflare tunnel, or DNS.
 
 ## Included and not included
@@ -152,7 +161,7 @@ not a token copied into a deployment smoke script.
 To stop without deleting data, run the same Compose command with `stop`. Do not
 use `down -v`; persistent bind-mounted data is user data.
 
-## Local production-like smoke evidence
+## Historical local production-like smoke evidence
 
 On 27 September 2026, before replacing runtime ADC with the Cloud Run identity
 boundary, both images built locally and the isolated Compose stack was exercised
@@ -199,7 +208,8 @@ not disk-loss protection. Review the region if formal data-residency obligations
 The workspace decision record is `planning/PRODUCTION_IDENTITY_AND_BACKUP.md`.
 
 `backup-restic.sh`, `backup-manifest.py`, `backup-restore-drill.sh`, `backup.env.example`, and the example systemd
-service/timer are prepared deployment files, not an installed/verified scheduled production job.
+service/timer are deployment files. They are now installed, the first real production
+job succeeded, and the timer is enabled; see the dated receipt above.
 The helper receives the bucket-scoped B2 S3 key ID, secret, and separate Restic
 password through systemd's private credential mechanism from root-only source files.
 Do not place either value in Git,
@@ -217,11 +227,11 @@ consistent SQLite and media snapshot. It attempts to bring them back even if
 the backup fails. It backs up only the persistent database, private original/result files, runtime
 environment and an encrypted snapshot's SHA-256 file manifest; image layers,
 caches, build outputs, and developer ADC are excluded. The prepared retention
-policy is 7 daily, 4 weekly, and 6 monthly. No production snapshots exist and no
-prune was run. The helper skips `forget --prune` until a root-owned
+policy is 7 daily, 4 weekly, and 6 monthly. The first production snapshot exists;
+no prune was run. The helper skips `forget --prune` until a root-owned
 `/etc/stethofuse/remote-restore-verified` marker is installed after reviewing the
-successful synthetic remote restore evidence and approving scheduled production
-backup setup. The drill did not create this marker or enable a timer.
+successful restore evidence and explicitly approving destructive pruning.
+The marker remains absent; activating the timer did not authorize pruning.
 
 For a recovery drill, restore a named snapshot into a **new empty staging
 directory**, never over the active runtime. Check `PRAGMA integrity_check` on
@@ -235,7 +245,8 @@ Git or chat.
 
 ## Rollback
 
-Keep the prior image digest, runtime env file, verifier URL/revision, and data root. For an
+Keep the prior image digest, runtime env file and data root. See the exact initial-release
+rollback commands in the deployment receipt. For an
 application-only rollback, stop the new Compose stack and start the previously
 recorded image with the same verified configuration and compatible database
 schema. Do not roll back a schema change by overwriting the active DB: take a

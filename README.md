@@ -4,7 +4,10 @@
 
 A cardiopulmonary sound-separation application for research and education, with a calm
 winter workspace for recordings, separation runs and explicitly shared audio review.
-**Not a diagnostic system. No production deployment is claimed.**
+**Not a diagnostic system.** The M1 application is deployed at
+[stethofuse.ashraf-alsaloul.com](https://stethofuse.ashraf-alsaloul.com).
+Ensemble execution is not yet connected. See the bounded
+[production verification receipt](deploy/PRODUCTION_2026-09-27.md).
 
 Academic project: **Machine Learning-Based System for Cardiopulmonary Sound Separation**.
 The application and FYP report remain separate Git repositories. Submitted FYP1 evidence
@@ -41,11 +44,14 @@ Admin recording list. This is **LOCAL REAL PROVIDER** plus **LOCAL BACKEND** evi
 production verification. Email/password and recovery flows remain untested, and no
 verification/reset email was sent. No Firebase project is created automatically.
 
-The current production API identity path is being changed to local Firebase ID-token
-signature/claim verification plus a minimal Cloud Run service for revocation and current
-Firebase account state. The current code is not yet verified against a deployed verifier;
-the real-provider acceptance above predates that integration and is not evidence for the
-new service.
+The deployed identity boundary uses local Firebase ID-token signature/claim verification
+plus Firebase Auth REST `accounts:lookup` for current-user/revocation checks, followed by
+trusted local authorization. The separate server key is restricted to Identity Toolkit.
+Cloud Run was superseded before deployment; no Google Cloud billing was enabled.
+Production Google Admin/Staff requests now return Admin API 200/403 respectively, and
+private-media access is denied to non-owners (including an Administrator without a grant).
+These newer checks are **PRODUCTION + REAL FIREBASE**, recorded separately from the
+earlier local share/revoke evidence above.
 
 ## Identity and access
 
@@ -79,7 +85,8 @@ Its author configuration matches the existing human-authored repository identity
 `codex/fyp2-application-rebuild` remote branch remains preserved. Its duplicate draft PR #8
 was closed as superseded by owner-maintained draft PR #9; no history was rewritten. The
 normal branch is pushed for review, not merged to main.
-This is not a production deployment or a claim that the final hostname is live.
+The production application release is `921c40d`; later operational documentation commits
+do not imply a new application-image deployment. Main remains unmerged.
 
 ## Local development (Ubuntu)
 
@@ -97,7 +104,7 @@ existing project's genuine Web App settings. Firebase web configuration is publi
 configuration; Firebase Admin credentials and OAuth secrets must never go into `VITE_*`.
 The prepared workspace already has its genuine configuration in ignored `frontend/.env.local`.
 Use **http://localhost:4180/login** for local provider tests: `localhost` is currently an
-authorized Firebase domain; `127.0.0.1` and the not-yet-deployed final hostname are not.
+authorized Firebase domain; `127.0.0.1` is not. The production hostname is now authorized.
 Use the existing provider auth domain, not an invented callback URL. No email is sent by tests
 without an explicitly designated recipient.
 
@@ -152,7 +159,8 @@ npm run build
 Use the exact test filenames/commands recorded in the route audit if additional suites are
 added. **MOCK** proves application behavior against controlled identities, not successful
 Google login or Firebase project configuration. **EMULATOR**, **LOCAL REAL PROVIDER** and
-**PRODUCTION** results must be separately identified. No production tests are implied.
+**PRODUCTION** results must be separately identified. The commands above are local tests;
+the deployment receipt identifies the actual production checks.
 
 From `frontend/`, the focused live-client tests are `node tests/m1/client.mjs` and
 `node tests/m1/browser.mjs` (running loopback Vite required). `node tests/m1/cross-layer.mjs`
@@ -221,15 +229,19 @@ tokenless protected auth/admin/media requests returned 401; an API restart prese
 synthetic-only database/private-file state. This is local package evidence, not a production
 test, a backup-recovery drill, or evidence of connected ensemble processing.
 
-## Deployment target — not deployed
+## Production deployment
 
-Target: **https://stethofuse.ashraf-alsaloul.com**, on the owner's Linux server. Firebase
-provides identity; Firebase Hosting is not the intended application host. An isolated
-StethoFuse tunnel/Compose route is preferred over sharing Axora's existing tunnel/network.
-The observed production zone has no StethoFuse DNS record or tunnel route. The exact proposed
-topology, changes, backup/rollback and verification plan are in
-[`planning/PRODUCTION_RUNTIME_PROPOSAL.md`](../planning/PRODUCTION_RUNTIME_PROPOSAL.md).
+**https://stethofuse.ashraf-alsaloul.com** runs on the owner's Linux server, not Firebase
+Hosting. Its dedicated `stethofuse-production` tunnel reaches isolated Caddy at
+`127.0.0.1:8088`; FastAPI port 8000 is internal. SQLite/private media persist under
+`/srv/stethofuse`; credentials remain outside Git. Axora's routes/services were unchanged.
 
-No production DNS, tunnel, Caddy, Firebase-domain or service writes were made. Deployment
-remains pending one explicit approval after preparation; Axora is to remain untouched. Do
-not label the target live until real post-deployment verification is complete.
+On 27 September 2026, HTTPS/SPA/API health, real Google Admin 200/Staff 403, private-media
+isolation and restart persistence passed. The first encrypted B2 application snapshot
+completed; daily backups are active with pruning disabled. The prepared consistent backup
+briefly stops StethoFuse each night. Earlier synthetic restore/password-escrow verification
+is separate evidence, not a claim that every production snapshot has been restored.
+
+See [exact services, evidence, limitations and rollback](deploy/PRODUCTION_2026-09-27.md).
+Email/password/recovery and real Analyst acceptance remain pending; ensemble processing,
+derived results and future GPU work are not deployed. Do not collect patient data.

@@ -53,7 +53,7 @@ done
 
 compose=(docker compose
   --project-name stethofuse-production
-  --project-directory "$STETHOFUSE_DEPLOY_DIR/.."
+  --project-directory "$STETHOFUSE_DEPLOY_DIR"
   --env-file "$STETHOFUSE_RUNTIME_ENV_FILE"
   -f "$STETHOFUSE_DEPLOY_DIR/compose.yaml"
   -f "$STETHOFUSE_DEPLOY_DIR/compose.firebase.yaml")

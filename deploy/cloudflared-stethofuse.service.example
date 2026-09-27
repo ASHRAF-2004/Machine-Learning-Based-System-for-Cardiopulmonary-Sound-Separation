@@ -1,0 +1,24 @@
+[Unit]
+Description=StethoFuse Cloudflare Tunnel
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+User=stethofuse-tunnel
+Group=stethofuse-tunnel
+# systemd gives this service a private credential copy; the source directory
+# stays root-only and unrelated cloudflared configuration is not changed.
+LoadCredential=tunnel-token:/etc/cloudflared/stethofuse-production.token
+ExecStart=/usr/local/bin/cloudflared tunnel --no-autoupdate --metrics 127.0.0.1:20243 run --token-file %d/tunnel-token
+Restart=on-failure
+RestartSec=5s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target
