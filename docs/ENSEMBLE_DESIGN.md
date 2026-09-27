@@ -4,6 +4,9 @@
 tested offline on a small development qualification set; not deployed or finally
 evaluated.** See [offline qualification evidence](ENSEMBLE_OFFLINE_QUALIFICATION.md)
 for the later, superseding status and measured limitations.
+The subsequent [reproduction diagnosis](NEOSSNET_REPRODUCTION_DIAGNOSIS.md)
+fails target-domain NeoSSNet expert qualification. Revisit that membership gate
+before proceeding; the50/50 formula is unchanged, not vindicated or tuned.
 Baseline: `319e0e39cb2dff95897808ae16728cb60066efd6`.
 See [source audit](ENSEMBLE_SOURCE_AUDIT.md) and [bounded Luna plan](ENSEMBLE_LUNA_HANDOFF.md).
 This is an internal separation subsystem, not a clinical diagnostic system or

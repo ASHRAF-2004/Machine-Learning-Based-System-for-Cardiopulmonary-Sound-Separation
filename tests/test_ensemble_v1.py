@@ -79,6 +79,20 @@ def test_si_sdr_is_mean_centered_and_gain_invariant() -> None:
     assert improved - baseline == pytest.approx(20.0, abs=0.05)
 
 
+def test_si_sdr_preserves_float64_inputs_and_rejects_undefined_silence() -> None:
+    # The diagnostic found in-place mean subtraction and a spurious 0-dB score
+    # for a silent estimate. Neither can be allowed to contaminate evaluation.
+    time = np.arange(4000, dtype=np.float64) / 4000
+    target = np.sin(2 * np.pi * 80 * time) + 4
+    estimate = target + 0.2 * np.cos(2 * np.pi * 511 * time)
+    before = (target.copy(), estimate.copy())
+    assert si_sdr(estimate, target) == pytest.approx(13.9794000867, abs=1e-7)
+    assert np.array_equal(target, before[0]) and np.array_equal(estimate, before[1])
+    for output, reference in ((np.zeros(4000), target), (estimate, np.zeros(4000))):
+        with pytest.raises(RuntimeError, match="Undefined SI-SDR"):
+            si_sdr(output, reference)
+
+
 def test_offline_run_does_not_require_git_metadata(monkeypatch) -> None:
     class Half:
         id = "controlled"

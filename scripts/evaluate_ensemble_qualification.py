@@ -104,15 +104,20 @@ def controlled_mix(heart: np.ndarray, lung: np.ndarray, ratio_db: int):
 
 
 def si_sdr(estimate: np.ndarray, reference: np.ndarray) -> float:
-    target = np.asarray(reference, dtype=np.float64)
-    output = np.asarray(estimate, dtype=np.float64)
-    if target.shape != output.shape or not np.all(np.isfinite(output)):
+    # Centre private copies: float64 callers must not have their signals mutated.
+    target = np.array(reference, dtype=np.float64, copy=True)
+    output = np.array(estimate, dtype=np.float64, copy=True)
+    if (target.ndim != 1 or target.size == 0 or target.shape != output.shape
+            or not np.all(np.isfinite(target)) or not np.all(np.isfinite(output))):
         raise RuntimeError("SI-SDR shape/finite mismatch")
     target -= np.mean(target)
     output -= np.mean(output)
     energy = float(np.dot(target, target))
     if energy / target.size < 1e-12:
         raise RuntimeError("Undefined SI-SDR for silent reference")
+    if not np.any(output):
+        # 0/0 is undefined, not a valid 0-dB separation score. Count as a failure.
+        raise RuntimeError("Undefined SI-SDR for silent estimate")
     projection = np.dot(output, target) / energy * target
     residual = output - projection
     epsilon = 1e-8

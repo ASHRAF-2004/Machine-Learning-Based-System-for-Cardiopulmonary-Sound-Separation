@@ -1,5 +1,10 @@
 # Luna handoff — bounded implementation of ADR E01
 
+> **Current STOP gate:** read [the reproduction diagnosis](NEOSSNET_REPRODUCTION_DIAGNOSIS.md).
+> Do not start Phase E, training or final evaluation. Next: owner-authorised
+> author/artifact/rights clarification and small native reproduction fixtures;
+> not more manikin sweeps. See the report's exact request and acceptance gate.
+
 > **Later status, 27 September 2026:** Phases A–D below have since been
 > implemented/tested **offline only**. Read [the Phase A–D qualification
 > checkpoint](ENSEMBLE_OFFLINE_QUALIFICATION.md) before using this original

@@ -1,5 +1,11 @@
 # Ensemble v1 Phase A–D offline checkpoint — 27 September 2026
 
+> Later diagnostic: [NeoSSNet reproduction report](NEOSSNET_REPRODUCTION_DIAGNOSIS.md).
+> The table below is preserved historical Phase-D evidence. A released-forward
+> compatibility restoration changed NeoSSNet lung mean by only0.04 dB; it did
+> not resolve poor separation. Native reproduction is blocked, target expert
+> qualification fails, and application integration/fine-tuning remain on hold.
+
 **Implemented and tested offline; not integrated with the application, not
 deployed, and not a final FYP separation result.** The original fixed 50/50
 complementary magnitude-mask decision is unchanged. All measurements here are
