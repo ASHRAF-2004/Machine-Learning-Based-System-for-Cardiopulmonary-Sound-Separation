@@ -1,6 +1,14 @@
 # Luna handoff — bounded implementation of ADR E01
 
-> **Current STOP gate:** read [the reproduction diagnosis](NEOSSNET_REPRODUCTION_DIAGNOSIS.md).
+> **Current handoff, 28 September 2026:** [ADR T01](STETHOFUSE_MODEL_TRAINING_PLAN.md)
+> selects our own compact Conv-TasNet trained from scratch. Next: T0–T4 source
+> freeze, additive generator, model/loss contracts and tiny overfit gate, then
+> checkpoint before baseline training. No training occurred in this design
+> sprint. NeoSSNet is research-only; author email is not an active prerequisite
+> for our model. The50/50 ensemble below stays frozen/unqualified; no application
+> integration, test-set use or deployment. Older stop instructions are history.
+
+> **Historical diagnosis gate:** read [the reproduction diagnosis](NEOSSNET_REPRODUCTION_DIAGNOSIS.md).
 > Do not start Phase E, training or final evaluation. Next: owner-authorised
 > author/artifact/rights clarification and small native reproduction fixtures;
 > not more manikin sweeps. See the report's exact request and acceptance gate.

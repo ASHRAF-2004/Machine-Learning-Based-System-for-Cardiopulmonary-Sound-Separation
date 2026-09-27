@@ -1,0 +1,147 @@
+# ADR T01: design configuration, not evidence of a trained model.
+schema_version: 1
+status: DESIGNED_NOT_YET_TRAINED
+architecture_version: stethofuse-convtasnet-4k-v1
+seed: 20260928
+dependencies:
+  torch: 2.11.0+cpu
+  torchaudio: 2.11.0+cpu
+model:
+  implementation: torchaudio.models.ConvTasNet
+  num_sources: 2
+  enc_kernel_size: 32
+  enc_num_feats: 128
+  msk_kernel_size: 3
+  msk_num_feats: 64
+  msk_num_hidden_feats: 128
+  msk_num_layers: 8
+  msk_num_stacks: 3
+  msk_activate: relu
+  parameter_count: 645681
+  source_order: [heart, lung]
+  mixture_consistency: equal_waveform_residual_projection
+  initialization: library_default_seeded_scratch
+signal:
+  sample_rate_hz: 4000
+  channels: 1
+  dtype: float32
+  train_crop_samples: 32000
+  inference_window_samples: 40000
+  inference_hop_samples: 32000
+  inference_overlap_samples: 8000
+  overlap_policy: complementary_cosine_fades_nonzero_outer_edges
+  normalization: one_mixture_peak_gain_shared_with_both_targets_and_all_windows
+  source_rms_floor: 0.000001
+data:
+  manifest: research/manifests/hls_cmds_split_v1.csv
+  manifest_sha256: 39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4
+  release: https://zenodo.org/records/15376628
+  license: CC-BY-4.0
+  train_partition: development
+  validation_partition: validation
+  test_partition: test
+  sampler: balanced_family_pairs_with_shuffled_source_cycles
+  rng_policy: pcg64_keyed_streams_v1
+  heart_families: 6
+  lung_families: 4
+  repetitions_per_family_pair: 24
+  mixtures_per_epoch: 576
+  lung_to_heart_db_distribution: uniform
+  lung_to_heart_db_range: [-10.0, 10.0]
+  crop_policy: independent_uniform_valid_8_second_crops_no_wrap
+  crop_retry_limit: 3
+  common_peak_limit_before_network_normalization: 0.95
+  peak_limit_includes_both_references: true
+  added_noise: false
+  pitch_or_time_stretch: false
+  global_gain_augmentation: false
+loss:
+  primary: fixed_label_negative_mean_si_sdr_db
+  zero_mean_for_si_sdr: true
+  si_sdr_energy_epsilon: 0.00000001
+  regularizer: mean_source_rms_normalized_waveform_l1
+  regularizer_weight: 5.0
+  regularizer_rms_epsilon: 0.000001
+  permutation_invariant: false
+training:
+  device: cpu
+  dtype: float32
+  threads: 2
+  interop_threads: 1
+  loader_workers: 0
+  batch_size: 4
+  gradient_accumulation: 1
+  optimizer: AdamW
+  learning_rate: 0.001
+  betas: [0.9, 0.999]
+  optimizer_epsilon: 0.00000001
+  weight_decay: 0.0001
+  gradient_clip_norm: 5.0
+  max_epochs: 80
+  steps_per_epoch: 144
+  deterministic_algorithms: true
+  mixed_precision: false
+  scheduler:
+    name: ReduceLROnPlateau
+    mode: max
+    factor: 0.5
+    patience: 4
+    threshold: 0.1
+    threshold_mode: abs
+    min_lr: 0.00001
+  early_stopping:
+    patience_epochs: 12
+    significant_improvement_db: 0.1
+  resource_guard:
+    process_memory_limit_gib: 4
+    cpu_nice: 10
+    reestimate_runtime_after_epochs: 3
+    stop_and_checkpoint_if_projected_hours_exceed: 8
+evaluation:
+  source_order: [heart, lung]
+  metric_implementation: scripts/evaluate_ensemble_qualification.py::si_sdr
+  sample_rate_hz: 4000
+  full_source_samples: 60000
+  crop_start: 0
+  lung_to_heart_db_levels: [-10, -5, 0, 5, 10]
+  source_pairing: sorted_cartesian_product_within_partition_only
+  validation_source_pairs: 45
+  validation_mixture_conditions: 225
+  test_source_pairs: 45
+  test_mixture_conditions: 225
+  primary_selection: min_heart_lung_family_pair_macro_mean_si_sdri
+  selection_tiebreak: mean_heart_lung_macro_mean_si_sdri
+  metric_tie_tolerance_db: 0.000001
+  all_mixtures_required: true
+  final_test_locked: true
+  final_test_requires_model_and_protocol_freeze: true
+overfit_gate:
+  mixture_count: 2
+  heart_ids: [F_AF_A, F_ESM_LLSB]
+  lung_ids: [F_N_LLA, F_PR_LLA]
+  paired_by_index: true
+  lung_to_heart_db: 0
+  crop_start: 0
+  crop_samples: 32000
+  batch_size: 2
+  max_optimizer_steps: 400
+  wall_time_limit_minutes: 10
+  augmentations: false
+  scheduler: false
+  weight_decay: 0
+  required_each_case_each_source_si_sdri_db: 10.0
+  required_normalized_l1_reduction_fraction: 0.5
+fallback:
+  condition: confirmed_memory_or_runtime_infeasibility_not_low_test_score
+  architecture_version: stethofuse-convtasnet-4k-small-v1
+  enc_num_feats: 64
+  msk_num_feats: 32
+  msk_num_hidden_feats: 64
+  parameter_count: 170545
+  other_architecture_settings: unchanged
+  effective_batch_size: 4
+artifacts:
+  root: .local/training/stethofuse-tcn-v1
+  weights_in_git: false
+  checkpoints: [best.pt, final.pt, resume.pt]
+  require_sha256: true

@@ -1,5 +1,11 @@
 # NeoSSNet and fallback qualification — 28 September 2026
 
+**Superseded next-step policy (same date, later owner decision):** the email
+remains unsent and is not active work. Develop our own model under
+[ADR T01](STETHOFUSE_MODEL_TRAINING_PLAN.md); do not wait for NeoSSNet permission
+to do so. NeoSSNet remains research comparator only, not a production
+dependency. The historical findings and prepared questions below are preserved.
+
 **Status: planning / research qualification only.** This note follows the
 bounded NeoSSNet diagnosis. No author email was sent; no new audio was read,
 scored, or copied; no training, fine-tuning, checkpoint download, production

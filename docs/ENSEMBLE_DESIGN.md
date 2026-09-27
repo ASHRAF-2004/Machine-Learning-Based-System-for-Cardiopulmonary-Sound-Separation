@@ -1,5 +1,12 @@
 # ADR E01 — StethoFuse ensemble v1
 
+**28 September 2026, superseding next step:** our own production-capable expert
+is now designed in [ADR T01](STETHOFUSE_MODEL_TRAINING_PLAN.md): compact
+fixed-label Conv-TasNet, scratch training, licensed library/data, locked test
+families. Not yet trained/evaluated. NeoSSNet remains a research comparator;
+the50/50 fusion below stays unchanged/frozen, not qualified or integrated.
+Do not resume author email or Phase E in place of the new T0–T4 handoff.
+
 27 September 2026. **Original design decision. Phase A–D is now implemented and
 tested offline on a small development qualification set; not deployed or finally
 evaluated.** See [offline qualification evidence](ENSEMBLE_OFFLINE_QUALIFICATION.md)
