@@ -105,7 +105,10 @@ class FirebaseRestIdentityVerifier:
                 raise ValueError
             uid = claims.get("sub")
             local_id = user.get("localId")
-            disabled = user.get("disabled")
+            # Firebase may omit this boolean when false (JSON default-value
+            # omission). Default only an absent field; null/strings/numbers
+            # still fail the strict boolean check below.
+            disabled = user.get("disabled", False)
             valid_since = user.get("validSince")
             email = user.get("email")
             email_verified = user.get("emailVerified")

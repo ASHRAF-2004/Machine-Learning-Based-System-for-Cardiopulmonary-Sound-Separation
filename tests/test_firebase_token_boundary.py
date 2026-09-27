@@ -142,8 +142,12 @@ def rest_verifier(client):
                                         client=client, token_verifier=FakeLocalVerifier())
 
 
-def test_rest_verifier_checks_live_record_and_posts_same_token_without_auth_header():
-    client = FakeClient(FakeResponse(200, rest_user()))
+@pytest.mark.parametrize("omit_disabled", [False, True])
+def test_rest_verifier_checks_live_record_and_posts_same_token_without_auth_header(omit_disabled):
+    record = rest_user()
+    if omit_disabled:
+        del record["users"][0]["disabled"]
+    client = FakeClient(FakeResponse(200, record))
     verifier = rest_verifier(client)
     identity = verifier.verify("signed-token")
     assert identity.uid == "firebase-uid" and identity.email_verified is True
@@ -156,6 +160,8 @@ def test_rest_verifier_checks_live_record_and_posts_same_token_without_auth_head
 
 @pytest.mark.parametrize("record,error", [
     (rest_user(disabled=True), ProviderAccountDisabled),
+    (rest_user(disabled=None), ProviderUnavailable),
+    (rest_user(disabled="false"), ProviderUnavailable),
     (rest_user(validSince="1001"), AuthenticationDenied),
     (rest_user(localId="another-uid"), ProviderUnavailable),
     ({"users": []}, ProviderUnavailable),

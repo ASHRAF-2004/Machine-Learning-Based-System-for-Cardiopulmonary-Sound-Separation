@@ -15,6 +15,19 @@ authorization authority. No Google ADC, service-account credential or Cloud Run
 dependency is used. The project does not need Google Cloud billing for this
 Firebase REST check.
 
+Firebase may omit `disabled` when false; the parser defaults only that absent
+field to false. Explicit null/non-boolean values remain invalid. `validSince`
+remains a required decimal string in epoch seconds and is compared directly with
+the verified token's `iat`. A real Admin lookup exposed the earlier over-strict
+boolean-presence check; after its correction, the normal external browser returned
+`/api/auth/me` 200 with matching Firebase UID/active admin role and
+`/api/admin/users` 200, and the Admin Users page loaded. Thirteen focused MOCK REST cases passed, including omitted
+false, explicit disabled and malformed boolean values. The refreshed real Staff
+session returned `/api/auth/me` 200 with matching UID/`healthcare_staff` role and
+`/api/admin/users` 403 (also with a forged role header); direct Admin navigation
+was denied. These are REAL FIREBASE + LOCAL BACKEND results, not production
+acceptance. The corrected backend image built successfully.
+
 The auto-created browser key is not reused by the server: inspection found it
 permitted numerous unrelated APIs. A separate key `StethoFuse server Firebase
 Auth lookup` was created with only `identitytoolkit.googleapis.com` as its API
