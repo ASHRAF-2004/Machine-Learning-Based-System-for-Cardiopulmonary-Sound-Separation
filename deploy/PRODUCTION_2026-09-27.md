@@ -93,6 +93,23 @@ untested. Ensemble execution/worker/GPU integration is not deployed. No clinical
 use, participant evaluation, production penetration test or availability guarantee
 is implied by these bounded checks.
 
+## Post-deployment action-link acceptance
+
+On 27 September 2026, a bounded check in separate tabs of normal external Chrome
+verified a missing reset link and deliberately invalid reset/verification codes.
+Both invalid-code requests reached real Firebase and returned HTTP400
+`INVALID_OOB_CODE`; the UI showed “This link cannot be used”, removed the query,
+did not render the supplied code, and offered no reset-password form. Zero
+verification/reset emails were requested. These are **PRODUCTION + REAL FIREBASE**
+invalid-code checks; the missing-code case is **PRODUCTION UI** only. They do not
+prove successful email/password, mailbox delivery, reset completion, or expiry.
+No existing account/session was changed, and no new automated test suite was added.
+
+The next owner-gated step is one designated test mailbox, separate from the two
+Google accounts. The owner enters credentials and opens emails directly in the
+normal browser. A subsequently verified account can also serve as the explicitly
+designated Analyst test identity; no promotion occurs merely from a chosen email.
+
 ## First production backup and schedule
 
 - Restic `0.18.1`, private B2 bucket `stethofuse-prod-backup-927f5b7d`, EU Central,
