@@ -72,3 +72,13 @@ def test_fixed_label_objective_and_validation_selection() -> None:
 def test_silent_supervised_target_is_rejected() -> None:
     with pytest.raises(ValueError, match="Silent reference"):
         fixed_label_loss(torch.zeros(1, 2, 32), torch.zeros(1, 2, 32))
+
+
+def test_inference_windows_restore_length_scale_and_additivity() -> None:
+    torch.manual_seed(7)
+    model = StethoFuseConvTasNet().eval()
+    signal = torch.randn(60001) * .02
+    outputs = model.separate_recording(signal)
+    assert outputs.shape == (2, signal.numel())
+    assert torch.isfinite(outputs).all()
+    assert torch.max(torch.abs(outputs.sum(0) - signal)) < 2e-6

@@ -26,7 +26,9 @@ were untouched.
 - Model: pinned torchaudio `2.11.0+cpu` Conv-TasNet, 645,681 parameters;
   `[2,1,32001] → [2,2,32001]`, finite output and gradients. Target-free equal
   residual correction maximum additivity error on synthetic smoke input:
-  `2.38e−7`.
+  `2.38e−7`. The offline whole-record wrapper implements the frozen10-s window,
+  8-s hop,2-s complementary overlap and shared-gain restoration; a61,001-sample
+  synthetic regression confirmed length/scale/additivity.
 - Objective/evaluator: fixed-label differentiable mean negative SI-SDR plus
   `5×` source-RMS-normalized waveform L1; audited NumPy SI-SDR reused. Focused
   checks cover exact-output loss, swapped-label penalty, silent-reference
@@ -62,7 +64,7 @@ SHA-256: `73dc02384135b2cc0709ebca6e80ea7e84bfa26899802fb3f79742808eeef1bc`.
 These overfit weights **must not** be reused to initialize T5. The baseline must
 start with a fresh seeded initialization.
 
-Focused tests: `tests/test_stethofuse_training_contract.py` — 5 passed. No
+Focused tests: `tests/test_stethofuse_training_contract.py` — 6 passed. No
 application regression suite was run. A test assertion typo was corrected
 before this passing run; no data/model defect required a gate retry.
 
