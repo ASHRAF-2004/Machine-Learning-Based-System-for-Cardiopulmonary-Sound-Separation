@@ -6,7 +6,7 @@ import torch
 from torch import Tensor
 
 
-def fixed_label_loss(estimate: Tensor, target: Tensor) -> Tensor:
+def fixed_label_si_sdr_db(estimate: Tensor, target: Tensor) -> Tensor:
     if estimate.shape != target.shape or estimate.ndim != 3 or estimate.shape[1] != 2:
         raise ValueError("Expected matching [batch, heart/lung, time] tensors")
     if not torch.isfinite(estimate).all() or not torch.isfinite(target).all():
@@ -18,8 +18,12 @@ def fixed_label_loss(estimate: Tensor, target: Tensor) -> Tensor:
         raise ValueError("Silent reference is invalid for SI-SDR")
     projection = (v * t).sum(dim=-1, keepdim=True) / energy * t
     residual = v - projection
-    score = 10.0 * torch.log10((projection.square().sum(dim=-1) + 1e-8) /
-                               (residual.square().sum(dim=-1) + 1e-8))
+    return 10.0 * torch.log10((projection.square().sum(dim=-1) + 1e-8) /
+                              (residual.square().sum(dim=-1) + 1e-8))
+
+
+def fixed_label_loss(estimate: Tensor, target: Tensor) -> Tensor:
+    score = fixed_label_si_sdr_db(estimate, target)
     rms = target.square().mean(dim=-1).sqrt()
     normalized_l1 = (estimate - target).abs().mean(dim=-1) / (rms + 1e-6)
     return (-score + 5.0 * normalized_l1).mean()

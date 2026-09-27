@@ -7,7 +7,7 @@ import torch
 
 from app.ml.stethofuse_tcn import StethoFuseConvTasNet
 from app.ml.training_data import make_mixture, read_manifest, training_epoch
-from app.ml.training_objective import fixed_label_loss, selection_score
+from app.ml.training_objective import fixed_label_loss, fixed_label_si_sdr_db, selection_score
 
 
 def test_training_recipe_is_seeded_balanced_and_development_only() -> None:
@@ -60,6 +60,14 @@ def test_fixed_label_objective_and_validation_selection() -> None:
     correct = fixed_label_loss(target.clone(), target)
     swapped = fixed_label_loss(target.flip(1), target)
     assert torch.isfinite(correct) and correct < swapped
+    torch.manual_seed(29)
+    noisy = target + .2 * torch.randn_like(target)
+    score = fixed_label_si_sdr_db(noisy, target)
+    scaled_score = fixed_label_si_sdr_db(3 * noisy, target)
+    unrelated_score = fixed_label_si_sdr_db(torch.randn_like(target), target)
+    assert torch.all(fixed_label_si_sdr_db(target, target) > 50)
+    assert torch.allclose(score, scaled_score, atol=1e-4, rtol=1e-5)
+    assert torch.all(unrelated_score < score)
     result = selection_score([
         {"heart_family": "h1", "lung_family": "l1", "heart_si_sdri_db": 3., "lung_si_sdri_db": 1.},
         {"heart_family": "h2", "lung_family": "l1", "heart_si_sdri_db": 5., "lung_si_sdri_db": -1.},

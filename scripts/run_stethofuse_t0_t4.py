@@ -39,6 +39,15 @@ def git_commit() -> str | None:
         return None
 
 
+def git_worktree_dirty() -> bool | None:
+    try:
+        output = subprocess.check_output(["git", "status", "--porcelain=v1"], cwd=ROOT,
+                                         text=True, stderr=subprocess.DEVNULL)
+        return bool(output.strip())
+    except Exception:
+        return None
+
+
 def metric_rows(model: StethoFuseConvTasNet, mixtures: list[torch.Tensor],
                 targets: list[torch.Tensor]) -> list[dict[str, float]]:
     rows = []
@@ -217,7 +226,9 @@ def main() -> int:
     torch.save({"architecture_version": model.architecture_version,
                 "state_dict": model.state_dict(), "run_id": run_id}, checkpoint)
     report = {"classification": "DEVELOPMENT-ONLY TINY CAPACITY GATE; NOT BASELINE TRAINING",
-              "run_id": run_id, "git_commit": git_commit(), "config_sha256": digest_file(config_path),
+              "run_id": run_id, "git_commit": git_commit(),
+              "git_worktree_dirty": git_worktree_dirty(),
+              "config_sha256": digest_file(config_path),
               "source_manifest_sha256": audit["manifest_sha256"],
               "torch": torch.__version__, "torchaudio": __import__("torchaudio").__version__,
               "device": "cpu", "seed": config["seed"], "parameter_count": model.parameter_count,

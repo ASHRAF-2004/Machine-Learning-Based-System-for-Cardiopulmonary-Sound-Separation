@@ -31,8 +31,9 @@ were untouched.
   synthetic regression confirmed length/scale/additivity.
 - Objective/evaluator: fixed-label differentiable mean negative SI-SDR plus
   `5×` source-RMS-normalized waveform L1; audited NumPy SI-SDR reused. Focused
-  checks cover exact-output loss, swapped-label penalty, silent-reference
-  rejection and weaker-source family-balanced validation selection.
+  checks cover exact-output loss, scale-invariant SI-SDR, unrelated-output and
+  swapped-label penalty, silent-reference rejection, and weaker-source
+  family-balanced validation selection.
 
 ## T4 gate
 
@@ -63,6 +64,17 @@ manifests) are ignored and stored beneath
 SHA-256: `73dc02384135b2cc0709ebca6e80ea7e84bfa26899802fb3f79742808eeef1bc`.
 These overfit weights **must not** be reused to initialize T5. The baseline must
 start with a fresh seeded initialization.
+
+Reproducibility caveat: the run recorded base Git HEAD
+`357b3c2b3dd3b2faa1dbf60cfbf8b6c8e10882ee`, but the T0–T4 implementation was
+uncommitted at execution time; a clean tree object/source snapshot was not
+captured then. That fact is now explicitly recorded in the ignored run report.
+The T4 model forward, objective and recipe code were committed immediately
+afterward. Subsequent edits added the whole-record inference wrapper, extracted
+the same SI-SDR arithmetic into a named helper, and enriched recipe metadata;
+they did not change the T4 computation. Future training runs now record dirty
+state. Treat the result as transparent engineering-gate evidence, not a
+bit-for-bit run from the committed revision.
 
 Focused tests: `tests/test_stethofuse_training_contract.py` — 6 passed. No
 application regression suite was run. A test assertion typo was corrected
