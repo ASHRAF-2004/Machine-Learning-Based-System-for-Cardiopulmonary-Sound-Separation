@@ -4,6 +4,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+import app.ml.ensemble_v1 as ensemble_module
 from app.ml.ensemble_v1 import EnsembleEngine, EnsembleError, canonicalize, fuse_window
 from app.ml.strategies.base import SeparatedWaveforms
 from scripts.evaluate_ensemble_qualification import si_sdr
@@ -76,3 +77,21 @@ def test_si_sdr_is_mean_centered_and_gain_invariant() -> None:
     baseline = si_sdr(target + interference, target)
     improved = si_sdr(3 * target + 0.3 * interference + 4, target)
     assert improved - baseline == pytest.approx(20.0, abs=0.05)
+
+
+def test_offline_run_does_not_require_git_metadata(monkeypatch) -> None:
+    class Half:
+        id = "controlled"
+        device = "cpu"
+
+        def separate(self, window):
+            return SeparatedWaveforms(window * 0.5, window * 0.5, 4000)
+
+    monkeypatch.delenv("STETHOFUSE_CODE_REVISION", raising=False)
+    def no_git(*args, **kwargs):
+        raise FileNotFoundError()
+
+    monkeypatch.setattr(ensemble_module.subprocess, "check_output", no_git)
+    result = EnsembleEngine(Half(), Half()).separate(np.full(40000, 0.2, dtype=np.float32))
+    assert result.provenance["code_commit"] is None
+    assert len(result.provenance["engine_source_sha256"]) == 64

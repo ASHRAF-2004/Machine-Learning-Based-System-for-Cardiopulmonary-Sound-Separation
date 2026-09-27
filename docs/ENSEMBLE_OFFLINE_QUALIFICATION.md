@@ -77,17 +77,21 @@ magnitude-ratio masks, frozen 0.5/0.5 heart mask, complementary lung mask,
 original-mixture-phase inversion, and overlap-add. No model selector, gate,
 waveform averaging, reference oracle, silent expert fallback or API wiring.
 Required-expert failure produces a safe failed-offline provenance record.
-Successful runs include expert/checkpoint/config/source hashes, code commit and
-engine hash, seed, device, timing and no output artifact IDs (nothing is persisted).
+Successful runs include expert/checkpoint/config/source hashes, code revision
+(when supplied or available) and exact engine hash even without `.git`, seed,
+device, timing and no output artifact IDs (nothing is persisted).
 
 The prior unpadded legacy STFT lost its first sample. One focused test reproduced
 the 0.8 first-sample error; centred left/right padding and periodic Hann repair
 passed that boundary test at max absolute error ≤1e-5. Five additional focused
 tests cover canonical resampling, mask complementarity/finite deterministic
 reconstruction, fail-closed required-expert output, overlap edges and SI-SDR
-definition. Initial focused run: **8 passed, 4 VMD cases deselected**. After
+definition. A sixth focused test protects provenance in an image without Git
+metadata. Initial focused run: **8 passed, 4 VMD cases deselected**. After
 installing the existing pinned `vmdpy==0.2` into the ignored CPU environment,
 one nearby ML regression pass was **12 passed** (ensemble + baseline strategies).
+The final provenance portability fix then passed **2 targeted tests**; the
+broader suite was not repeated for that metadata-only change.
 This is not a strict no-fallback 10-s VMD benchmark; VMD was not relabelled as
 Fixed Filter. No broad auth/security suite was rerun because those paths changed
 neither code nor configuration.

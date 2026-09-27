@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import subprocess
 import sys
 import time
@@ -252,10 +253,15 @@ class EnsembleEngine:
         config = {"version": VERSION, "weights": [0.5, 0.5], "fft": 1024, "hop": 256,
                   "window": WINDOW, "window_hop": HOP, "nmf_components": 6,
                   "nmf_iterations": 80, "seed": 42}
-        code_commit = subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], cwd=PROJECT_ROOT, text=True,
-            stderr=subprocess.DEVNULL,
-        ).strip()
+        code_commit = os.environ.get("STETHOFUSE_CODE_REVISION")
+        if not code_commit:
+            try:
+                code_commit = subprocess.check_output(
+                    ["git", "rev-parse", "HEAD"], cwd=PROJECT_ROOT, text=True,
+                    stderr=subprocess.DEVNULL,
+                ).strip()
+            except (FileNotFoundError, subprocess.CalledProcessError):
+                code_commit = None  # The source hash below remains an exact version ID.
         provenance = {
             "schema_version": 1, "ensemble_version": VERSION, "preprocessing_version": PREPROCESSING_VERSION,
             "recording_id": recording_id, "sample_rate_hz": SAMPLE_RATE, "length": x.size,
@@ -269,7 +275,8 @@ class EnsembleEngine:
                 {"id": self.nmf.id, "adapter_version": 1, "components": 6, "iterations": 80, "seed": 42},
             ],
             "code_commit": code_commit, "engine_source_sha256": _sha256(Path(__file__)),
-            "requirements_sha256": _sha256(PROJECT_ROOT / "requirements.txt"),
+            "requirements_sha256": _sha256(PROJECT_ROOT / "requirements.txt")
+                if (PROJECT_ROOT / "requirements.txt").is_file() else None,
             "device": self.neo.device, "library_versions": {"numpy": np.__version__,
                 "torch": self.neo.torch.__version__ if hasattr(self.neo, "torch") else "controlled_test"},
             "timings_ms": timings, "started_at_utc": started_at_utc,
