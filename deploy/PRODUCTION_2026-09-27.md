@@ -43,6 +43,16 @@ Google service identity/custom role, service-account key or billing change was m
   catch-all `http_status:404`.
 - Proxied CNAME record `094b8b7393932d2ad6dc1ae443bfa747` points the hostname to
   `5677e02c-89a9-4e40-8bee-3b3f0d13dc8b.cfargotunnel.com` (automatic TTL).
+- A final plain-HTTP check initially returned 200. A hostname-scoped Cloudflare
+  Single Redirect was added, without changing zone-wide settings: ruleset
+  `98bafe245d2740de83b3dc4ac8bbad03`, rule `b9567f6717d24687b2c06f30290ec79c`,
+  matching `(http.host eq "stethofuse.ashraf-alsaloul.com" and not ssl)`.
+  It redirects to the same hostname/path over HTTPS with 308, preserving the
+  query string. No existing redirect-phase ruleset existed; other managed
+  rulesets were preserved. Configuration follows the official
+  [Single Redirect API](https://developers.cloudflare.com/rules/url-forwarding/single-redirects/create-api/).
+  After edge propagation, `/app/admin/users?probe=https` returned 308 with the
+  exact HTTPS path/query; HTTPS health and Axora still returned 200.
 - `cloudflared-stethofuse.service` enabled/active, dedicated unprivileged
   `stethofuse-tunnel` account. Its root-only token source is
   `/etc/cloudflared/stethofuse-production.token` (`0400`), delivered with systemd
@@ -146,6 +156,9 @@ switch back to. Removing its CNAME means deleting **only** record
 `094b8b7393932d2ad6dc1ae443bfa747` from zone
 `ef6d706c4c74662047331229b2818ba5`. Delete the new tunnel only if abandoning the
 deployment and after its connector is stopped. Remove only the newly added
+redirect rule `b9567f6717d24687b2c06f30290ec79c` from ruleset
+`98bafe245d2740de83b3dc4ac8bbad03`; do not delete the whole ruleset if other rules
+have since been added. Remove only the newly added
 Firebase domain if reverting that configuration; retain all existing domains.
 The previous backup configuration is retained root-only at
 `/var/backups/stethofuse/pre-deploy-20260927/backup.env` (same-host rollback copy,
