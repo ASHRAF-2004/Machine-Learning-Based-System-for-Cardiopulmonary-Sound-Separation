@@ -154,10 +154,10 @@ The owner-created private bucket `stethofuse-prod-backup-927f5b7d` is in EU Cent
 at `s3.eu-central-003.backblazeb2.com`. Restic `0.18.1` initialized the repository
 and passed a synthetic encrypted remote backup/restore drill (2026-09-27): repository
 check had no errors; restored SQLite returned `integrity_check=ok`; SHA-256 manifest,
-exact file sets and byte comparisons passed. The drill used only synthetic data and
-did not back up the running StethoFuse application. This is **not** production deployment,
-a scheduled backup, a live-application restore, or a test of recovering the password
-from its independent offline escrow. `/srv` and `/var/backups` remain same-host copies,
+exact file sets and byte comparisons passed. The owner then independently entered
+the offline paper-copy password; it unlocked the repository and restored the known
+synthetic file with the expected SHA-256. This is **not** production deployment,
+a scheduled backup, or a live-application restore. `/srv` and `/var/backups` remain same-host copies,
 not disk-loss protection. Review the region if formal data-residency obligations arise.
 The workspace decision record is `planning/PRODUCTION_IDENTITY_AND_BACKUP.md`.
 

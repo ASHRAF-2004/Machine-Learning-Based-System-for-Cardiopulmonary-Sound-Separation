@@ -54,14 +54,31 @@ Owner-confirmed bucket: `stethofuse-prod-backup-927f5b7d`, EU Central, endpoint
 was created and accepted by successful Restic initialization. No key value is
 recorded here. The app key is not the Restic encryption password.
 
+## Independent password-escrow recovery — verified 2026-09-27
+
+The owner entered the offline paper-copy Restic password through the hidden
+prompt in `deploy/verify-restic-password-escrow.sh`. The check deliberately did
+not read `/etc/stethofuse/restic-password`: it passed the temporary mode-0600
+password file from the user's private tmpfs runtime directory to a transient
+systemd unit as a private credential. Existing root-only B2 credentials were
+loaded separately. Using snapshot
+`793ee58fb3a158d9dfa6eadefa8301b135f3c5d97ea3d321aef2da514eba8a26`, Restic
+successfully listed/unlocked the remote repository and restored only the known
+synthetic `runtime.env` file into an isolated temporary directory. Its SHA-256
+matched the expected fixture hash
+`f8126b7eb5c103d336765dd205c9d1309e318cfb4817536d447dd9e45c2a0da8`. Temporary
+credential and restore files were removed by the helper. No password was
+displayed, logged, or recorded. Status: **RESTIC PASSWORD ESCROW RECOVERY
+VERIFIED**. This does not activate production backups, a timer, or pruning.
+
 ## Server credential placement
 
 Restic `0.18.1` (Ubuntu package `0.18.1-3ubuntu1`) is installed system-wide and
 was used for the drill. The key ID, application-key secret, and separate Restic
 password are root-owned `0400` files under `/etc/stethofuse/`, loaded only as
 private systemd credentials. Non-secret `backup.env` is root-owned `0600` and
-targets the confirmed EU Central repository. The independent offline recovery
-escrow for the Restic password has not been restore-tested. The source helper
+targets the confirmed EU Central repository. Independent offline recovery of
+the Restic password escrow is verified (see above). The source helper
 `deploy/install-b2-restic-credentials.sh` reads credentials silently from a local
 terminal and refuses to overwrite existing files. The one-time
 `deploy/replace-b2-key-id.sh` accepts only the Backblaze keyID format and replaces
@@ -214,9 +231,9 @@ or credentials. Remove the isolated staging copy only after its evidence is
 reviewed. Then, and only then, install the root-owned prune marker and enable the
 timer.
 
-The repository password must also be tested from the separate offline escrow.
-An untested password escrow is not a verified recovery plan. Periodically run
-`restic check` and perform a full isolated restore at least quarterly.
+The repository password was independently recovered from the offline paper copy
+on 2026-09-27 (see the evidence above). Periodically run `restic check` and perform
+a full isolated restore at least quarterly.
 
 ## References
 
