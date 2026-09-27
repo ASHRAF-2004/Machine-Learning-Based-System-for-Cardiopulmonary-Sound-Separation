@@ -86,10 +86,11 @@ persisted in evidence. No real account was disabled/revoked for testing.
 | Container logs | Scan found no server API-key value, JWT-shaped value or Authorization/Bearer header. **PRODUCTION**, bounded to observed logs |
 | Disabled/revoked/upstream-malformed behavior | Existing **MOCK** boundary evidence, not live account mutation. The focused optional-boolean fix passed 13 REST cases; no broad suite rerun. |
 
-Share/revoke evidence remains **REAL FIREBASE + LOCAL BACKEND** from the earlier
-controlled test; it was not repeated/relabelled as production. Email/password,
-recovery emails, real Analyst acceptance and derived separation outputs remain
-untested. Ensemble execution/worker/GPU integration is not deployed. No clinical
+Share/revoke evidence in this initial deployment table remains **REAL FIREBASE +
+LOCAL BACKEND** from the earlier controlled test; it was not repeated/relabelled
+as production. Subsequent dedicated email/password and Analyst acceptance is
+recorded separately below. Derived separation outputs remain unavailable.
+Ensemble execution/worker/GPU integration is not deployed. No clinical
 use, participant evaluation, production penetration test or availability guarantee
 is implied by these bounded checks.
 
@@ -105,10 +106,72 @@ invalid-code checks; the missing-code case is **PRODUCTION UI** only. They do no
 prove successful email/password, mailbox delivery, reset completion, or expiry.
 No existing account/session was changed, and no new automated test suite was added.
 
-The next owner-gated step is one designated test mailbox, separate from the two
-Google accounts. The owner enters credentials and opens emails directly in the
-normal browser. A subsequently verified account can also serve as the explicitly
-designated Analyst test identity; no promotion occurs merely from a chosen email.
+## Dedicated email/password and recovery acceptance
+
+The owner designated `malaysiaashrafo@gmail.com` as a test-only account, separate
+from both established Google identities. Its email/password registration and
+verification-email delivery to Spam were **owner-reported**, not observed UI
+registration evidence. A read-only real Firebase check found the password
+provider, an enabled account and `emailVerified=true` already present. The actual
+verification-link click/false-to-true transition was therefore not observed, and
+no redundant verification email was sent.
+
+| Check | Observed result / classification |
+| --- | --- |
+| Initial identity/account state | Real Firebase password-provider UID exists, enabled and verified; no corresponding production application account before first successful app login. **REAL FIREBASE + PRODUCTION** |
+| Email/password login and default role | Actual StethoFuse login UI reached real Firebase successfully; session onboarding created the matching active `healthcare_staff` account and `/api/auth/me` returned `200`. No Analyst/Admin role selection. **PRODUCTION + REAL FIREBASE; VERIFIED LIVE** |
+| Session restoration | Browser refresh restored the same verified UID and active Staff account. **PRODUCTION + REAL FIREBASE; VERIFIED LIVE** |
+| Logout and second login | UI logout cleared the session; refresh stayed on login, tokenless `/api/auth/me` `401`; another email/password login succeeded. **PRODUCTION + REAL FIREBASE; VERIFIED LIVE** |
+| Pre-promotion authorization | Admin Users API `403`; metadata, original media and download for both unrelated synthetic recordings `403`. Verification alone granted no Analyst or Admin privilege. **PRODUCTION + REAL FIREBASE; VERIFIED LIVE** |
+| Forgot-password request | Actual StethoFuse Forgot Password UI sent one request; real Firebase returned `200`; UI used a safe conditional inbox/spam acknowledgement rather than asserting account existence or delivery. **PRODUCTION + REAL FIREBASE; VERIFIED LIVE** |
+| Reset and password rotation | Owner personally opened the official Firebase reset form and completed the reset. The previously authorized disposable password was then rejected by real Firebase (`400`); the owner entered the new password personally and successful login resolved `/api/auth/me` `200`. **PRODUCTION + REAL FIREBASE; VERIFIED LIVE** |
+| Identity after reset | Same Firebase UID, email verified, application active and role still `healthcare_staff`. UID SHA-256 fingerprint: `17869e6c6ecdb157538a3ec9918b6176568200da9627b11db1a572bfd7bdfccc`. **PRODUCTION + REAL FIREBASE; VERIFIED LIVE** |
+
+No mailbox contents, reset codes/URLs, tokens, cookies or passwords were retained
+in this evidence. The new password remains owner-only. Successful verified state
+is real-provider evidence; the earlier registration and verification-email
+delivery are not retroactively labelled automated acceptance. Expired reset or
+verification links remain **NOT TESTED**. Previously observed invalid-link
+rejection is unchanged. Analyst acceptance is recorded separately below. No production-code changes,
+new automated tests, broad regression run or deployment were needed for these
+email/password checks.
+
+## Dedicated Audio Analyst acceptance
+
+The same verified test account was promoted through the normal Administrator
+Users interface, not a direct database edit. All results below are **PRODUCTION +
+REAL FIREBASE; VERIFIED LIVE** unless explicitly marked otherwise. Only existing
+synthetic fixtures were used, not patient/participant recordings.
+
+- Recording A: Admin-owned `3c366aef758643f29c6a1d280792313d`, original-audio
+  resource `b5204c691b7c47a9b133e1ddf759f9be`.
+- Recording B: Staff-owned `9f0e232e80e84a798cdc8f5b9a109e83`, original-audio
+  resource `c815f69a3613491b9329698227870daa`.
+- Dedicated test application account: `7fc12b955f01462e9206342c6cdc45d4`.
+  These identifiers locate synthetic evidence only; knowing them grants no access.
+
+| Check | Observed result |
+| --- | --- |
+| Authorized promotion | Existing Administrator's normal Users UI submitted a confirmed role update (`200`), changing only the test account from `healthcare_staff` to `audio_analyst`; active/verified state preserved. |
+| Promotion provenance and persistence | Backend refresh retained `audio_analyst`; `account.changed` audit event `0b13b5a9679e4f01b5458f02eac3ea26` identifies the existing Administrator and target. Both core accounts retained their original roles. |
+| Analyst administrative isolation | Admin Users and audit GET `403`; fake-admin role PATCH and status PATCH `403`; direct `/app/admin/users` navigation redirected to `/403`. |
+| Before assignment | Recording A and B metadata, original media and downloads each `403`. Analyst role alone conferred no recording access. |
+| Exact resource assignment | Owner used the normal recording UI to grant `review` on A's exact original-audio resource (`201`), assignment `21de67f12ba9474892fcd2b3618aa492`; no whole-recording, global or sibling-resource grant. |
+| Intended access and unrelated isolation | Assigned A metadata/original media/download `200`; B metadata/media/download remained `403`. Assignment resources contained only the intended original audio. |
+| Review | Analyst's assigned-review UI loaded authorized media (`200`) and saved/updated an `accepted` review with explicitly synthetic, non-diagnostic notes (`PUT 200`). It persisted after refresh, with the correct reviewer ID and two `review.updated` audit events. Owner/Admin could not update this Analyst review (`403`). |
+| Revocation | Owner's normal UI revoked the exact grant (`DELETE 204`); audit `grant.revoked` event `c501ae9900d34c18af318ac74c0ecf2e` recorded it. Future A metadata/media/download and review GET/PUT each `403`; B remained denied. Assignments/authorized recordings became empty. |
+| Direct media and retained history | Tokenless media/download `401`; authenticated direct A URLs after revocation `403`. Read-only database verification found the historical review and revoked grant retained. |
+| Post-promotion new login | UI logout returned to login with tokenless identity `401`. Owner entered the new password personally; the fresh session and subsequent refresh retained the same verified UID, active `audio_analyst`, `/api/auth/me` `200`, Admin Users `403`, and an empty active-assignment list. Dashboard loaded normally. |
+
+No generated results, separated heart/lung outputs, waveforms, spectrograms or
+processing jobs exist for these fixtures. Their positive/negative acceptance is
+**NOT AVAILABLE / NOT TESTED**, not inferred from original-media checks. No
+production defect, code fix, new automated test, broad test run or redeployment
+was required. Real disabled/revoked Firebase-account mutation was not performed;
+those provider edge cases remain **MOCK ONLY**.
+
+Post-acceptance public health and SPA returned `200`; StethoFuse web/API and
+Axora containers remained healthy. The deployed application release is unchanged.
 
 ## First production backup and schedule
 
