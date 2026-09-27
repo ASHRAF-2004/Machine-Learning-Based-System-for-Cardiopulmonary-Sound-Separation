@@ -1,11 +1,11 @@
-# Firebase identity overlay. The API verifies JWT signatures locally, then
-# calls the minimal revocation/current-user verifier on Cloud Run over HTTPS.
+# Firebase identity overlay. FastAPI verifies JWT signatures locally, then
+# checks current-user/revocation state using Firebase Auth REST over HTTPS.
 # No Google credential file or developer ADC is mounted into this runtime.
 services:
   api:
     environment:
       STETHOFUSE_FIREBASE_ENABLED: "1"
-      STETHOFUSE_FIREBASE_VERIFIER_URL: "${STETHOFUSE_FIREBASE_VERIFIER_URL:?Set the approved Cloud Run verifier HTTPS URL}"
+      STETHOFUSE_FIREBASE_API_KEY: "${STETHOFUSE_FIREBASE_API_KEY:?Set the Firebase Web API key restricted to Identity Toolkit}"
     healthcheck:
       test:
         - CMD

@@ -1,5 +1,13 @@
 # Firebase current-account verifier (Cloud Run)
 
+> **Superseded before deployment — 27 September 2026.** Do not provision this
+> Cloud Run service, its Artifact Registry repository, service account or custom
+> IAM role. Google Cloud billing requires a MYR 120 prepayment unavailable to
+> the owner. The active backend boundary is local Firebase JWT validation plus
+> HTTPS Firebase Auth REST `accounts:lookup`, documented in `../README.md` and
+> `../../../../planning/PRODUCTION_RUNTIME_PROPOSAL.md`. This folder is retained
+> as historical implementation/evidence only; it is not built by active Compose.
+
 This is a deliberately small, independently deployable Firebase identity check.
 It is not the StethoFuse API and does not decide application roles, ownership,
 sharing, analyst assignment, or recording access. It accepts one Firebase ID token,

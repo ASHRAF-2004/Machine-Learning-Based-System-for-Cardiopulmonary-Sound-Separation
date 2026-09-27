@@ -1,5 +1,30 @@
 # StethoFuse production-like runtime
 
+## Current Firebase auth configuration — 27 September 2026
+
+This section supersedes earlier Cloud Run verifier instructions in this file.
+FastAPI locally validates the Firebase ID-token signature and claims, then calls
+Firebase Authentication REST `accounts:lookup` over HTTPS with that same user
+token and a dedicated Firebase Web API key restricted to
+`identitytoolkit.googleapis.com`. The current-user record must contain the same
+UID, an enabled account, verified email, and a `validSince` boundary not newer
+than token `iat` (both seconds). Invalid/deleted/revoked/disabled identity is
+denied; malformed responses and upstream failures return unavailable and fail
+closed. Local StethoFuse account status/role/ownership/grants remain the
+authorization authority. No Google ADC, service-account credential or Cloud Run
+dependency is used. The project does not need Google Cloud billing for this
+Firebase REST check.
+
+The auto-created browser key is not reused by the server: inspection found it
+permitted numerous unrelated APIs. A separate key `StethoFuse server Firebase
+Auth lookup` was created with only `identitytoolkit.googleapis.com` as its API
+target and verified against that API. Its value is stored only in the ignored,
+owner-only local file `.local/firebase-auth-rest-api-key`; do not copy it into
+Git, browser assets, logs or chat. Provision the same restricted key into the
+external runtime environment as `STETHOFUSE_FIREBASE_API_KEY`. No Google Cloud
+billing was enabled. The earlier Cloud Run verifier source/runbook is retained
+as superseded history and is not part of the active runtime.
+
 This package builds the current authenticated M1 application into an isolated
 Docker Compose stack. It is a **local production-like validation package**, not
 an applied production deployment. It does not join or modify Axora's networks,
@@ -9,8 +34,8 @@ containers, Caddy configuration, Cloudflare tunnel, or DNS.
 
 - React/Vite static frontend served by Caddy on container port 8080.
 - Same-origin `/api`, `/health`, and `/static/*` reverse proxy to FastAPI.
-- FastAPI with local Firebase ID-token signature/claim verification and trusted M1
-  authorization; a separate minimal Cloud Run verifier checks revocation/current Auth state.
+- FastAPI with local Firebase ID-token signature/claim verification, Firebase Auth
+  REST current-account/revocation checking, and trusted local M1 authorization.
 - Separate persistent SQLite and private-file bind mounts; neither is exposed by
   the web container or served from the public frontend directory.
 - Non-root processes, read-only container roots, dropped capabilities, resource
@@ -36,13 +61,12 @@ credentials.
 
 The API runtime does not use Google ADC or a Firebase Admin credential. It verifies
 ID-token signatures locally against Google's public Firebase signing certificates and
-validates Firebase's project, issuer, time and subject claims. For each API identity
-check, it also calls the HTTPS Cloud Run service in `auth-verifier/` to check revocation
-and current Firebase user state. The Cloud Run service uses its own dedicated native
-service identity; it has no role, ownership, grant or audio-access authority. Neither
-the service nor its identity has been provisioned yet. Production auth stays fail-closed
-until an approved verifier URL is configured and the service is verified. Do not mount
-developer ADC or service-account JSON into either runtime.
+validates Firebase's project, issuer, time and subject claims. On each request it calls
+the Firebase Auth REST `accounts:lookup` endpoint with the same token, checks the
+current UID, disabled flag, verified-email state and `validSince` revocation boundary,
+and fails closed on invalid responses or upstream failure. The server-specific Web API
+key is API-restricted to Identity Toolkit. Do not mount developer ADC or a service
+account credential into this runtime.
 
 The trusted first-admin CLI is separate and operator-only. It may use a separately
 authorized local ADC session when explicitly invoked for that action; never place that
@@ -63,11 +87,11 @@ schema or image version.
 
 ## Build and run locally
 
-The Firebase-enabled invocation requires the exact HTTPS `*.run.app` verifier URL and
-Firebase Web App settings in the external env file. Missing Web App settings fail the
-frontend image build; missing verifier URL fails Compose configuration, and an unavailable
-verifier fails API authorization closed. Do not insert a placeholder URL for a real-provider
-check.
+The Firebase-enabled invocation requires `STETHOFUSE_FIREBASE_API_KEY` and the Firebase
+Web App settings in the external env file. Missing Web App settings fail the frontend
+image build; a missing server API key fails Compose configuration, and an unavailable
+Firebase Auth endpoint fails API authorization closed. Do not insert a placeholder key
+for a real-provider check.
 
 ```sh
 docker compose \

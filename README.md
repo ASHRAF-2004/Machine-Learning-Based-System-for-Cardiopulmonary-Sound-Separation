@@ -115,13 +115,16 @@ export STETHOFUSE_FIREBASE_PROJECT=stethofuse-c18cd-3cca0
 /home/ashraf/Documents/StethoFuse/.local/venvs/backend-smoke/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --no-access-log
 ```
 
-The API runtime no longer uses Firebase Admin ADC. It verifies Firebase ID-token signatures
-locally using Google's public signing certificates, then calls the narrowly scoped
-`deploy/auth-verifier/` Cloud Run service to check revocation, deletion/disablement and fresh
-email-verification state. That Cloud Run service is not provisioned yet; the real-provider
-API path therefore remains blocked until its separate deployment is approved and verified.
-Never substitute browser roles or local state for this boundary, and never copy developer
-ADC or credentials into Compose.
+The API runtime does not use Firebase Admin ADC. It verifies Firebase ID-token signatures
+locally using Google's public signing certificates, then calls Firebase Auth REST
+`accounts:lookup` with the same token to check current UID, disabled/email-verification
+state and the revocation boundary. The server API key is restricted only to Identity
+Toolkit; it is not an Admin credential. Role, status, ownership and sharing remain enforced
+by trusted local backend storage. Cloud Run was superseded before deployment due to the
+Google Cloud billing prepayment requirement; no billing was enabled. See
+`../planning/PRODUCTION_RUNTIME_PROPOSAL.md` for current acceptance status. Never substitute
+browser roles or local state for this boundary, and never copy developer ADC or credentials
+into Compose.
 
 The trusted first-admin bootstrap is a separate operator-only CLI path in
 `scripts/bootstrap_m1_admin.py` and `app/m1/bootstrap_provider.py`. It uses a separately

@@ -14,7 +14,7 @@ import pytest
 from app.access_foundation.firebase_token import FirebaseIdTokenVerifier
 from app.access_foundation.identity import (AuthenticationDenied, EmailVerificationRequired,
                                             ProviderAccountDisabled, ProviderUnavailable)
-from app.m1.firebase_remote import CloudRunFirebaseIdentityVerifier
+from app.m1.firebase_remote import FirebaseRestIdentityVerifier
 
 
 def token_with_header(header=None):
@@ -130,65 +130,58 @@ class FakeLocalVerifier:
         return claims()
 
 
-def test_remote_verifier_posts_only_token_and_requires_uid_match():
-    client = FakeClient(FakeResponse(200, {"uid": "firebase-uid", "email": "user@example.invalid", "email_verified": True}))
-    verifier = CloudRunFirebaseIdentityVerifier(project_id="stethofuse-c18cd-3cca0", service_url="https://auth-verifier-xyz.a.run.app",
-                                               client=client, token_verifier=FakeLocalVerifier())
+def rest_user(**changes):
+    value = {"localId": "firebase-uid", "disabled": False, "validSince": "999",
+             "email": "user@example.invalid", "emailVerified": True}
+    value.update(changes)
+    return {"users": [value]}
+
+
+def rest_verifier(client):
+    return FirebaseRestIdentityVerifier(project_id="stethofuse-c18cd-3cca0", api_key="public-test-api-key",
+                                        client=client, token_verifier=FakeLocalVerifier())
+
+
+def test_rest_verifier_checks_live_record_and_posts_same_token_without_auth_header():
+    client = FakeClient(FakeResponse(200, rest_user()))
+    verifier = rest_verifier(client)
     identity = verifier.verify("signed-token")
     assert identity.uid == "firebase-uid" and identity.email_verified is True
     method, url, request = client.calls[0]
-    assert method == "POST" and url == "https://auth-verifier-xyz.a.run.app/v1/verify"
-    assert request["json"] == {"id_token": "signed-token"}
+    assert method == "POST" and url == "https://identitytoolkit.googleapis.com/v1/accounts:lookup"
+    assert request["params"] == {"key": "public-test-api-key"}
+    assert request["json"] == {"idToken": "signed-token"}
     assert "Authorization" not in request["headers"]
 
 
-def test_remote_verifier_transport_timeout_fails_closed():
+@pytest.mark.parametrize("record,error", [
+    (rest_user(disabled=True), ProviderAccountDisabled),
+    (rest_user(validSince="1001"), AuthenticationDenied),
+    (rest_user(localId="another-uid"), ProviderUnavailable),
+    ({"users": []}, ProviderUnavailable),
+    ({"users": [{"localId": "firebase-uid", "disabled": False}]}, ProviderUnavailable),
+])
+def test_rest_verifier_rejects_disabled_revoked_mismatched_or_malformed_current_record(record, error):
+    with pytest.raises(error):
+        rest_verifier(FakeClient(FakeResponse(200, record))).verify("signed-token")
+
+
+@pytest.mark.parametrize("message", ["INVALID_ID_TOKEN", "TOKEN_EXPIRED", "USER_NOT_FOUND"])
+def test_rest_verifier_denies_invalid_or_deleted_identity(message):
+    with pytest.raises(AuthenticationDenied):
+        rest_verifier(FakeClient(FakeResponse(400, {"error": {"message": message}}))).verify("signed-token")
+
+
+def test_rest_verifier_provider_failures_fail_closed_and_suppress_secret_diagnostics(caplog, capsys):
     import httpx
     from unittest.mock import Mock
 
     client = Mock()
-    client.stream.side_effect = httpx.ReadTimeout("private transport diagnostic")
-    verifier = CloudRunFirebaseIdentityVerifier(project_id="stethofuse-c18cd-3cca0",
-        service_url="https://auth-verifier-xyz.a.run.app", client=client,
-        token_verifier=FakeLocalVerifier())
-    with pytest.raises(ProviderUnavailable, match="^Firebase verifier is unavailable.$"):
+    secret_diagnostic = "signed-token api-key-diagnostic"
+    client.stream.side_effect = httpx.ReadTimeout(secret_diagnostic)
+    verifier = rest_verifier(client)
+    with pytest.raises(ProviderUnavailable, match="^Firebase Auth current-user check is unavailable.$"):
         verifier.verify("signed-token")
-
-
-@pytest.mark.parametrize("body", [
-    b"not-json",
-    b'{"uid":"different-uid","email":"a@example.invalid","email_verified":true}',
-    b'{"uid":"firebase-uid","email":"a@example.invalid","email_verified":true,"role":"admin"}',
-])
-def test_remote_verifier_untrusted_success_response_fails_closed(body):
-    response = FakeResponse(200, None)
-    response.iter_bytes = lambda: iter([body])
-    verifier = CloudRunFirebaseIdentityVerifier(project_id="stethofuse-c18cd-3cca0",
-        service_url="https://auth-verifier-xyz.a.run.app", client=FakeClient(response),
-        token_verifier=FakeLocalVerifier())
-    with pytest.raises(ProviderUnavailable):
-        verifier.verify("signed-token")
-
-
-@pytest.mark.parametrize("status,payload,error", [
-    (401, {"error": "invalid_identity"}, AuthenticationDenied),
-    (403, {"error": "email_verification_required"}, EmailVerificationRequired),
-    (403, {"error": "account_disabled"}, ProviderAccountDisabled),
-    (503, {"error": "identity_provider_unavailable"}, ProviderUnavailable),
-])
-def test_remote_verifier_maps_minimal_provider_results(status, payload, error):
-    verifier = CloudRunFirebaseIdentityVerifier(project_id="stethofuse-c18cd-3cca0", service_url="https://auth-verifier-xyz.a.run.app",
-                                               client=FakeClient(FakeResponse(status, payload)), token_verifier=FakeLocalVerifier())
-    with pytest.raises(error):
-        verifier.verify("signed-token")
-
-
-@pytest.mark.parametrize("url", [
-    "http://auth-verifier.a.run.app", "https://example.com",
-    "https://auth-verifier.a.run.app.evil.test", "https://u:p@auth-verifier.a.run.app",
-    "https://auth-verifier.a.run.app/?next=x",
-])
-def test_remote_verifier_rejects_untrusted_service_urls(url):
-    with pytest.raises(ValueError):
-        CloudRunFirebaseIdentityVerifier(project_id="stethofuse-c18cd-3cca0", service_url=url,
-                                         client=FakeClient(FakeResponse(503, {})), token_verifier=FakeLocalVerifier())
+    captured = capsys.readouterr()
+    rendered = "\n".join([str(caplog.text), captured.out, captured.err])
+    assert secret_diagnostic not in rendered
