@@ -1,6 +1,6 @@
 # ADR T01: design configuration, not evidence of a trained model.
 schema_version: 1
-status: DESIGNED_NOT_YET_TRAINED
+status: T0_T4_IMPLEMENTED_TINY_GATE_PASSED_BASELINE_NOT_TRAINED
 architecture_version: stethofuse-convtasnet-4k-v1
 seed: 20260928
 dependencies:
