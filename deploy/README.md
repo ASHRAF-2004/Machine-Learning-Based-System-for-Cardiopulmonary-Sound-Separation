@@ -149,23 +149,21 @@ recorded in FYP2 notes.
 
 ## Backup and restore
 
-The approved production backup target is **Backblaze B2 via Restic's S3-compatible
-backend**, but it is **not provisioned yet**. Host discovery found
-no remote filesystem, configured object-store client, or StethoFuse backup
-repository. `/srv`, `/var/backups`, and the workspace share the host's root
-storage; those are local rollback copies, not disaster-recovery backups. Restic
-encrypts/authenticates repository contents client-side before upload. B2 offers no Asia
-region; the prepared recommendation is EU Central for this Malaysia-based project, subject
-to the owner selecting it during account setup and later reviewing any formal data-residency
-requirement. No account, bucket, key, paid commitment, remote backup, or restore test has
-been created. Use only a private dedicated bucket and a bucket-scoped app key with the
-minimum Restic file list/read/write/delete capabilities plus scoped S3 bucket metadata
-reads (`listBuckets`, `readBuckets`); never a master key. The workspace
-decision record is `planning/PRODUCTION_IDENTITY_AND_BACKUP.md`.
+The approved off-host target is **Backblaze B2 via Restic's S3-compatible backend**.
+The owner-created private bucket `stethofuse-prod-backup-927f5b7d` is in EU Central
+at `s3.eu-central-003.backblazeb2.com`. Restic `0.18.1` initialized the repository
+and passed a synthetic encrypted remote backup/restore drill (2026-09-27): repository
+check had no errors; restored SQLite returned `integrity_check=ok`; SHA-256 manifest,
+exact file sets and byte comparisons passed. The drill used only synthetic data and
+did not back up the running StethoFuse application. This is **not** production deployment,
+a scheduled backup, a live-application restore, or a test of recovering the password
+from its independent offline escrow. `/srv` and `/var/backups` remain same-host copies,
+not disk-loss protection. Review the region if formal data-residency obligations arise.
+The workspace decision record is `planning/PRODUCTION_IDENTITY_AND_BACKUP.md`.
 
 `backup-restic.sh`, `backup-manifest.py`, `backup-restore-drill.sh`, `backup.env.example`, and the example systemd
-service/timer are prepared deployment files, not an installed/verified production job.
-The helper receives the future bucket-scoped B2 S3 key ID, secret, and separate Restic
+service/timer are prepared deployment files, not an installed/verified scheduled production job.
+The helper receives the bucket-scoped B2 S3 key ID, secret, and separate Restic
 password through systemd's private credential mechanism from root-only source files.
 Do not place either value in Git,
 Compose images, shell history, or chat. Keep the Restic encryption password in
@@ -174,32 +172,29 @@ the encrypted repository unrecoverable. Keep B2 key material separate from
 the encryption secret. The environment file and runtime data are included
 inside Restic's encrypted snapshots; B2 and Restic credentials are not.
 
-After the destination is approved and provisioned, install the helper outside
-the checkout, create the private repository once, and run it under a dedicated
-root-owned systemd oneshot/timer. The helper refuses non-B2/local targets and
+After production deployment is approved, install the helper outside
+the checkout and run it under a dedicated root-owned systemd oneshot/timer. The
+remote repository already exists. The helper refuses non-B2/local targets and
 requires one healthy API and web container before stopping the pair for a
 consistent SQLite and media snapshot. It attempts to bring them back even if
 the backup fails. It backs up only the persistent database, private original/result files, runtime
 environment and an encrypted snapshot's SHA-256 file manifest; image layers,
-caches, build outputs, and developer ADC are excluded. Choose a retention
-policy and repository maintenance schedule only after estimating actual data
-volume, privacy requirements and restore needs; do not prune snapshots before
-that policy is approved. Retention is prepared as 7 daily, 4 weekly, and 6 monthly
-snapshots. The helper skips `forget --prune` until a root-owned
-`/etc/stethofuse/remote-restore-verified` marker is installed after the first successful
-remote restore drill. Do not install that marker before the drill.
+caches, build outputs, and developer ADC are excluded. The prepared retention
+policy is 7 daily, 4 weekly, and 6 monthly. No production snapshots exist and no
+prune was run. The helper skips `forget --prune` until a root-owned
+`/etc/stethofuse/remote-restore-verified` marker is installed after reviewing the
+successful synthetic remote restore evidence and approving scheduled production
+backup setup. The drill did not create this marker or enable a timer.
 
 For a recovery drill, restore a named snapshot into a **new empty staging
 directory**, never over the active runtime. Check `PRAGMA integrity_check` on
 the restored SQLite file, verify manifest/file hashes and ownership/modes,
 start the matching image against staged copies, and perform health plus
 authorized synthetic-media checks before any root switch. Periodically run
-`restic check`; at least quarterly perform a full isolated restore. A local
-synthetic tar/copy test is not an off-host backup or restore proof. The actual
-encrypted off-host restore remains blocked until an approved remote bucket and
-key exist. See [`BACKUP_B2_RUNBOOK.md`](BACKUP_B2_RUNBOOK.md) for the owner
-account/bucket/key action, secure credential handling, region, retention and exact
-synthetic remote-restore proof. No B2 credentials are to be sent in chat.
+`restic check`; at least quarterly perform a full isolated restore. See
+[`BACKUP_B2_RUNBOOK.md`](BACKUP_B2_RUNBOOK.md) for current evidence, secure
+credential handling and operational steps. No B2 credentials are to be sent in
+Git or chat.
 
 ## Rollback
 

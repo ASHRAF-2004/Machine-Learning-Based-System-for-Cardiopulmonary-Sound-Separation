@@ -4,18 +4,19 @@
 
 Backblaze B2 through its S3-compatible endpoint plus Restic is the approved
 backup design. Backblaze's official Restic guide uses this S3-compatible route.
-Restic encrypts/authenticates repository data client-side. There is no configured
-off-host target today: no B2 account, bucket, app key, Restic repository, snapshot,
-or restore proof exists. `/srv` and `/var/backups` are on the same host disk and
-do not satisfy off-host recovery.
+Restic encrypts/authenticates repository data client-side. As of 2026-09-27,
+the private bucket and restricted key exist, the remote repository was initialized,
+and a synthetic-only encrypted remote snapshot was restored and verified. This
+proves the prepared B2/Restic path for synthetic data; it is not a production
+application backup, scheduled backup, or deployment. `/srv` and `/var/backups`
+remain same-host storage and do not independently satisfy off-host recovery.
 
-The proposed account region is **EU Central**. Backblaze currently has US East,
-US West, EU Central and Canada East, not Asia; account region is selected at
-account creation and cannot be changed for that account. EU Central is the
-prepared location for this FYP project, not a legal/data-residency determination.
-Review it if formal residency obligations are later introduced.
+The selected bucket region is **EU Central (Amsterdam)**. Backblaze currently
+offers US East, US West, EU Central and Canada East, not Asia. This project
+selection is not a legal/data-residency determination; review it if formal
+residency obligations are introduced.
 
-## Owner's Backblaze account action
+## Owner's Backblaze account action — completed 2026-09-27
 
 Use a normal external browser at <https://secure.backblaze.com/b2_buckets.htm>.
 Sign in or create the owner's Backblaze account personally. Before creating the
@@ -33,16 +34,14 @@ In the B2 console:
    endpoint code is shown in the bucket details; use that displayed value rather
    than guessing it.
 3. Create an application key named `stethofuse-restic-prod`, restricted to that
-   one bucket: `listFiles`, `readFiles`, `writeFiles`, `deleteFiles`, plus
-   `listBuckets` (S3 Head Bucket) and `readBuckets` (S3 bucket location). The last
-   two are read-only bucket metadata used by the S3 client, not bucket creation.
-   Delete is needed for Restic locks and reviewed retention. No `writeKeys`,
-   `deleteKeys`, `writeBuckets`, `deleteBuckets` or master-key access. Record the
-   actually granted capabilities before use. The direct Restic backend names
-   the bucket and does not call List Buckets; do not add account-wide
-   `listAllBucketNames` merely for a generic S3 browser. Backblaze recommends
-   that compatibility permission for clients that enumerate buckets; if a
-   selected client/version requires it, stop that operation and review first.
+   one bucket: `listFiles`, `readFiles`, `writeFiles`, `deleteFiles`, and
+   `readBuckets` (S3 bucket location). Delete is needed for Restic locks and
+   reviewed retention. No `writeKeys`, `deleteKeys`, `writeBuckets`,
+   `deleteBuckets` or master-key access. Current Backblaze documentation says
+   restricted keys require `listAllBucketNames` for S3 `Head Bucket`. Enable that
+   compatibility permission only if Restic's actual initialization requires it;
+   it exposes bucket names, not other buckets' contents. Record the effective
+   permissions and this scope tradeoff. Do not enable unrelated permissions.
 4. B2 displays the application key secret once. Do not paste either key field in
    chat, a ticket, terminal output, `.env`, or Git. Save it temporarily only in
    the owner's approved password manager/secure handoff. Report back only the
@@ -50,15 +49,28 @@ In the B2 console:
    installed on the server through the separately reviewed root-only credential
    procedure.
 
-The bucket name is a proposal and has not been availability-checked. The app key
-is not a Restic encryption password. If the account console requires card/billing
-setup, review its terms and expected usage before enabling a paid commitment.
+Owner-confirmed bucket: `stethofuse-prod-backup-927f5b7d`, EU Central, endpoint
+`s3.eu-central-003.backblazeb2.com`. The named bucket-restricted application key
+was created and accepted by successful Restic initialization. No key value is
+recorded here. The app key is not the Restic encryption password.
 
 ## Server credential placement
 
-Install Restic from the server's approved package source and record its version.
-Copy the prepared helper, manifest verifier and systemd examples into their
-final root-owned locations only after production installation is approved:
+Restic `0.18.1` (Ubuntu package `0.18.1-3ubuntu1`) is installed system-wide and
+was used for the drill. The key ID, application-key secret, and separate Restic
+password are root-owned `0400` files under `/etc/stethofuse/`, loaded only as
+private systemd credentials. Non-secret `backup.env` is root-owned `0600` and
+targets the confirmed EU Central repository. The independent offline recovery
+escrow for the Restic password has not been restore-tested. The source helper
+`deploy/install-b2-restic-credentials.sh` reads credentials silently from a local
+terminal and refuses to overwrite existing files. The one-time
+`deploy/replace-b2-key-id.sh` accepts only the Backblaze keyID format and replaces
+that one file if correction is needed. Never provide secret values as command-line
+arguments or in chat.
+
+For a new host, install Restic from its approved package source and record its
+version. Copy the prepared helper, manifest verifier and systemd examples into
+their final root-owned locations only after production installation is approved:
 
 - `/usr/local/libexec/stethofuse/backup-restic.sh`
 - `/usr/local/libexec/stethofuse/backup-manifest.py`
@@ -92,10 +104,10 @@ interactive shell or in the `systemd-run` command line. Record the
 Restic version, bucket endpoint host and repository identifier, never key or
 password values.
 
-The repository value in `backup.env` is
-`s3:s3.<region-code>.backblazeb2.com/<private-bucket>/restic`; replace both
-placeholders using the console's actual endpoint and bucket. No HTTPS credentials
-belong in this value. The S3 backend uses HTTPS by default.
+The current repository value is
+`s3:s3.eu-central-003.backblazeb2.com/stethofuse-prod-backup-927f5b7d/restic`.
+For another environment, use its console-confirmed endpoint and bucket. No HTTPS
+credentials belong in this value. The S3 backend uses HTTPS by default.
 
 After owner-approved installation, from the reviewed implementation checkout:
 
@@ -117,14 +129,17 @@ stethofuse_drill init   # Exactly once, for the confirmed new empty repository.
 stethofuse_drill drill  # Synthetic fixture only; no application DB or service touched.
 ```
 
-The drill creates a private temporary tree, a synthetic SQLite database and a
-0.01-second silent WAV, uploads an encrypted snapshot, checks the repository,
-restores that exact snapshot into a separate tree, and validates SQLite integrity,
-SHA-256 hashes, exact file sets and byte equality. It prints the snapshot ID and
-retained evidence directory; it never prints credentials. Run it again after
-independently recovering the password from the owner's offline escrow. It does
-not enable pruning or change the production application. The script is prepared;
-no real B2 execution has occurred.
+**Verified synthetic remote drill — 2026-09-27:** Restic `0.18.1` initialized
+repository `bdb519e1c6` and uploaded/restored snapshot
+`793ee58fb3a158d9dfa6eadefa8301b135f3c5d97ea3d321aef2da514eba8a26` from EU Central.
+The drill created a private temporary tree, a synthetic SQLite database and a
+0.01-second silent WAV, uploaded an encrypted snapshot, checked the repository,
+restored that snapshot into a separate tree, and validated SQLite integrity,
+SHA-256 manifest, exact file sets and byte equality. `restic check` reported no
+errors and `PRAGMA integrity_check=ok`. Evidence/staging is retained at
+`/var/tmp/stethofuse-restore-drill.yciIWQ`. No credentials or audio contents were
+recorded. This was synthetic data only; it did not test offline-password recovery,
+enable pruning, install a timer, or change the production application.
 
 The prepared `backup-restic.sh` requires exactly one healthy API and web
 container, stops both to quiesce SQLite/media, hashes the database/private files
@@ -139,7 +154,10 @@ Retention is 7 daily, 4 weekly and 6 monthly snapshots. The helper does not run
 the restore procedure below has passed and the evidence has been recorded.
 Retention groups by host and tags, not by the unique temporary manifest path.
 The synthetic drill uses a different host/tag and is excluded from production
-retention. Keep its snapshot until evidence review.
+retention. A read-only `forget --dry-run` with the 7/4/6 policy and production
+host/tag completed successfully on 2026-09-27; it selected no production snapshots.
+No prune or snapshot deletion was run. Keep the synthetic snapshot until evidence
+review.
 
 After a successful drill and approved production installation, install the
 service/timer examples and enable the timer. Only then create the marker:
