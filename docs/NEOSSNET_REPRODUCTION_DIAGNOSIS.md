@@ -247,30 +247,16 @@ approved, source-family-isolated fine-tuning plan be designed. If artifacts/righ
 cannot be obtained, return that concrete blocker for an expert-membership decision;
 do not silently adopt the later application model or a replacement architecture.
 
-### Prepared author request — NOT SENT
+### Author clarification — PREPARED / NOT SENT
 
-To the maintainer listed in the original README: `Yang.Poh@monash.edu`.
-
-Subject: NeoSSNet checkpoint reproduction and academic reuse clarification
-
-We are evaluating cardiopulmonary separation for the application-based StethoFuse
-FYP, without clinical claims. Could you clarify:
-
-1. Does released `model_best.pt` (SHA-256 `abf4f053…f947358`,8,422,144 parameters)
-   correspond to Table VII's `all1` baseline? Which fold, training configuration,
-   dependencies and checkpoint should be used for reproduction? Is the later
-   SeparationApplication checkpoint recommended instead?
-2. The results notebook's displayed16.00/14.46 values use the average of three
-   category medians from SI-SDR-improvement columns. Is that the intended table
-   interpretation? Is the optimal permutation in `fast_bss_eval.si_sdr` intentional?
-3. Are small de-identified/licensed native development mixtures, their reference
-   sources, generation/fold manifest and expected results available through an
-   approved access process? We are not requesting identifiable patient data.
-4. What licenses/permissions cover the complete code and released weights for
-   academic inference, modification/fine-tuning, public demonstration and
-   redistribution? What attribution/restrictions apply?
-
-No email was sent and no new external permission was assumed.
+The recipient `Yang.Poh@monash.edu` is verified from the support/known-issues
+section of the original NeoSSNet repository README. The final respectful request
+now covers distinct code/weight rights and permitted uses, exact checkpoint/run
+identity, output-channel order, a small lawful native reproduction fixture, and
+the SI-SDRi aggregation/permutation/projection protocol. The exact ready-to-review
+message is in the current workspace handoff `PAUSE_NOTES.md`. No email was sent;
+no permission or fixture is assumed. See also the bounded
+[next-qualification note](NEOSSNET_NEXT_QUALIFICATION.md).
 
 ## 8. Reproduction commands and checkpoint evidence
 
