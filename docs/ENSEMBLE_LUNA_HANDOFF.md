@@ -1,5 +1,12 @@
 # Luna handoff — bounded implementation of ADR E01
 
+> **Later status, 27 September 2026:** Phases A–D below have since been
+> implemented/tested **offline only**. Read [the Phase A–D qualification
+> checkpoint](ENSEMBLE_OFFLINE_QUALIFICATION.md) before using this original
+> plan. NeoSSNet reuse rights, manikin source-order applicability and negative
+> tiny development-set scores require review before final evaluation or
+> application integration. Production remains unchanged.
+
 Architecture/design sprint complete, 27 September 2026. Read
 [selected design](ENSEMBLE_DESIGN.md) and [audited evidence](ENSEMBLE_SOURCE_AUDIT.md),
 not the whole project history. **Stop at this design checkpoint until the owner
@@ -56,6 +63,7 @@ recordings to roll back. Worker/result writes must be quiesced for coherent back
 and deployment. Preserve current application/security/backup and submitted FYP1.
 Each phase ends at a meaningful owner-authored commit, not automatic production work.
 
-This sprint added one read-only probe, **zero automated test functions**, ran it
-once, and ran no regression/benchmark/training campaign. Probe and documentation
-are the only implementation-repository changes; there is no ensemble runtime yet.
+This design sprint added one read-only probe, **zero automated test functions**,
+ran it once, and ran no regression/benchmark/training campaign. At the time,
+the probe and documentation were the only implementation-repository changes;
+there was no ensemble runtime yet. See the later status above.

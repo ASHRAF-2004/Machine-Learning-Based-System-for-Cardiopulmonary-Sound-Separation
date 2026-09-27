@@ -30,6 +30,7 @@ class StftResult:
     n_fft: int
     hop_length: int
     original_length: int
+    left_padding: int = 0
 
 
 def _decode_pcm(raw_audio: bytes, sample_width: int) -> np.ndarray:
@@ -154,12 +155,14 @@ def stft(
 
     n_fft = min(n_fft, max(64, 2 ** int(math.ceil(math.log2(max(64, audio.size))))))
     hop_length = min(hop_length, max(1, n_fft // 2))
-    frame_count = 1 if audio.size <= n_fft else math.ceil((audio.size - n_fft) / hop_length) + 1
+    left_padding = n_fft // 2
+    minimum_length = audio.size + left_padding + n_fft // 2
+    frame_count = max(1, math.ceil((minimum_length - n_fft) / hop_length) + 1)
     padded_length = (frame_count - 1) * hop_length + n_fft
-    padded = np.pad(audio, (0, padded_length - audio.size))
-    window = np.hanning(n_fft).astype(np.float32)
+    padded = np.pad(audio.astype(np.float64), (left_padding, padded_length - audio.size - left_padding))
+    window = np.hanning(n_fft + 1)[:-1]
 
-    frames = np.empty((frame_count, n_fft), dtype=np.float32)
+    frames = np.empty((frame_count, n_fft), dtype=np.float64)
     for frame_index in range(frame_count):
         start = frame_index * hop_length
         frames[frame_index] = padded[start : start + n_fft] * window
@@ -173,6 +176,7 @@ def stft(
         n_fft=n_fft,
         hop_length=hop_length,
         original_length=audio.size,
+        left_padding=left_padding,
     )
 
 
@@ -180,10 +184,10 @@ def istft(stft_result: StftResult, spectrum: np.ndarray | None = None) -> np.nda
     spec = stft_result.spectrum if spectrum is None else spectrum
     frame_count = spec.shape[1]
     padded_length = (frame_count - 1) * stft_result.hop_length + stft_result.n_fft
-    output = np.zeros(padded_length, dtype=np.float32)
-    window_sum = np.zeros(padded_length, dtype=np.float32)
-    window = np.hanning(stft_result.n_fft).astype(np.float32)
-    frames = np.fft.irfft(spec.T, n=stft_result.n_fft, axis=1).astype(np.float32)
+    output = np.zeros(padded_length, dtype=np.float64)
+    window_sum = np.zeros(padded_length, dtype=np.float64)
+    window = np.hanning(stft_result.n_fft + 1)[:-1]
+    frames = np.fft.irfft(spec.T, n=stft_result.n_fft, axis=1)
 
     for frame_index, frame in enumerate(frames):
         start = frame_index * stft_result.hop_length
@@ -192,7 +196,8 @@ def istft(stft_result: StftResult, spectrum: np.ndarray | None = None) -> np.nda
 
     valid = window_sum > EPS
     output[valid] /= window_sum[valid]
-    return output[: stft_result.original_length].astype(np.float32)
+    first = stft_result.left_padding
+    return output[first : first + stft_result.original_length].astype(np.float32)
 
 
 def logistic_mask(frequencies_hz: np.ndarray, center_hz: float, width_hz: float, invert: bool = False) -> np.ndarray:

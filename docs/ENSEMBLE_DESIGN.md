@@ -1,6 +1,9 @@
 # ADR E01 — StethoFuse ensemble v1
 
-27 September 2026. **DESIGNED; NOT IMPLEMENTED / NOT EVALUATED.**
+27 September 2026. **Original design decision. Phase A–D is now implemented and
+tested offline on a small development qualification set; not deployed or finally
+evaluated.** See [offline qualification evidence](ENSEMBLE_OFFLINE_QUALIFICATION.md)
+for the later, superseding status and measured limitations.
 Baseline: `319e0e39cb2dff95897808ae16728cb60066efd6`.
 See [source audit](ENSEMBLE_SOURCE_AUDIT.md) and [bounded Luna plan](ENSEMBLE_LUNA_HANDOFF.md).
 This is an internal separation subsystem, not a clinical diagnostic system or
@@ -49,8 +52,10 @@ Future learned weights require a new version and a fresh locked evaluation plan.
 Input is the immutable uploaded mixed recording; retain its original bytes/hash.
 Canonical analysis: mono, 4,000 Hz, finite float32 samples in digital full-scale
 units, shape `(N,)`, heart/lung both `(N,)`. 4 kHz is a **StethoFuse analysis
-choice**, not the published HLS-CMDS acquisition rate (22,050 Hz). Information
-above 2 kHz is unavailable; never present 4 kHz output as full-band recovery.
+choice**. The HLS-CMDS README states 22,050 Hz, but the official released ZIPs
+and all byte-identical local WAVs actually contain 4-kHz PCM; pre-release
+acquisition/conversion lineage is unknown. Information above 2 kHz is unavailable;
+never present 4-kHz output as full-band recovery.
 
 - Decode permitted integer PCM WAV 8/16/24/32-bit explicitly; reject unsupported
   encodings rather than reinterpreting float bytes. The existing intake validator
@@ -233,9 +238,12 @@ are not same-time additive targets; a ref-oracle lag search is not a general rep
 
 Before any evaluation, produce a hashed manifest: source bytes/original release,
 transform history, source identity/family, pair, gains, canonical length, split,
-and all duplicated/derived relationships. Local data says4kHz; published README
-says22,050Hz. Find original conversion provenance or recreate a new **separate**
-analysis derivative from approved originals; never overwrite historical local data.
+and all duplicated/derived relationships. Subsequent Phase-A verification found
+all 535 local WAVs byte-identical to the official released 4-kHz ZIP members;
+the README's 22,050-Hz statement is inconsistent with the downloadable release.
+No local conversion is needed for these files. Pre-release lineage remains unknown;
+never overwrite historical local data. The small development-only manifest is
+documented in [offline qualification](ENSEMBLE_OFFLINE_QUALIFICATION.md).
 
 - Reserve development, validation and final test **by source family before mixing,
   cropping or augmentation**. No subject IDs exist in current manikin metadata;
