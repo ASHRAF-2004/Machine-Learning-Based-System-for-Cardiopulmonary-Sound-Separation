@@ -245,6 +245,11 @@ weights were not used for T7 training.
 | Small seed 20260928 (selected) | 171,313 | 17 / 8 | 3.0970 / 3.1011 | 3.1261 / 3.1302 | 3.1011 | 3.1156 | 570.8s | 1,396.1 MiB | 0 | `89f8d66134c0a49aa2a05971720cdffbdd1e501ebce99bb83119e6683d58ac93` |
 | Small seed 20260929 (confirmation) | 171,313 | 16 / 4 | 3.3283 / 3.3324 | 3.3235 / 3.3275 | 3.3275 | 3.3300 | 533.0s | 1,410.4 MiB | 0 | `e59219731e36998231419cf08febb48e13eb3cbea473e4577ec4311def31a978` |
 
+The configured plateau scheduler reduced LR as follows (LR used for optimizer
+updates): primary run 0.001 in epochs 1–10, 0.0005 in 11–15, 0.00025 in 16–17;
+confirmation 0.001 in epochs 1–9, 0.0005 in 10–14, 0.00025 in 15–16. Both
+runs stopped by the frozen 12-epoch early-stopping rule, not by failure.
+
 The seed-20260928 small profile wins the **predeclared** comparison by Q
 **+0.0660 dB** and balanced mean **+0.0587 dB**. Both source improvements are
 positive; these small margins are descriptive only. The confirmation's higher
