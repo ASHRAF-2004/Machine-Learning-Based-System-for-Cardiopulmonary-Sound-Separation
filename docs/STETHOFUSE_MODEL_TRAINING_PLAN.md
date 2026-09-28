@@ -1,5 +1,10 @@
 # ADR T01 — Own StethoFuse separator training plan
 
+**Current continuation:** [pre-T9 plateau diagnosis](PRE_T9_PLATEAU_DIAGNOSIS.md)
+and [one-intervention handoff](PRE_T9_LUNA_HANDOFF.md). This is designed, not
+executed. T8 bytes remain unchanged; T9 is on hold for owner review. The original
+run design/evidence below remains historical and reproducible.
+
 28 September 2026. **T7 COMPLETE; ENSEMBLE RECONSIDERATION COMPLETE;
 SMALL TCN STANDALONE SELECTED; FINAL SEPARATOR FROZEN; FINAL TEST SEALED; NOT DEPLOYED.**
 See [`T5_T6_BASELINE_EXECUTION.md`](T5_T6_BASELINE_EXECUTION.md) and

@@ -1,0 +1,139 @@
+{
+  "status": "DIAGNOSTIC_ONLY_ZERO_OPTIMIZER_UPDATES_T9_SEALED",
+  "base_implementation_commit": "bfb44a61664a017bc538a2c07629032511f30fed",
+  "checkpoint_sha256": "89f8d66134c0a49aa2a05971720cdffbdd1e501ebce99bb83119e6683d58ac93",
+  "t8_spec_sha256": "3780292ae6ff1ea6415fc1bd9b4b045bb91d5443068e806b08e9cb39735a1e34",
+  "artifact_root": ".local/diagnosis/pre_t9_plateau/v1",
+  "artifact_hashes": {
+    "history.json": "24010e44c8ec2466cb20ba9410f107df7d9e6e688c55c3891e7f000427cfb8b0",
+    "sources_summary.json": "f8ccfc2184f478c2c350fb91115c690c509ba998498c832ac4a9981f0c09d85a",
+    "sources_rows.json": "b3afdcb6789acb5a100b263b3b8e72abd243fa17b45f8fb6fa864df1024a1cac",
+    "model_summary.json": "1e81203361ba382c7957e891ee153c7d9cb101490799a9381cc8faa0c16ad89b",
+    "before_consistency.json": "ed06a9f2672054dd8dc330f7b4fa0bb5c50761b91c98e0ce9506387170fdde52",
+    "after_consistency.json": "e59d57a517aa2b3482d66f338d7c876bb6965b1335a4efb2f322abf8184b5181",
+    "model_residuals.json": "abe46d941a9ac73d073f382e9b981eed067c8a50cec71735f4bf5d1489012659",
+    "context.json": "f611aed20303260a0b7bb57226395c16282deb2ed568ca728ca55045e29a6101",
+    "context_all.json": "6265212e754f698d7407c7a49ddb6d3660304242e4df8f135d96e48f8124c69b"
+  },
+  "script_hashes_at_commit": {
+    "scripts/diagnose_plateau_context.py": "a009f2f8f445e7d1bece524ef0552c1da8e3410f604f47dca718dfbdef19d0e7",
+    "scripts/diagnose_plateau_history.py": "540aee578d8197eb18bf6608dc8be01596a5a111e228644259d66c65a5142776",
+    "scripts/diagnose_plateau_model.py": "7adff7ca54d6bcfd51ba8020c9ebb6855bda5f746cc7b3375016602c9840a967",
+    "scripts/diagnose_plateau_sources.py": "5866fcefcd75009f451888f35bca3f8b33ad6463d5275a18c4e76371f92188df"
+  },
+  "probe_scope": {
+    "sources": 86,
+    "validation_conditions": 225,
+    "gradient_batches": 3,
+    "gradient_cases_per_batch": 2,
+    "gradient_levels_db": [
+      -10,
+      0,
+      10
+    ],
+    "optimizer_updates": 0,
+    "context_initial_conditions": 10,
+    "context_complete_conditions": 225
+  },
+  "model_comparison": {
+    "after_consistency": {
+      "heart_family_mean_si_sdri_db": 3.101094725690947,
+      "lung_family_mean_si_sdri_db": 3.1301565785180028,
+      "selection_q_db": 3.101094725690947
+    },
+    "before_consistency": {
+      "heart_family_mean_si_sdri_db": -7.078815803252046,
+      "lung_family_mean_si_sdri_db": -6.768623246431354,
+      "selection_q_db": -7.078815803252046
+    }
+  },
+  "gradient_probes": [
+    {
+      "heart_vs_lung": {
+        "b_over_a": 0.9950160100504897,
+        "cosine": 0.34487347221462494,
+        "norm_a": 13.410907081717548,
+        "norm_b": 13.34406725560845
+      },
+      "negative_si_sdr": -0.963625431060791,
+      "relative_db": -10,
+      "si_vs_weighted_l1": {
+        "b_over_a": 0.5936462976817651,
+        "cosine": 0.7083777762315737,
+        "norm_a": 7.406879740252348,
+        "norm_b": 4.397066735174881
+      },
+      "weighted_l1": 2.746965169906616
+    },
+    {
+      "heart_vs_lung": {
+        "b_over_a": 1.117502211904358,
+        "cosine": 0.8184917651451531,
+        "norm_a": 6.307975493263553,
+        "norm_b": 7.049176566360504
+      },
+      "negative_si_sdr": -1.927856206893921,
+      "relative_db": 0,
+      "si_vs_weighted_l1": {
+        "b_over_a": 0.21546315684666983,
+        "cosine": 0.8041657231310417,
+        "norm_a": 5.396620397431293,
+        "norm_b": 1.1627728671336763
+      },
+      "weighted_l1": 2.344287395477295
+    },
+    {
+      "heart_vs_lung": {
+        "b_over_a": 0.8045905959474178,
+        "cosine": 0.5078229751785367,
+        "norm_a": 19.13232237357055,
+        "norm_b": 15.393686660409243
+      },
+      "negative_si_sdr": -0.8998342752456665,
+      "relative_db": 10,
+      "si_vs_weighted_l1": {
+        "b_over_a": 0.6172964854358175,
+        "cosine": 0.5930154626612619,
+        "norm_a": 10.330873142535852,
+        "norm_b": 6.377211682370661
+      },
+      "weighted_l1": 2.9353506565093994
+    }
+  ],
+  "regional_macro": {
+    "early_0_to_8s": {
+      "heart_si_sdr_db": 1.8006979472622997,
+      "heart_si_sdri_db": 3.2430016107811097,
+      "lung_si_sdr_db": 4.048847001653073,
+      "lung_si_sdri_db": 2.6064866881560667
+    },
+    "full_0_to_15s": {
+      "heart_si_sdr_db": 3.097049164561844,
+      "heart_si_sdri_db": 3.101094725690947,
+      "lung_si_sdr_db": 3.126110567076269,
+      "lung_si_sdri_db": 3.1301565785180028
+    },
+    "overlap_8_to_10s": {
+      "heart_si_sdr_db": 4.417551386879898,
+      "heart_si_sdri_db": 0.38712457669019934,
+      "lung_si_sdr_db": -1.8545057342188918,
+      "lung_si_sdri_db": 2.3811429289793655
+    },
+    "tail_10_to_15s": {
+      "heart_si_sdr_db": 5.5802313021002306,
+      "heart_si_sdri_db": 2.4039033574107553,
+      "lung_si_sdr_db": 0.9703824487501149,
+      "lung_si_sdri_db": 4.262694067916353
+    }
+  },
+  "checks": {
+    "model_state_unchanged": true,
+    "max_control_replay_error_db": 6.195044477408373e-14,
+    "max_db_mixing_error": 4.897455570959732e-7,
+    "test_audio_access": false,
+    "training_performed": false,
+    "production_touched": false
+  },
+  "provenance_note": "Analytical scripts were uncommitted during probes; receipts record executed-script hashes. The context script was extended between its first subset and all-condition replay. No trained model/inference/data source changed.",
+  "plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7"
+}

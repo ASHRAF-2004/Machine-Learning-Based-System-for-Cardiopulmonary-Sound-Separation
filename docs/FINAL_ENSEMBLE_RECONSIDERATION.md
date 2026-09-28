@@ -1,5 +1,9 @@
 # Final ensemble reconsideration — validation only
 
+**Later pre-test review:** [plateau diagnosis](PRE_T9_PLATEAU_DIAGNOSIS.md) retains
+this standalone/no-projection decision and the T8 artifact. One future family-
+qualified refit is designed, not executed; T9 is on hold for owner review.
+
 2026-09-28. T7 COMPLETE / VALIDATION-ONLY ENSEMBLE DECISION COMPLETE /
 T8 SYSTEM FROZEN / T9 PROTOCOL PREDECLARED / FINAL TEST SEALED / NOT DEPLOYED.
 
