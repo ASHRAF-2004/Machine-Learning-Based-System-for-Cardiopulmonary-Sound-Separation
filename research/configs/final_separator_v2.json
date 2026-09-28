@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_FOR_HELD_OUT_TEST",
+  "system_version": "stethofuse-tcn-small-hls-refit-waveform-v2",
+  "deployed": false,
+  "clinically_validated": false,
+  "model": {
+    "architecture": "Compact Conv-TasNet",
+    "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+    "profile": {
+      "N": 64,
+      "B": 32,
+      "H": 64
+    },
+    "parameter_count": 171313,
+    "training_seed": 20260928,
+    "artifact_format": "PyTorch torch.save dictionary: architecture_version, parameter_count, state_dict, metadata, optimizer_updates, recipe_cursor, optimizer_state_dict, scheduler (none), RNG states, history, runtime_seconds and provenance_sha256",
+    "checkpoint_path_ignored_local": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/refit-all-nontest-seed20260928/checkpoints/endpoint.pt",
+    "checkpoint_sha256": "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+    "configuration_path": "research/configs/stethofuse_tcn_v1_t7_small.yaml",
+    "configuration_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+    "training_implementation_commit": "7eefa37100bb40d878d48b84b3811557ce98512b",
+    "training_recipe_set": {
+      "path_ignored_local": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/refit-all-nontest-seed20260928/training_recipes.jsonl",
+      "file_sha256": "41df9eaeaa0848af73634d549fcc0d6f7685da6c5fde4cba1d9d9302db472749",
+      "canonical_recipe_content_sha256": "3fad3eddf8cbaaff4130a173b6c99a82dc66a856623862ff3f00b5ebeb65b08a",
+      "executed_draws": 2304,
+      "optimizer_updates": 576,
+      "batch_size": 4,
+      "sampling": "family-balanced; 24 draws per available heart/lung family pair per virtual epoch; independent valid 8-second crops; lung/heart RMS level uniform [-10,+10] dB; shared scaling"
+    },
+    "source_manifest_sha256": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+    "inference_source": "app/ml/stethofuse_tcn.py",
+    "inference_source_sha256": "c8afb244e9dc4cb7cb082d0a62dc4aed79725ae5d1488b58f825de930387fdd7",
+    "selected_optimizer_updates": 576,
+    "checkpoint_selection": "sole endpoint after exactly 576 optimizer updates; no validation/test checkpoint selection during final refit",
+    "training_provenance": {
+      "strategy": "C_HLS_ONLY",
+      "external_weights_used": false,
+      "external_recordings_used": false,
+      "initialization": "fresh seed 20260928; no checkpoint initialization; zero optimizer state entries",
+      "initialized_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "training_manifest_path_ignored_local": ".local/training/stethofuse-tcn-v1/t7-small-seed20260928/eligible_split.csv",
+      "training_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+      "source_counts": {
+        "heart": 45,
+        "lung": 41
+      },
+      "family_counts": {
+        "heart": 8,
+        "lung": 5
+      },
+      "plan_path": "research/configs/pre_t9_family_refit_plan_v1.json",
+      "plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7",
+      "authorization_path": "research/configs/hls_final_refit_authorization_v1.json",
+      "authorization_sha256": "761a22fe18ebbcdcaf097ba8793624af20e21579706116f09bbd54a5bdee20cc",
+      "grouped_validation_manifest_path": "research/manifests/pre_t9_family_cv_v1.csv",
+      "grouped_validation_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+      "budget_decision_path": "research/evidence/external_hls_control_decision_v1.json",
+      "budget_decision_sha256": "0d8893d61d9ed9517d0227781f33b3357b1c41f85d4ee80228f1691545d47dbe",
+      "external_rejection_path": "research/evidence/external_pilot_transfer_decision_v1.json",
+      "external_rejection_sha256": "596859fdaa6456369e8b6d876bfc18ba813e837f2844d4e06771a5cb79a34e41",
+      "run_manifest_path_ignored_local": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/refit-all-nontest-seed20260928/run_manifest.json",
+      "run_manifest_sha256": "79a6c4d9926c3fb499f427ed8c3cd8959c10fce7e6f952ca758b6dc39cfd054f",
+      "optimizer": {
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-8,
+        "gradient_clip_norm": 5,
+        "lr": 0.001,
+        "name": "AdamW",
+        "weight_decay": 0.0001
+      },
+      "lr_schedule": [
+        {
+          "from_update_inclusive": 1,
+          "through_update_inclusive": 576,
+          "lr": 0.001
+        }
+      ],
+      "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+      "runtime_seconds": 75.17907955299597,
+      "peak_rss_mib": 1012.6953125,
+      "final_endpoint_generalization_evaluated": false
+    }
+  },
+  "environment": {
+    "python": "3.14.4",
+    "torch": "2.11.0+cpu",
+    "torchaudio": "2.11.0+cpu",
+    "numpy": "2.4.4",
+    "scipy": "1.17.0",
+    "device": "cpu",
+    "torch_threads": 2,
+    "interop_threads": 1,
+    "deterministic_algorithms": true
+  },
+  "signal_and_inference": {
+    "sample_rate_hz": 4000,
+    "input_channels": 1,
+    "input_dtype": "float32",
+    "source_decode": "mono PCM16 WAV little-endian samples divided by 32768; no resampling",
+    "output_dtype": "float32",
+    "source_order": [
+      "heart",
+      "lung"
+    ],
+    "training_crop_samples": 32000,
+    "inference_window_samples": 40000,
+    "inference_hop_samples": 32000,
+    "inference_overlap_samples": 8000,
+    "window_blend": "complementary cosine fades with nonzero outer edges; divide by accumulated window weights",
+    "padding": "right zero-pad incomplete last window, then trim exactly to original length",
+    "amplitude_convention": "one whole-record mixture peak shared across both outputs and all windows; normalize input by peak and restore outputs by same peak; no clipping or independent output normalization",
+    "mixture_consistency": "within each window add equal halves of the target-free residual (mixture minus raw heart/lung sum) to heart and lung",
+    "extra_mixture_phase_projection": false,
+    "reference_based_processing": false,
+    "channel_permutation": false,
+    "ensemble": null,
+    "finite_contract": "reject nonfinite input; inference output must be finite, two-source, mono and exact input length; zero input maps to two zeros; near-silent nonzero input is rejected",
+    "failure_policy": "strict CPU checkpoint load and fail on missing/invalid checkpoint, shape, nonfinite values or failed inference; no fallback or method substitution"
+  },
+  "t9_protocol": {
+    "authorization": "separate explicit owner approval required before execution",
+    "one_shot": true,
+    "test_partition_source": "only rows labeled test in the frozen source manifest; manifest sha256 is frozen above; no source identity list is copied into this specification",
+    "test_partition_sha256": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+    "test_source_counts_already_frozen": {
+      "heart": 5,
+      "lung": 9
+    },
+    "test_pair_count": 45,
+    "levels_lung_to_heart_db": [
+      -10,
+      -5,
+      0,
+      5,
+      10
+    ],
+    "expected_conditions": 225,
+    "source_ordering": "sort each test source list by (family, source ID); heart outer loop, lung inner loop, then levels in ascending order",
+    "crop": "full 60000-sample 15-second recordings, source start 0 for both",
+    "mixture_generation": "existing make_mixture rule: lung_gain = RMS(heart)/RMS(lung)*10^(level_db/20); one shared scale c = 0.95/max(peak(heart), peak(scaled_lung), peak(sum)); mixture = scaled heart + scaled lung; exact IDs, hashes, gains and condition ID recorded in the test-time recipe manifest",
+    "condition_identity": "SHA-256 of canonical JSON recipe metadata (sorted keys, compact separators), truncated to 20 hex characters; record the float32 little-endian mixture sample SHA-256",
+    "recipe_generation": "only after authorization; write one immutable recipe manifest before inference and record its SHA-256; do not regenerate or alter it during evaluation",
+    "comparators_in_order": [
+      "mixture baseline",
+      "selected standalone Conv-TasNet",
+      "Fixed Filter",
+      "Generic NMF"
+    ],
+    "comparator_identity": {
+      "fixed_filter": "existing 1024-point STFT, hop 256, heart transition 180/35 Hz and lung transition 130/55 Hz; no tuning",
+      "generic_nmf": "existing GenericNMFExpert, 6 components, 80 iterations, seed 42 per inference window; no tuning or learned bases",
+      "vmd": "excluded: no strict no-fallback qualification",
+      "neossnet": "excluded from final test comparison: research-only, target-domain unqualified"
+    },
+    "common_inference": "same generated mixtures, original full-length waveform, fixed heart/lung semantics, 4 kHz, shared whole-record peak, existing 10-second windows with 8-second hop and 2-second overlap; no reference alignment, scaling, channel swap or projection",
+    "metrics": [
+      "heart SI-SDR dB",
+      "heart SI-SDRi dB",
+      "lung SI-SDR dB",
+      "lung SI-SDRi dB"
+    ],
+    "metric_definition": "existing audited zero-mean SI-SDR implementation with epsilon 1e-8; SI-SDRi is same-condition estimate SI-SDR minus SI-SDR of original mixture against the same target",
+    "frozen_code_sources": {
+      "inference_and_consistency": {
+        "path": "app/ml/stethofuse_tcn.py",
+        "sha256": "c8afb244e9dc4cb7cb082d0a62dc4aed79725ae5d1488b58f825de930387fdd7"
+      },
+      "mixture_and_source_decode": {
+        "path": "app/ml/training_data.py",
+        "sha256": "44cac4bea131e7316cceb49fe52b5e5a974d934c308a4270789fe447555129aa"
+      },
+      "metric": {
+        "path": "scripts/evaluate_ensemble_qualification.py",
+        "sha256": "a5df6460cc30faad43e848598822ccbc016cee7cbc8a3504d9cc755ff15d6e9e"
+      },
+      "aggregation": {
+        "path": "app/ml/training_objective.py",
+        "sha256": "0c8317d656bec1e852e224e5f6ac93365480c2f034ecbfb4f75138613b163a2a"
+      },
+      "fixed_filter": {
+        "path": "app/ml/audio_utils.py",
+        "sha256": "45b0ad5845ef6a958592ce026a3a10be53a26e6a54251bceacb7d18c982c493e"
+      },
+      "generic_nmf": {
+        "path": "app/ml/ensemble_v1.py",
+        "sha256": "2a32f2e40716093b5f30caa9b42d2d38c745299d185b3835217e9212b3f5edf8"
+      }
+    },
+    "aggregation": "report per-condition rows and source-specific results; average conditions within each heart-family x lung-family group, then average groups equally for family-pair macro means; report pooled condition median and IQR descriptively; provide family-pair and relative-level breakdowns; do not treat remix conditions as independent subjects",
+    "runtime": "measure each inference call with monotonic wall clock; report per-method total and per-condition mean/median, plus overall elapsed time; separately report process/model initialization if available; CPU only",
+    "failure_handling": "record method, condition and error; do not drop failed conditions, substitute a method, or report an aggregate that excludes failures; continue the frozen matrix where execution remains safe and mark affected method incomplete; no automatic retry",
+    "artifacts": "under ignored implementation/.local/training/stethofuse-tcn-v1/t9/; retain frozen recipe manifest/hash, per-condition JSONL metrics/failures/runtime, summary JSON, environment and code/spec hashes; do not commit test audio or generated mixtures",
+    "no_test_driven_changes": "after opening test data, do not change architecture, checkpoint, seed, preprocessing, window, mixture consistency, source mapping, ensemble, weights, projection or comparators based on results",
+    "bug_rerun_policy": "if a concrete software defect invalidates evaluation, stop and preserve all partial evidence; document the defect and affected results; any corrected rerun requires explicit owner approval and must be identified as a correction, never tuning",
+    "interpretation": "describe signal separation on this frozen manikin/source-family test only; no clinical, patient-level, subject-independent or broader superiority claim"
+  },
+  "final_test_accessed_during_t8": false,
+  "production_touched": false,
+  "supersedes_before_t9": {
+    "status": "SUPERSEDED_BEFORE_T9",
+    "specification_path": "research/configs/final_separator_v1.json",
+    "specification_sha256": "3780292ae6ff1ea6415fc1bd9b4b045bb91d5443068e806b08e9cb39735a1e34",
+    "checkpoint_sha256": "89f8d66134c0a49aa2a05971720cdffbdd1e501ebce99bb83119e6683d58ac93",
+    "original_artifacts_preserved_unchanged": true,
+    "reason": "Predeclared HLS family-CV gate passed; external transfer pilot rejected; fresh all-non-test fixed-budget HLS refit selected. No T9 evidence used."
+  }
+}

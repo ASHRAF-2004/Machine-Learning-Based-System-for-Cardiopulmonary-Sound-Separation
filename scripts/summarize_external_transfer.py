@@ -113,7 +113,7 @@ def control(args):
                'selected_optimizer_updates': selected, 'ranked_best_updates': winner,
                'accepted': absolute_gate(snapshots[str(selected)]), 'selected_metrics': snapshots[str(selected)],
                'snapshots': snapshots, 'test_access': False,
-               'interpretation': 'Family-group descriptive transfer qualification; not IID inference or comparison to contaminated oldT8'}
+               'interpretation': 'Family-group descriptive transfer qualification; not IID inference; oldT8 is not a leakage-safe comparator on these new folds'}
     save(args.output, receipt)
     print(json.dumps({k: receipt[k] for k in ('selected_optimizer_updates', 'ranked_best_updates', 'accepted')}))
     print(json.dumps({k: receipt['selected_metrics'][k] for k in ('heart_sdri', 'lung_sdri', 'Q', 'M')}))

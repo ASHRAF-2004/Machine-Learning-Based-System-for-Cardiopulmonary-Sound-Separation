@@ -1,7 +1,9 @@
 {
   "schema_version": "stethofuse-external-dataset-catalog-v1",
   "audit_date": "2026-09-29",
-  "status": "DATASET_QUALIFICATION_IN_PROGRESS_NOT_TRAINING_ACCEPTANCE",
+  "status": "BOUNDED_TIER_B_QUALIFICATION_COMPLETE_EXTERNAL_TRANSFER_REJECTED",
+  "execution_evidence": "docs/EXTERNAL_DATA_TRAINING_EXECUTION.md",
+  "final_model_external_data_used": false,
   "scope": "Original public cardiopulmonary sources through the audit date; no HLS held-out audio, descriptors, recipes or metrics accessed.",
   "interpretation": {
     "null": "Unknown or not verified; never infer missing demographics, duration, purity or rights.",

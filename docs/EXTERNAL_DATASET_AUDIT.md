@@ -1,6 +1,9 @@
 # External cardiopulmonary dataset audit
 
-Audit date: 2026-09-29. Status: **DATASET QUALIFICATION IN PROGRESS — NOT TRAINING ACCEPTANCE**.
+Audit date: 2026-09-29. Status: **BOUNDED TIER-B QUALIFICATION COMPLETE — EXTERNAL TRANSFER PILOT REJECTED**.
+Qualified does not mean clean ground truth or adopted for the final model.
+See `EXTERNAL_DATA_TRAINING_EXECUTION.md`; no full external acquisition/training
+followed the failed predeclared target-domain gate.
 
 The existing 171,313-parameter T8 separator remains the fallback. This record does not change its model, checkpoint, inference, or test protocol. T9 remains sealed. No production or demographic-interface change is proposed.
 

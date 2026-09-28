@@ -1,0 +1,38 @@
+{
+  "audio_files_opened": 0,
+  "checkpoint_sha256": "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+  "environment": {
+    "device": "cpu",
+    "numpy": "2.4.4",
+    "python": "3.14.4",
+    "scipy": "1.17.0",
+    "torch": "2.11.0+cpu",
+    "torchaudio": "2.11.0+cpu"
+  },
+  "finite": true,
+  "inference_and_t9_protocol_unchanged": true,
+  "maximum_mixture_consistency_error": 5.960464477539063e-08,
+  "metadata_hash_checks": "PASS",
+  "optimizer_updates": 0,
+  "parameter_count": 171313,
+  "probe_source_sha256": "0f6d38bc12eb797d70d79254d4cc32283420cc6d47ee1297e8674888eabfc38b",
+  "production_access": false,
+  "semantics_note": "Configured fixed labels verified; synthetic smoke is not semantic accuracy evidence",
+  "source_commit": "7eefa37100bb40d878d48b84b3811557ce98512b",
+  "source_order_configured": [
+    "heart",
+    "lung"
+  ],
+  "spec_path": "research/configs/final_separator_v2.json",
+  "spec_sha256": "2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b",
+  "status": "PASS",
+  "strict_load": true,
+  "synthetic_shape": [
+    2,
+    60001
+  ],
+  "test_access": false,
+  "v1_preserved": true,
+  "worktree_dirty": true,
+  "zero_input_check": true
+}

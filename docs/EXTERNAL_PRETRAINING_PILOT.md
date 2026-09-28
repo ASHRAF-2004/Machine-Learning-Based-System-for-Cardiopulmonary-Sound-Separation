@@ -1,6 +1,9 @@
 # Bounded external-data transfer experiment
 
-**PREDECLARED / NOT YET TRAINED / T9 SEALED / NOT DEPLOYED.**
+**HISTORICAL PREDECLARATION / EXECUTED / EXTERNAL TRANSFER REJECTED / T9 SEALED.**
+The frozen rule below was committed before treatment results. See
+`EXTERNAL_DATA_TRAINING_EXECUTION.md` for results and the selected HLS-only refit;
+do not execute the conditional external scale-up branch after its failed gate.
 Normative configuration: `research/configs/external_pretraining_pilot_v1.json`.
 
 ## Decision and risk
@@ -88,8 +91,9 @@ First execute the pre-existing five-family-fold control protocol at1152updates,
 with snapshots576/864/1152. Determine the control budget by its predeclared
 earliest-within0.10dB Q-and-mean rule. Persist this decision before treatment.
 Eight family-pair means have equal weight; not1775IIDconditions or five equally
-weighted folds. An oldT8 replay on these holdouts is contaminated because it
-trained on many of them, so~3.101dB is historical context, **not** this control.
+weighted folds. Old T8 is not a leakage-safe comparator on these new grouped
+holdouts because it trained on many of them. Its original ~3.101 dB validation
+remains valid historical evidence, **not** this experiment's matched control.
 
 External pilot: fresh seed20260928,2304updates, AdamW0.001/decay1e-4, batch4,
 clip5, existing fixed-label −SI-SDR+5normalizedL1. Constant LR, endpoint checkpoint,
