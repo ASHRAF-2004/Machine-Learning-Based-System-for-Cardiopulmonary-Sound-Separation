@@ -1,6 +1,6 @@
 # HLS-CMDS native-triplet forensic audit
 
-Status: **ROLE A QUALIFIED SUBSET; PILOT NOT YET EXECUTED.** T9 SEALED. NOT DEPLOYED. This is correspondence/data evidence, not separator performance. The existing v1/v2 separator specifications and external-data negative-transfer evidence remain intact.
+Status: **ROLE A QUALIFIED SUBSET; PILOT COMPLETED AND FAILED ADOPTION; T8 V2 RETAINED.** T9 SEALED. NOT DEPLOYED. This is correspondence/data evidence, not separator performance. The existing v1/v2 separator specifications and external-data negative-transfer evidence remain intact. See [completed pilot evidence](HLS_NATIVE_PILOT_EXECUTION.md): ΔQ −1.082 dB, no native final refit or rescue tuning.
 
 ## 1. Decision and scope
 
@@ -18,7 +18,7 @@ Primary-source acquisition review: [HLS_NATIVE_SOURCE_EVIDENCE.md](HLS_NATIVE_SO
 - Waveform correspondence: `research/evidence/hls_native_correspondence_v1.json`.
 - PSD/counterfactual/stationarity results: `research/evidence/hls_native_spectra_v1.json`.
 - Replay, duplication and domain descriptors: `research/evidence/hls_native_fingerprints_v1.json`.
-- Qualified selection and pilot: `research/manifests/hls_native_qualified_v1.json` and `research/configs/hls_native_pilot_v1.json` (authoritative execution settings; no treatment result yet).
+- Qualified selection and pilot: `research/manifests/hls_native_qualified_v1.json` and `research/configs/hls_native_pilot_v1.json` (authoritative predeclared settings; completed results are separate).
 
 The local ZIP central directories and extracted filenames agree: 50 standalone heart WAVs, 50 standalone lung WAVs, and 435 Mix WAVs = 145 numbered `M/H/L` triplets, **535 total WAVs**. Resource-fork entries are not recordings. The actual local inventory is the expanded 535-file release, matching the author repository's Dataset.v2; its official source is [Zenodo record 15376628](https://zenodo.org/records/15376628). Repository v1 had 110 mixtures and 210 total files. Zenodo's displayed Version v1 and Mendeley DOI `.3` are distribution-specific labels, not interchangeable with GitHub Dataset.v2.
 
@@ -155,4 +155,4 @@ If FAIL, retain unchanged v2 and stop before T9. If PASS, train fresh seed202609
 
 The extra files supply some new observed waveforms but no established new independent families/patients. Only26triplets qualify, with source reuse and fixed level patterns. Pilot gains may be small or absent; that is a valid result. Offline reference gain estimation prepares training labels and is absent at deployment. Shared-gain calibration does not establish general physical stethoscope response. A valid pilot gain would support **improved non-test family transfer from qualified HLS release supervision**, not a solved plateau, clinical utility, patient-independent generalization or verified real-acoustic-mixture learning.
 
-No treatment training result is claimed in this audit. T9 audio, production, frontend and FYP1 remain untouched. No demographic inference input is needed.
+The historical role/protocol decisions above preceded optimizer steps. The completed treatment failed its unchanged gate; the separate execution record preserves the negative result. T9 audio, production, frontend and FYP1 remain untouched. No demographic inference input is needed.
