@@ -16,7 +16,7 @@ immutable baseline YAML. Its only scientific change is the existing smaller
 | `model.enc_num_feats` | 128 | 64 |
 | `model.msk_num_feats` | 64 | 32 |
 | `model.msk_num_hidden_feats` | 128 | 64 |
-| `model.parameter_count` (derived assertion) | 645681 | 170545 |
+| `model.parameter_count` (derived assertion) | 645681 | 171313 |
 | `architecture_version` (identity) | `stethofuse-convtasnet-4k-v1` | `stethofuse-convtasnet-4k-small-v1` |
 
 Give the copied config an honest T7 status; record the inherited `fallback`
@@ -80,8 +80,8 @@ headers, recipes, inference, listening, metrics or visualization.**
 
 ## 4. Bounded small-model capacity gate, then fresh T7
 
-Reuse only the existing two-example gate logic, exposed as an isolated
-`--overfit-only` mode or equally narrow entry point. **Do not rerun
+Reuse the existing two-example gate logic through the isolated
+`scripts/run_stethofuse_t7_capacity_gate.py` entry point. **Do not rerun
 `scripts/run_stethofuse_t0_t4.py` main:** it performs a manifest/audio-header
 audit including test files and regenerates validation recipes. Do not do that.
 
@@ -98,10 +98,10 @@ On pass, initialize the small full run **afresh**, resetting all seeds and
 optimizer state. Never load gate, T4, baseline or NeoSSNet weights. Record the
 initial-state digest/config/source/recipe/environment hashes before update 1.
 
-Planned CLI after the narrow runner update (not supported by today's runner):
+Commands after the narrow profile/config runner update:
 
 ```sh
-nice -n 10 .local/ensemble/venv/bin/python scripts/train_stethofuse_baseline.py --config research/configs/stethofuse_tcn_v1_t7_small.yaml --run-id t7-small-gate-seed20260928 --overfit-only
+nice -n 10 .local/ensemble/venv/bin/python scripts/run_stethofuse_t7_capacity_gate.py --config research/configs/stethofuse_tcn_v1_t7_small.yaml
 nice -n 10 .local/ensemble/venv/bin/python scripts/train_stethofuse_baseline.py --config research/configs/stethofuse_tcn_v1_t7_small.yaml --run-id t7-small-seed20260928
 ```
 
@@ -133,10 +133,12 @@ superiority; explicitly report uncertainty or a source tradeoff. Baseline stays
 eligible and wins if the variant does not improve the frozen ordering.
 
 **Exactly one confirmation seed: 20260929**, of the selected configuration,
-fresh initialization and unchanged protocol. Make a separate immutable config
-copy changing only seed/status, run ID `t7-confirm-baseline-seed20260929` or
-`t7-confirm-small-seed20260929`. This changes keyed training draws as well as
-initial weights, not the validation recipe. It is robustness evidence, not a
+fresh initialization and unchanged protocol. Use run ID
+`t7-confirm-baseline-seed20260929` or `t7-confirm-small-seed20260929` and pass
+`--seed 20260929`. The runner writes the effective seed-adjusted config into
+that run and records both its hash and the source config hash. This changes
+keyed training draws as well as initial weights, not the validation recipe.
+It is robustness evidence, not a
 second configuration-selection opportunity. Report both seeds, keep the
 selected **20260928** artifact; never substitute the better-scoring seed. If
 either macro source improvement turns negative, failures occur, or group/level

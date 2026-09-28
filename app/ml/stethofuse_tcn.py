@@ -9,18 +9,34 @@ import torchaudio
 class StethoFuseConvTasNet(nn.Module):
     architecture_version = "stethofuse-convtasnet-4k-v1"
     source_order = ("heart", "lung")
+    profiles = {
+        "stethofuse-convtasnet-4k-v1": {
+            "enc_num_feats": 128, "msk_num_feats": 64,
+            "msk_num_hidden_feats": 128, "parameter_count": 645681},
+        "stethofuse-convtasnet-4k-small-v1": {
+            "enc_num_feats": 64, "msk_num_feats": 32,
+            "msk_num_hidden_feats": 64, "parameter_count": 171313},
+    }
     stride = 16
     sample_rate_hz = 4000
     inference_window_samples = 40000
     inference_hop_samples = 32000
     overlap_samples = inference_window_samples - inference_hop_samples
 
-    def __init__(self) -> None:
+    def __init__(self, architecture_version: str | None = None) -> None:
         super().__init__()
+        version = architecture_version or type(self).architecture_version
+        if version not in self.profiles:
+            raise ValueError(f"Unsupported StethoFuse Conv-TasNet profile: {version}")
+        self.architecture_version = version
+        profile = self.profiles[version]
         self.separator = torchaudio.models.ConvTasNet(
-            num_sources=2, enc_kernel_size=32, enc_num_feats=128,
-            msk_kernel_size=3, msk_num_feats=64, msk_num_hidden_feats=128,
+            num_sources=2, enc_kernel_size=32, enc_num_feats=profile["enc_num_feats"],
+            msk_kernel_size=3, msk_num_feats=profile["msk_num_feats"],
+            msk_num_hidden_feats=profile["msk_num_hidden_feats"],
             msk_num_layers=8, msk_num_stacks=3, msk_activate="relu")
+        if self.parameter_count != profile["parameter_count"]:
+            raise RuntimeError(f"Profile {version} parameter count mismatch: {self.parameter_count}")
 
     @property
     def parameter_count(self) -> int:

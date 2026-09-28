@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import copy
 import hashlib
 import json
 import math
@@ -321,13 +322,36 @@ def rebuild_history(run_dir: Path) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--config", type=Path, default=CONFIG_PATH,
+                        help="Immutable baseline or explicitly approved T7 configuration")
+    parser.add_argument("--seed", type=int,
+                        help="Optional single confirmation seed; only 20260929 is permitted")
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("--run-id", help="Fresh baseline run ID; must not exist")
-    group.add_argument("--resume", type=Path, help="Resume an epoch-boundary checkpoint")
+    group.add_argument("--run-id", help="Fresh predeclared run ID; must not exist")
+    group.add_argument("--resume", type=Path, help="Resume a compatible epoch-boundary checkpoint")
     args = parser.parse_args()
 
     metadata = git_metadata()  # Exact clean commit recorded before model initialization.
-    config = yaml.safe_load(CONFIG_PATH.read_text())
+    config_path = args.config.resolve()
+    config = yaml.safe_load(config_path.read_text())
+    source_config_hash = file_sha256(config_path)
+    if args.seed is not None:
+        if args.seed != 20260929 or int(config["seed"]) != 20260928:
+            raise RuntimeError("Only the predeclared 20260929 confirmation seed may override 20260928")
+        config = copy.deepcopy(config)
+        config["seed"] = args.seed
+        config_bytes = yaml.safe_dump(config, sort_keys=False).encode()
+    else:
+        config_bytes = config_path.read_bytes()
+    profile = StethoFuseConvTasNet.profiles.get(config.get("architecture_version"))
+    if profile is None:
+        raise RuntimeError("Configuration names an unsupported model architecture")
+    expected_model = {**profile,
+        "num_sources": 2, "enc_kernel_size": 32, "msk_kernel_size": 3,
+        "msk_num_layers": 8, "msk_num_stacks": 3, "msk_activate": "relu"}
+    actual_model = {key: config["model"].get(key) for key in expected_model}
+    if actual_model != expected_model or config["model"].get("source_order") != ["heart", "lung"]:
+        raise RuntimeError("Configuration model fields do not match the named fixed profile")
     if config["training"]["device"] != "cpu" or torch.cuda.is_available():
         # CUDA availability is not used even if present; this run is explicitly CPU.
         if config["training"]["device"] != "cpu":
@@ -349,7 +373,6 @@ def main() -> int:
             raise RuntimeError("Resume directory does not exist")
     for child in ("recipes", "validation", "checkpoints"):
         (run_dir / child).mkdir(exist_ok=True)
-    config_bytes = CONFIG_PATH.read_bytes()
     config_hash = bytes_sha256(config_bytes)
     config_copy = run_dir / "config.yaml"
     if config_copy.exists() and config_copy.read_bytes() != config_bytes:
@@ -373,15 +396,24 @@ def main() -> int:
                 writer.writerow((source.kind, source.id, source.family, source.split, source.sha256))
 
     if args.run_id:
-        if args.run_id != "baseline-seed20260928" and not args.run_id.startswith("baseline-seed20260928-"):
-            raise RuntimeError("Fresh T5 run ID must identify the frozen seed20260928 baseline")
+        profile_name = ("small" if config["architecture_version"].endswith("-small-v1")
+                        else "baseline")
+        seed = int(config["seed"])
+        allowed_run_ids = {
+            ("baseline", 20260928): "baseline-seed20260928",
+            ("small", 20260928): "t7-small-seed20260928",
+            ("baseline", 20260929): "t7-confirm-baseline-seed20260929",
+            ("small", 20260929): "t7-confirm-small-seed20260929",
+        }
+        if allowed_run_ids.get((profile_name, seed)) != args.run_id:
+            raise RuntimeError("Run ID does not match one of the predeclared profile/seed runs")
         torch.set_num_threads(config["training"]["threads"])
         torch.set_num_interop_threads(config["training"]["interop_threads"])
         torch.manual_seed(config["seed"])
         np.random.seed(config["seed"])
         random.seed(config["seed"])
         torch.use_deterministic_algorithms(True)
-        model = StethoFuseConvTasNet().cpu()
+        model = StethoFuseConvTasNet(config["architecture_version"]).cpu()
         if model.parameter_count != config["model"]["parameter_count"]:
             raise RuntimeError(f"Parameter count mismatch: {model.parameter_count}")
         initialization_hash = state_sha256(model)
@@ -405,6 +437,7 @@ def main() -> int:
             "starting_commit_before_initialization": metadata["commit"],
             "fresh_initialization": True, "initialization_source": "seeded_torchaudio_scratch_no_checkpoint",
             "fresh_initialization_state_sha256": initialization_hash,
+            "source_config_sha256": source_config_hash,
             "parameter_count": model.parameter_count, "seed": config["seed"],
             "architecture_version": config["architecture_version"],
             "optimizer": config["training"]["optimizer"],
@@ -439,12 +472,12 @@ def main() -> int:
                 raise RuntimeError(f"Cannot resume: {field} differs from original experiment")
         resume_path = run_dir / "checkpoints/resume.pt"
         state = torch.load(resume_path, map_location="cpu", weights_only=False)
-        if state.get("architecture_version") != StethoFuseConvTasNet.architecture_version:
+        if state.get("architecture_version") != config["architecture_version"]:
             raise RuntimeError("Resume architecture mismatch")
         torch.set_num_threads(config["training"]["threads"])
         torch.set_num_interop_threads(config["training"]["interop_threads"])
         torch.use_deterministic_algorithms(True)
-        model = StethoFuseConvTasNet().cpu()
+        model = StethoFuseConvTasNet(config["architecture_version"]).cpu()
         optimizer = torch.optim.AdamW(
             model.parameters(), lr=config["training"]["learning_rate"],
             betas=tuple(config["training"]["betas"]), eps=config["training"]["optimizer_epsilon"],
@@ -534,7 +567,7 @@ def main() -> int:
             best_mean = run_state.get("best_tie_mean")
             is_best = (best_q is None or q > float(best_q) + 1e-6 or
                        (abs(q - float(best_q)) <= 1e-6 and tie_mean > float(best_mean) + 1e-6))
-            old_lr = float(optimizer.param_groups[0]["lr"])
+            lr_used = float(optimizer.param_groups[0]["lr"])
             scheduler.step(q)
             new_lr = float(optimizer.param_groups[0]["lr"])
             if is_best:
@@ -563,7 +596,8 @@ def main() -> int:
             record = {"epoch": completed, "training_loss": float(np.mean(losses)),
                       "negative_si_sdr_component": float(np.mean(si_terms)),
                       "normalized_waveform_l1_component": float(np.mean(l1_terms)),
-                      "learning_rate": new_lr, "learning_rate_changed": old_lr != new_lr,
+                      "learning_rate": lr_used, "next_learning_rate": new_lr,
+                      "learning_rate_changed": lr_used != new_lr,
                       "validation": val_summary, "selection_q_db": q,
                       "balanced_mean_db": tie_mean, "best_so_far": bool(is_best),
                       "best_epoch": run_state["best_epoch"], "duration_seconds": duration,
@@ -594,7 +628,8 @@ def main() -> int:
                 "heart_si_sdri": val_summary["heart_si_sdri_db"]["family_balanced_mean"],
                 "lung_si_sdr": val_summary["lung_si_sdr_db"]["family_balanced_mean"],
                 "lung_si_sdri": val_summary["lung_si_sdri_db"]["family_balanced_mean"],
-                "selection_q": q, "lr": new_lr, "epoch_seconds": duration,
+                "selection_q": q, "lr_used": lr_used, "next_lr": new_lr,
+                "epoch_seconds": duration,
                 "cumulative_seconds": elapsed_total, "best": bool(is_best)}, sort_keys=True),
                 flush=True)
 

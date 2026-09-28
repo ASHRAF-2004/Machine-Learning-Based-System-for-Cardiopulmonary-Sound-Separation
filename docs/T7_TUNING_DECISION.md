@@ -8,7 +8,8 @@ checkpoint deserialization, new training, or production action occurred.
 ## Decision
 
 **T7 variant 1: the already-designed smaller Conv-TasNet**, N64/B32/H64,
-170,545 parameters, scratch seed 20260928. Change only the width profile from
+171,313 parameters under pinned torchaudio, scratch seed 20260928. Change only
+the width profile from
 N128/B64/H128 (645,681 parameters); preserve depth, temporal context, loss,
 data, optimizer, scheduler, stopping, labels and validation selector.
 
@@ -27,6 +28,13 @@ The smaller width was originally a resource fallback. The owner's current
 tuning-decision request explicitly permits evaluating it as a capacity
 hypothesis. This ADR makes that change of purpose explicit; it does not change
 the historical baseline config or imply that smaller is already better.
+
+The original estimate was 170,545 parameters. A construction-only check with
+pinned torchaudio 2.11.0+cpu and the exact approved N64/B32/H64, L32/X8/R3
+settings produced **171,313** (768 more; about 0.45%). The baseline profile
+remains exactly 645,681 and its saved checkpoint loads strictly. This corrects
+the small-profile count estimate, not its architecture or the baseline; the T7
+configuration records the measured count. Width reduction is about 73.5%.
 
 ## Evidence and aggregation
 
@@ -196,7 +204,7 @@ no computation/run/checkpoint is changed. Epoch 8 is the first reduced-LR epoch.
 | Hypothesis | What the existing evidence supports | Decision |
 | --- | --- | --- |
 | Narrow validation and family/level heterogeneity | Directly observed: two groups, persistent F_T_RC difficulty, ratio-dependent losses and non-monotonic checkpoint scores. Limits all causal/generalization claims. | Preserve split and all 225 conditions; one variant only. |
-| Capacity/generalization pressure | Training improves beyond epoch 8 while validation stalls. 645,681 parameters, 72 unique training files/18 min combined audio, 10 training families; remixes do not add independent sources. The large model fitting two examples at T4 rules out that capacity failure, but proves neither excess capacity nor small-model sufficiency. | Test the existing 170,545-parameter width profile, a 74% parameter reduction, after a bounded capacity gate. |
+| Capacity/generalization pressure | Training improves beyond epoch 8 while validation stalls. 645,681 parameters, 72 unique training files/18 min combined audio, 10 training families; remixes do not add independent sources. The large model fitting two examples at T4 rules out that capacity failure, but proves neither excess capacity nor small-model sufficiency. | Test the existing 171,313-parameter width profile, a 73.5% parameter reduction, after a bounded capacity gate. |
 | L1 objective mismatch | Both training objectives improve; 82% of post-best loss decrease is from SI-SDR. Gradient conflict unmeasured. | Keep coefficient 5. No loss variant. |
 | Too little explicit regularization | Compatible with the same plateau, but no weight-norm/decay ablation evidence selects a decay value; dropout is absent and would add a mechanism. | Keep decay 0.0001; no dropout. Capacity test is the one selected intervention. |
 | Gain/crop defect or missing range | Realized gain bins are near-uniform, no silent retries; full validation crops fixed. Endpoint weakness is real but not proof of a generator error or missing training conditions. | Keep sampling/augmentation exactly frozen; no endpoint over-weighting or source exclusion. |

@@ -299,7 +299,8 @@ strictly better best checkpoint. Resume restores optimizer, scheduler, epoch,
 RNGs, sampler and early-stop anchor; restart-from-scratch is a different run.
 
 **Current T7 decision (ADR T02): exactly one configuration variant**, the
-already-designed N64/B32/H64 width profile (170,545 parameters). All other
+already-designed N64/B32/H64 width profile (171,313 parameters in the pinned
+torchaudio build; original design estimate 170,545). All other
 scientific settings above remain fixed, including seed20260928 and recipes.
 The originally contemplated LR/loss variants are **not selected**: training
 was finite, and both SI-SDR and L1 improved while validation plateaued. No
@@ -354,7 +355,8 @@ The unchanged application must retain resources. No long job ran this sprint.
 
 If a measured resource blocker remains after reducing microbatch4→2→1 with
 gradient accumulation preserving effective batch4, use **the same TCN with
-N64/B32/H64**, keeping L32/X8/R3 and the rest fixed: **170,545 parameters**.
+N64/B32/H64**, keeping L32/X8/R3 and the rest fixed. T01 estimated170,545
+parameters; the T7 construction check measured **171,313** in the pinned build.
 This is a new named configuration/run, not an automatic mid-run substitution.
 It must pass the same overfit gate. Do not activate it because of disappointing
 test scores. If this also is impractical, checkpoint and request direction;
