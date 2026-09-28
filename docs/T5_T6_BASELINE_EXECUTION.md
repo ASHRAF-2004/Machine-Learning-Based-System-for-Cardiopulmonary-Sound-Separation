@@ -46,8 +46,11 @@ results, not final held-out or subject-independent evidence.
 - Weaker-source selector `Q=min(H,L)`: **3.0350 dB**; tie-break mean:
   **3.0569 dB**.
 - Validation: 225 conditions, 2 family-pair groups, 0 failures.
-- LR: 0.001 through epoch 6; 0.0005 epochs 7–12; 0.00025 epochs 13–17;
-  0.000125 epochs 18–20.
+- LR **used for training updates**: 0.001 epochs 1–7; 0.0005 epochs 8–13;
+  0.00025 epochs 14–18; 0.000125 epochs 19–20. Reporting correction from the
+  T7 saved-log audit: `history.jsonl` records post-validation/post-scheduler
+  LR. Reductions after epochs 7, 13 and 18 apply to the next epoch. The
+  earlier prose labeled those changes one epoch early; no run/artifact changed.
 - Training loss moved from 1.3973 (epoch 1) to −3.7061 (epoch 20), while the
   validation selector peaked at epoch 8 and fluctuated afterward. This is
   consistent with validation plateau/overfit pressure; do not infer broad

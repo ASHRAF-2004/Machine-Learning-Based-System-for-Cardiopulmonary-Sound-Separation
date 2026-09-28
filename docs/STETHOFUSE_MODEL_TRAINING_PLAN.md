@@ -1,9 +1,9 @@
 # ADR T01 — Own StethoFuse separator training plan
 
 28 September 2026. **DESIGNED; T5 BASELINE TRAINED; T6 VALIDATION RECORDED;
-HELD-OUT TEST NOT RUN; NOT DEPLOYED.** See
+T7 DESIGNED / NOT EXECUTED; HELD-OUT TEST SEALED; NOT DEPLOYED.** See
 [`T5_T6_BASELINE_EXECUTION.md`](T5_T6_BASELINE_EXECUTION.md) for the run receipt.
-Baseline inspected: implementation `5d442be5`, documentation `a2fda968`.
+Original ADR T01 inspection: implementation `5d442be5`, documentation `a2fda968`.
 This decision supersedes waiting for NeoSSNet permission/native reproduction
 before developing **our own** model. It does not retrospectively qualify
 NeoSSNet, fix its poor target scores, or authorise production changes.
@@ -15,7 +15,11 @@ the predeclared weaker-source validation score. The model remains a research
 candidate only. Do not execute T7 tuning, final freeze, held-out test, ensemble
 reconsideration, application integration or deployment without owner review.
 See [`T5_T6_BASELINE_EXECUTION.md`](T5_T6_BASELINE_EXECUTION.md) for immutable
-run hashes, results and limitations.
+run hashes, results and limitations. The saved-log analysis in
+[`T7_TUNING_DECISION.md`](T7_TUNING_DECISION.md) selects one smaller-width
+experiment, no second variant, and one predeclared seed confirmation.
+[`T7_LUNA_HANDOFF.md`](T7_LUNA_HANDOFF.md) is the next execution contract;
+no tuning was run in that decision sprint. The baseline remains eligible.
 
 ## 1. Decision
 
@@ -294,16 +298,21 @@ Scheduler significance and early stopping are separate from saving every
 strictly better best checkpoint. Resume restores optimizer, scheduler, epoch,
 RNGs, sampler and early-stop anchor; restart-from-scratch is a different run.
 
-After baseline, **at most two targeted configuration variants**, only if a
-written validation/development diagnosis warrants them: LR0.0003 for unstable
-optimization; regularizer weight1 instead of5 if scale regularization is
-demonstrably impeding SI-SDR. Change one factor at a time against baseline,
-same seed/recipes/budget. These are not an automatic sweep. Do not try both
-changes together or change gains/window/split to rescue a number. Optionally
-one second-seed run20260929 of the selected configuration checks sensitivity;
-report both, and retain the predeclared original-seed checkpoint rather than
-cherry-picking the luckier seed. **Maximum four full runs including baseline**;
-no test access during this process.
+**Current T7 decision (ADR T02): exactly one configuration variant**, the
+already-designed N64/B32/H64 width profile (170,545 parameters). All other
+scientific settings above remain fixed, including seed20260928 and recipes.
+The originally contemplated LR/loss variants are **not selected**: training
+was finite, and both SI-SDR and L1 improved while validation plateaued. No
+evidence specifically supports reducing L1 weight, changing decay or sampling.
+Capacity is a hypothesis, not a proven cause or predicted improvement.
+
+Compare that variant with the retained baseline by the unchanged Q/tie rule;
+baseline remains eligible. Run **one** confirmation at seed20260929 for the
+selected configuration, report both seeds, and retain its original-seed
+checkpoint rather than cherry-picking the luckier seed. Confirmation changes
+initialization and keyed training draws together. **Maximum three full runs
+including the completed baseline**; no second variant, seed retry or test
+access. See the T7 decision/handoff for exact deltas, capacity gate and stops.
 
 ## 7. Hardware and bounded feasibility evidence
 
@@ -351,10 +360,19 @@ It must pass the same overfit gate. Do not activate it because of disappointing
 test scores. If this also is impractical, checkpoint and request direction;
 no automatic paid cloud, broader architecture sweep, or hours of retries.
 
+ADR T02 additionally selects this same width profile as the **one capacity
+tuning experiment** under the owner's later request. That is a documented
+extension of its original resource-only purpose, not an automatic fallback or
+change to the historical baseline YAML. It still requires the small-model
+capacity gate; failure does not authorize another architecture.
+
 ## 8. Exact Luna execution phases
 
-Paths below are **planned**, except the already committed manifest/config,
-retained probe and existing evaluation code. Do not repurpose DB-writing legacy
+The T0–T6 rows retain the original design-phase paths/estimates for traceability;
+actual executed entry points and results are in T0_T4_EXECUTION.md and
+T5_T6_BASELINE_EXECUTION.md. In particular, the implemented trainer is
+`scripts/train_stethofuse_baseline.py`, not `train_stethofuse_model.py`.
+Use the T7 handoff for current exact paths. Do not repurpose DB-writing legacy
 training commands. Runtime ranges are estimates, not implementation deadlines.
 
 | Phase / likely files | Acceptance and focused check | Compute cap / checkpoint |
@@ -366,16 +384,16 @@ training commands. Runtime ranges are estimates, not implementation deadlines.
 | **T4 capacity gate** — new `scripts/train_stethofuse_model.py --stage overfit` | Two previously used development pairs F_AF_A/F_N_LLA and F_ESM_LLSB/F_PR_LLA; crop0:32000,0 dB; fixed recipe, batch2, no augmentation/scheduler/decay. Same model/loss/LR; evaluate every20 steps. Each of four source/case scores must gain≥10 dB over its mixture and mean normalized L1 drop≥50% from initialization. Finite gradients and exact additivity throughout. Never reuse these fitted weights for baseline. | ≤400 updates or10 min, whichever first; **checkpoint and inspect before T5**. Failure blocks full training. |
 | **T5 baseline** — same trainer `--stage baseline` | Fresh seed/init; only train families; all configured settings; actual time/RSS and validation logged each epoch; atomic resumable checkpoints. One tiny interrupted/resumed-state contract test, not another training campaign. | Estimated1.5–4 h; audit at epoch3; stop≤80 epochs/early-stop or resource guard. |
 | **T6 validation diagnosis** — evaluator and run report | All225 val conditions, heart/lung scores, failures, runtime, source-family/level breakdown. Compare frozen baselines; no superiority from training/overfit. | Model minutes; comparator cost measured first with a bounded development run; checkpoint results for owner. |
-| **T7 optional small tuning** — separate immutable configs/runs | At most two justified single-factor variants above; optional second-seed sensitivity. No test files. Stop if failures are data/protocol issues, not solvable configuration noise. | Each run same cap; maximum four full runs total. |
+| **T7 bounded tuning** — T7_LUNA_HANDOFF.md; separate immutable configs/runs | One smaller-width variant, unchanged loss/data/optimizer; baseline remains eligible. One selected-config confirmation seed20260929, never choose the luckier seed. No test files. | Same per-run cap; maximum three full runs including baseline. Stop for owner review after comparison/confirmation. |
+| **Validation-only ensemble gate (legacy T10, moved BEFORE T8/T9)** — later separate approval | Decide whether an ensemble belongs in the final system using validation only, or explicitly freeze its exclusion. Current50/50 research candidate remains untouched here. | No ensemble experiment in the T7 decision or execution sprint. Do not open the test first. |
 | **T8 final freeze** — `freeze.json`, own checkpoint/model card | Lock code/config/data/recipe/model hashes, semantic labels, method list, failure rules and reporting. Any future ensemble decision must use validation **before this freeze**, or be excluded from this final study. | Metadata-only checkpoint; owner review before unlocking test. |
 | **T9 one-shot final evaluation** — explicit `--split test --freeze-manifest ...` | Exactly45 pairs ×5 levels; full15-s references; same preprocessing/metrics for all predeclared methods. Save all rows/failures, not best examples. No training or selection. | Bounded by measured validation throughput; one final report, no automatic rerun. |
-| **T10 ensemble research decision** — later separate approval | If ensemble is to share T9's final set, perform its validation-only qualification **before T8/T9**. If deferred until after T9, that test is spent: no iterative reuse or claim of a newly tuned ensemble's unbiased score on it. Current50/50 candidate stays frozen now. | Not authorised by this design sprint. |
 | **T11 application integration** — existing strategy/job/private-result path | Later owner-approved local integration only after useful validation/evaluation and artifact/license qualification. Durable worker/security design remains unchanged. | Separate milestone; no auto-deploy. |
 
-The first execution handoff is **T0–T4**, then inspect the capacity/throughput
-checkpoint before authorizing T5. This sprint did not implement a trainer or
-run that overfit gate. About five targeted pipeline contracts are sufficient
-for Luna; add another only for a concrete defect. No broad application test
+The original first execution handoff was **T0–T4**; it and T5/T6 have since
+completed. Do not repeat them. The current next milestone is the separately
+authorized T7 handoff above. Reuse focused pipeline contracts; add another
+only for a concrete changed contract or defect. No broad application test
 suite merely for documentation. One nearby ML regression at the eventual
 implementation milestone, not after every edit.
 
