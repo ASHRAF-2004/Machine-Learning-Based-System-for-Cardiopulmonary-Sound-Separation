@@ -1,5 +1,17 @@
 # M1 security boundaries and release gate
 
+## Local generated-output acceptance — 29 September 2026
+
+[Frozen-model local integration](LOCAL_ML_INTEGRATION.md) now exercises real
+private heart/lung output resources under the existing policy. Owner access,
+anonymous/outsider/admin denial, explicitly assigned analyst access, exact-scope
+isolation, revocation and restart persistence passed with synthetic input and
+fictional identities. Result metadata alone does not grant sibling audio. No
+authorization weakening, real-provider reconfiguration or production change.
+The current provider path is the existing Firebase JWT + REST current-account
+check; older proposed Admin SDK/Cloud Run credential gates below are historical.
+Separate production worker/model/migration approval remains required.
+
 Local integration design, 26 September 2026. This is not a penetration-test certificate or
 proof of live provider configuration. Executed test results belong in M1_ROUTE_AUDIT.md.
 

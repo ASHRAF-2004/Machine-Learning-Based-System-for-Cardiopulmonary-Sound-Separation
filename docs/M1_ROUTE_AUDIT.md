@@ -1,5 +1,16 @@
 # M1 backend route and authorization audit
 
+## Local frozen-model integration — 29 September 2026
+
+[Current integration evidence](LOCAL_ML_INTEGRATION.md) supersedes the historical
+unavailable-job statements below: explicitly enabled owner POST now returns202
+with a durable job; one separate CPU worker publishes real protected outputs
+and provenance. Job/result/media routes and exact grant boundaries are reused.
+Admin has no private-audio override. The production identity path remains the
+already deployed Firebase JWT + REST current-account check (not the historical
+Cloud Run proposal below). No identity/provider change or production rollout
+occurred in this local ML milestone. See [current API contract](M1_API_CONTRACT.md).
+
 2026-09-26. Implementation evidence, not production approval. Default entrypoint remains
 `app.main:app`; it now constructs `app.m1.api.create_app`. Legacy routers are preserved
 on disk but are neither imported nor registered. No production deployment, Firebase

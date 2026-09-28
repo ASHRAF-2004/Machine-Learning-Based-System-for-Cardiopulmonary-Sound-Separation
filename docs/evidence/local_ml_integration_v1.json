@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "milestone": "frozen-v2-local-application-integration",
+  "date": "2026-09-29",
+  "status": "LOCAL_ML_INTEGRATION_COMPLETE_READY_FOR_PRODUCTION_DEPLOYMENT_REVIEW",
+  "scope": "LOCAL only; generated PCM/fake microphone and fictional identities; real frozen checkpoint/API/SQLite/private files. No training, T9 reuse or deployment.",
+  "starting_implementation_sha": "2f57d6768bccce7bf7ad8cc862ed1adb47c256bd",
+  "starting_documentation_sha": "cf256d5e2529caea0a1ce0bb6938d23984793448",
+  "starting_pause_sha": "aaae305c5c872b986b2aeb875e0288de2baf35a3",
+  "application_and_clean_acceptance_sha": "58be00a4a972b77680edfd93a758e8a36e391184",
+  "packaging_sha": "2b6b3c0b461cff0bb8e865a11cf43f9db394d1e2",
+  "identity": "ASHRAF-2004",
+  "model": {
+    "version": "stethofuse-tcn-small-hls-refit-waveform-v2",
+    "parameters": 171313,
+    "checkpoint_sha256": "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+    "spec_sha256": "2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b",
+    "sample_rate": 4000,
+    "window_samples": 40000,
+    "hop_samples": 32000,
+    "overlap_samples": 8000,
+    "output_order": ["heart", "lung"],
+    "mixture_consistency": "equal-residual-per-window-v1",
+    "projection": false,
+    "ensemble": null,
+    "strict_load_passed": true,
+    "loads_per_worker": 1,
+    "frozen_inference_sources_changed": false
+  },
+  "environment": {
+    "python": "3.14.4",
+    "torch": "2.11.0+cpu",
+    "torchaudio": "2.11.0+cpu",
+    "numpy": "2.4.4",
+    "scipy": "1.17.0",
+    "device": "cpu",
+    "intraop_threads": 2,
+    "interop_threads": 1
+  },
+  "measurements": {
+    "input": "generated 15-second PCM waveform, not dataset audio",
+    "output_samples_per_source": 60000,
+    "outputs_finite": true,
+    "mixture_consistency_max_error_bound": 0.000001,
+    "request_seconds": 0.014066884061321616,
+    "worker_startup_seconds": 1.0609265299281105,
+    "loader_seconds": 0.5024851070484146,
+    "inference_seconds": 0.034600368002429605,
+    "whole_job_seconds": 0.048139694961719215,
+    "startup_and_job_cpu_seconds": 0.909384371,
+    "peak_process_rss_mib": 560.9140625,
+    "caveat": "One local observation, includes pytest/API overhead and possible concurrent local checks; not a production SLA or model-quality measurement."
+  },
+  "tests": {
+    "focused_clean": {"passed": 5, "failed": 0, "seconds": 2.485},
+    "real_local_browser": {"groups_passed": 5, "failed": 0, "page_errors": 0},
+    "broader_backend_campaign": {
+      "initial_collection_error": "Missing test-only PyJWT in worker test environment",
+      "main_attempt_passed": 130,
+      "main_attempt_subtests_passed": 26,
+      "main_attempt_failed": 7,
+      "failure_explanation": "Six SDK exception checks needed firebase-admin; one global import check was order-dependent after worker tests imported torch. No failed product check was discarded.",
+      "followup_passed": 7,
+      "followup_failed": 0,
+      "followup_environment": "Existing backend-smoke auth-test environment; fresh API subprocess for import boundary",
+      "resolved_cases": 137,
+      "resolved_subtests": 26
+    },
+    "broader_mock_browser": {
+      "initial_failure": "Legacy guard blocked localhost4193 because it hard-coded4180",
+      "corrected_origin_guard": true,
+      "passed": 14,
+      "failed": 0
+    },
+    "typescript_vite_build": "PASS",
+    "backup_shell_syntax": "PASS",
+    "isolated_compose_config": "PASS",
+    "warning": "Existing non-failing Starlette/httpx TestClient deprecation"
+  },
+  "packaging": {
+    "image_tag": "stethofuse/ml-worker:integration-review-2b6b3c0",
+    "image_id": "sha256:8d5db929de1711d52a466e3962305ee54f92230c446e9d42839ec4a12c48043f",
+    "docker_reported_size_bytes": 358672177,
+    "build": "PASS after correcting build-context allow-list",
+    "smoke": "PASS; --once, no queued jobs; network none, read-only root, intended non-root UID10001, 2GiB/2CPU, temporary state only",
+    "smoke_model_load_seconds": 0.4117032060166821,
+    "initial_smoke_issue": "Host UID1000 override had no container passwd entry; repeated using the image's intended UID10001, without a source/model change.",
+    "deployed": false,
+    "production_paths_mounted": false
+  },
+  "artifacts": [
+    {"path": ".local/ml-integration/focused-clean-v1.xml", "sha256": "666f8d0ff2711eda4b0e43eab0ff0f077824eb782461a509a1a68ef8dfd9494c"},
+    {"path": ".local/ml-integration/application-regression-v2.xml", "sha256": "b6f51b48a443e25ccf4ec9857c666a31eba48d4fbcb80acd30d95a304253b786"},
+    {"path": ".local/ml-integration/application-regression-followup.xml", "sha256": "ebc87a35193768f3e10a54c3c7e68c6b30d291c9ef2fe8d34257d0443f55869e"},
+    {"path": "frontend/output/playwright/ml-integration-clean-v1/results.json", "sha256": "cd25cae737feab99315573f1e8765372819b21e0289ed187354463d65e67b3af"},
+    {"path": "frontend/output/playwright/ml-regression-v2/results.json", "sha256": "601c72b97c89693dfe87c10f984bbed8c0e7290d3502e1163d0c16d43bd16a1d"}
+  ],
+  "safety": {
+    "model_retrained_or_tuned": false,
+    "t9_audio_or_mixtures_used": false,
+    "t9_rerun": false,
+    "treatment_a_integrated_or_t9_evaluated": false,
+    "production_modified": false,
+    "axora_modified": false,
+    "frontend_visual_system_changed": false,
+    "fyp1_changed": false
+  }
+}
