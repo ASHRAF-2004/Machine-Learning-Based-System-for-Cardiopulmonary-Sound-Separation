@@ -1,10 +1,21 @@
 # ADR T01 — Own StethoFuse separator training plan
 
-28 September 2026. **DESIGNED / NOT YET TRAINED / NOT YET EVALUATED.**
+28 September 2026. **DESIGNED; T5 BASELINE TRAINED; T6 VALIDATION RECORDED;
+HELD-OUT TEST NOT RUN; NOT DEPLOYED.** See
+[`T5_T6_BASELINE_EXECUTION.md`](T5_T6_BASELINE_EXECUTION.md) for the run receipt.
 Baseline inspected: implementation `5d442be5`, documentation `a2fda968`.
 This decision supersedes waiting for NeoSSNet permission/native reproduction
 before developing **our own** model. It does not retrospectively qualify
 NeoSSNet, fix its poor target scores, or authorise production changes.
+
+## Execution status
+
+T0–T4 passed; the frozen CPU T5 baseline completed and T6 selected epoch8 by
+the predeclared weaker-source validation score. The model remains a research
+candidate only. Do not execute T7 tuning, final freeze, held-out test, ensemble
+reconsideration, application integration or deployment without owner review.
+See [`T5_T6_BASELINE_EXECUTION.md`](T5_T6_BASELINE_EXECUTION.md) for immutable
+run hashes, results and limitations.
 
 ## 1. Decision
 
