@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "status": "PREDECLARED_BEFORE_NATIVE_SIGNAL_ANALYSIS",
+  "test_audio_access": false,
+  "seed": 20260928,
+  "sample_rate_hz": 4000,
+  "signal_duration_seconds_expected": 15,
+  "allowed_population": "Only native triplets conservatively eligible in hls_native_triplets_v1.json; no T9-associated family or unclassified family",
+  "correspondence_partition": "Metadata-only 8 family-pair holdout, 32 fitting pairs; no held-out pair in global transfer fitting; same families can occur in both, so this tests unseen pairs not unseen families",
+  "alignment": {
+    "calibration_mixture_seconds": [6, 9],
+    "maximum_absolute_lag_seconds": 4,
+    "cross_correlation": "zero-mean normalized waveform cross-correlation; reference candidate segments remain within original recording; no circular wrap",
+    "candidate_peaks_per_source": 5,
+    "peak_minimum_separation_seconds": 0.02,
+    "joint_choice": "minimum calibration residual over at most 25 independent heart/lung lag pairs, each with two diagnostic least-squares gains",
+    "temporal_holdout": "common valid support outside calibration interval; do not refit gains/lags there",
+    "drift_probe": "three chronological common-support segments; subtract other aligned/gain-scaled source, re-estimate each source lag within +/-0.25 seconds of fixed lag; descriptive, never a DTW target transform",
+    "deployment_use": false
+  },
+  "waveform_global_transfer": {
+    "fit_population": "correspondence fitting pairs and calibration time 6-9s only; equal family-pair weight, then equal recording weight",
+    "form": "one joint two-input complex spectral least-squares transfer, converted to two fixed 257-tap centered FIR filters",
+    "stft_samples": 1024,
+    "stft_hop": 256,
+    "ridge_trace_fraction": 0.01,
+    "frequency_smoothing_bins": 5,
+    "maximum_transfer_magnitude": 10,
+    "fir_taps": 257,
+    "fit_scaling": "divide all three signals by the same per-triplet mixture RMS; no independent source normalization",
+    "heldout_use": "apply fixed filters to per-record reference-aligned waveforms; no heldout filter or post-filter gain fit",
+    "interpretation": "reference-assisted offline correspondence diagnostic, not separator performance"
+  },
+  "spectral_global_transfer": {
+    "fit_population": "correspondence fitting pairs only",
+    "form": "nonnegative regularized two-source PSD mapping per frequency, smoothed globally; no per-record filter",
+    "welch_samples": 2048,
+    "welch_overlap": 1024,
+    "ridge_trace_fraction": 0.01,
+    "frequency_smoothing_bins": 9,
+    "maximum_power_transfer": 100,
+    "band_hz": [20, 1800],
+    "fit_scaling": "divide all PSDs by same per-triplet mixture variance",
+    "comparison": "heldout fixed global mapping versus uncorrected sum; magnitude/power diagnostic does not establish waveform phase targets"
+  },
+  "fingerprint": {
+    "population": "eligible native reference versus same-source-class 86-row non-test standalone allowlist only",
+    "exact_hash": true,
+    "waveform_comparison": "bounded lagged normalized correlation; native reference center 6-9s versus each standalone source, abs lag<=4s",
+    "spectral_descriptor": "normalized Welch PSD and band-energy distances; similar family spectra are not proof of exact waveform reuse",
+    "no_test_fingerprint": true
+  },
+  "quality_policy": "Tiering and one training role will be decided from correspondence evidence before any neural treatment; no model-score-based triplet exclusions",
+  "waveform_label_error_tolerance": "Role A requires residual RMS <= 0.10 times weaker corrected source RMS on untouched temporal support, stable identifiable alignment, >=8s valid support and unseen-pair global correction; this engineering tolerance is not statistical significance",
+  "counterfactual_policy": "Deterministic seed-20260928 wrong-family/same-site preferred and same-family alternate references; identical diagnostic flexibility; never select mismatches by signal scores",
+  "no_training_in_this_script": true,
+  "no_inference_model_access": true
+}

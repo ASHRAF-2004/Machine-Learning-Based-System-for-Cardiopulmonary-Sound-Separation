@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "registry_sha256": "56f958996682fd61e598efc07c1084c8d41a2d5fdf8c453802dc27d8109fb0ae",
+  "qualified_manifest_sha256": "5d1efc20f8ed9e33173824c4d19786d6ca10fcabf1ab50c00a4c2eb6bb7f2a19",
+  "comparison": "Existing verified non-test file hashes and released labels only; no new audio decoding",
+  "cross_class_hash_conflict": {
+    "sha256": "342460fdffa6f463168e1030380076eedc429c974548aaf0309aec26721a4a69",
+    "records": [
+      {"triplet_id": "M0031", "role": "lung", "family": "Fine Crackles"},
+      {"triplet_id": "M0055", "role": "lung", "family": "Fine Crackles"},
+      {"triplet_id": "M0108", "role": "heart", "family": "Late Systolic Murmur"}
+    ],
+    "all_three_excluded_from_training": true,
+    "interpretation": "Identical bytes carry contradictory source-class/family labels. Do not infer the correct label, silently relabel, or claim all released correspondence is verified."
+  },
+  "selected_26_plus_standalone_86_cross_class_or_family_hash_conflicts": 0,
+  "test_audio_opened": false,
+  "training_performed": false
+}

@@ -1,0 +1,2141 @@
+{
+  "assessment_seconds": [
+    [
+      0,
+      6
+    ],
+    [
+      9,
+      15
+    ]
+  ],
+  "calibration_seconds": [
+    6,
+    9
+  ],
+  "correlation_search": false,
+  "decoded_native_files": 103,
+  "heldout_pair_subset": {
+    "interpretation": "descriptive small unseen-pair subset, not independent-family evidence",
+    "n_triplets": 3
+  },
+  "no_modification_of_forensic_config": true,
+  "objective": "test whether scalar closure requires documented corresponding source files rather than arbitrary same-family recordings",
+  "qualified_manifest_sha256": "5d1efc20f8ed9e33173824c4d19786d6ca10fcabf1ab50c00a4c2eb6bb7f2a19",
+  "registry_sha256": "56f958996682fd61e598efc07c1084c8d41a2d5fdf8c453802dc27d8109fb0ae",
+  "rows": [
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0003843758881327952,
+          "residual_weaker_source_rms_ratio": 0.0035461950084604652
+        },
+        {
+          "residual_mix_rms_ratio": 0.0005933013745534682,
+          "residual_weaker_source_rms_ratio": 0.004797535941181477
+        }
+      ],
+      "gain": 3.4842346621426774,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0111",
+      "wrong_heart_triplet_id": "M0133",
+      "wrong_lung_triplet_id": "M0115"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.000799538095018,
+          "residual_weaker_source_rms_ratio": 34.31015529700304
+        },
+        {
+          "residual_mix_rms_ratio": 1.0005020807923621,
+          "residual_weaker_source_rms_ratio": 30.06283883597405
+        }
+      ],
+      "gain": 0.9376446650443625,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0111",
+      "wrong_heart_triplet_id": "M0133",
+      "wrong_lung_triplet_id": "M0115"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.12426001734001389,
+          "residual_weaker_source_rms_ratio": 2.3274723954936594
+        },
+        {
+          "residual_mix_rms_ratio": 0.15598321275714822,
+          "residual_weaker_source_rms_ratio": 1.7821257966630042
+        }
+      ],
+      "gain": 3.3869754302879316,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0111",
+      "wrong_heart_triplet_id": "M0133",
+      "wrong_lung_triplet_id": "M0115"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0001462850451928,
+          "residual_weaker_source_rms_ratio": 909.8281207146017
+        },
+        {
+          "residual_mix_rms_ratio": 1.000171644999444,
+          "residual_weaker_source_rms_ratio": 554.9805133721658
+        }
+      ],
+      "gain": 0.06973797709362695,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0111",
+      "wrong_heart_triplet_id": "M0133",
+      "wrong_lung_triplet_id": "M0115"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00016921137858109858,
+          "residual_weaker_source_rms_ratio": 0.0002381949544993455
+        },
+        {
+          "residual_mix_rms_ratio": 0.0001925928767069452,
+          "residual_weaker_source_rms_ratio": 0.0003909749207353399
+        }
+      ],
+      "gain": 23.689612923771854,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0112",
+      "wrong_heart_triplet_id": "M0081",
+      "wrong_lung_triplet_id": "M0052"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9194666309360751,
+          "residual_weaker_source_rms_ratio": 4.582141036734734
+        },
+        {
+          "residual_mix_rms_ratio": 0.9613874979954263,
+          "residual_weaker_source_rms_ratio": 6.909341141959608
+        }
+      ],
+      "gain": 6.691576986552508,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0112",
+      "wrong_heart_triplet_id": "M0081",
+      "wrong_lung_triplet_id": "M0052"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.936215400282504,
+          "residual_weaker_source_rms_ratio": 4.419021427369351
+        },
+        {
+          "residual_mix_rms_ratio": 0.9079773528160409,
+          "residual_weaker_source_rms_ratio": 3.5574792992864697
+        }
+      ],
+      "gain": 6.931335853544506,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0112",
+      "wrong_heart_triplet_id": "M0081",
+      "wrong_lung_triplet_id": "M0052"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9998547820978407,
+          "residual_weaker_source_rms_ratio": 98.46736178390897
+        },
+        {
+          "residual_mix_rms_ratio": 1.00042899606428,
+          "residual_weaker_source_rms_ratio": 163.2871082118955
+        }
+      ],
+      "gain": 0.23091613096675975,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0112",
+      "wrong_heart_triplet_id": "M0081",
+      "wrong_lung_triplet_id": "M0052"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00015591531233676684,
+          "residual_weaker_source_rms_ratio": 0.0019071425543666911
+        },
+        {
+          "residual_mix_rms_ratio": 0.00029737475973065625,
+          "residual_weaker_source_rms_ratio": 0.002403845749250169
+        }
+      ],
+      "gain": 15.239408826861998,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0113",
+      "wrong_heart_triplet_id": "M0128",
+      "wrong_lung_triplet_id": "M0071"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0002405731148034,
+          "residual_weaker_source_rms_ratio": 958.9973333335107
+        },
+        {
+          "residual_mix_rms_ratio": 0.9995185811059941,
+          "residual_weaker_source_rms_ratio": 633.303530414257
+        }
+      ],
+      "gain": 0.19442386627280708,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0113",
+      "wrong_heart_triplet_id": "M0128",
+      "wrong_lung_triplet_id": "M0071"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.7005271083497033,
+          "residual_weaker_source_rms_ratio": 1.2396427420843754
+        },
+        {
+          "residual_mix_rms_ratio": 0.8480230832059497,
+          "residual_weaker_source_rms_ratio": 1.4456720861427195
+        }
+      ],
+      "gain": 8.976950624761383,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0113",
+      "wrong_heart_triplet_id": "M0128",
+      "wrong_lung_triplet_id": "M0071"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0002486209483001,
+          "residual_weaker_source_rms_ratio": 200.2964645571843
+        },
+        {
+          "residual_mix_rms_ratio": 0.9991525236061585,
+          "residual_weaker_source_rms_ratio": 90.6414072416921
+        }
+      ],
+      "gain": 0.15894884091767492,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0113",
+      "wrong_heart_triplet_id": "M0128",
+      "wrong_lung_triplet_id": "M0071"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0001526727426594603,
+          "residual_weaker_source_rms_ratio": 0.00036335911499276005
+        },
+        {
+          "residual_mix_rms_ratio": 0.00020555739244276753,
+          "residual_weaker_source_rms_ratio": 0.000361729844042654
+        }
+      ],
+      "gain": 26.50626746590088,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0114",
+      "wrong_heart_triplet_id": "M0115",
+      "wrong_lung_triplet_id": "M0081"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8230058521417604,
+          "residual_weaker_source_rms_ratio": 5.133490026474259
+        },
+        {
+          "residual_mix_rms_ratio": 0.9611440692951192,
+          "residual_weaker_source_rms_ratio": 6.960552121237338
+        }
+      ],
+      "gain": 6.440871249267202,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0114",
+      "wrong_heart_triplet_id": "M0115",
+      "wrong_lung_triplet_id": "M0081"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0280307158834394,
+          "residual_weaker_source_rms_ratio": 7.6095297773757045
+        },
+        {
+          "residual_mix_rms_ratio": 0.9020106445996823,
+          "residual_weaker_source_rms_ratio": 3.416041040197459
+        }
+      ],
+      "gain": 8.522586104333802,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0114",
+      "wrong_heart_triplet_id": "M0115",
+      "wrong_lung_triplet_id": "M0081"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9995659037907809,
+          "residual_weaker_source_rms_ratio": 149.38740567401578
+        },
+        {
+          "residual_mix_rms_ratio": 0.9995241929105487,
+          "residual_weaker_source_rms_ratio": 84.15334369756519
+        }
+      ],
+      "gain": 0.26881398891270525,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0114",
+      "wrong_heart_triplet_id": "M0115",
+      "wrong_lung_triplet_id": "M0081"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00013297173165389362,
+          "residual_weaker_source_rms_ratio": 0.00046038285634164377
+        },
+        {
+          "residual_mix_rms_ratio": 0.0001232430196646642,
+          "residual_weaker_source_rms_ratio": 0.0005182325989737591
+        }
+      ],
+      "gain": 38.68244933298633,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0115",
+      "wrong_heart_triplet_id": "M0013",
+      "wrong_lung_triplet_id": "M0120"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.971853615898304,
+          "residual_weaker_source_rms_ratio": 5.016663136297043
+        },
+        {
+          "residual_mix_rms_ratio": 1.0073926930429176,
+          "residual_weaker_source_rms_ratio": 5.9745311222098
+        }
+      ],
+      "gain": 27.42655952468976,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0115",
+      "wrong_heart_triplet_id": "M0013",
+      "wrong_lung_triplet_id": "M0120"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.37525484264153225,
+          "residual_weaker_source_rms_ratio": 1.5651163206006602
+        },
+        {
+          "residual_mix_rms_ratio": 0.38680799451649267,
+          "residual_weaker_source_rms_ratio": 1.2981219372953696
+        }
+      ],
+      "gain": 37.11459744061455,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0115",
+      "wrong_heart_triplet_id": "M0013",
+      "wrong_lung_triplet_id": "M0120"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0115",
+      "wrong_heart_triplet_id": "M0013",
+      "wrong_lung_triplet_id": "M0120"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00013407340841554386,
+          "residual_weaker_source_rms_ratio": 0.00031620944277619794
+        },
+        {
+          "residual_mix_rms_ratio": 0.00018975484946038199,
+          "residual_weaker_source_rms_ratio": 0.0002796481544094576
+        }
+      ],
+      "gain": 19.832923350033823,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0117",
+      "wrong_heart_triplet_id": "M0052",
+      "wrong_lung_triplet_id": "M0071"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9372264640051213,
+          "residual_weaker_source_rms_ratio": 4.048216685637659
+        },
+        {
+          "residual_mix_rms_ratio": 0.769084912478782,
+          "residual_weaker_source_rms_ratio": 2.6337992278715436
+        }
+      ],
+      "gain": 13.983017436913043,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0117",
+      "wrong_heart_triplet_id": "M0052",
+      "wrong_lung_triplet_id": "M0071"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8475959470173972,
+          "residual_weaker_source_rms_ratio": 2.7274354923368005
+        },
+        {
+          "residual_mix_rms_ratio": 0.9503663925719114,
+          "residual_weaker_source_rms_ratio": 4.0781825652927655
+        }
+      ],
+      "gain": 6.811303209936655,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0117",
+      "wrong_heart_triplet_id": "M0052",
+      "wrong_lung_triplet_id": "M0071"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0117",
+      "wrong_heart_triplet_id": "M0052",
+      "wrong_lung_triplet_id": "M0071"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0005073043592227264,
+          "residual_weaker_source_rms_ratio": 0.0011866193699825607
+        },
+        {
+          "residual_mix_rms_ratio": 0.000541055471314517,
+          "residual_weaker_source_rms_ratio": 0.000940643070564786
+        }
+      ],
+      "gain": 8.140401232885184,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0118",
+      "wrong_heart_triplet_id": "M0040",
+      "wrong_lung_triplet_id": "M0068"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.7231219608744179,
+          "residual_weaker_source_rms_ratio": 6.514193127563713
+        },
+        {
+          "residual_mix_rms_ratio": 0.8179373501274244,
+          "residual_weaker_source_rms_ratio": 3.088476806036061
+        }
+      ],
+      "gain": 2.9609493947429253,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0118",
+      "wrong_heart_triplet_id": "M0040",
+      "wrong_lung_triplet_id": "M0068"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.992746230046712,
+          "residual_weaker_source_rms_ratio": 44.60996991353523
+        },
+        {
+          "residual_mix_rms_ratio": 0.987650388255732,
+          "residual_weaker_source_rms_ratio": 32.98656936832222
+        }
+      ],
+      "gain": 0.4237356137327282,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0118",
+      "wrong_heart_triplet_id": "M0040",
+      "wrong_lung_triplet_id": "M0068"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0118",
+      "wrong_heart_triplet_id": "M0040",
+      "wrong_lung_triplet_id": "M0068"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00013572816536557784,
+          "residual_weaker_source_rms_ratio": 0.00033707708514317807
+        },
+        {
+          "residual_mix_rms_ratio": 0.00016906556708174165,
+          "residual_weaker_source_rms_ratio": 0.0008941019374724885
+        }
+      ],
+      "gain": 13.623078170378754,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0119",
+      "wrong_heart_triplet_id": "M0127",
+      "wrong_lung_triplet_id": "M0127"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9704319144213628,
+          "residual_weaker_source_rms_ratio": 8.363135530084406
+        },
+        {
+          "residual_mix_rms_ratio": 1.011194893060668,
+          "residual_weaker_source_rms_ratio": 18.557161667047463
+        }
+      ],
+      "gain": 3.9258204717529477,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0119",
+      "wrong_heart_triplet_id": "M0127",
+      "wrong_lung_triplet_id": "M0127"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.47562327094665735,
+          "residual_weaker_source_rms_ratio": 2.032557669577335
+        },
+        {
+          "residual_mix_rms_ratio": 0.3794016770728668,
+          "residual_weaker_source_rms_ratio": 1.2463049667580073
+        }
+      ],
+      "gain": 11.818423606170057,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0119",
+      "wrong_heart_triplet_id": "M0127",
+      "wrong_lung_triplet_id": "M0127"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0015924792322868,
+          "residual_weaker_source_rms_ratio": 47.25765626439372
+        },
+        {
+          "residual_mix_rms_ratio": 1.0035433481791558,
+          "residual_weaker_source_rms_ratio": 36.39674609439775
+        }
+      ],
+      "gain": 1.0704298452249412,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0119",
+      "wrong_heart_triplet_id": "M0127",
+      "wrong_lung_triplet_id": "M0127"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 8.622370636150484e-05,
+          "residual_weaker_source_rms_ratio": 0.00014062208029290877
+        },
+        {
+          "residual_mix_rms_ratio": 8.765039204546952e-05,
+          "residual_weaker_source_rms_ratio": 0.0001564761147979887
+        }
+      ],
+      "gain": 135.38929379733386,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0120",
+      "wrong_heart_triplet_id": "M0008",
+      "wrong_lung_triplet_id": "M0126"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9783583571945054,
+          "residual_weaker_source_rms_ratio": 10.676107561797014
+        },
+        {
+          "residual_mix_rms_ratio": 0.9355459801448046,
+          "residual_weaker_source_rms_ratio": 7.5846451620461455
+        }
+      ],
+      "gain": 20.234672166787725,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0120",
+      "wrong_heart_triplet_id": "M0008",
+      "wrong_lung_triplet_id": "M0126"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9462136459288054,
+          "residual_weaker_source_rms_ratio": 10.224962952911385
+        },
+        {
+          "residual_mix_rms_ratio": 0.9706667275766238,
+          "residual_weaker_source_rms_ratio": 14.68914425579166
+        }
+      ],
+      "gain": 15.971737417723984,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0120",
+      "wrong_heart_triplet_id": "M0008",
+      "wrong_lung_triplet_id": "M0126"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0120",
+      "wrong_heart_triplet_id": "M0008",
+      "wrong_lung_triplet_id": "M0126"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00014491894670263207,
+          "residual_weaker_source_rms_ratio": 0.0006287594609077978
+        },
+        {
+          "residual_mix_rms_ratio": 0.00015428363690007403,
+          "residual_weaker_source_rms_ratio": 0.0005149755914145031
+        }
+      ],
+      "gain": 59.13648627241048,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0122",
+      "wrong_heart_triplet_id": "M0107",
+      "wrong_lung_triplet_id": "M0140"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9994745606496969,
+          "residual_weaker_source_rms_ratio": 1314.6763203483908
+        },
+        {
+          "residual_mix_rms_ratio": 1.0002004738360486,
+          "residual_weaker_source_rms_ratio": 1012.142275567358
+        }
+      ],
+      "gain": 0.19505980444079926,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0122",
+      "wrong_heart_triplet_id": "M0107",
+      "wrong_lung_triplet_id": "M0140"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8974226008632326,
+          "residual_weaker_source_rms_ratio": 4.39887046710745
+        },
+        {
+          "residual_mix_rms_ratio": 0.9151656872410083,
+          "residual_weaker_source_rms_ratio": 4.578358400863117
+        }
+      ],
+      "gain": 12.349684289167163,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0122",
+      "wrong_heart_triplet_id": "M0107",
+      "wrong_lung_triplet_id": "M0140"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0122",
+      "wrong_heart_triplet_id": "M0107",
+      "wrong_lung_triplet_id": "M0140"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0002874609616331618,
+          "residual_weaker_source_rms_ratio": 0.001386113869527542
+        },
+        {
+          "residual_mix_rms_ratio": 0.00043673149636641893,
+          "residual_weaker_source_rms_ratio": 0.0007592123734980785
+        }
+      ],
+      "gain": 5.148965625003739,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0123",
+      "wrong_heart_triplet_id": "M0060",
+      "wrong_lung_triplet_id": "M0132"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.33091171087069193,
+          "residual_weaker_source_rms_ratio": 1.695515604319657
+        },
+        {
+          "residual_mix_rms_ratio": 0.765192661043015,
+          "residual_weaker_source_rms_ratio": 1.5858523295035654
+        }
+      ],
+      "gain": 4.26720403232905,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0123",
+      "wrong_heart_triplet_id": "M0060",
+      "wrong_lung_triplet_id": "M0132"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9976153931663806,
+          "residual_weaker_source_rms_ratio": 13.070528160703724
+        },
+        {
+          "residual_mix_rms_ratio": 0.93383740226605,
+          "residual_weaker_source_rms_ratio": 4.410928201899521
+        }
+      ],
+      "gain": 1.8950035680467454,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0123",
+      "wrong_heart_triplet_id": "M0060",
+      "wrong_lung_triplet_id": "M0132"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0001474930649779,
+          "residual_weaker_source_rms_ratio": 188.71207480745113
+        },
+        {
+          "residual_mix_rms_ratio": 1.0002620345328637,
+          "residual_weaker_source_rms_ratio": 76.33992314998326
+        }
+      ],
+      "gain": 0.11587704828840835,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0123",
+      "wrong_heart_triplet_id": "M0060",
+      "wrong_lung_triplet_id": "M0132"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.000375578673546205,
+          "residual_weaker_source_rms_ratio": 0.0016097473197300117
+        },
+        {
+          "residual_mix_rms_ratio": 0.00036549273192628865,
+          "residual_weaker_source_rms_ratio": 0.001129245107063339
+        }
+      ],
+      "gain": 5.169713862880234,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0125",
+      "wrong_heart_triplet_id": "M0128",
+      "wrong_lung_triplet_id": "M0110"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.39854915658108014,
+          "residual_weaker_source_rms_ratio": 1.3795691264823018
+        },
+        {
+          "residual_mix_rms_ratio": 0.5708263639092761,
+          "residual_weaker_source_rms_ratio": 1.3080619055824072
+        }
+      ],
+      "gain": 4.426532264557219,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0125",
+      "wrong_heart_triplet_id": "M0128",
+      "wrong_lung_triplet_id": "M0110"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9946090076837539,
+          "residual_weaker_source_rms_ratio": 14.178778590302377
+        },
+        {
+          "residual_mix_rms_ratio": 0.9847187712788699,
+          "residual_weaker_source_rms_ratio": 10.119320122591597
+        }
+      ],
+      "gain": 1.554307205312807,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0125",
+      "wrong_heart_triplet_id": "M0128",
+      "wrong_lung_triplet_id": "M0110"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0125",
+      "wrong_heart_triplet_id": "M0128",
+      "wrong_lung_triplet_id": "M0110"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0003843758881327952,
+          "residual_weaker_source_rms_ratio": 0.0035461950084604652
+        },
+        {
+          "residual_mix_rms_ratio": 0.0005933013745534682,
+          "residual_weaker_source_rms_ratio": 0.004797535941181477
+        }
+      ],
+      "gain": 3.4842346621426774,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0126",
+      "wrong_heart_triplet_id": "M0107",
+      "wrong_lung_triplet_id": "M0109"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9996663813683228,
+          "residual_weaker_source_rms_ratio": 144.66587608060794
+        },
+        {
+          "residual_mix_rms_ratio": 0.9993151761823079,
+          "residual_weaker_source_rms_ratio": 126.75056448111293
+        }
+      ],
+      "gain": 0.22212777181068596,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0126",
+      "wrong_heart_triplet_id": "M0107",
+      "wrong_lung_triplet_id": "M0109"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.11875440056918453,
+          "residual_weaker_source_rms_ratio": 2.5090837095430456
+        },
+        {
+          "residual_mix_rms_ratio": 0.17290134728765,
+          "residual_weaker_source_rms_ratio": 1.4762786429481247
+        }
+      ],
+      "gain": 3.470491790010731,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0126",
+      "wrong_heart_triplet_id": "M0107",
+      "wrong_lung_triplet_id": "M0109"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0126",
+      "wrong_heart_triplet_id": "M0107",
+      "wrong_lung_triplet_id": "M0109"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00011678133422320551,
+          "residual_weaker_source_rms_ratio": 0.00021478495378169523
+        },
+        {
+          "residual_mix_rms_ratio": 0.00011708964456832136,
+          "residual_weaker_source_rms_ratio": 0.0002053495952717623
+        }
+      ],
+      "gain": 27.719028165451462,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0127",
+      "wrong_heart_triplet_id": "M0119",
+      "wrong_lung_triplet_id": "M0119"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0113451422833246,
+          "residual_weaker_source_rms_ratio": 11.006892242429068
+        },
+        {
+          "residual_mix_rms_ratio": 0.9995978169185308,
+          "residual_weaker_source_rms_ratio": 10.373744863070655
+        }
+      ],
+      "gain": 4.684282727509966,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0127",
+      "wrong_heart_triplet_id": "M0119",
+      "wrong_lung_triplet_id": "M0119"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8579014817764881,
+          "residual_weaker_source_rms_ratio": 1.300291496396059
+        },
+        {
+          "residual_mix_rms_ratio": 0.6400223425001296,
+          "residual_weaker_source_rms_ratio": 2.56254028977376
+        }
+      ],
+      "gain": 22.532028051783392,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0127",
+      "wrong_heart_triplet_id": "M0119",
+      "wrong_lung_triplet_id": "M0119"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0041653534841688,
+          "residual_weaker_source_rms_ratio": 34.421932991875394
+        },
+        {
+          "residual_mix_rms_ratio": 1.0045694918955015,
+          "residual_weaker_source_rms_ratio": 90.96666429454854
+        }
+      ],
+      "gain": 0.9962620005400754,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0127",
+      "wrong_heart_triplet_id": "M0119",
+      "wrong_lung_triplet_id": "M0119"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00011158932625488257,
+          "residual_weaker_source_rms_ratio": 0.0002422003525521015
+        },
+        {
+          "residual_mix_rms_ratio": 0.00012228010929597844,
+          "residual_weaker_source_rms_ratio": 0.0002049609214347094
+        }
+      ],
+      "gain": 18.733118758780787,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0128",
+      "wrong_heart_triplet_id": "M0113",
+      "wrong_lung_triplet_id": "M0115"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8129783205446734,
+          "residual_weaker_source_rms_ratio": 2.2555619213273803
+        },
+        {
+          "residual_mix_rms_ratio": 0.7843556690785178,
+          "residual_weaker_source_rms_ratio": 3.4151017337096627
+        }
+      ],
+      "gain": 7.653735860091801,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0128",
+      "wrong_heart_triplet_id": "M0113",
+      "wrong_lung_triplet_id": "M0115"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8890128958047311,
+          "residual_weaker_source_rms_ratio": 9.292584855413214
+        },
+        {
+          "residual_mix_rms_ratio": 0.8335586748717457,
+          "residual_weaker_source_rms_ratio": 8.888059607808984
+        }
+      ],
+      "gain": 15.904792487389884,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0128",
+      "wrong_heart_triplet_id": "M0113",
+      "wrong_lung_triplet_id": "M0115"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0128",
+      "wrong_heart_triplet_id": "M0113",
+      "wrong_lung_triplet_id": "M0115"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00014916377971092057,
+          "residual_weaker_source_rms_ratio": 0.0003029091833042807
+        },
+        {
+          "residual_mix_rms_ratio": 0.0001811769331495364,
+          "residual_weaker_source_rms_ratio": 0.0003611023051570949
+        }
+      ],
+      "gain": 27.53084225217838,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0129",
+      "wrong_heart_triplet_id": "M0051",
+      "wrong_lung_triplet_id": "M0123"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.6316817411029769,
+          "residual_weaker_source_rms_ratio": 2.960207152202074
+        },
+        {
+          "residual_mix_rms_ratio": 0.9176729083189724,
+          "residual_weaker_source_rms_ratio": 3.252913423000538
+        }
+      ],
+      "gain": 16.93438985558087,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0129",
+      "wrong_heart_triplet_id": "M0051",
+      "wrong_lung_triplet_id": "M0123"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0034095534153464,
+          "residual_weaker_source_rms_ratio": 31.366547304527664
+        },
+        {
+          "residual_mix_rms_ratio": 0.96354732431933,
+          "residual_weaker_source_rms_ratio": 17.35449550493874
+        }
+      ],
+      "gain": 1.7884634703083022,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0129",
+      "wrong_heart_triplet_id": "M0051",
+      "wrong_lung_triplet_id": "M0123"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0129",
+      "wrong_heart_triplet_id": "M0051",
+      "wrong_lung_triplet_id": "M0123"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0002980710971847716,
+          "residual_weaker_source_rms_ratio": 0.0010306293166257722
+        },
+        {
+          "residual_mix_rms_ratio": 0.0003710443453458886,
+          "residual_weaker_source_rms_ratio": 0.0005902098688518073
+        }
+      ],
+      "gain": 5.124643862241785,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0130",
+      "wrong_heart_triplet_id": "M0140",
+      "wrong_lung_triplet_id": "M0140"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.6926440568035299,
+          "residual_weaker_source_rms_ratio": 1.8108269515603646
+        },
+        {
+          "residual_mix_rms_ratio": 0.8203383306828517,
+          "residual_weaker_source_rms_ratio": 2.3145943534946403
+        }
+      ],
+      "gain": 2.5226564805408476,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0130",
+      "wrong_heart_triplet_id": "M0140",
+      "wrong_lung_triplet_id": "M0140"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0050380319512544,
+          "residual_weaker_source_rms_ratio": 4.467951064614425
+        },
+        {
+          "residual_mix_rms_ratio": 0.8525862213078242,
+          "residual_weaker_source_rms_ratio": 2.538491623700506
+        }
+      ],
+      "gain": 3.9858449786281156,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0130",
+      "wrong_heart_triplet_id": "M0140",
+      "wrong_lung_triplet_id": "M0140"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0130",
+      "wrong_heart_triplet_id": "M0140",
+      "wrong_lung_triplet_id": "M0140"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00010392854957118947,
+          "residual_weaker_source_rms_ratio": 0.00018102372346100694
+        },
+        {
+          "residual_mix_rms_ratio": 0.00010674423039857928,
+          "residual_weaker_source_rms_ratio": 0.00018368955162481387
+        }
+      ],
+      "gain": 16.750798815067732,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0132",
+      "wrong_heart_triplet_id": "M0068",
+      "wrong_lung_triplet_id": "M0105"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8355372109885938,
+          "residual_weaker_source_rms_ratio": 5.924272264103424
+        },
+        {
+          "residual_mix_rms_ratio": 0.8389460977719114,
+          "residual_weaker_source_rms_ratio": 3.9958718103224853
+        }
+      ],
+      "gain": 13.730955332343546,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0132",
+      "wrong_heart_triplet_id": "M0068",
+      "wrong_lung_triplet_id": "M0105"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8155359277391866,
+          "residual_weaker_source_rms_ratio": 1.641698680660396
+        },
+        {
+          "residual_mix_rms_ratio": 0.7599289787645516,
+          "residual_weaker_source_rms_ratio": 1.9253221776617249
+        }
+      ],
+      "gain": 10.515896768223914,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0132",
+      "wrong_heart_triplet_id": "M0068",
+      "wrong_lung_triplet_id": "M0105"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0000186408423963,
+          "residual_weaker_source_rms_ratio": 160.19974859270974
+        },
+        {
+          "residual_mix_rms_ratio": 0.999654423902784,
+          "residual_weaker_source_rms_ratio": 107.575135741903
+        }
+      ],
+      "gain": 0.6077377769582124,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0132",
+      "wrong_heart_triplet_id": "M0068",
+      "wrong_lung_triplet_id": "M0105"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00011675738446111929,
+          "residual_weaker_source_rms_ratio": 0.0002036912270270838
+        },
+        {
+          "residual_mix_rms_ratio": 0.0001833967364314917,
+          "residual_weaker_source_rms_ratio": 0.000342328075054734
+        }
+      ],
+      "gain": 22.62635047260699,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0133",
+      "wrong_heart_triplet_id": "M0039",
+      "wrong_lung_triplet_id": "M0111"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.6352374760132373,
+          "residual_weaker_source_rms_ratio": 2.7036347426711873
+        },
+        {
+          "residual_mix_rms_ratio": 0.6536963816542797,
+          "residual_weaker_source_rms_ratio": 1.7024472678690867
+        }
+      ],
+      "gain": 18.876340827186496,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0133",
+      "wrong_heart_triplet_id": "M0039",
+      "wrong_lung_triplet_id": "M0111"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8611743428112226,
+          "residual_weaker_source_rms_ratio": 3.774532753686147
+        },
+        {
+          "residual_mix_rms_ratio": 0.8770598487086527,
+          "residual_weaker_source_rms_ratio": 4.119052699151733
+        }
+      ],
+      "gain": 18.00462551640226,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0133",
+      "wrong_heart_triplet_id": "M0039",
+      "wrong_lung_triplet_id": "M0111"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0133",
+      "wrong_heart_triplet_id": "M0039",
+      "wrong_lung_triplet_id": "M0111"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 8.160926311214688e-05,
+          "residual_weaker_source_rms_ratio": 0.0001178362727435717
+        },
+        {
+          "residual_mix_rms_ratio": 9.675824196647291e-05,
+          "residual_weaker_source_rms_ratio": 0.00015991049499281196
+        }
+      ],
+      "gain": 17.71058228073589,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0136",
+      "wrong_heart_triplet_id": "M0098",
+      "wrong_lung_triplet_id": "M0132"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8926389762702809,
+          "residual_weaker_source_rms_ratio": 4.568427358627518
+        },
+        {
+          "residual_mix_rms_ratio": 0.9995359817948732,
+          "residual_weaker_source_rms_ratio": 5.194004678612016
+        }
+      ],
+      "gain": 5.6327170385498135,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0136",
+      "wrong_heart_triplet_id": "M0098",
+      "wrong_lung_triplet_id": "M0132"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.8192900285308811,
+          "residual_weaker_source_rms_ratio": 1.959972196882904
+        },
+        {
+          "residual_mix_rms_ratio": 0.7727916005611392,
+          "residual_weaker_source_rms_ratio": 1.6610528573985794
+        }
+      ],
+      "gain": 14.733286150403783,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0136",
+      "wrong_heart_triplet_id": "M0098",
+      "wrong_lung_triplet_id": "M0132"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0136",
+      "wrong_heart_triplet_id": "M0098",
+      "wrong_lung_triplet_id": "M0132"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0001093939779998681,
+          "residual_weaker_source_rms_ratio": 0.0001728966514972365
+        },
+        {
+          "residual_mix_rms_ratio": 0.0001449438096778273,
+          "residual_weaker_source_rms_ratio": 0.00022195170022848906
+        }
+      ],
+      "gain": 22.364109529225978,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0137",
+      "wrong_heart_triplet_id": "M0060",
+      "wrong_lung_triplet_id": "M0118"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.7978140549135359,
+          "residual_weaker_source_rms_ratio": 3.311598513578943
+        },
+        {
+          "residual_mix_rms_ratio": 0.9191803415081969,
+          "residual_weaker_source_rms_ratio": 3.1361071780638214
+        }
+      ],
+      "gain": 10.037377216802069,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0137",
+      "wrong_heart_triplet_id": "M0060",
+      "wrong_lung_triplet_id": "M0118"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.3034358503341137,
+          "residual_weaker_source_rms_ratio": 2.680626873509999
+        },
+        {
+          "residual_mix_rms_ratio": 0.8005188385387522,
+          "residual_weaker_source_rms_ratio": 1.7938405770399122
+        }
+      ],
+      "gain": 17.186920669168558,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0137",
+      "wrong_heart_triplet_id": "M0060",
+      "wrong_lung_triplet_id": "M0118"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0137",
+      "wrong_heart_triplet_id": "M0060",
+      "wrong_lung_triplet_id": "M0118"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0002131891328021309,
+          "residual_weaker_source_rms_ratio": 0.0014447176069191335
+        },
+        {
+          "residual_mix_rms_ratio": 0.00022182407568661024,
+          "residual_weaker_source_rms_ratio": 0.0006728116094197112
+        }
+      ],
+      "gain": 8.916602042107495,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0138",
+      "wrong_heart_triplet_id": "M0136",
+      "wrong_lung_triplet_id": "M0041"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.6477643836141604,
+          "residual_weaker_source_rms_ratio": 3.376081377647191
+        },
+        {
+          "residual_mix_rms_ratio": 0.7597936984835535,
+          "residual_weaker_source_rms_ratio": 2.1785759316695237
+        }
+      ],
+      "gain": 3.420286923598706,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0138",
+      "wrong_heart_triplet_id": "M0136",
+      "wrong_lung_triplet_id": "M0041"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9958766276867516,
+          "residual_weaker_source_rms_ratio": 20.54047765514338
+        },
+        {
+          "residual_mix_rms_ratio": 0.973159118210845,
+          "residual_weaker_source_rms_ratio": 7.8926860105703
+        }
+      ],
+      "gain": 3.3863900140678838,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0138",
+      "wrong_heart_triplet_id": "M0136",
+      "wrong_lung_triplet_id": "M0041"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9994347913142151,
+          "residual_weaker_source_rms_ratio": 184.77272712745543
+        },
+        {
+          "residual_mix_rms_ratio": 1.001222085313193,
+          "residual_weaker_source_rms_ratio": 72.786325808957
+        }
+      ],
+      "gain": 0.377797055040335,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0138",
+      "wrong_heart_triplet_id": "M0136",
+      "wrong_lung_triplet_id": "M0041"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00016274362780374058,
+          "residual_weaker_source_rms_ratio": 0.0002753703167353093
+        },
+        {
+          "residual_mix_rms_ratio": 0.0001702160579062667,
+          "residual_weaker_source_rms_ratio": 0.0003975775113447113
+        }
+      ],
+      "gain": 21.20603826693537,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0139",
+      "wrong_heart_triplet_id": "M0127",
+      "wrong_lung_triplet_id": "M0114"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9496349372970292,
+          "residual_weaker_source_rms_ratio": 6.824441967897993
+        },
+        {
+          "residual_mix_rms_ratio": 0.9863019154159538,
+          "residual_weaker_source_rms_ratio": 9.784271356222312
+        }
+      ],
+      "gain": 4.993007414795101,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0139",
+      "wrong_heart_triplet_id": "M0127",
+      "wrong_lung_triplet_id": "M0114"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.890291671029676,
+          "residual_weaker_source_rms_ratio": 1.3940046976524987
+        },
+        {
+          "residual_mix_rms_ratio": 0.5318078946414027,
+          "residual_weaker_source_rms_ratio": 2.0336755885480002
+        }
+      ],
+      "gain": 16.967307002717554,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0139",
+      "wrong_heart_triplet_id": "M0127",
+      "wrong_lung_triplet_id": "M0114"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0139",
+      "wrong_heart_triplet_id": "M0127",
+      "wrong_lung_triplet_id": "M0114"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0003972203230301507,
+          "residual_weaker_source_rms_ratio": 0.0011120322267460922
+        },
+        {
+          "residual_mix_rms_ratio": 0.0005511445316410437,
+          "residual_weaker_source_rms_ratio": 0.0010327697790409778
+        }
+      ],
+      "gain": 4.8864675762240095,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0140",
+      "wrong_heart_triplet_id": "M0052",
+      "wrong_lung_triplet_id": "M0023"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9576200683413799,
+          "residual_weaker_source_rms_ratio": 16.210932604385043
+        },
+        {
+          "residual_mix_rms_ratio": 0.9268883749198329,
+          "residual_weaker_source_rms_ratio": 8.588207037696922
+        }
+      ],
+      "gain": 1.958368294943826,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0140",
+      "wrong_heart_triplet_id": "M0052",
+      "wrong_lung_triplet_id": "M0023"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.44517422905029147,
+          "residual_weaker_source_rms_ratio": 1.7860916476880537
+        },
+        {
+          "residual_mix_rms_ratio": 0.6937600123265466,
+          "residual_weaker_source_rms_ratio": 1.5766213616934421
+        }
+      ],
+      "gain": 4.3413342448198975,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0140",
+      "wrong_heart_triplet_id": "M0052",
+      "wrong_lung_triplet_id": "M0023"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9999919685417016,
+          "residual_weaker_source_rms_ratio": 3613.979212311161
+        },
+        {
+          "residual_mix_rms_ratio": 0.9999954724953518,
+          "residual_weaker_source_rms_ratio": 1978.0965282261736
+        }
+      ],
+      "gain": 0.009173181632258146,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0140",
+      "wrong_heart_triplet_id": "M0052",
+      "wrong_lung_triplet_id": "M0023"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00014651352329885843,
+          "residual_weaker_source_rms_ratio": 0.0003246001061464413
+        },
+        {
+          "residual_mix_rms_ratio": 0.00014549345391885212,
+          "residual_weaker_source_rms_ratio": 0.00033850561802971477
+        }
+      ],
+      "gain": 27.8350160637882,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0142",
+      "wrong_heart_triplet_id": "M0113",
+      "wrong_lung_triplet_id": "M0084"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9973148467582607,
+          "residual_weaker_source_rms_ratio": 87.29539116520394
+        },
+        {
+          "residual_mix_rms_ratio": 0.9950633126498849,
+          "residual_weaker_source_rms_ratio": 91.46632439057097
+        }
+      ],
+      "gain": 0.7045363263323823,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0142",
+      "wrong_heart_triplet_id": "M0113",
+      "wrong_lung_triplet_id": "M0084"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9613401597409754,
+          "residual_weaker_source_rms_ratio": 7.38775580170943
+        },
+        {
+          "residual_mix_rms_ratio": 0.9299542807570358,
+          "residual_weaker_source_rms_ratio": 7.1092872998301795
+        }
+      ],
+      "gain": 4.021194341450594,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0142",
+      "wrong_heart_triplet_id": "M0113",
+      "wrong_lung_triplet_id": "M0084"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0003981239415958,
+          "residual_weaker_source_rms_ratio": 100.28325048496461
+        },
+        {
+          "residual_mix_rms_ratio": 1.0004534928241733,
+          "residual_weaker_source_rms_ratio": 221.04902554698748
+        }
+      ],
+      "gain": 0.14766126104125524,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0142",
+      "wrong_heart_triplet_id": "M0113",
+      "wrong_lung_triplet_id": "M0084"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.0002851214693747919,
+          "residual_weaker_source_rms_ratio": 0.0005640885888235269
+        },
+        {
+          "residual_mix_rms_ratio": 0.0003402325244708397,
+          "residual_weaker_source_rms_ratio": 0.000506321643612996
+        }
+      ],
+      "gain": 5.009558083712915,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0143",
+      "wrong_heart_triplet_id": "M0117",
+      "wrong_lung_triplet_id": "M0105"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9339105330844008,
+          "residual_weaker_source_rms_ratio": 3.7727488486181966
+        },
+        {
+          "residual_mix_rms_ratio": 0.7696939993844778,
+          "residual_weaker_source_rms_ratio": 3.623821231423064
+        }
+      ],
+      "gain": 3.193391607188111,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0143",
+      "wrong_heart_triplet_id": "M0117",
+      "wrong_lung_triplet_id": "M0105"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.7062633066298584,
+          "residual_weaker_source_rms_ratio": 2.6299260268919014
+        },
+        {
+          "residual_mix_rms_ratio": 0.8561073510980874,
+          "residual_weaker_source_rms_ratio": 2.6574380543543765
+        }
+      ],
+      "gain": 2.5228292792008884,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0143",
+      "wrong_heart_triplet_id": "M0117",
+      "wrong_lung_triplet_id": "M0105"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "heldout_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9999953414734704,
+          "residual_weaker_source_rms_ratio": 1365.388937726741
+        },
+        {
+          "residual_mix_rms_ratio": 1.0000021914587887,
+          "residual_weaker_source_rms_ratio": 1591.3122190253894
+        }
+      ],
+      "gain": 0.009448141700865971,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0143",
+      "wrong_heart_triplet_id": "M0117",
+      "wrong_lung_triplet_id": "M0105"
+    },
+    {
+      "condition": "correct",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.00021074778494939458,
+          "residual_weaker_source_rms_ratio": 0.0018451017174979704
+        },
+        {
+          "residual_mix_rms_ratio": 0.0003533915991978737,
+          "residual_weaker_source_rms_ratio": 0.0013765795210128734
+        }
+      ],
+      "gain": 6.2709940647090425,
+      "passes_original_N1_error_rule": true,
+      "triplet_id": "M0145",
+      "wrong_heart_triplet_id": "M0077",
+      "wrong_lung_triplet_id": "M0084"
+    },
+    {
+      "condition": "wrong_heart_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.9999608085633219,
+          "residual_weaker_source_rms_ratio": 160.41306153025172
+        },
+        {
+          "residual_mix_rms_ratio": 0.99805788944226,
+          "residual_weaker_source_rms_ratio": 71.2361220295635
+        }
+      ],
+      "gain": 0.3422448609788459,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0145",
+      "wrong_heart_triplet_id": "M0077",
+      "wrong_lung_triplet_id": "M0084"
+    },
+    {
+      "condition": "wrong_lung_only",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 0.5750967046785964,
+          "residual_weaker_source_rms_ratio": 1.5242545266394252
+        },
+        {
+          "residual_mix_rms_ratio": 0.7544307707461257,
+          "residual_weaker_source_rms_ratio": 1.3417603114628425
+        }
+      ],
+      "gain": 3.6304173944444367,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0145",
+      "wrong_heart_triplet_id": "M0077",
+      "wrong_lung_triplet_id": "M0084"
+    },
+    {
+      "condition": "wrong_both",
+      "correspondence_partition": "fit_pair",
+      "full_flanks": [
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        },
+        {
+          "residual_mix_rms_ratio": 1.0,
+          "residual_weaker_source_rms_ratio": null
+        }
+      ],
+      "gain": 0.0,
+      "passes_original_N1_error_rule": false,
+      "triplet_id": "M0145",
+      "wrong_heart_triplet_id": "M0077",
+      "wrong_lung_triplet_id": "M0084"
+    }
+  ],
+  "schema_version": 1,
+  "selection": "same-family different-hash references; fit-partition then exact site preferred; SHA256 seed20260928 tie-break; no waveform-quality selection",
+  "status": "POSTHOC_STRUCTURAL_CHARACTERIZATION_NOT_MODEL_TUNING",
+  "summary": {
+    "correct": {
+      "max_flank_residual_mix_rms_ratio": {
+        "max": 0.0005933013745534682,
+        "mean": 0.0002620731836811702,
+        "median": 0.00018975484946038199,
+        "min": 8.765039204546952e-05,
+        "n": 27,
+        "p25": 0.00014572866648834287,
+        "p75": 0.00036221797227188113
+      },
+      "n": 27,
+      "passes": 27
+    },
+    "wrong_both": {
+      "max_flank_residual_mix_rms_ratio": {
+        "max": 1.0045694918955015,
+        "mean": 1.0003882193831197,
+        "median": 1.0,
+        "min": 0.9995659037907809,
+        "n": 27,
+        "p25": 1.0,
+        "p75": 1.000210132973872
+      },
+      "n": 27,
+      "passes": 0
+    },
+    "wrong_heart_only": {
+      "max_flank_residual_mix_rms_ratio": {
+        "max": 1.0113451422833246,
+        "mean": 0.9118578774553193,
+        "median": 0.9611440692951192,
+        "min": 0.5708263639092761,
+        "n": 27,
+        "p25": 0.8296422142273816,
+        "p75": 0.9998135949658223
+      },
+      "n": 27,
+      "passes": 0
+    },
+    "wrong_lung_only": {
+      "max_flank_residual_mix_rms_ratio": {
+        "max": 1.3034358503341137,
+        "mean": 0.8350831360761128,
+        "median": 0.890291671029676,
+        "min": 0.15598321275714822,
+        "n": 27,
+        "p25": 0.8174129781350339,
+        "p75": 0.993677618865233
+      },
+      "n": 27,
+      "passes": 0
+    }
+  },
+  "test_audio_opened": false,
+  "threshold_unchanged": 0.1,
+  "training_performed": false,
+  "transfer_filter_fitting": false
+}

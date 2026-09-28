@@ -1,0 +1,1821 @@
+{
+  "artifact_paths": {
+    "arrays": ".local/analysis/hls-native-triplets-v1/spectra/global_transfer.npz",
+    "arrays_sha256": "be237593d2f1636d65770856dc558573022a8a2ca7fbe1cf87a080067c6ffd25",
+    "per_triplet": ".local/analysis/hls-native-triplets-v1/spectra/per_triplet.json",
+    "per_triplet_sha256": "cf6febff9f33f976454657661f06255b052cbce0595d32c74091a070e9ed6d10"
+  },
+  "config_sha256": "6780650c58403b01238ddacf1172dac38da4d09f9f150797cc1684e1bad554dc",
+  "counterfactual_contrasts": {
+    "both_wrong": {
+      "correct_lower_error_condition_count": {
+        "hellinger": 16,
+        "log_psd_mae_db": 20,
+        "total_variation": 17
+      },
+      "counterfactual_minus_correct_error": {
+        "pair_macro": {
+          "hellinger": 0.0530299731153506,
+          "log_psd_mae_db": 1.4927267868469605,
+          "total_variation": 0.05342586832813578
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "hellinger": -0.024093676544119424,
+            "log_psd_mae_db": 0.4690466829526374,
+            "total_variation": -0.038224661214409913
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "hellinger": 0.015103234450786429,
+            "log_psd_mae_db": 1.8666301808385666,
+            "total_variation": -0.003121657147835244
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "hellinger": -0.08848615540871446,
+            "log_psd_mae_db": 1.0064757311697972,
+            "total_variation": -0.15782444846934326
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "hellinger": 0.01690500867072589,
+            "log_psd_mae_db": 2.5262378786278066,
+            "total_variation": 0.024284652916221366
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "hellinger": 0.09414788371598713,
+            "log_psd_mae_db": -0.3784829272669512,
+            "total_variation": 0.154688458096529
+          },
+          "hs:normal|ls:normal": {
+            "hellinger": 0.0719851253423441,
+            "log_psd_mae_db": 1.7233514359402775,
+            "total_variation": 0.09745788764092195
+          },
+          "hs:s3|ls:normal": {
+            "hellinger": 0.18142079625526478,
+            "log_psd_mae_db": 3.4352589576012633,
+            "total_variation": 0.18759203357884968
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "hellinger": 0.15725756844053032,
+            "log_psd_mae_db": 1.2932963549122858,
+            "total_variation": 0.16255468122415262
+          }
+        },
+        "row_descriptive_not_iid": {
+          "hellinger": {
+            "max": 0.36263837485650385,
+            "mean": 0.06359341325900035,
+            "median": 0.06964001783069734,
+            "min": -0.33422249580499824,
+            "n": 26,
+            "q25": -0.06638113517517902,
+            "q75": 0.20270651596407185
+          },
+          "log_psd_mae_db": {
+            "max": 6.9152907853837835,
+            "mean": 1.4820851632201426,
+            "median": 1.9284602842469556,
+            "min": -6.06513163336982,
+            "n": 26,
+            "q25": 0.14377169120028466,
+            "q75": 2.6378624476465036
+          },
+          "total_variation": {
+            "max": 0.4056472587470937,
+            "mean": 0.06747447306317515,
+            "median": 0.06512729001323528,
+            "min": -0.40057267612997416,
+            "n": 26,
+            "q25": -0.07082835413587546,
+            "q75": 0.19484398017857713
+          }
+        }
+      }
+    },
+    "same_family_alternatives": {
+      "correct_lower_error_condition_count": {
+        "hellinger": 8,
+        "log_psd_mae_db": 11,
+        "total_variation": 9
+      },
+      "counterfactual_minus_correct_error": {
+        "pair_macro": {
+          "hellinger": -0.0026628313024741413,
+          "log_psd_mae_db": 0.6593898403673581,
+          "total_variation": -0.010642592145779447
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "hellinger": -0.039279145255532374,
+            "log_psd_mae_db": 1.7920400604887756,
+            "total_variation": -0.06485187216507507
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "hellinger": -0.0027002790841929025,
+            "log_psd_mae_db": -0.43579436489564394,
+            "total_variation": -0.015930077823768596
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "hellinger": -0.042112513136258606,
+            "log_psd_mae_db": 0.7450917949595328,
+            "total_variation": -0.07813450810419731
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "hellinger": 0.0021296209391232224,
+            "log_psd_mae_db": -0.529117451413275,
+            "total_variation": 0.0013612667199175421
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "hellinger": 0.021779993657915848,
+            "log_psd_mae_db": -0.5690136237416178,
+            "total_variation": 0.033932049655929074
+          },
+          "hs:normal|ls:normal": {
+            "hellinger": 0.010829392912467059,
+            "log_psd_mae_db": 1.4060472886660484,
+            "total_variation": 0.0008280950777892482
+          },
+          "hs:s3|ls:normal": {
+            "hellinger": -0.01601023272733401,
+            "log_psd_mae_db": 0.9124534777881964,
+            "total_variation": -0.0162324646240961
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "hellinger": 0.04406051227401864,
+            "log_psd_mae_db": 1.9534115410868491,
+            "total_variation": 0.053886774097265645
+          }
+        },
+        "row_descriptive_not_iid": {
+          "hellinger": {
+            "max": 0.28428550100162686,
+            "mean": 0.0012260131227961634,
+            "median": 0.0,
+            "min": -0.15413586278524505,
+            "n": 26,
+            "q25": -0.025489285097113165,
+            "q75": 0.026354116808398574
+          },
+          "log_psd_mae_db": {
+            "max": 6.089217788370599,
+            "mean": 0.7956078626923812,
+            "median": 0.0,
+            "min": -2.437599092250469,
+            "n": 26,
+            "q25": -0.5466444844616896,
+            "q75": 2.26863257600557
+          },
+          "total_variation": {
+            "max": 0.32741801055392555,
+            "mean": -0.004502872416206425,
+            "median": 0.0,
+            "min": -0.17491316187405548,
+            "n": 26,
+            "q25": -0.051211015983607305,
+            "q75": 0.005620927297448466
+          }
+        }
+      }
+    },
+    "wrong_heart": {
+      "correct_lower_error_condition_count": {
+        "hellinger": 13,
+        "log_psd_mae_db": 18,
+        "total_variation": 14
+      },
+      "counterfactual_minus_correct_error": {
+        "pair_macro": {
+          "hellinger": 0.01926275836534804,
+          "log_psd_mae_db": 0.6826710169050509,
+          "total_variation": 0.01887809919937999
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "hellinger": 0.04140735868338796,
+            "log_psd_mae_db": -0.41438006146806816,
+            "total_variation": 0.0424412385255437
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "hellinger": 0.053771097148910624,
+            "log_psd_mae_db": 0.517724540227233,
+            "total_variation": 0.058202254572847306
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "hellinger": -0.03148076103391592,
+            "log_psd_mae_db": 1.3036476829145367,
+            "total_variation": -0.07653106431274914
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "hellinger": -0.029096483902774514,
+            "log_psd_mae_db": 3.455218108846922,
+            "total_variation": -0.040973509920832804
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "hellinger": -0.007845375174303448,
+            "log_psd_mae_db": -1.041325968041166,
+            "total_variation": -0.011047038012936864
+          },
+          "hs:normal|ls:normal": {
+            "hellinger": 0.07013575044013741,
+            "log_psd_mae_db": -0.2417468203288727,
+            "total_variation": 0.11071455314374773
+          },
+          "hs:s3|ls:normal": {
+            "hellinger": 0.021582352680726013,
+            "log_psd_mae_db": 1.609478210531166,
+            "total_variation": 0.020669590461790576
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "hellinger": 0.03562812808061622,
+            "log_psd_mae_db": 0.27275244255865677,
+            "total_variation": 0.04754876913762943
+          }
+        },
+        "row_descriptive_not_iid": {
+          "hellinger": {
+            "max": 0.21111995777422798,
+            "mean": 0.020137807522892473,
+            "median": 0.001061362601563809,
+            "min": -0.17403510949381984,
+            "n": 26,
+            "q25": -0.02647596828805948,
+            "q75": 0.06526934759144382
+          },
+          "log_psd_mae_db": {
+            "max": 3.6851988241420024,
+            "mean": 0.6980413505798316,
+            "median": 0.2092473240413124,
+            "min": -1.5539557126009438,
+            "n": 26,
+            "q25": -0.3254828677129362,
+            "q75": 1.155763118861606
+          },
+          "total_variation": {
+            "max": 0.2712636055457542,
+            "mean": 0.021844940669422743,
+            "median": 0.005638004057853946,
+            "min": -0.2099862867481479,
+            "n": 26,
+            "q25": -0.02640710248601741,
+            "q75": 0.07632756158234119
+          }
+        }
+      }
+    },
+    "wrong_lung": {
+      "correct_lower_error_condition_count": {
+        "hellinger": 15,
+        "log_psd_mae_db": 16,
+        "total_variation": 15
+      },
+      "counterfactual_minus_correct_error": {
+        "pair_macro": {
+          "hellinger": 0.020127873793702095,
+          "log_psd_mae_db": 0.9356316467314174,
+          "total_variation": 0.01897252791608737
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "hellinger": -0.08321703296426985,
+            "log_psd_mae_db": 1.3316985833221922,
+            "total_variation": -0.09328182889769626
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "hellinger": -0.023907356384362255,
+            "log_psd_mae_db": 1.5244702434421056,
+            "total_variation": -0.06390611847671568
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "hellinger": -0.06484537041769678,
+            "log_psd_mae_db": -0.4302090799158944,
+            "total_variation": -0.08418190584287938
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "hellinger": 0.004106034222411181,
+            "log_psd_mae_db": -0.3991000418321111,
+            "total_variation": 0.003824449776458849
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "hellinger": 0.02460504326749437,
+            "log_psd_mae_db": 0.8198268890297106,
+            "total_variation": 0.08214195635255496
+          },
+          "hs:normal|ls:normal": {
+            "hellinger": 0.046116144838730756,
+            "log_psd_mae_db": 2.638804165323912,
+            "total_variation": 0.058596042405436886
+          },
+          "hs:s3|ls:normal": {
+            "hellinger": 0.12129406957250699,
+            "log_psd_mae_db": 0.9901801709371876,
+            "total_variation": 0.11413442032170011
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "hellinger": 0.13687145821480234,
+            "log_psd_mae_db": 1.0093822435442372,
+            "total_variation": 0.13445320768983945
+          }
+        },
+        "row_descriptive_not_iid": {
+          "hellinger": {
+            "max": 0.3151578708261663,
+            "mean": 0.029478985213025208,
+            "median": 0.02661415394025765,
+            "min": -0.33405453852354744,
+            "n": 26,
+            "q25": -0.06123499612784951,
+            "q75": 0.13264912261269457
+          },
+          "log_psd_mae_db": {
+            "max": 7.581820114076342,
+            "mean": 0.935086976407937,
+            "median": 0.6822859940743493,
+            "min": -5.851271717341248,
+            "n": 26,
+            "q25": -0.9765988125326839,
+            "q75": 2.4653901483222516
+          },
+          "total_variation": {
+            "max": 0.3387840327186644,
+            "mean": 0.030110681944774356,
+            "median": 0.033276776639910355,
+            "min": -0.3955100263314389,
+            "n": 26,
+            "q25": -0.08054700490738384,
+            "q75": 0.16665395678404588
+          }
+        }
+      }
+    }
+  },
+  "epsilon_policy": "Log PSD epsilon=max(mean observed band PSD * 1e-8,1e-30); no signal-dependent parameter tuning",
+  "fit_configuration": {
+    "band_hz": [
+      20,
+      1800
+    ],
+    "comparison": "heldout fixed global mapping versus uncorrected sum; magnitude/power diagnostic does not establish waveform phase targets",
+    "fit_population": "correspondence fitting pairs only",
+    "fit_scaling": "divide all PSDs by same per-triplet mixture variance",
+    "form": "nonnegative regularized two-source PSD mapping per frequency, smoothed globally; no per-record filter",
+    "frequency_smoothing_bins": 9,
+    "maximum_power_transfer": 100,
+    "ridge_trace_fraction": 0.01,
+    "welch_overlap": 1024,
+    "welch_samples": 2048
+  },
+  "fit_pairs": 32,
+  "fit_triplets": 74,
+  "git_head": "582054310fd44ef873d85c1a4819afbe3c14b4f9",
+  "heldout_pairs": 8,
+  "heldout_triplets": 26,
+  "interpretation_limits": [
+    "PSD(mixture) includes the cross-spectrum: P(H+L)=PH+PL+2Re(CHL). Ignoring it is an approximation.",
+    "Reference cross-spectrum here is between separate recordings, not the unknown mixture-domain source components.",
+    "Held-out pairs share constituent families with fitting pairs; no unseen-family generalization claim.",
+    "Aggregate spectrum reconstruction cannot identify unique clean heart/lung component targets or waveform phase.",
+    "Power transfer does not establish an invertible physical device filter or source-pure supervision.",
+    "Counterfactuals preserve native source amplitudes; shape metrics separate gross spectral mismatch from scale.",
+    "All condition statistics are descriptive, not IID independent physiological samples."
+  ],
+  "method": "Predeclared global PSD correspondence diagnostic; no separator training.\n\nOnly authorized non-test native triplet files may be decoded. Welch uses Hann,\n2048 samples, 1024 overlap, constant detrend, density scaling, mean averaging.\nFor each frequency fit nonnegative ridge least squares [P_h,P_l] -> P_m with\nequal family-pair weight then equal recording weight, all PSDs divided by the\nsame recording's mixture variance. Ridge=.01*trace(X'WX), toward zero.\nSolve the two-variable nonnegative problem exactly, smooth each response with\na 9-bin arithmetic moving average (nearest boundary), clip to [0,100]. No\nper-record fit, gain normalization, or held-out tuning. Report only 20\u20131800 Hz.\n\nCounterfactuals are chosen before audio access by SHA256 seeded metadata:\nwrong heart, wrong lung, both wrong, and same-family alternative references.\nCandidates come ONLY from the fitting partition; same recording site preferred.\nNo waveform or score is used to select a counterfactual.\n",
+  "no_inference_model_access": true,
+  "no_model_training": true,
+  "numpy_version": "2.4.4",
+  "opened_audio_files": 300,
+  "opened_audio_paths_sha256": "c464c07c2c6480616533ade4983094ce1c228f9b9a613f83920b78e14d2ea60c",
+  "per_partition": {
+    "fit_pair": {
+      "global_corrected": {
+        "pair_macro": {
+          "band_power_error_db": -27.077404606878154,
+          "hellinger": 0.3768963776081498,
+          "log_psd_mae_db": 18.829101546884065,
+          "relative_psd_rmse": 0.9823561522915976,
+          "total_variation": 0.425744944445829
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:fine-crackles": {
+            "band_power_error_db": -52.128949409456325,
+            "hellinger": 0.375724115085136,
+            "log_psd_mae_db": 40.857360319152725,
+            "relative_psd_rmse": 0.9999966789193326,
+            "total_variation": 0.43085055261586486
+          },
+          "hs:atrial-fibrillation|ls:normal": {
+            "band_power_error_db": -16.044235043459224,
+            "hellinger": 0.3523967482665113,
+            "log_psd_mae_db": 8.266803083348698,
+            "relative_psd_rmse": 0.9518078489075306,
+            "total_variation": 0.38505742401788917
+          },
+          "hs:atrial-fibrillation|ls:pleural-rub": {
+            "band_power_error_db": -16.804375781621133,
+            "hellinger": 0.40945527753404953,
+            "log_psd_mae_db": 8.474554747964117,
+            "relative_psd_rmse": 0.9110218865362062,
+            "total_variation": 0.43723559666991807
+          },
+          "hs:atrial-fibrillation|ls:wheezing": {
+            "band_power_error_db": -46.95793451626122,
+            "hellinger": 0.33918692208777335,
+            "log_psd_mae_db": 38.20935783470819,
+            "relative_psd_rmse": 0.9999898375492918,
+            "total_variation": 0.4276180908729415
+          },
+          "hs:early-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -62.33459468513768,
+            "hellinger": 0.3021819165326828,
+            "log_psd_mae_db": 50.93597435764853,
+            "relative_psd_rmse": 0.9999996624459603,
+            "total_variation": 0.35493494237541495
+          },
+          "hs:early-systolic-murmur|ls:normal": {
+            "band_power_error_db": -23.178623750813536,
+            "hellinger": 0.3857016181151825,
+            "log_psd_mae_db": 16.644751925228235,
+            "relative_psd_rmse": 0.9655124242125211,
+            "total_variation": 0.42722962352275795
+          },
+          "hs:early-systolic-murmur|ls:pleural-rub": {
+            "band_power_error_db": -15.553598663804246,
+            "hellinger": 0.34320460220153876,
+            "log_psd_mae_db": 8.289285492531883,
+            "relative_psd_rmse": 0.9705315190838956,
+            "total_variation": 0.39667275332478463
+          },
+          "hs:early-systolic-murmur|ls:rhonchi": {
+            "band_power_error_db": -47.656369355149536,
+            "hellinger": 0.3537598700971056,
+            "log_psd_mae_db": 35.669675374578624,
+            "relative_psd_rmse": 0.9999912387886173,
+            "total_variation": 0.40568940462831304
+          },
+          "hs:late-diastolic-murmur|ls:normal": {
+            "band_power_error_db": -26.055838635512433,
+            "hellinger": 0.4598959758206961,
+            "log_psd_mae_db": 18.166106715609256,
+            "relative_psd_rmse": 0.9670652692963813,
+            "total_variation": 0.5127642989616372
+          },
+          "hs:late-diastolic-murmur|ls:pleural-rub": {
+            "band_power_error_db": 1.5127858846199382,
+            "hellinger": 0.1707301724681184,
+            "log_psd_mae_db": 1.3193228851267567,
+            "relative_psd_rmse": 0.5033152670178185,
+            "total_variation": 0.18439196148008571
+          },
+          "hs:late-diastolic-murmur|ls:rhonchi": {
+            "band_power_error_db": -6.725520140452018,
+            "hellinger": 0.4005178577766233,
+            "log_psd_mae_db": 6.009858294764625,
+            "relative_psd_rmse": 1.4564446255402446,
+            "total_variation": 0.4195749798223004
+          },
+          "hs:late-diastolic-murmur|ls:wheezing": {
+            "band_power_error_db": -17.78061288161296,
+            "hellinger": 0.37560307862338566,
+            "log_psd_mae_db": 13.960432289053907,
+            "relative_psd_rmse": 0.9433952733771207,
+            "total_variation": 0.4379897055502335
+          },
+          "hs:late-systolic-murmur|ls:normal": {
+            "band_power_error_db": -19.61009631180788,
+            "hellinger": 0.4505795201976631,
+            "log_psd_mae_db": 9.608630471855191,
+            "relative_psd_rmse": 0.994128492971756,
+            "total_variation": 0.5013048044515208
+          },
+          "hs:late-systolic-murmur|ls:pleural-rub": {
+            "band_power_error_db": -47.73718169084928,
+            "hellinger": 0.34906910533874974,
+            "log_psd_mae_db": 37.17476460663466,
+            "relative_psd_rmse": 0.9999923981046502,
+            "total_variation": 0.39892347058368266
+          },
+          "hs:late-systolic-murmur|ls:rhonchi": {
+            "band_power_error_db": -16.570078975032455,
+            "hellinger": 0.41732495298636335,
+            "log_psd_mae_db": 8.99695835539354,
+            "relative_psd_rmse": 0.9650225247018777,
+            "total_variation": 0.48282751613924385
+          },
+          "hs:late-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -17.426280091751508,
+            "hellinger": 0.4309838715733181,
+            "log_psd_mae_db": 9.508468652049226,
+            "relative_psd_rmse": 0.9897930566511078,
+            "total_variation": 0.4793217945815692
+          },
+          "hs:mid-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -26.917105127352507,
+            "hellinger": 0.356971172020052,
+            "log_psd_mae_db": 16.426367884468824,
+            "relative_psd_rmse": 0.9923394272003884,
+            "total_variation": 0.393728160572
+          },
+          "hs:mid-systolic-murmur|ls:normal": {
+            "band_power_error_db": -33.43245989204198,
+            "hellinger": 0.3676587762328052,
+            "log_psd_mae_db": 24.051323679315118,
+            "relative_psd_rmse": 0.9967338806593737,
+            "total_variation": 0.4103135830537981
+          },
+          "hs:mid-systolic-murmur|ls:pleural-rub": {
+            "band_power_error_db": -22.34414452462854,
+            "hellinger": 0.4083427614973566,
+            "log_psd_mae_db": 11.64166912271665,
+            "relative_psd_rmse": 0.9930751899990125,
+            "total_variation": 0.4556178166093172
+          },
+          "hs:mid-systolic-murmur|ls:rhonchi": {
+            "band_power_error_db": -48.26142402763349,
+            "hellinger": 0.3169034343379955,
+            "log_psd_mae_db": 33.37853178967949,
+            "relative_psd_rmse": 0.9999864329628214,
+            "total_variation": 0.32258461041403047
+          },
+          "hs:normal|ls:fine-crackles": {
+            "band_power_error_db": -37.571854776234886,
+            "hellinger": 0.3178281693733431,
+            "log_psd_mae_db": 26.64886103338998,
+            "relative_psd_rmse": 0.9997532949354618,
+            "total_variation": 0.34025637994525915
+          },
+          "hs:normal|ls:pleural-rub": {
+            "band_power_error_db": -13.725894108538622,
+            "hellinger": 0.47118039575360643,
+            "log_psd_mae_db": 10.490699946786334,
+            "relative_psd_rmse": 0.9854288050999586,
+            "total_variation": 0.5565059680462551
+          },
+          "hs:normal|ls:rhonchi": {
+            "band_power_error_db": -16.964553899244354,
+            "hellinger": 0.4358482023836485,
+            "log_psd_mae_db": 8.888851319611712,
+            "relative_psd_rmse": 0.986237862569542,
+            "total_variation": 0.47590459997843504
+          },
+          "hs:normal|ls:wheezing": {
+            "band_power_error_db": -19.07784698617261,
+            "hellinger": 0.4620555861276425,
+            "log_psd_mae_db": 12.664051582698582,
+            "relative_psd_rmse": 0.9891036759479765,
+            "total_variation": 0.5001316050489342
+          },
+          "hs:s3|ls:fine-crackles": {
+            "band_power_error_db": -10.991395877310818,
+            "hellinger": 0.31661709271231947,
+            "log_psd_mae_db": 6.448652393641883,
+            "relative_psd_rmse": 0.9262122872536893,
+            "total_variation": 0.3458731155127504
+          },
+          "hs:s3|ls:pleural-rub": {
+            "band_power_error_db": -20.927642913995825,
+            "hellinger": 0.3625558531931943,
+            "log_psd_mae_db": 10.441328246690023,
+            "relative_psd_rmse": 0.99093832893056,
+            "total_variation": 0.39996274234415274
+          },
+          "hs:s3|ls:rhonchi": {
+            "band_power_error_db": -14.192788052003726,
+            "hellinger": 0.40520673389585804,
+            "log_psd_mae_db": 9.107552836740215,
+            "relative_psd_rmse": 0.9701108931428509,
+            "total_variation": 0.467331095541088
+          },
+          "hs:s3|ls:wheezing": {
+            "band_power_error_db": -45.05753301731683,
+            "hellinger": 0.31609337910816593,
+            "log_psd_mae_db": 34.70960188248951,
+            "relative_psd_rmse": 0.9999763196840927,
+            "total_variation": 0.366972500218175
+          },
+          "hs:tachycardia|ls:fine-crackles": {
+            "band_power_error_db": -37.999335608378324,
+            "hellinger": 0.27966923597932103,
+            "log_psd_mae_db": 28.95061530796311,
+            "relative_psd_rmse": 0.9998807702043576,
+            "total_variation": 0.3331912101470168
+          },
+          "hs:tachycardia|ls:normal": {
+            "band_power_error_db": -30.659022336537834,
+            "hellinger": 0.37487755510072257,
+            "log_psd_mae_db": 18.432896575266714,
+            "relative_psd_rmse": 0.9976939334803608,
+            "total_variation": 0.4382452984358885
+          },
+          "hs:tachycardia|ls:rhonchi": {
+            "band_power_error_db": -23.22437726603982,
+            "hellinger": 0.5186981367770029,
+            "log_psd_mae_db": 11.381269463618656,
+            "relative_psd_rmse": 0.998439594894053,
+            "total_variation": 0.6110799221164465
+          },
+          "hs:tachycardia|ls:wheezing": {
+            "band_power_error_db": -34.07806495856932,
+            "hellinger": 0.43386199426286226,
+            "log_psd_mae_db": 26.776671029565154,
+            "relative_psd_rmse": 0.99147817226231,
+            "total_variation": 0.523752694684823
+          }
+        },
+        "row_descriptive_not_iid": {
+          "band_power_error_db": {
+            "max": 1.5127858846199382,
+            "mean": -25.294032651166795,
+            "median": -20.911548669781247,
+            "min": -62.33459468513768,
+            "n": 74,
+            "q25": -34.4154393966416,
+            "q75": -14.447036193003372
+          },
+          "hellinger": {
+            "max": 0.6328523410427392,
+            "mean": 0.3835576431777301,
+            "median": 0.37630828948244344,
+            "min": 0.1707301724681184,
+            "n": 74,
+            "q25": 0.31904623175569985,
+            "q75": 0.4259805882080487
+          },
+          "log_psd_mae_db": {
+            "max": 50.93597435764853,
+            "mean": 16.881651633556437,
+            "median": 11.218193211016887,
+            "min": 1.3193228851267567,
+            "n": 74,
+            "q25": 8.360619287915382,
+            "q75": 24.75557254461834
+          },
+          "relative_psd_rmse": {
+            "max": 1.9351227303437812,
+            "mean": 0.9863203604267585,
+            "median": 0.997247416184876,
+            "min": 0.5033152670178185,
+            "n": 74,
+            "q25": 0.9811277859003923,
+            "q75": 0.9998602841745209
+          },
+          "total_variation": {
+            "max": 0.7439262595517803,
+            "mean": 0.4313473353143664,
+            "median": 0.42446500607549925,
+            "min": 0.18439196148008571,
+            "n": 74,
+            "q25": 0.350301503155538,
+            "q75": 0.4895276732765396
+          }
+        }
+      },
+      "uncorrected": {
+        "pair_macro": {
+          "band_power_error_db": -7.359102547798021,
+          "hellinger": 0.2257657128265752,
+          "log_psd_mae_db": 12.243249660805002,
+          "relative_psd_rmse": 16.62383476211716,
+          "total_variation": 0.25881221798646625
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:fine-crackles": {
+            "band_power_error_db": -31.790538522260803,
+            "hellinger": 0.01719630664544678,
+            "log_psd_mae_db": 30.694634654073166,
+            "relative_psd_rmse": 0.9993434317649783,
+            "total_variation": 0.020149257399869683
+          },
+          "hs:atrial-fibrillation|ls:normal": {
+            "band_power_error_db": 4.463028103513977,
+            "hellinger": 0.30325217404935284,
+            "log_psd_mae_db": 4.580911099697524,
+            "relative_psd_rmse": 6.761203086264586,
+            "total_variation": 0.33121133543143605
+          },
+          "hs:atrial-fibrillation|ls:pleural-rub": {
+            "band_power_error_db": 2.9705506797290173,
+            "hellinger": 0.3392614774999424,
+            "log_psd_mae_db": 4.438806058410062,
+            "relative_psd_rmse": 14.67442488404289,
+            "total_variation": 0.37867064517174587
+          },
+          "hs:atrial-fibrillation|ls:wheezing": {
+            "band_power_error_db": -28.46529801429304,
+            "hellinger": 0.02891430513385708,
+            "log_psd_mae_db": 27.865910639189167,
+            "relative_psd_rmse": 0.9986004728926188,
+            "total_variation": 0.029235729658212296
+          },
+          "hs:early-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -42.65005690448315,
+            "hellinger": 0.024245333098548726,
+            "log_psd_mae_db": 41.2492929982897,
+            "relative_psd_rmse": 0.9999466004094971,
+            "total_variation": 0.027666938630910548
+          },
+          "hs:early-systolic-murmur|ls:normal": {
+            "band_power_error_db": -3.136738611422709,
+            "hellinger": 0.16313170976658242,
+            "log_psd_mae_db": 8.433425122483905,
+            "relative_psd_rmse": 5.487132531285993,
+            "total_variation": 0.1729980816398598
+          },
+          "hs:early-systolic-murmur|ls:pleural-rub": {
+            "band_power_error_db": 4.270334777622115,
+            "hellinger": 0.23418866806132047,
+            "log_psd_mae_db": 4.229791988022495,
+            "relative_psd_rmse": 4.530125668696091,
+            "total_variation": 0.2716087218570269
+          },
+          "hs:early-systolic-murmur|ls:rhonchi": {
+            "band_power_error_db": -25.895786117746425,
+            "hellinger": 0.017814227629895027,
+            "log_psd_mae_db": 25.279882215728065,
+            "relative_psd_rmse": 0.997405331736244,
+            "total_variation": 0.01755638467642372
+          },
+          "hs:late-diastolic-murmur|ls:normal": {
+            "band_power_error_db": -4.802164259945624,
+            "hellinger": 0.22141350347889288,
+            "log_psd_mae_db": 9.079470919532938,
+            "relative_psd_rmse": 4.911605873704892,
+            "total_variation": 0.2728494680216421
+          },
+          "hs:late-diastolic-murmur|ls:pleural-rub": {
+            "band_power_error_db": 23.52905251624719,
+            "hellinger": 0.3818351563847123,
+            "log_psd_mae_db": 11.806379909625786,
+            "relative_psd_rmse": 315.19929737670725,
+            "total_variation": 0.43969857219156144
+          },
+          "hs:late-diastolic-murmur|ls:rhonchi": {
+            "band_power_error_db": 12.870589658566123,
+            "hellinger": 0.4080452164342758,
+            "log_psd_mae_db": 5.936338156171324,
+            "relative_psd_rmse": 126.20271373889057,
+            "total_variation": 0.48255280578941206
+          },
+          "hs:late-diastolic-murmur|ls:wheezing": {
+            "band_power_error_db": -0.7414584291372529,
+            "hellinger": 0.3374593659245296,
+            "log_psd_mae_db": 8.441597040707885,
+            "relative_psd_rmse": 10.051848955030227,
+            "total_variation": 0.40213251731158506
+          },
+          "hs:late-systolic-murmur|ls:normal": {
+            "band_power_error_db": -0.3048130940489999,
+            "hellinger": 0.33728529024088905,
+            "log_psd_mae_db": 3.6192923416503175,
+            "relative_psd_rmse": 0.9529921266240641,
+            "total_variation": 0.4023552773846247
+          },
+          "hs:late-systolic-murmur|ls:pleural-rub": {
+            "band_power_error_db": -27.4305613386925,
+            "hellinger": 0.025002250543010966,
+            "log_psd_mae_db": 26.92368123090354,
+            "relative_psd_rmse": 0.9981572589244747,
+            "total_variation": 0.026766084443863084
+          },
+          "hs:late-systolic-murmur|ls:rhonchi": {
+            "band_power_error_db": 1.0295956458084847,
+            "hellinger": 0.3028944874219329,
+            "log_psd_mae_db": 3.4064721128733706,
+            "relative_psd_rmse": 2.867533946294614,
+            "total_variation": 0.33935727957519224
+          },
+          "hs:late-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -1.4138457977961385,
+            "hellinger": 0.3662699396757245,
+            "log_psd_mae_db": 4.349533921011269,
+            "relative_psd_rmse": 0.7392804484610749,
+            "total_variation": 0.42219882340151293
+          },
+          "hs:mid-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -7.753579406476978,
+            "hellinger": 0.26121113982083793,
+            "log_psd_mae_db": 8.91733464109737,
+            "relative_psd_rmse": 1.2565061089415464,
+            "total_variation": 0.28968031275243544
+          },
+          "hs:mid-systolic-murmur|ls:normal": {
+            "band_power_error_db": -13.533815076596923,
+            "hellinger": 0.13747262359266452,
+            "log_psd_mae_db": 15.559611788237717,
+            "relative_psd_rmse": 1.030685184857196,
+            "total_variation": 0.1577367350257658
+          },
+          "hs:mid-systolic-murmur|ls:pleural-rub": {
+            "band_power_error_db": -3.2000863276312774,
+            "hellinger": 0.28399607095386803,
+            "log_psd_mae_db": 6.464301724529918,
+            "relative_psd_rmse": 0.7226078732390986,
+            "total_variation": 0.30269070044099666
+          },
+          "hs:mid-systolic-murmur|ls:rhonchi": {
+            "band_power_error_db": -23.633545949471287,
+            "hellinger": 0.0059813428979397345,
+            "log_psd_mae_db": 23.062908442957024,
+            "relative_psd_rmse": 0.9956692283353088,
+            "total_variation": 0.0058455441058209105
+          },
+          "hs:normal|ls:fine-crackles": {
+            "band_power_error_db": -16.274992026150993,
+            "hellinger": 0.01543083352800021,
+            "log_psd_mae_db": 15.937122444646278,
+            "relative_psd_rmse": 0.9444539277874763,
+            "total_variation": 0.01818524538521361
+          },
+          "hs:normal|ls:pleural-rub": {
+            "band_power_error_db": 6.10644339591503,
+            "hellinger": 0.5131234695450052,
+            "log_psd_mae_db": 3.6987462397800805,
+            "relative_psd_rmse": 3.6447037151794226,
+            "total_variation": 0.5987087835438896
+          },
+          "hs:normal|ls:rhonchi": {
+            "band_power_error_db": 2.299679183637458,
+            "hellinger": 0.30576522342894685,
+            "log_psd_mae_db": 3.9918326072449246,
+            "relative_psd_rmse": 1.5325338216937714,
+            "total_variation": 0.3640879236135846
+          },
+          "hs:normal|ls:wheezing": {
+            "band_power_error_db": 0.7916990969192081,
+            "hellinger": 0.5610570870104669,
+            "log_psd_mae_db": 5.435721267302407,
+            "relative_psd_rmse": 6.423753316148092,
+            "total_variation": 0.6517410172722701
+          },
+          "hs:s3|ls:fine-crackles": {
+            "band_power_error_db": 8.163818497880712,
+            "hellinger": 0.21868324252756083,
+            "log_psd_mae_db": 5.0939584653741115,
+            "relative_psd_rmse": 6.924079686768794,
+            "total_variation": 0.24457718472246384
+          },
+          "hs:s3|ls:pleural-rub": {
+            "band_power_error_db": -0.8502577429624971,
+            "hellinger": 0.297573951486259,
+            "log_psd_mae_db": 3.9835787860210905,
+            "relative_psd_rmse": 1.2557848291568656,
+            "total_variation": 0.33495937934964337
+          },
+          "hs:s3|ls:rhonchi": {
+            "band_power_error_db": 4.889205301184931,
+            "hellinger": 0.4434461546998745,
+            "log_psd_mae_db": 3.25877492446347,
+            "relative_psd_rmse": 4.610555859842325,
+            "total_variation": 0.5449624742619232
+          },
+          "hs:s3|ls:wheezing": {
+            "band_power_error_db": -25.622648410910255,
+            "hellinger": 0.01979039020121151,
+            "log_psd_mae_db": 24.644192520658194,
+            "relative_psd_rmse": 0.9968857351222052,
+            "total_variation": 0.02107693018713315
+          },
+          "hs:tachycardia|ls:fine-crackles": {
+            "band_power_error_db": -18.195774992338695,
+            "hellinger": 0.0252207157035942,
+            "log_psd_mae_db": 18.01609576887957,
+            "relative_psd_rmse": 0.9849524374201473,
+            "total_variation": 0.028494676835899457
+          },
+          "hs:tachycardia|ls:normal": {
+            "band_power_error_db": -10.109541804730846,
+            "hellinger": 0.21481171946389346,
+            "log_psd_mae_db": 10.115153382132851,
+            "relative_psd_rmse": 0.8854466733647391,
+            "total_variation": 0.2229209101521991
+          },
+          "hs:tachycardia|ls:rhonchi": {
+            "band_power_error_db": -4.734889283968492,
+            "hellinger": 0.27147800633468594,
+            "log_psd_mae_db": 5.008622800161689,
+            "relative_psd_rmse": 0.7929777212800695,
+            "total_variation": 0.3057259848572987
+          },
+          "hs:tachycardia|ls:wheezing": {
+            "band_power_error_db": -16.334886275496032,
+            "hellinger": 0.14125142726668422,
+            "log_psd_mae_db": 18.260612933902916,
+            "relative_psd_rmse": 1.5895045368819867,
+            "total_variation": 0.1535892504755037
+          }
+        },
+        "row_descriptive_not_iid": {
+          "band_power_error_db": {
+            "max": 23.52905251624719,
+            "mean": -5.83992723530033,
+            "median": -2.0679675038873673,
+            "min": -42.65005690448315,
+            "n": 74,
+            "q25": -14.281123418057419,
+            "q75": 4.410067180013736
+          },
+          "hellinger": {
+            "max": 0.7612413769327837,
+            "mean": 0.23830468723959197,
+            "median": 0.2676584656569517,
+            "min": 0.004534012695419621,
+            "n": 74,
+            "q25": 0.025056866833156777,
+            "q75": 0.3776374919254567
+          },
+          "log_psd_mae_db": {
+            "max": 41.2492929982897,
+            "mean": 10.279385949987654,
+            "median": 5.252895241664948,
+            "min": 2.479694099719894,
+            "n": 74,
+            "q25": 3.699279278660026,
+            "q75": 14.12661870357986
+          },
+          "relative_psd_rmse": {
+            "max": 315.19929737670725,
+            "mean": 10.886298354735258,
+            "median": 0.9970249316546638,
+            "min": 0.4034957634097457,
+            "n": 74,
+            "q25": 0.8798824826053623,
+            "q75": 2.2962515400685772
+          },
+          "total_variation": {
+            "max": 0.880495705786401,
+            "mean": 0.27135565654723204,
+            "median": 0.29218729201056026,
+            "min": 0.0042248710845637395,
+            "n": 74,
+            "q25": 0.027877378926750497,
+            "q75": 0.4209999111721803
+          }
+        }
+      }
+    },
+    "heldout_pair": {
+      "both_wrong": {
+        "pair_macro": {
+          "band_power_error_db": -20.943710885892948,
+          "hellinger": 0.4826814936028675,
+          "log_psd_mae_db": 14.205714884196412,
+          "relative_psd_rmse": 1.017655590859125,
+          "total_variation": 0.5326557480013618
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "band_power_error_db": -8.446854006702639,
+            "hellinger": 0.4837610103232468,
+            "log_psd_mae_db": 6.830371850465106,
+            "relative_psd_rmse": 1.2982219584816321,
+            "total_variation": 0.5306426456947213
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -26.671970605268694,
+            "hellinger": 0.44461111027476447,
+            "log_psd_mae_db": 16.811903380418798,
+            "relative_psd_rmse": 0.9933574161022238,
+            "total_variation": 0.5181634274195821
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -34.64123380642439,
+            "hellinger": 0.3542737986917126,
+            "log_psd_mae_db": 22.976094020723767,
+            "relative_psd_rmse": 0.9979721646488121,
+            "total_variation": 0.3803919895059256
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -18.702596152613353,
+            "hellinger": 0.45326674160112096,
+            "log_psd_mae_db": 12.015081970206673,
+            "relative_psd_rmse": 0.9686980064517627,
+            "total_variation": 0.5150337740108026
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -19.843871561162217,
+            "hellinger": 0.5500040385392863,
+            "log_psd_mae_db": 11.562279014023195,
+            "relative_psd_rmse": 0.9898823264382779,
+            "total_variation": 0.611025824237595
+          },
+          "hs:normal|ls:normal": {
+            "band_power_error_db": -29.56869676720812,
+            "hellinger": 0.497500852056715,
+            "log_psd_mae_db": 22.020547082702063,
+            "relative_psd_rmse": 0.9966450559973192,
+            "total_variation": 0.5472517746508995
+          },
+          "hs:s3|ls:normal": {
+            "band_power_error_db": -19.594525797568462,
+            "hellinger": 0.5252710617905122,
+            "log_psd_mae_db": 12.232536091152573,
+            "relative_psd_rmse": 0.9950017134031394,
+            "total_variation": 0.5732446520439133
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "band_power_error_db": -10.079938390195693,
+            "hellinger": 0.5527633355455815,
+            "log_psd_mae_db": 9.196905663879125,
+            "relative_psd_rmse": 0.9014660853498322,
+            "total_variation": 0.5854918964474551
+          }
+        },
+        "row_descriptive_not_iid": {
+          "band_power_error_db": {
+            "max": 2.9342053422897196,
+            "mean": -18.79404553036327,
+            "median": -18.555124411125767,
+            "min": -51.74356364851925,
+            "n": 26,
+            "q25": -20.629624613925458,
+            "q75": -12.7423370981184
+          },
+          "hellinger": {
+            "max": 0.7744306511060476,
+            "mean": 0.49338559078914906,
+            "median": 0.4781815005677313,
+            "min": 0.24483731926889626,
+            "n": 26,
+            "q25": 0.4055700169763176,
+            "q75": 0.5750142942992157
+          },
+          "log_psd_mae_db": {
+            "max": 42.69744490309759,
+            "mean": 13.014939421846208,
+            "median": 11.55205877890888,
+            "min": 4.540603588982325,
+            "n": 26,
+            "q25": 8.409932554170783,
+            "q75": 13.389317747503137
+          },
+          "relative_psd_rmse": {
+            "max": 2.346664777131347,
+            "mean": 1.0193175667500394,
+            "median": 0.9916298007365418,
+            "min": 0.6730654623037349,
+            "n": 26,
+            "q25": 0.983844254077475,
+            "q75": 0.996950703358085
+          },
+          "total_variation": {
+            "max": 0.8591026402281304,
+            "mean": 0.5423785672195234,
+            "median": 0.5283112580373084,
+            "min": 0.2534209741317696,
+            "n": 26,
+            "q25": 0.4509570842298662,
+            "q75": 0.6387844223208429
+          }
+        }
+      },
+      "global_corrected": {
+        "pair_macro": {
+          "band_power_error_db": -18.64088359729432,
+          "hellinger": 0.42965152048751687,
+          "log_psd_mae_db": 12.712988097349452,
+          "relative_psd_rmse": 0.9603008938780424,
+          "total_variation": 0.4792298796732261
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "band_power_error_db": -8.56587017276488,
+            "hellinger": 0.5078546868673663,
+            "log_psd_mae_db": 6.361325167512469,
+            "relative_psd_rmse": 0.8786908360586816,
+            "total_variation": 0.5688673069091312
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -18.560581304895386,
+            "hellinger": 0.42950787582397804,
+            "log_psd_mae_db": 14.945273199580233,
+            "relative_psd_rmse": 0.9483333477215665,
+            "total_variation": 0.5212850845674174
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -32.73910916335057,
+            "hellinger": 0.4427599541004271,
+            "log_psd_mae_db": 21.96961828955397,
+            "relative_psd_rmse": 0.9993571571770737,
+            "total_variation": 0.5382164379752689
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -14.712898072954356,
+            "hellinger": 0.43636173293039515,
+            "log_psd_mae_db": 9.488844091578866,
+            "relative_psd_rmse": 0.9714350678491915,
+            "total_variation": 0.4907491210945813
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -16.052467978001832,
+            "hellinger": 0.45585615482329905,
+            "log_psd_mae_db": 11.940761941290143,
+            "relative_psd_rmse": 0.9627624304138332,
+            "total_variation": 0.45633736614106596
+          },
+          "hs:normal|ls:normal": {
+            "band_power_error_db": -28.28632077842579,
+            "hellinger": 0.42551572671437093,
+            "log_psd_mae_db": 20.297195646761782,
+            "relative_psd_rmse": 0.9833560867353767,
+            "total_variation": 0.4497938870099775
+          },
+          "hs:s3|ls:normal": {
+            "band_power_error_db": -17.03874925389516,
+            "hellinger": 0.34385026553524733,
+            "log_psd_mae_db": 8.79727713355131,
+            "relative_psd_rmse": 0.9835130131443983,
+            "total_variation": 0.38565261846506366
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "band_power_error_db": -13.171072054066574,
+            "hellinger": 0.3955057671050513,
+            "log_psd_mae_db": 7.903609308966841,
+            "relative_psd_rmse": 0.9549592119242183,
+            "total_variation": 0.4229372152233026
+          }
+        },
+        "row_descriptive_not_iid": {
+          "band_power_error_db": {
+            "max": -2.0768391153320183,
+            "mean": -17.142401085410388,
+            "median": -14.480253321324007,
+            "min": -57.52636483751745,
+            "n": 26,
+            "q25": -19.452902230993455,
+            "q75": -11.723857214708502
+          },
+          "hellinger": {
+            "max": 0.635304913641664,
+            "mean": 0.42979217753014864,
+            "median": 0.4102301837184452,
+            "min": 0.24080111670173207,
+            "n": 26,
+            "q25": 0.3674839410370561,
+            "q75": 0.5210798089412199
+          },
+          "log_psd_mae_db": {
+            "max": 44.73275637897719,
+            "mean": 11.532854258626063,
+            "median": 8.450030564074964,
+            "min": 4.555026739950678,
+            "n": 26,
+            "q25": 6.879065915920544,
+            "q75": 11.446957192597253
+          },
+          "relative_psd_rmse": {
+            "max": 0.9999988909085388,
+            "mean": 0.9561375106127188,
+            "median": 0.9791005052079806,
+            "min": 0.7379745799625919,
+            "n": 26,
+            "q25": 0.9442126625506688,
+            "q75": 0.9919238307345057
+          },
+          "total_variation": {
+            "max": 0.7251884560842794,
+            "mean": 0.4749040941563483,
+            "median": 0.45141998840540465,
+            "min": 0.2427850372446316,
+            "n": 26,
+            "q25": 0.3696091828089804,
+            "q75": 0.5706475388874217
+          }
+        }
+      },
+      "same_family_alternatives": {
+        "pair_macro": {
+          "band_power_error_db": -20.00519791920786,
+          "hellinger": 0.42698868918504274,
+          "log_psd_mae_db": 13.372377937716811,
+          "relative_psd_rmse": 0.9774102588727989,
+          "total_variation": 0.4685872875274466
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "band_power_error_db": -14.328383935839467,
+            "hellinger": 0.4685755416118339,
+            "log_psd_mae_db": 8.153365228001245,
+            "relative_psd_rmse": 1.0234574105418806,
+            "total_variation": 0.5040154347440562
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -19.513916002527033,
+            "hellinger": 0.42680759673978513,
+            "log_psd_mae_db": 14.50947883468459,
+            "relative_psd_rmse": 0.9484254004327983,
+            "total_variation": 0.5053550067436487
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -35.812397257483966,
+            "hellinger": 0.4006474409641685,
+            "log_psd_mae_db": 22.714710084513506,
+            "relative_psd_rmse": 0.9996001317146719,
+            "total_variation": 0.46008192987107155
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -15.863777266868217,
+            "hellinger": 0.4384913538695184,
+            "log_psd_mae_db": 8.959726640165592,
+            "relative_psd_rmse": 0.9846643559700682,
+            "total_variation": 0.49211038781449884
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -15.241234660287319,
+            "hellinger": 0.477636148481215,
+            "log_psd_mae_db": 11.371748317548528,
+            "relative_psd_rmse": 0.962152563664573,
+            "total_variation": 0.49026941579699507
+          },
+          "hs:normal|ls:normal": {
+            "band_power_error_db": -27.393660157048703,
+            "hellinger": 0.436345119626838,
+            "log_psd_mae_db": 21.703242935427834,
+            "relative_psd_rmse": 0.9573825474859518,
+            "total_variation": 0.45062198208776677
+          },
+          "hs:s3|ls:normal": {
+            "band_power_error_db": -17.816632347210717,
+            "hellinger": 0.3278400328079133,
+            "log_psd_mae_db": 9.709730611339506,
+            "relative_psd_rmse": 0.9856679068038082,
+            "total_variation": 0.3694201538409676
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "band_power_error_db": -14.071581726397445,
+            "hellinger": 0.43956627937906995,
+            "log_psd_mae_db": 9.85702085005369,
+            "relative_psd_rmse": 0.9579317543686392,
+            "total_variation": 0.47682398932056813
+          }
+        },
+        "row_descriptive_not_iid": {
+          "band_power_error_db": {
+            "max": 1.0497543246553662,
+            "mean": -18.58206774832616,
+            "median": -15.631656447253338,
+            "min": -57.52636483751745,
+            "n": 26,
+            "q25": -20.72424492335311,
+            "q75": -13.857096562605058
+          },
+          "hellinger": {
+            "max": 0.6839660101588768,
+            "mean": 0.43101819065294483,
+            "median": 0.42355139936175945,
+            "min": 0.21084735034092617,
+            "n": 26,
+            "q25": 0.34195622590695945,
+            "q75": 0.5172541474220809
+          },
+          "log_psd_mae_db": {
+            "max": 44.73275637897719,
+            "mean": 12.328462121318447,
+            "median": 9.486520946006724,
+            "min": 4.611965016978829,
+            "n": 26,
+            "q25": 7.801323223215723,
+            "q75": 12.040731139745567
+          },
+          "relative_psd_rmse": {
+            "max": 1.1171714507243706,
+            "mean": 0.9782233060018819,
+            "median": 0.9828287350835736,
+            "min": 0.8925448409758814,
+            "n": 26,
+            "q25": 0.968204759909465,
+            "q75": 0.9974919997979368
+          },
+          "total_variation": {
+            "max": 0.7869786491039759,
+            "mean": 0.47040122174014193,
+            "median": 0.4474837560584204,
+            "min": 0.22716416530995165,
+            "n": 26,
+            "q25": 0.3637497894187027,
+            "q75": 0.5607089215295377
+          }
+        }
+      },
+      "uncorrected": {
+        "pair_macro": {
+          "band_power_error_db": 0.1313970232486753,
+          "hellinger": 0.32265618456213385,
+          "log_psd_mae_db": 7.904495451625438,
+          "relative_psd_rmse": 7.752627894263367,
+          "total_variation": 0.3682180527979472
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "band_power_error_db": 11.265836627522738,
+            "hellinger": 0.49291058620588535,
+            "log_psd_mae_db": 6.1133771320783445,
+            "relative_psd_rmse": 37.477795806228826,
+            "total_variation": 0.5476241113911754
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -2.484338523033922,
+            "hellinger": 0.1504901081657118,
+            "log_psd_mae_db": 9.983154504640355,
+            "relative_psd_rmse": 3.7075218062524034,
+            "total_variation": 0.17236055196292213
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -14.690447970039656,
+            "hellinger": 0.249218853008789,
+            "log_psd_mae_db": 15.20046137595236,
+            "relative_psd_rmse": 0.9407632557601968,
+            "total_variation": 0.3076234344862044
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": 3.5401744958836225,
+            "hellinger": 0.28496506709046765,
+            "log_psd_mae_db": 3.804890177564982,
+            "relative_psd_rmse": 6.186638705961576,
+            "total_variation": 0.3250754066093436
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": 0.6280046260346247,
+            "hellinger": 0.46446167013747486,
+            "log_psd_mae_db": 4.568212336779734,
+            "relative_psd_rmse": 1.1032167078451038,
+            "total_variation": 0.530920906906367
+          },
+          "hs:normal|ls:normal": {
+            "band_power_error_db": -7.5966369200719726,
+            "hellinger": 0.2878743305563954,
+            "log_psd_mae_db": 15.250372567134072,
+            "relative_psd_rmse": 3.080284288228969,
+            "total_variation": 0.3263399190895359
+          },
+          "hs:s3|ls:normal": {
+            "band_power_error_db": 3.141229082024791,
+            "hellinger": 0.2736662275073826,
+            "log_psd_mae_db": 4.113479204346928,
+            "relative_psd_rmse": 1.535021420750251,
+            "total_variation": 0.31510016449413697
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "band_power_error_db": 7.247354767669178,
+            "hellinger": 0.37766263382496446,
+            "log_psd_mae_db": 4.202016314506732,
+            "relative_psd_rmse": 7.98978116307961,
+            "total_variation": 0.42069992744389245
+          }
+        },
+        "row_descriptive_not_iid": {
+          "band_power_error_db": {
+            "max": 17.82298925103096,
+            "mean": 1.908809065761019,
+            "median": 3.8480556680230933,
+            "min": -35.41535158389632,
+            "n": 26,
+            "q25": 0.9025465669034827,
+            "q75": 8.585477081655865
+          },
+          "hellinger": {
+            "max": 0.7501401692970964,
+            "mean": 0.3414323226639613,
+            "median": 0.3634974645622685,
+            "min": 0.0158871209616273,
+            "n": 26,
+            "q25": 0.20971313029862443,
+            "q75": 0.4687238268280634
+          },
+          "log_psd_mae_db": {
+            "max": 34.62854821876857,
+            "mean": 7.0325605729644085,
+            "median": 4.811044860980415,
+            "min": 2.035094223510159,
+            "n": 26,
+            "q25": 3.651402175187857,
+            "q75": 6.539631927661611
+          },
+          "relative_psd_rmse": {
+            "max": 72.0962931745722,
+            "mean": 9.271491586102224,
+            "median": 2.6820390308040576,
+            "min": 0.5329144309819874,
+            "n": 26,
+            "q25": 0.998359390531466,
+            "q75": 5.97075332358914
+          },
+          "total_variation": {
+            "max": 0.880236866239683,
+            "mean": 0.387359563599612,
+            "median": 0.39122980558230824,
+            "min": 0.01575812807480451,
+            "n": 26,
+            "q25": 0.24341425759132979,
+            "q75": 0.52245804050489
+          }
+        }
+      },
+      "wrong_heart": {
+        "pair_macro": {
+          "band_power_error_db": -19.489397104850525,
+          "hellinger": 0.4489142788528649,
+          "log_psd_mae_db": 13.395659114254503,
+          "relative_psd_rmse": 0.9950764122970215,
+          "total_variation": 0.498107978872606
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "band_power_error_db": -5.4064822091127365,
+            "hellinger": 0.5492620455507542,
+            "log_psd_mae_db": 5.9469451060444,
+            "relative_psd_rmse": 1.1308436386524185,
+            "total_variation": 0.6113085454346749
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -18.95656862782429,
+            "hellinger": 0.4832789729728887,
+            "log_psd_mae_db": 15.462997739807467,
+            "relative_psd_rmse": 0.950498532895798,
+            "total_variation": 0.5794873391402646
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -35.928250478383404,
+            "hellinger": 0.4112791930665112,
+            "log_psd_mae_db": 23.273265972468508,
+            "relative_psd_rmse": 0.999405623941009,
+            "total_variation": 0.4616853736625197
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -18.339785018405156,
+            "hellinger": 0.4072652490276206,
+            "log_psd_mae_db": 12.944062200425789,
+            "relative_psd_rmse": 0.9810777326907449,
+            "total_variation": 0.4497756111737485
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -15.846180835941219,
+            "hellinger": 0.4480107796489956,
+            "log_psd_mae_db": 10.899435973248979,
+            "relative_psd_rmse": 0.9626315115678473,
+            "total_variation": 0.4452903281281291
+          },
+          "hs:normal|ls:normal": {
+            "band_power_error_db": -29.0093141014649,
+            "hellinger": 0.49565147715450825,
+            "log_psd_mae_db": 20.055448826432908,
+            "relative_psd_rmse": 0.9843172036328857,
+            "total_variation": 0.5605084401537251
+          },
+          "hs:s3|ls:normal": {
+            "band_power_error_db": -18.86128972759606,
+            "hellinger": 0.36543261821597334,
+            "log_psd_mae_db": 10.406755344082475,
+            "relative_psd_rmse": 0.9888594711085451,
+            "total_variation": 0.4063222089268543
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "band_power_error_db": -13.567305840076415,
+            "hellinger": 0.43113389518566747,
+            "log_psd_mae_db": 8.176361751525496,
+            "relative_psd_rmse": 0.962977583886923,
+            "total_variation": 0.4704859843609319
+          }
+        },
+        "row_descriptive_not_iid": {
+          "band_power_error_db": {
+            "max": 1.8243717344908035,
+            "mean": -17.83621501222598,
+            "median": -15.501267156948682,
+            "min": -59.7866525441775,
+            "n": 26,
+            "q25": -21.036167145231445,
+            "q75": -11.963539470440807
+          },
+          "hellinger": {
+            "max": 0.6584679875140629,
+            "mean": 0.44992998505304105,
+            "median": 0.44844559410554996,
+            "min": 0.2866039694603988,
+            "n": 26,
+            "q25": 0.345474716056989,
+            "q75": 0.5315875375593477
+          },
+          "log_psd_mae_db": {
+            "max": 44.887818845898416,
+            "mean": 12.230895609205893,
+            "median": 9.56823597312357,
+            "min": 4.616612713744357,
+            "n": 26,
+            "q25": 6.344637497352339,
+            "q75": 13.154549174194932
+          },
+          "relative_psd_rmse": {
+            "max": 1.963016697586862,
+            "mean": 0.9988387029772583,
+            "median": 0.9824280287859095,
+            "min": 0.734824200836268,
+            "n": 26,
+            "q25": 0.9592456202296729,
+            "q75": 0.9966291974228121
+          },
+          "total_variation": {
+            "max": 0.7180950303477349,
+            "mean": 0.49674903482577104,
+            "median": 0.5163230025932639,
+            "min": 0.30708553845657605,
+            "n": 26,
+            "q25": 0.3736612849193229,
+            "q75": 0.5847423595815799
+          }
+        }
+      },
+      "wrong_lung": {
+        "pair_macro": {
+          "band_power_error_db": -20.385743697287133,
+          "hellinger": 0.44977939428121894,
+          "log_psd_mae_db": 13.648619744080868,
+          "relative_psd_rmse": 0.9771289834680065,
+          "total_variation": 0.49820240758931345
+        },
+        "per_pair_mean": {
+          "hs:atrial-fibrillation|ls:rhonchi": {
+            "band_power_error_db": -10.988688447006687,
+            "hellinger": 0.4246376539030964,
+            "log_psd_mae_db": 7.693023750834662,
+            "relative_psd_rmse": 0.999227034155093,
+            "total_variation": 0.475585478011435
+          },
+          "hs:early-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -25.21391382351288,
+            "hellinger": 0.4056005194396158,
+            "log_psd_mae_db": 16.469743443022338,
+            "relative_psd_rmse": 0.9919876849884748,
+            "total_variation": 0.4573789660907017
+          },
+          "hs:late-diastolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -32.1354023037961,
+            "hellinger": 0.37791458368273034,
+            "log_psd_mae_db": 21.539409209638077,
+            "relative_psd_rmse": 0.9979238317697037,
+            "total_variation": 0.45403453213238953
+          },
+          "hs:late-systolic-murmur|ls:fine-crackles": {
+            "band_power_error_db": -15.023081277129604,
+            "hellinger": 0.4404677671528063,
+            "log_psd_mae_db": 9.089744049746756,
+            "relative_psd_rmse": 0.9599670404365019,
+            "total_variation": 0.49457357087104015
+          },
+          "hs:mid-systolic-murmur|ls:wheezing": {
+            "band_power_error_db": -22.747944161525215,
+            "hellinger": 0.4804611980907935,
+            "log_psd_mae_db": 12.760588830319856,
+            "relative_psd_rmse": 0.9900290109702085,
+            "total_variation": 0.538479322493621
+          },
+          "hs:normal|ls:normal": {
+            "band_power_error_db": -29.621329413202588,
+            "hellinger": 0.47163187155310166,
+            "log_psd_mae_db": 22.935999812085697,
+            "relative_psd_rmse": 0.9956659026449289,
+            "total_variation": 0.5083899294154144
+          },
+          "hs:s3|ls:normal": {
+            "band_power_error_db": -17.788687825103754,
+            "hellinger": 0.46514433510775427,
+            "log_psd_mae_db": 9.787457304488496,
+            "relative_psd_rmse": 0.9896334150011565,
+            "total_variation": 0.4997870387867637
+          },
+          "hs:tachycardia|ls:pleural-rub": {
+            "band_power_error_db": -9.566902327020228,
+            "hellinger": 0.5323772253198535,
+            "log_psd_mae_db": 8.912991552511077,
+            "relative_psd_rmse": 0.8925979477779846,
+            "total_variation": 0.557390422913142
+          }
+        },
+        "row_descriptive_not_iid": {
+          "band_power_error_db": {
+            "max": -0.20547228035079426,
+            "mean": -18.34823488406765,
+            "median": -18.01081309226982,
+            "min": -51.301515216959714,
+            "n": 26,
+            "q25": -19.021200890469373,
+            "q75": -12.663626140683702
+          },
+          "hellinger": {
+            "max": 0.6939827568738098,
+            "mean": 0.45927116274317387,
+            "median": 0.4464629293265897,
+            "min": 0.2816606216172604,
+            "n": 26,
+            "q25": 0.37944132908112244,
+            "q75": 0.5293214060197027
+          },
+          "log_psd_mae_db": {
+            "max": 42.58905892352545,
+            "mean": 12.467941235034,
+            "median": 10.318776089172152,
+            "min": 4.3831125040450125,
+            "n": 26,
+            "q25": 7.800050743315435,
+            "q75": 12.079455266376941
+          },
+          "relative_psd_rmse": {
+            "max": 1.1561039080574345,
+            "mean": 0.9694451560239055,
+            "median": 0.9895597403329895,
+            "min": 0.6632583116030139,
+            "n": 26,
+            "q25": 0.9794372361117346,
+            "q75": 0.9956218583662149
+          },
+          "total_variation": {
+            "max": 0.7526236953872012,
+            "mean": 0.5050147761011228,
+            "median": 0.4905777899485968,
+            "min": 0.3263045330966233,
+            "n": 26,
+            "q25": 0.42107327291917424,
+            "q75": 0.5737530697837099
+          }
+        }
+      }
+    }
+  },
+  "reference_cross_term": {
+    "absolute_cross_term_band_mass_over_source_psd_mass": {
+      "max": 0.09048627840180735,
+      "mean": 0.046137810695497335,
+      "median": 0.04713077050662191,
+      "min": 0.00874603997082629,
+      "n": 100,
+      "q25": 0.03337356340392986,
+      "q75": 0.05979386830890777
+    },
+    "signed_cross_term_band_mass_over_source_psd_mass": {
+      "max": 0.04669400711726921,
+      "mean": 8.122820903354137e-08,
+      "median": -0.0013783268000093721,
+      "min": -0.029087982447099446,
+      "n": 100,
+      "q25": -0.006938255275996411,
+      "q75": 0.005350627657268429
+    },
+    "sum_psd_cross_term_identity_max_abs_error": {
+      "max": 2.691645713247552e-21,
+      "mean": 2.6560407577559725e-22,
+      "median": 1.2118195973901855e-22,
+      "min": 5.686866711302065e-24,
+      "n": 100,
+      "q25": 5.293955920339377e-23,
+      "q75": 3.4576149604716557e-22
+    }
+  },
+  "registry_sha256": "56f958996682fd61e598efc07c1084c8d41a2d5fdf8c453802dc27d8109fb0ae",
+  "runtime_seconds": 1.0659224720438942,
+  "schema_version": 1,
+  "scipy_version": "1.17.0",
+  "script_sha256": "c67a348e9c91e10d9318293cb41f8464a596f9e8bb59acc907beaa4bfb57a43c",
+  "seed": 20260928,
+  "stationarity_first_vs_second_half": {
+    "heart": {
+      "band_power_error_db": {
+        "max": 5.522738163876353,
+        "mean": 0.5334182426563782,
+        "median": 0.20308472330241178,
+        "min": -4.878926644840406,
+        "n": 100,
+        "q25": -1.225470953746171,
+        "q75": 1.9312848024937694
+      },
+      "hellinger": {
+        "max": 0.35852749550131685,
+        "mean": 0.1606883089836316,
+        "median": 0.15442997290258587,
+        "min": 0.04447817343015851,
+        "n": 100,
+        "q25": 0.11467838771411727,
+        "q75": 0.18417188737059376
+      },
+      "log_psd_mae_db": {
+        "max": 3.4961298633779676,
+        "mean": 1.3789323783635083,
+        "median": 1.240905617184687,
+        "min": 0.6762468659487652,
+        "n": 100,
+        "q25": 1.0239719876136748,
+        "q75": 1.475947727639935
+      },
+      "total_variation": {
+        "max": 0.41781573500919766,
+        "mean": 0.18264457628894173,
+        "median": 0.16298830546874782,
+        "min": 0.03842464363104137,
+        "n": 100,
+        "q25": 0.12514806362061098,
+        "q75": 0.21701313772123274
+      }
+    },
+    "lung": {
+      "band_power_error_db": {
+        "max": 15.59116323851999,
+        "mean": 2.0253100469938006,
+        "median": 1.091047489638734,
+        "min": -8.928371232016055,
+        "n": 100,
+        "q25": 0.2197641954844294,
+        "q75": 3.4067058866500473
+      },
+      "hellinger": {
+        "max": 0.6009669966332739,
+        "mean": 0.23013271265608964,
+        "median": 0.1981032591215244,
+        "min": 0.07367590126720466,
+        "n": 100,
+        "q25": 0.15688510323208116,
+        "q75": 0.28400033362560867
+      },
+      "log_psd_mae_db": {
+        "max": 4.131200768475433,
+        "mean": 1.877880910862797,
+        "median": 1.5830985736697485,
+        "min": 0.9728908990222097,
+        "n": 100,
+        "q25": 1.3874637930008935,
+        "q75": 2.1365307780774447
+      },
+      "total_variation": {
+        "max": 0.6832403668977066,
+        "mean": 0.2632503775674563,
+        "median": 0.2262905349524225,
+        "min": 0.08002835652183796,
+        "n": 100,
+        "q25": 0.1730667496015786,
+        "q75": 0.33855901171191394
+      }
+    },
+    "mixture": {
+      "band_power_error_db": {
+        "max": 8.25523037256737,
+        "mean": 0.4774364612437941,
+        "median": 0.05983879448929828,
+        "min": -4.7459851675755935,
+        "n": 100,
+        "q25": -0.6070768917212733,
+        "q75": 1.5436923359851953
+      },
+      "hellinger": {
+        "max": 0.42755262297277347,
+        "mean": 0.1764990923521049,
+        "median": 0.16973284724687426,
+        "min": 0.06282649795682241,
+        "n": 100,
+        "q25": 0.12245410025476242,
+        "q75": 0.21400044282474642
+      },
+      "log_psd_mae_db": {
+        "max": 3.9491580900954473,
+        "mean": 1.5060226285504217,
+        "median": 1.3228983522763262,
+        "min": 0.7837951168194335,
+        "n": 100,
+        "q25": 1.1336811129751183,
+        "q75": 1.7048705239543374
+      },
+      "total_variation": {
+        "max": 0.49288579408146105,
+        "mean": 0.19846803708689284,
+        "median": 0.1816404180873118,
+        "min": 0.059037551650652685,
+        "n": 100,
+        "q25": 0.13364394208509775,
+        "q75": 0.24006962841788163
+      }
+    }
+  },
+  "status": "GLOBAL_PSD_CORRESPONDENCE_DIAGNOSTIC_COMPLETE",
+  "synthetic_sanity_before_audio": {
+    "known_map_max_absolute_error": 5.551115123125783e-15,
+    "nonnegative_boundary_finite": true,
+    "source": "generated positive PSD arrays only",
+    "status": "PASS",
+    "zero_identical_distances": true
+  },
+  "test_audio_access": false,
+  "transfer_power_gain_band": {
+    "heart": {
+      "max": 1.1284287839497646,
+      "mean": 0.26021588246930927,
+      "median": 0.10659761259256256,
+      "min": 0.0,
+      "n": 911,
+      "q25": 0.01997359944630328,
+      "q75": 0.5307744743906531
+    },
+    "lung": {
+      "max": 0.7671192254657111,
+      "mean": 0.23536370381256716,
+      "median": 0.10926951663888193,
+      "min": 0.0004624240583177337,
+      "n": 911,
+      "q25": 0.016754243804145245,
+      "q75": 0.5072186095600237
+    }
+  }
+}
