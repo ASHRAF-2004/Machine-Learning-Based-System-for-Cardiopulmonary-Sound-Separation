@@ -8,6 +8,7 @@ const messages: Record<string, string> = {
   forbidden: 'You do not have permission for this action or resource.',
   account_missing: 'Your application account has not been synchronized. Retry sign-in.',
   ensemble_unavailable: 'Ensemble processing is not connected yet. No job or result was created.',
+  separation_unavailable: 'Separation is temporarily unavailable. Your original recording is saved.',
   benchmark_unavailable: 'Benchmark execution is not available in this runtime.',
   last_admin: 'The last active administrator cannot be disabled or demoted.',
   upload_too_large: 'Choose a WAV file no larger than 25 MiB.',

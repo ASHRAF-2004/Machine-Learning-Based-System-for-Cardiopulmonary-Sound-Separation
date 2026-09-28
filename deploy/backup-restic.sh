@@ -58,6 +58,13 @@ compose=(docker compose
   -f "$STETHOFUSE_DEPLOY_DIR/compose.yaml"
   -f "$STETHOFUSE_DEPLOY_DIR/compose.firebase.yaml")
 
+# Opt in only with the reviewed ML deployment. All writers must be quiescent.
+services=(web api)
+if [[ "${STETHOFUSE_ML_WORKER_ENABLED:-0}" == 1 ]]; then
+  compose+=(-f "$STETHOFUSE_DEPLOY_DIR/compose.ml.yaml")
+  services+=(ml-worker)
+fi
+
 require_one_healthy_container() {
   local service="$1"
   local -a container_ids=()
@@ -73,6 +80,10 @@ require_one_healthy_container() {
 }
 require_one_healthy_container api
 require_one_healthy_container web
+if [[ "${STETHOFUSE_ML_WORKER_ENABLED:-0}" == 1 ]]; then
+  mapfile -t worker_ids < <("${compose[@]}" ps --status running -q ml-worker)
+  [[ "${#worker_ids[@]}" == 1 ]] || fail 'Exactly one running ML worker is required.'
+fi
 
 restart_stack=0
 manifest_file=""
@@ -86,7 +97,7 @@ restore_stack() {
     fi
   fi
   if [[ "$restart_stack" == 1 ]]; then
-    if ! "${compose[@]}" up -d web api >/dev/null; then
+    if ! "${compose[@]}" up -d "${services[@]}" >/dev/null; then
       printf 'StethoFuse backup: restart failed; operator intervention is required.\n' >&2
       result=1
     fi
@@ -101,7 +112,7 @@ trap 'exit 143' TERM
 # Quiesce SQLite and file writes so the database and private media form one
 # consistent point-in-time snapshot. The EXIT trap attempts to restore service.
 restart_stack=1
-"${compose[@]}" stop --timeout 60 web api >/dev/null
+"${compose[@]}" stop --timeout 60 "${services[@]}" >/dev/null
 
 unsupported_entry="$(find "$STETHOFUSE_RUNTIME_ROOT/data" "$STETHOFUSE_RUNTIME_ROOT/private" \
   -mindepth 1 ! -type d ! -type f -print -quit)"

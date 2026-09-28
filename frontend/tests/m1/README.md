@@ -1,5 +1,33 @@
 # M1 focused frontend evidence
 
+## Local frozen-model integration — 29 September 2026
+
+`ml-integration.mjs` uses generated PCM, a fake browser microphone and fictional
+Firebase identities, but the **real M1 API, isolated SQLite/private files and
+frozen v2 CPU checkpoint**. It covers upload/metadata/Separate, queued and
+processing state, private heart/lung playback, refresh persistence, device
+capture and explicit analyst grants/revocation. The worker pause is only a
+test-fixture barrier for observing processing; inference itself is unmodified.
+No T9, patient audio, real Firebase account or production service is used.
+
+Run from `frontend` with a local Vite server and the existing pinned local CPU
+environment at `../.local/ml-integration/venv`:
+
+```sh
+STETHOFUSE_TEST_CHECKPOINT=<absolute-frozen-endpoint-path> \
+FRONTEND_URL=http://127.0.0.1:4191 \
+EVIDENCE_ROOT=output/playwright/ml-integration-new \
+node tests/m1/ml-integration.mjs
+```
+
+The earlier `browser.mjs` suite remains mock-only; its unavailable-action
+assertion now uses the one Separate action and its external-request guard
+honors the supplied local origin instead of hard-coding port4180. It still
+requires a missing-Firebase-config Vite process for its first check. See
+[current local acceptance](../../../docs/LOCAL_ML_INTEGRATION.md) for exact
+attempts/results and scope. Historical unavailable device/separation statements
+below describe the older M1 checkpoint, not the new local integration.
+
 These tests distinguish actual application behavior from provider verification.
 They never claim a real Firebase account, email delivery, Google consent flow,
 production deployment or clinical/model result was verified.

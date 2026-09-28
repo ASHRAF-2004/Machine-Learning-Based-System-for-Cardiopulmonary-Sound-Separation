@@ -13,18 +13,19 @@ from uuid import uuid4
 
 from app.access_foundation import AccessDenied, DevelopmentAccessStore, VerifiedIdentity
 from app.access_foundation.store import TABLES
+from .processing_store import ProcessingStore
 
 M1_TABLES = {"m1_meta", "m1_recording_data", "m1_files", "m1_jobs", "m1_results",
              "m1_result_files", "m1_reviews", "m1_preferences"}
 
 
-class M1Store(DevelopmentAccessStore):
+class M1Store(ProcessingStore, DevelopmentAccessStore):
     @staticmethod
-    def _check_schema(db):
+    def _check_schema(db, *, allow_v1=False):
         names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
         if names != TABLES | M1_TABLES:
             raise ValueError("Not an isolated M1 database; legacy data is quarantined.")
-        if [r[0] for r in db.execute("SELECT version FROM af_meta")] != [1] or [r[0] for r in db.execute("SELECT version FROM m1_meta")] != [1]:
+        if [r[0] for r in db.execute("SELECT version FROM af_meta")] != [1] or [r[0] for r in db.execute("SELECT version FROM m1_meta")] not in ([[1], [2]] if allow_v1 else [[2]]):
             raise ValueError("Unsupported M1 schema.")
 
     def initialize(self):
@@ -35,13 +36,19 @@ class M1Store(DevelopmentAccessStore):
             db.execute("BEGIN IMMEDIATE")
             names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
             if names:
-                self._check_schema(db)
+                self._check_schema(db, allow_v1=True)
             else:
                 schemas = [Path(__file__).parents[1] / "access_foundation" / "schema.sql", Path(__file__).with_name("schema.sql")]
                 for schema in schemas:
                     for statement in schema.read_text().split(";"):
                         if statement.strip():
                             db.execute(statement)
+            if db.execute("SELECT version FROM m1_meta").fetchone()[0] == 1:
+                migration = Path(__file__).with_name("migrations") / "002_processing.sql"
+                for statement in migration.read_text().split(";"):
+                    if statement.strip():
+                        db.execute(statement)
+            self._check_schema(db)
             db.commit()
         except BaseException:
             db.rollback()
@@ -82,14 +89,14 @@ class M1Store(DevelopmentAccessStore):
                 self._audit(db, actor["id"], "preferences.changed", actor["id"])
             return preferences
 
-    def add_upload(self, identity, *, title, original_filename, relative_path, duration_sec, sample_rate_hz, channels, file_size_bytes):
+    def add_upload(self, identity, *, title, original_filename, relative_path, duration_sec, sample_rate_hz, channels, file_size_bytes, sha256=None):
         with self._connection(write=True) as db:
             actor = self._actor(db, identity)
             recording_id, resource_id = uuid4().hex, uuid4().hex
             db.execute("INSERT INTO af_recordings VALUES (?,?,?)", (recording_id, actor["id"], int(time.time())))
             db.execute("INSERT INTO af_resources VALUES (?,?,?)", (resource_id, recording_id, "original_audio"))
             db.execute("INSERT INTO m1_recording_data VALUES (?,?,?,?,?,?,?,?)", (recording_id, title, original_filename, duration_sec, sample_rate_hz, channels, file_size_bytes, resource_id))
-            db.execute("INSERT INTO m1_files VALUES (?,?,?,?)", (resource_id, relative_path, "audio/wav", file_size_bytes))
+            db.execute("INSERT INTO m1_files(resource_id,relative_path,media_type,file_size_bytes,sha256) VALUES (?,?,?,?,?)", (resource_id, relative_path, "audio/wav", file_size_bytes, sha256))
             self._audit(db, actor["id"], "recording.uploaded", recording_id)
         return self.recording(identity, recording_id)
 
@@ -210,7 +217,9 @@ class M1Store(DevelopmentAccessStore):
                 db.execute("INSERT INTO m1_reviews VALUES (?,?,?,?,?,?) ON CONFLICT(assignment_id) DO UPDATE SET decision=excluded.decision,notes=excluded.notes,updated_at=excluded.updated_at", (grant_id, grant[0], actor["id"], decision, notes, int(time.time())))
                 self._audit(db, actor["id"], "review.updated", grant_id)
             row = db.execute("SELECT * FROM m1_reviews WHERE assignment_id=?", (grant_id,)).fetchone()
-            return dict(row) if row else {"assignment_id": grant_id, "resource_id": grant[0], "reviewer_id": actor["id"], "decision": "pending", "notes": "", "updated_at": None}
+            kind = db.execute("SELECT kind FROM af_resources WHERE id=?", (grant[0],)).fetchone()[0]
+            value = dict(row) if row else {"assignment_id": grant_id, "resource_id": grant[0], "reviewer_id": actor["id"], "decision": "pending", "notes": "", "updated_at": None}
+            return {**value, "resource_kind": kind}
 
     def results(self, identity, result_id=None):
         with self._connection() as db:
@@ -227,7 +236,9 @@ class M1Store(DevelopmentAccessStore):
                     continue
                 file_ids = {r[0] for r in db.execute("SELECT resource_id FROM m1_result_files WHERE result_id=?", (row["id"],))}
                 owner = db.execute("SELECT owner_id FROM af_recordings WHERE id=?", (row["recording_id"],)).fetchone()[0]
-                results.append({**dict(row), "resources": [self._resource_dto(r) for r in resources if r["id"] in file_ids], "is_owner": owner == actor["id"]})
+                value = dict(row)
+                value["provenance"] = json.loads(value.pop("provenance_json") or "null")
+                results.append({**value, "resources": [self._resource_dto(r) for r in resources if r["id"] in file_ids], "is_owner": owner == actor["id"]})
             if result_id:
                 if not results:
                     raise AccessDenied("Access denied.")
@@ -242,8 +253,8 @@ class M1Store(DevelopmentAccessStore):
             if job_id:
                 if not rows:
                     raise AccessDenied("Access denied.")
-                return dict(rows[0])
-            return [dict(r) for r in rows]
+                return self._public_job(rows[0])
+            return [self._public_job(r) for r in rows]
 
     def users(self, identity):
         with self._connection() as db:

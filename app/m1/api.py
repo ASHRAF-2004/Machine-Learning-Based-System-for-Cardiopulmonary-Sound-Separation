@@ -65,10 +65,10 @@ class PreferencesBody(StrictBody):
     preferences: dict = Field(default_factory=dict)
 
 
-def envelope(user):
+def envelope(user, separation=False):
     return {"user": user, "mode": "live", "capabilities": {
         "recordings": True, "sharing": True, "reviews": user["role"] == "audio_analyst",
-        "admin": user["role"] == "admin", "ensemble": False,
+        "admin": user["role"] == "admin", "ensemble": False, "separation": separation,
     }}
 
 
@@ -178,20 +178,21 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     @app.get("/api/health")
     def health(request: Request):
         return {"status": "ok", "storage_configured": request.app.state.store is not None,
-                "provider_configured": not isinstance(request.app.state.verifier, DisabledVerifier), "ensemble_available": False}
+                "provider_configured": not isinstance(request.app.state.verifier, DisabledVerifier), "ensemble_available": False,
+                "separation_enabled": bool(settings and settings.separation_enabled)}
 
     @app.post("/api/auth/session")
     def session(_body: SessionBody, who=Depends(identity), store=Depends(database)):
         store.register_verified_identity(who)
-        return envelope(store.me(who))
+        return envelope(store.me(who), settings.separation_enabled)
 
     @app.get("/api/auth/me")
     def me(who=Depends(principal), store=Depends(database)):
-        return envelope(store.me(who))
+        return envelope(store.me(who), settings.separation_enabled)
 
     @app.patch("/api/auth/me")
     def profile(body: ProfileBody, who=Depends(principal), store=Depends(database)):
-        return envelope(store.update_profile(who, body.display_name))
+        return envelope(store.update_profile(who, body.display_name), settings.separation_enabled)
 
     @app.get("/api/preferences")
     def preferences(who=Depends(principal), store=Depends(database)):
@@ -268,10 +269,12 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     def job(job_id: str, who=Depends(principal), store=Depends(database)):
         return store.jobs(who, job_id)
 
-    @app.post("/api/recordings/{recording_id}/jobs")
+    @app.post("/api/recordings/{recording_id}/jobs", status_code=202)
     def start_job(recording_id: str, _body: SessionBody, who=Depends(principal), store=Depends(database)):
         store.require_owner(who, recording_id)
-        raise failure(503, "ensemble_unavailable", "The ensemble execution service is not connected. No job was created.")
+        if not settings.separation_enabled:
+            raise failure(503, "separation_unavailable", "Separation is not enabled. No job was created.")
+        return store.request_separation(who, recording_id)
 
     @app.get("/api/results")
     def results(who=Depends(principal), store=Depends(database)):

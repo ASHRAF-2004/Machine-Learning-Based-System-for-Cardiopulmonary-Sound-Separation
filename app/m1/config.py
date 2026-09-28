@@ -15,6 +15,7 @@ class Settings:
     private_storage: Path
     firebase_project: str = FIREBASE_PROJECT
     max_upload_bytes: int = 25 * 1024 * 1024
+    separation_enabled: bool = False
 
     def validate(self) -> None:
         database, storage = self.database.resolve(), self.private_storage.resolve()
@@ -36,6 +37,7 @@ class Settings:
         storage = os.environ.get("STETHOFUSE_M1_PRIVATE_STORAGE")
         if not database or not storage:
             return None
-        settings = cls(Path(database), Path(storage), os.environ.get("STETHOFUSE_FIREBASE_PROJECT", FIREBASE_PROJECT))
+        settings = cls(Path(database), Path(storage), os.environ.get("STETHOFUSE_FIREBASE_PROJECT", FIREBASE_PROJECT),
+                       separation_enabled=os.environ.get("STETHOFUSE_SEPARATION_ENABLED") == "1")
         settings.validate()
         return settings

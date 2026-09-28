@@ -1,5 +1,14 @@
 # StethoFuse production-like runtime
 
+## Prepared local ML integration — 29 September 2026
+
+The frozen HLS-only T8 v2 worker is now implemented and tested locally. It is
+**not deployed**. [ML deployment-review runbook](ML_WORKER_RUNBOOK.md) defines
+the opt-in worker image/Compose override, private model bundle, schema v2,
+all-writer backup quiescence and rollback requirements. The existing live
+release described below has not been changed. No Caddy/Cloudflare/Firebase or
+Axora configuration change is required by this integration.
+
 ## Applied production release — 27 September 2026
 
 The isolated M1 application is now deployed and its bounded HTTPS/auth/media/

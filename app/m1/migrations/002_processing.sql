@@ -1,0 +1,15 @@
+ALTER TABLE m1_jobs ADD COLUMN model_version TEXT;
+ALTER TABLE m1_jobs ADD COLUMN started_at INTEGER;
+ALTER TABLE m1_jobs ADD COLUMN attempts INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE m1_jobs ADD COLUMN claim_token TEXT;
+ALTER TABLE m1_jobs ADD COLUMN stage TEXT;
+ALTER TABLE m1_jobs ADD COLUMN result_id TEXT;
+ALTER TABLE m1_jobs ADD COLUMN heart_resource_id TEXT;
+ALTER TABLE m1_jobs ADD COLUMN lung_resource_id TEXT;
+ALTER TABLE m1_jobs ADD COLUMN input_sha256 TEXT;
+ALTER TABLE m1_results ADD COLUMN provenance_json TEXT;
+ALTER TABLE m1_files ADD COLUMN sha256 TEXT;
+CREATE UNIQUE INDEX m1_job_identity ON m1_jobs(recording_id,model_version) WHERE model_version IS NOT NULL;
+DROP TABLE m1_meta;
+CREATE TABLE m1_meta (version INTEGER PRIMARY KEY CHECK(version=2));
+INSERT INTO m1_meta VALUES(2);

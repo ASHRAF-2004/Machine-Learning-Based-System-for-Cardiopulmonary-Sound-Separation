@@ -1,0 +1,18 @@
+# Prepared only: building this image does not deploy or start a service.
+FROM python:3.14.4-slim@sha256:2ca02f32b4d9d893863367ce07ec1972819f476dd38d8612f2a9cb6a41cbb727
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
+WORKDIR /app
+COPY deploy/requirements-worker.lock.txt /tmp/requirements-worker.lock.txt
+RUN python -m pip install --require-hashes --extra-index-url https://download.pytorch.org/whl/cpu \
+      -r /tmp/requirements-worker.lock.txt \
+    && groupadd --system --gid 10001 stethofuse \
+    && useradd --system --uid 10001 --gid 10001 --home-dir /nonexistent --shell /usr/sbin/nologin stethofuse
+COPY app/access_foundation /app/app/access_foundation
+COPY app/m1 /app/app/m1
+# Only the frozen inference/preprocessing dependency closure; no trainers or datasets.
+COPY app/ml/stethofuse_tcn.py app/ml/ensemble_v1.py app/ml/audio_utils.py app/ml/separation_algorithm.py /app/app/ml/
+COPY app/ml/strategies/__init__.py app/ml/strategies/base.py app/ml/strategies/nmf_strategy.py /app/app/ml/strategies/
+ARG STETHOFUSE_CODE_GIT_SHA
+ENV STETHOFUSE_CODE_GIT_SHA=${STETHOFUSE_CODE_GIT_SHA}
+USER 10001:10001
+CMD ["python", "-m", "app.m1.worker"]

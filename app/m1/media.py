@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import hashlib
 import re
 import wave
 from pathlib import Path
@@ -21,6 +22,7 @@ async def persist_upload(upload, title, identity, store, settings):
     relative_path = uuid4().hex + ".wav"
     target = settings.private_storage / relative_path
     size = 0
+    sha256 = hashlib.sha256()
     created = False
     try:
         descriptor = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
@@ -31,6 +33,9 @@ async def persist_upload(upload, title, identity, store, settings):
                 if size > settings.max_upload_bytes:
                     raise failure(413, "upload_too_large", "Maximum upload size is 25 MiB.")
                 output.write(chunk)
+                sha256.update(chunk)
+            output.flush()
+            os.fsync(output.fileno())
         try:
             with wave.open(str(target), "rb") as wav:
                 channels, sample_rate, frames = wav.getnchannels(), wav.getframerate(), wav.getnframes()
@@ -45,9 +50,15 @@ async def persist_upload(upload, title, identity, store, settings):
                     raise ValueError("WAV is too long.")
         except (wave.Error, EOFError, ValueError):
             raise failure(422, "invalid_audio", "Use a complete mono/stereo PCM WAV, up to 30 minutes.") from None
+        directory = os.open(settings.private_storage, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
         return store.add_upload(identity, title=title or filename, original_filename=filename,
                                 relative_path=relative_path, duration_sec=duration,
-                                sample_rate_hz=sample_rate, channels=channels, file_size_bytes=size)
+                                sample_rate_hz=sample_rate, channels=channels, file_size_bytes=size,
+                                sha256=sha256.hexdigest())
     except BaseException:
         # Only the exact UUID file created for this failed upload is removed.
         if created:

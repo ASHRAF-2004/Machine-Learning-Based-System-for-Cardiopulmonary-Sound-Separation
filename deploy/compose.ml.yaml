@@ -1,0 +1,38 @@
+# Opt-in after owner deployment review. No new listener, route, provider, or GPU.
+services:
+  api:
+    environment:
+      STETHOFUSE_SEPARATION_ENABLED: "1"
+  ml-worker:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.worker
+      args:
+        STETHOFUSE_CODE_GIT_SHA: ${STETHOFUSE_CODE_GIT_SHA:?Set the reviewed implementation commit}
+    image: stethofuse/ml-worker:local
+    restart: unless-stopped
+    user: "${STETHOFUSE_API_UID:-10001}:${STETHOFUSE_API_GID:-10001}"
+    environment:
+      STETHOFUSE_M1_DATABASE: /var/lib/stethofuse/data/m1.sqlite3
+      STETHOFUSE_M1_PRIVATE_STORAGE: /var/lib/stethofuse/private
+      STETHOFUSE_MODEL_CHECKPOINT: /var/lib/stethofuse/models/stethofuse-tcn-small-hls-refit-waveform-v2/endpoint.pt
+      STETHOFUSE_SEPARATOR_SPEC: /var/lib/stethofuse/models/stethofuse-tcn-small-hls-refit-waveform-v2/final_separator_v2.json
+    volumes:
+      - ${STETHOFUSE_RUNTIME_ROOT:?Set dedicated runtime root}/data:/var/lib/stethofuse/data
+      - ${STETHOFUSE_RUNTIME_ROOT:?Set dedicated runtime root}/private:/var/lib/stethofuse/private
+      - ${STETHOFUSE_RUNTIME_ROOT:?Set dedicated runtime root}/models:/var/lib/stethofuse/models:ro
+    network_mode: none
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 2g
+    cpus: 2.0
+    stop_grace_period: 60s
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+        max-file: "3"

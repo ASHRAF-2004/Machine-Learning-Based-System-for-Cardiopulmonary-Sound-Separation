@@ -6,6 +6,7 @@ Derived-file fixtures below exercise authorization only, not ML correctness.
 import asyncio
 import io
 import sqlite3
+import subprocess
 import sys
 import time
 import wave
@@ -307,7 +308,7 @@ def test_no_public_storage_docs_or_fake_ensemble(env):
     assert env.client.get("/api/results", headers=auth()).json() == {"items": []}
     assert env.client.get("/api/jobs", headers=auth()).json() == {"items": []}
     response = env.client.post(f"/api/recordings/{record['id']}/jobs", headers=auth(), json={})
-    assert response.status_code == 503 and response.json()["detail"]["code"] == "ensemble_unavailable"
+    assert response.status_code == 503 and response.json()["detail"]["code"] == "separation_unavailable"
     assert env.client.get("/api/jobs", headers=auth()).json() == {"items": []}
     assert env.client.post("/api/admin/benchmarks", headers=auth()).status_code == 403
     assert env.client.post("/api/admin/benchmarks", headers=auth("admin")).status_code == 503
@@ -329,7 +330,11 @@ def test_unconfigured_app_fail_closed_and_no_ml_import():
         assert client.get("/api/auth/me").status_code == 401
         assert client.get("/api/auth/me", headers=auth()).status_code == 503
         assert client.get("/health").json()["provider_configured"] is False
-    assert "torch" not in sys.modules and "app.services.separation_service" not in sys.modules
+    # The API and ML worker are separate processes; a combined pytest run may
+    # legitimately have loaded the worker already. Prove the API boundary fresh.
+    subprocess.run([sys.executable, "-c", "import sys; from app.m1.api import create_app; create_app(); "
+                    "assert 'torch' not in sys.modules and 'app.services.separation_service' not in sys.modules"],
+                   cwd=PROJECT_ROOT, check=True, timeout=10)
 
 
 def test_legacy_schema_and_paths_are_rejected(tmp_path):
@@ -367,7 +372,7 @@ def test_all_derived_media_kinds_use_same_exact_scope_policy(env, kind, extensio
     fixture = wav_bytes() if extension == "wav" else b"\x89PNG\r\n\x1a\nFICTIONAL-AUTHORIZATION-FIXTURE"
     (env.settings.private_storage / relative).write_bytes(fixture)
     with sqlite3.connect(env.settings.database) as db:
-        db.execute("INSERT INTO m1_files VALUES (?,?,?,?)", (resource_id, relative, mime, len(fixture)))
+        db.execute("INSERT INTO m1_files(resource_id,relative_path,media_type,file_size_bytes) VALUES (?,?,?,?)", (resource_id, relative, mime, len(fixture)))
     url = "/api/media/" + resource_id
     assert env.client.get(url, headers=auth()).content == fixture
     assert env.client.get(url, headers=auth("admin")).status_code == 403
@@ -398,8 +403,8 @@ def test_expired_scope_and_context_do_not_leak_original_or_result(env):
     job_id = uuid4().hex
     with sqlite3.connect(env.settings.database) as db:
         # Test-only persisted historical rows. The production API creates no fake job/result.
-        db.execute("INSERT INTO m1_jobs VALUES (?,?,?,?,?,?,?)", (job_id, record["id"], env.users["owner"]["id"], "completed", int(time.time()), int(time.time()), None))
-        db.execute("INSERT INTO m1_results VALUES (?,?,?,?,?)", (result_id, record["id"], job_id, int(time.time()), "TEST FIXTURE — not inference"))
+        db.execute("INSERT INTO m1_jobs(id,recording_id,requester_id,status,created_at,completed_at,error_code) VALUES (?,?,?,?,?,?,?)", (job_id, record["id"], env.users["owner"]["id"], "completed", int(time.time()), int(time.time()), None))
+        db.execute("INSERT INTO m1_results(id,recording_id,job_id,created_at,method_label) VALUES (?,?,?,?,?)", (result_id, record["id"], job_id, int(time.time()), "TEST FIXTURE — not inference"))
     g = grant(env, record, resource_id=context_id)
     assert env.client.get(f"/api/results/{result_id}", headers=auth("analyst")).status_code == 403
     assert env.client.get(f"/api/jobs/{job_id}", headers=auth("analyst")).status_code == 403
