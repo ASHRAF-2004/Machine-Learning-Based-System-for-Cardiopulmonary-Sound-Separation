@@ -1,9 +1,11 @@
-# Backend image build context is allow-listed to the current authenticated API.
+# Runtime image context: authenticated API plus the exact frozen worker closure.
 **
 !deploy/
 deploy/*
 !deploy/Dockerfile.backend
 !deploy/requirements-runtime.lock.txt
+!deploy/Dockerfile.worker
+!deploy/requirements-worker.lock.txt
 !app/
 app/*
 !app/main.py
@@ -15,5 +17,19 @@ app/access_foundation/*
 app/m1/*
 !app/m1/*.py
 !app/m1/schema.sql
+!app/m1/migrations/
+app/m1/migrations/*
+!app/m1/migrations/002_processing.sql
+!app/ml/
+app/ml/*
+!app/ml/stethofuse_tcn.py
+!app/ml/ensemble_v1.py
+!app/ml/audio_utils.py
+!app/ml/separation_algorithm.py
+!app/ml/strategies/
+app/ml/strategies/*
+!app/ml/strategies/__init__.py
+!app/ml/strategies/base.py
+!app/ml/strategies/nmf_strategy.py
 !app/static/
 !app/static/**
