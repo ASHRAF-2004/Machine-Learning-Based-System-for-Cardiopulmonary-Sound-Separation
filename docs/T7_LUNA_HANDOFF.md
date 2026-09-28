@@ -26,9 +26,10 @@ substitute the higher-scoring confirmation checkpoint or run another seed.
 The measured profile is 171,313 parameters with pinned torchaudio, not the
 earlier 170,545 estimate. Full hashes and summaries are in the decision record.
 
-Next scientific gate is a separately authorized validation-only ensemble
-reconsideration, before freezing the complete system and opening the held-out
-test once. No ensemble was evaluated in T7.
+The subsequently authorized validation-only ensemble reconsideration is now
+complete: [Decision B](FINAL_ENSEMBLE_RECONSIDERATION.md) retains the small
+standalone waveform model. T8 freeze metadata/checklist is prepared; T9 remains
+sealed pending full freeze and owner approval. No ensemble was evaluated in T7.
 
 ## 1. Exact experiment
 
