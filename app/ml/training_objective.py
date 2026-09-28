@@ -22,11 +22,18 @@ def fixed_label_si_sdr_db(estimate: Tensor, target: Tensor) -> Tensor:
                               (residual.square().sum(dim=-1) + 1e-8))
 
 
-def fixed_label_loss(estimate: Tensor, target: Tensor) -> Tensor:
+def fixed_label_components(estimate: Tensor, target: Tensor) -> dict[str, Tensor]:
     score = fixed_label_si_sdr_db(estimate, target)
-    rms = target.square().mean(dim=-1).sqrt()
-    normalized_l1 = (estimate - target).abs().mean(dim=-1) / (rms + 1e-6)
-    return (-score + 5.0 * normalized_l1).mean()
+    l1 = normalized_l1(estimate, target)
+    negative_si_sdr = -score.mean()
+    waveform_l1 = l1.mean()
+    return {"negative_si_sdr": negative_si_sdr,
+            "normalized_waveform_l1": waveform_l1,
+            "loss": negative_si_sdr + 5.0 * waveform_l1}
+
+
+def fixed_label_loss(estimate: Tensor, target: Tensor) -> Tensor:
+    return fixed_label_components(estimate, target)["loss"]
 
 
 def selection_score(pair_rows: list[dict[str, float]]) -> dict[str, float]:
