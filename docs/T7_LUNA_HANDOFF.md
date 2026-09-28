@@ -1,9 +1,34 @@
 # T7 execution handoff — one width variant, not a sweep
 
-2026-09-28. **TUNING DESIGNED / NOT EXECUTED / FINAL TEST SEALED.**
-Decision and saved-log evidence: [`T7_TUNING_DECISION.md`](T7_TUNING_DECISION.md).
-This document specifies the next owner-authorized execution; it is not a run
-receipt or permission to deploy. Keep the valid T5/T6 baseline unchanged.
+2026-09-28. **T7 EXECUTED / VALIDATION ONLY / FINAL TEST SEALED / NOT DEPLOYED.**
+The approved one-width experiment and one confirmation seed are complete.
+Decision, detailed family/level breakdowns and run evidence:
+[`T7_TUNING_DECISION.md`](T7_TUNING_DECISION.md). This handoff preserves the
+frozen execution contract; it does not authorize final-test evaluation or
+deployment.
+
+## Execution receipt
+
+The small N64/B32/H64 profile passed its two-example development capacity gate
+(100 updates, 8.17s; all source/case SI-SDRi >10dB and normalized-L1 reduction
+66.3–67.1%). A fresh seed-20260928 full run completed 17 epochs, best epoch 8,
+early-stopped, and scored H/L SI-SDRi 3.1011/3.1302dB (Q 3.1011, mean 3.1156;
+zero validation failures). It exceeded the existing baseline control's Q by
+0.0660dB and mean by 0.0587dB; this small difference is descriptive, not
+statistical evidence of superiority.
+
+The configuration was selected before exactly one fresh seed-20260929
+confirmation. That run completed 16 epochs, best epoch 4, and scored H/L
+SI-SDRi 3.3324/3.3275dB (Q 3.3275, mean 3.3300; zero failures). Differences
+across the two family-pair groups and relative-level behavior make robustness
+**UNCERTAIN**. Keep the selected canonical checkpoint at seed 20260928; do not
+substitute the higher-scoring confirmation checkpoint or run another seed.
+The measured profile is 171,313 parameters with pinned torchaudio, not the
+earlier 170,545 estimate. Full hashes and summaries are in the decision record.
+
+Next scientific gate is a separately authorized validation-only ensemble
+reconsideration, before freezing the complete system and opening the held-out
+test once. No ensemble was evaluated in T7.
 
 ## 1. Exact experiment
 
@@ -123,8 +148,8 @@ one source, a gain subset, or the final test. Report both sources and all groups
 | Configuration / seed | Heart SI-SDR | Heart SI-SDRi | Lung SI-SDR | Lung SI-SDRi | Q | M | Failures | Best epoch |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Baseline / 20260928 | 3.031004 | 3.035050 | 3.074744 | 3.078790 | 3.035050 | 3.056920 | 0 | 8 |
-| Small / 20260928 | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN |
-| Selected config / 20260929 | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN |
+| Small / 20260928 | 3.097049 | 3.101095 | 3.126111 | 3.130157 | 3.101095 | 3.115626 | 0 | 8 |
+| Selected config / 20260929 | 3.328333 | 3.332379 | 3.323476 | 3.327522 | 3.327522 | 3.329950 | 0 | 4 |
 
 Use full stored precision for ranking. Also report ΔQ, ΔM, per-family/source,
 gain, median/IQR, negative-improvement counts, failures, duration and RSS. No

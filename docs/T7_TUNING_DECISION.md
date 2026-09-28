@@ -1,9 +1,10 @@
 # ADR T02 — One capacity experiment after the first baseline
 
-2026-09-28. **BASELINE TRAINED / TUNING DESIGNED / TUNING NOT YET EXECUTED /
-FINAL TEST SEALED.** The baseline remains valid and eligible to win. This
-decision analyses saved T5/T6 metadata only; no audio, model inference,
-checkpoint deserialization, new training, or production action occurred.
+2026-09-28. **BASELINE AND T7 TRAINED / VALIDATION EVALUATED / FINAL TEST
+SEALED / NOT DEPLOYED.** The baseline remains a valid control and candidate.
+The tuning decision first analyzed saved T5/T6 metrics; offline execution
+results are recorded below. No test audio/recipes or production data/services
+were touched.
 
 ## Decision
 
@@ -17,12 +18,11 @@ data, optimizer, scheduler, stopping, labels and validation selector.
 without evidence for a specific intervention. In particular, do not reduce
 L1 weight, increase decay, add dropout, or alter gain sampling now.
 
-**Seed confirmation: YES, one run with seed 20260929 of the configuration
-selected on validation**, after the single variant/control comparison. Retain
-that configuration's seed 20260928 checkpoint as the selected artifact. The
-confirmation seed changes initialization and keyed training draws together;
-validation is unchanged. It measures sensitivity to that combined stochastic
-change, not initialization alone. Never pick the more flattering seed.
+**Seed confirmation: COMPLETED exactly once, seed 20260929, for the selected
+small profile.** Retain the selected seed-20260928 checkpoint as canonical.
+The confirmation changed initialization and keyed training draws together;
+validation was unchanged. Its score does not replace the primary checkpoint or
+select another configuration.
 
 The smaller width was originally a resource fallback. The owner's current
 tuning-decision request explicitly permits evaluating it as a capacity
@@ -230,10 +230,70 @@ No automatic second variant, seed retry, warm start, expanded test suite or
 production work. A small validation advantage is descriptive, not statistical
 superiority or proof of patient/device generalization.
 
+## T7 offline execution result — validation only
+
+The small profile passed the fixed two-example development gate after **100
+updates / 8.17s**, peak RSS 687.1 MiB. Every one of the four source/case
+SI-SDRi scores exceeded +10 dB (minimum +10.378); normalized-L1 reductions were
+67.1% and 66.3%. Gate checkpoint SHA-256:
+`7c82ff806c5b59beca6dddc0b4f92ba9c1fb46a7d7c8c6d43fed404792acd0c1`. The gate
+weights were not used for T7 training.
+
+| Run | Params | Epochs / best | Heart SI-SDR / SI-SDRi | Lung SI-SDR / SI-SDRi | Q | Mean | Runtime | Peak RSS | Failures | Best checkpoint SHA-256 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Baseline seed 20260928 | 645,681 | 20 / 8 | 3.0310 / 3.0350 | 3.0747 / 3.0788 | 3.0350 | 3.0569 | 1,243.5s | 2,078.2 MiB | 0 | `2eb0c19fc27b7587eca2087da2ad7e9fb943d74268defb67de3470a91a960db9` |
+| Small seed 20260928 (selected) | 171,313 | 17 / 8 | 3.0970 / 3.1011 | 3.1261 / 3.1302 | 3.1011 | 3.1156 | 570.8s | 1,396.1 MiB | 0 | `89f8d66134c0a49aa2a05971720cdffbdd1e501ebce99bb83119e6683d58ac93` |
+| Small seed 20260929 (confirmation) | 171,313 | 16 / 4 | 3.3283 / 3.3324 | 3.3235 / 3.3275 | 3.3275 | 3.3300 | 533.0s | 1,410.4 MiB | 0 | `e59219731e36998231419cf08febb48e13eb3cbea473e4577ec4311def31a978` |
+
+The seed-20260928 small profile wins the **predeclared** comparison by Q
+**+0.0660 dB** and balanced mean **+0.0587 dB**. Both source improvements are
+positive; these small margins are descriptive only. The confirmation's higher
+Q does not replace the selected primary-seed checkpoint.
+
+| Family pair | Baseline H / L SI-SDRi | Small 20260928 H / L | Small 20260929 H / L |
+| --- | ---: | ---: | ---: |
+| Late Diastolic Murmur × Fine Crackles | 3.847 / 3.713 | 3.702 / 3.664 | 3.861 / 4.198 |
+| Tachycardia × Fine Crackles | 2.223 / 2.445 | 2.501 / 2.596 | 2.803 / 2.457 |
+
+Both small runs reduce the heart-family gap versus baseline. The confirmation
+seed's family-level lung scores shift in opposite directions. By relative
+level, seed 20260928 vs 20260929 heart/lung SI-SDRi means are: −10 dB
+0.265/5.292 vs 1.167/6.687; −5 dB 2.490/5.005 vs 3.065/6.012; 0 dB
+3.949/4.116 vs 4.145/4.575; +5 dB 4.794/2.398 vs 4.611/2.144; +10 dB
+5.007/−0.270 vs 4.556/−1.329. Negative lung improvements at +10 dB occur in
+23/45 versus 30/45 conditions. These correlated counts are descriptive.
+
+**Seed robustness: UNCERTAIN.** Both seeds produce positive, fairly balanced
+family-macro improvements around 3.1–3.3 dB, with no failures; aggregate seed
+deltas are +0.2313 dB heart, +0.1974 dB lung, +0.2264 dB Q, +0.2143 dB mean.
+However, their family-level lung and +10 dB behavior differs enough that the
+two-family validation cannot support a robustness claim. Stop here; no third
+seed, retuning or seed substitution.
+
+Both full runs used clean source commit
+`1950fc0f45b646e4fd1729ebb617d37c6ebfc1d7`, CPU / Python 3.14.4 /
+torch and torchaudio 2.11.0+cpu, seed-specific fresh initialization, the same
+manifest (`39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4`)
+and frozen validation recipe (`b4cef517cd4a64c267d3645ea6b918b5dfb72945f7536c0245b73228f00fdc90`).
+The small-run first-epoch training-recipe hash equals the baseline's
+`790dcb8d06288ee3a93531274a9e0c10e01d6adb5c339c916acd3f79f8c5c0c7`; all 17
+primary-run recipe hashes match the baseline. Effective confirmation config
+hash: `ca572c327410678e8b80c16bfd582beccc3dead67ebd1ac8167f0d9d3b521230`;
+source config hash: `3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8`.
+
+Six existing focused contract tests passed; no new tests or broad regression
+were added/run. The small profile's smoke forward/backward and baseline
+checkpoint compatibility check passed. Final test files/recipes/metrics remain
+sealed. Production and Axora remain untouched. Full local run records and the
+pre-confirmation selection receipt are under ignored
+`.local/training/stethofuse-tcn-v1/`.
+
 ## Analysis provenance
 
-Only JSON/JSONL recipe and metric files were read. Full baseline data/config
-hashes remain in [`T5_T6_BASELINE_EXECUTION.md`](T5_T6_BASELINE_EXECUTION.md).
+The initial tuning diagnosis read JSON/JSONL recipe and metric files only. Its
+baseline input hashes remain in [`T5_T6_BASELINE_EXECUTION.md`](T5_T6_BASELINE_EXECUTION.md);
+the execution above used only the authorized two development gate mixtures and
+the fixed development/validation recipe paths. It did not access test audio.
 Analysis input SHA-256:
 
 - `history.jsonl`: `cb8d24ec8a8e3082293d74f6bf396afaace5c31fe01a2db81fa0925b6040af26`
@@ -246,7 +306,8 @@ and numeric `relative_lung_to_heart_db`; use ordinary means within a group and
 equal group weights for macro. `median`/`quantile(.75)-quantile(.25)` apply to
 the indicated pooled rows; count values <0. Average the five levels for file-
 pair diagnostics; retain all rows. For epoch objectives compare N+5A with the
-saved total (agreement within 1e-5). No WAV or model loading is needed.
+saved total (agreement within 1e-5). No WAV or checkpoint was read for the
+initial diagnosis; execution model loading/training is covered by the run
+records above.
 Graphify returned an OAuth reauthentication error; one connection check only,
-then narrow reads of the known wrapper, objective and runners. No new tests
-were added or run in this decision sprint.
+then narrow reads of the known wrapper, objective and runners.
