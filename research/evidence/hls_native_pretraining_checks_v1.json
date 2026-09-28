@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "status": "PASS_BEFORE_OPTIMIZER_STEPS",
+  "qualified_manifest_sha256": "5d1efc20f8ed9e33173824c4d19786d6ca10fcabf1ab50c00a4c2eb6bb7f2a19",
+  "focused_test_files": ["tests/test_hls_native_registry.py", "tests/test_native_supervision.py"],
+  "focused_tests_passed": 5,
+  "all_native_crop_draws_materialized": 11520,
+  "draws_each_fold": 2304,
+  "native_triplets_by_fold": [17, 22, 16, 15, 13],
+  "maximum_crop_residual_weaker_source_rms_ratio_by_fold": [0.003980709831660745, 0.002438016501238792, 0.003973835175382869, 0.003980097329057637, 0.002438016501238792],
+  "real_native_forward_backward_batch": "first four deterministic fold-f1 training-native draws only",
+  "model_parameters": 171313,
+  "output_shape": [4, 2, 32000],
+  "finite_outputs_and_gradients": true,
+  "mixture_consistency_max_abs_error": 2.384185791015625e-7,
+  "optimizer_updates": 0,
+  "other_checks": ["Synthetic known-lag/polarity correlation", "Synthetic global-PSD mapping/NNLS equivalence", "Native recipe determinism and preserved original mixture", "Separate weighted backward equals combined objective", "Resume native/synthetic cursor contract", "Matched control metrics and artifact identities reproduce exactly"],
+  "development_issue_fixed_before_training": "New result summarizer initially compared absolute evidence-path keys to relative control keys; normalized paths before equality. Metrics/evaluator unchanged, no optimizer updates existed.",
+  "test_audio_access": false,
+  "production_access": false,
+  "checkpoints_created": false
+}

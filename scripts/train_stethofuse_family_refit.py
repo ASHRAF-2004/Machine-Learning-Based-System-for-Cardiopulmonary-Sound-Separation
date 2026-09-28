@@ -31,6 +31,8 @@ sys.path.insert(0, str(ROOT))
 from app.ml.stethofuse_tcn import StethoFuseConvTasNet
 from app.ml.training_data import Source, make_mixture, materialize_recipe, read_manifest, read_source, training_epoch
 from app.ml.training_objective import fixed_label_components
+from app.ml.native_supervision import (load_native_audio, load_native_selection, materialize_native,
+                                       native_recipe_prefix, validate_native_plan)
 from scripts.train_stethofuse_baseline import (
     atomic_json, atomic_jsonl, atomic_torch_save, evaluate_validation, file_sha256,
     git_metadata, model_checkpoint, resource_snapshot, state_sha256,
@@ -242,7 +244,45 @@ def snapshot(model: StethoFuseConvTasNet, optimizer: torch.optim.Optimizer, upda
                    "torch_rng_state": torch.get_rng_state(), "numpy_rng_state": np.random.get_state(),
                    "python_rng_state": random.getstate(), "history": history,
                    "runtime_seconds": elapsed, "provenance_sha256": manifest["provenance_sha256"]})
+    if "native_plan_sha256" in manifest.get("provenance", {}):
+        result["native_recipe_cursor"] = update * 4
     return result
+
+
+def native_control_proof(native: dict, fold: str, recipes: list[dict], cv: dict,
+                         provenance: dict) -> dict:
+    """Check historical control identities, not its performance, before training."""
+    decision = ROOT / native["control"]["decision_receipt"]
+    if file_sha256(decision) != native["control"]["decision_receipt_sha256"]:
+        raise ValueError("Frozen control decision receipt changed")
+    name = (native["control"]["run_pattern"].format(fold=fold) if fold != "refit"
+            else "refit-all-nontest-seed20260928")
+    directory = ROOT / native["control"]["artifact_root"] / name
+    manifest_path = directory / "run_manifest.json"
+    control = json.loads(manifest_path.read_text())
+    if (control["status"] != "COMPLETE_FIXED_ENDPOINT" or control["failures"] != 0 or
+            control["training_stage"] != "hls_fixed_update_control" or
+            control["optimizer_updates"] < 576 or control["optimizer_state_entries_at_start"] != 0 or
+            control["fresh_seeded_state_sha256"] != control["initialized_state_sha256"]):
+        raise ValueError("Historical matched control is not a valid fresh completed experiment")
+    for key in ("plan_sha256", "base_config_sha256", "eligible_manifest_sha256", "fold_manifest_sha256",
+                "fold", "seed", "architecture_version", "parameter_count", "optimizer", "lr_schedule",
+                "loss", "device", "python", "torch", "torchaudio", "numpy"):
+        if control["provenance"][key] != provenance[key]:
+            raise ValueError(f"Native/control contract mismatch: {key}")
+    for filename in ("training_recipes.jsonl", "cv_recipes.json"):
+        if file_sha256(directory / filename) != control["artifact_hashes"][filename]:
+            raise ValueError("Historical control recipe artifact changed")
+    original = [json.loads(line) for line in (directory / "training_recipes.jsonl").read_text().splitlines()]
+    if len(recipes) != 2304 or original[:2304] != recipes:
+        raise ValueError("Native treatment must retain the EXACT first2304 realized control mixtures")
+    if json.loads((directory / "cv_recipes.json").read_text()) != cv:
+        raise ValueError("Native treatment validation conditions differ from control")
+    return {"control_run_id": control["run_id"], "control_manifest_sha256": file_sha256(manifest_path),
+            "control_fresh_seeded_state_sha256": control["fresh_seeded_state_sha256"],
+            "control_recipe_prefix_sha256": json_hash(original[:2304]),
+            "synthetic_recipe_prefix_equal": True, "cv_recipes_equal": True,
+            "matched_synthetic_draws": 2304, "optimizer_and_environment_equal": True}
 
 
 def run(args: argparse.Namespace) -> None:
@@ -256,14 +296,30 @@ def run(args: argparse.Namespace) -> None:
     if bool(args.init_checkpoint) != bool(args.init_sha256):
         raise ValueError("External initialization needs both --init-checkpoint and --init-sha256")
     plan_hash = file_sha256(plan_path)
+    native_path, native_hash = getattr(args, "native_plan", None), getattr(args, "native_plan_sha256", None)
+    native = None
+    if bool(native_path) != bool(native_hash):
+        raise ValueError("Native treatment needs both --native-plan and --native-plan-sha256")
+    if native_path:
+        if file_sha256(native_path) != native_hash:
+            raise ValueError("Native plan hash mismatch")
+        native = json.loads(native_path.read_text())
+        validate_native_plan(native, plan, plan_hash, args.updates)
+        if args.init_checkpoint or args.init_sha256:
+            raise ValueError("Native treatment must use fresh initialization, never a checkpoint")
+        if any(native[k] != v for k, v in {"python": platform.python_version(),
+                                          "torch": str(torch.__version__), "torchaudio": torchaudio.__version__}.items()):
+            raise ValueError("Native treatment requires the exact frozen CPU environment")
     receipt_hash = None
     receipt = None
     if args.fold == "refit":
         if not args.decision_receipt:
             raise ValueError("Refit requires the predeclared accepted budget decision receipt")
         receipt = json.loads(args.decision_receipt.read_text())
+        plan_bound = (receipt.get("native_plan_sha256") == native_hash and
+                      receipt.get("base_plan_sha256") == plan_hash) if native else receipt.get("plan_sha256") == plan_hash
         if (receipt.get("accepted") is not True or receipt.get("selected_optimizer_updates") != args.updates or
-                receipt.get("plan_sha256") != plan_hash):
+                not plan_bound):
             raise ValueError("Refit receipt does not authorize this exact plan and endpoint")
         receipt_hash = file_sha256(args.decision_receipt)
     validate_initialization(plan, args.init_checkpoint, args.init_sha256, receipt)
@@ -278,9 +334,11 @@ def run(args: argparse.Namespace) -> None:
     if not fold_manifest_path.is_file():
         raise ValueError("Prepare and commit the metadata-only fold manifest before training")
     fold_manifest_receipt = prepare_fold_manifest(plan, fold_manifest_path)
+    if native and fold_manifest_receipt["sha256"] != native["fold_manifest_sha256"]:
+        raise ValueError("Native frozen family-fold assignment changed")
     sources = load_eligible_metadata(plan)
     training, holdout = partition_sources(sources, plan, args.fold)
-    artifact_root = (ROOT / plan["artifact_root"]).resolve()
+    artifact_root = (ROOT / (native or plan)["artifact_root"]).resolve()
     if not artifact_root.is_relative_to((ROOT / ".local/training").resolve()):
         raise ValueError("Artifacts must remain in ignored local training storage")
     directory = artifact_root / args.run_id
@@ -308,6 +366,11 @@ def run(args: argparse.Namespace) -> None:
                 raise ValueError("Predeclared CV condition count changed")
         if sum(map(len, all_cv.values())) != 1775:
             raise ValueError("Expected all 1775 non-test CV conditions")
+    native_rows, native_cache, native_recipes = [], {}, []
+    if native:
+        native_rows = load_native_selection(ROOT, native, sources, plan, args.fold)
+        native_cache = load_native_audio(ROOT, native_rows, args.fold)
+        native_recipes = [materialize_native(r, native_cache)[2] for r in native_recipe_prefix(native_rows)]
     provenance = {"git": git, "plan_sha256": plan_hash,
                   "base_config_sha256": file_sha256(config_path), "eligible_manifest_sha256": ELIGIBLE_HASH,
                   "fold_manifest_sha256": fold_manifest_receipt["sha256"],
@@ -324,6 +387,16 @@ def run(args: argparse.Namespace) -> None:
                   "architecture_version": plan["architecture_version"], "parameter_count": 171313,
                   "optimizer": plan["optimizer"], "lr_schedule": plan["lr_schedule"],
                   "loss": plan["loss"], "test_access": False, "production_access": False}
+    control_proof = None
+    if native:
+        control_proof = native_control_proof(native, args.fold, realized, all_cv, provenance)
+        provenance.update({"native_plan_sha256": native_hash,
+                           "native_qualified_manifest_sha256": native["qualified_manifest_sha256"],
+                           "native_registry_sha256": native["registry_sha256"],
+                           "native_training_triplet_ids": [r["triplet_id"] for r in native_rows],
+                           "native_recipe_content_sha256": json_hash(native_recipes),
+                           "native_loss_weight": native["native_loss_weight"],
+                           "matched_control_proof": control_proof})
     provenance_hash = json_hash(provenance)
     directory.mkdir(parents=True, exist_ok=args.resume)
     checkpoint_dir = directory / "checkpoints"
@@ -339,11 +412,16 @@ def run(args: argparse.Namespace) -> None:
         atomic_json(config, directory / "base_config.json")
         atomic_jsonl(realized, directory / "training_recipes.jsonl")
         atomic_json(all_cv, directory / "cv_recipes.json")
+        if native:
+            atomic_json(native, directory / "native_plan.json")
+            atomic_json(native_rows, directory / "native_training_selection.json")
+            atomic_jsonl(native_recipes, directory / "native_recipes.jsonl")
         atomic_json([{"kind": s.kind, "id": s.id, "family": s.family, "original_split": s.split,
                       "sha256": s.sha256, "path": str(s.path)} for s in sources], directory / "eligible_sources.json")
         manifest = {"run_id": args.run_id, "created_utc": datetime.now(timezone.utc).isoformat(),
                     "status": "PREPARED", "provenance": provenance, "provenance_sha256": provenance_hash,
-                    "training_stage": "hls_external_initialized_finetuning" if args.init_checkpoint else "hls_fixed_update_control",
+                    "training_stage": ("hls_native_supervised_pilot" if native else
+                                       "hls_external_initialized_finetuning" if args.init_checkpoint else "hls_fixed_update_control"),
                     "artifact_hashes": {p.name: file_sha256(p) for p in directory.iterdir() if p.is_file()}}
         atomic_json(manifest, directory / "run_manifest.json")
     torch.set_num_threads(2)
@@ -358,6 +436,8 @@ def run(args: argparse.Namespace) -> None:
     if model.parameter_count != 171313:
         raise ValueError("Small-model parameter count changed")
     fresh_hash = state_sha256(model)
+    if native and fresh_hash != control_proof["control_fresh_seeded_state_sha256"]:
+        raise ValueError("Native/control fresh seeded model states are not identical")
     if args.init_checkpoint:
         if args.init_sha256 == T8_HASH or file_sha256(args.init_checkpoint) != args.init_sha256:
             raise ValueError("Forbidden T8 initialization or external checkpoint hash mismatch")
@@ -383,6 +463,8 @@ def run(args: argparse.Namespace) -> None:
         completed, elapsed_prior, history = state["optimizer_updates"], state["runtime_seconds"], state["history"]
         if state["recipe_cursor"] != completed * 4 or not 0 <= completed <= args.updates:
             raise ValueError("Resume recipe cursor mismatch")
+        if native and state.get("native_recipe_cursor") != completed * 4:
+            raise ValueError("Resume native recipe cursor mismatch")
         torch.set_rng_state(state["torch_rng_state"])
         np.random.set_state(state["numpy_rng_state"])
         random.setstate(state["python_rng_state"])
@@ -419,6 +501,20 @@ def run(args: argparse.Namespace) -> None:
             if any(not torch.isfinite(value) for value in components.values()):
                 raise RuntimeError("Nonfinite fixed-label loss")
             components["loss"].backward()
+            native_components = None
+            if native:
+                nx, ny = [], []
+                for receipt in native_recipes[(update - 1) * 4:update * 4]:
+                    mx, my, replay = materialize_native(receipt, native_cache)
+                    if replay != receipt:
+                        raise RuntimeError("Frozen native crop/target recipe did not reproduce")
+                    nx.append(mx)
+                    ny.append(my)
+                native_components = fixed_label_components(model(torch.from_numpy(np.stack(nx)[:, None])),
+                                                            torch.from_numpy(np.stack(ny)))
+                if any(not torch.isfinite(value) for value in native_components.values()):
+                    raise RuntimeError("Nonfinite native fixed-label loss")
+                (native["native_loss_weight"] * native_components["loss"]).backward()
             if any(p.grad is not None and not torch.isfinite(p.grad).all() for p in model.parameters()):
                 raise RuntimeError("Nonfinite gradient")
             norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0, error_if_nonfinite=True)
@@ -427,6 +523,10 @@ def run(args: argparse.Namespace) -> None:
                 raise RuntimeError("Nonfinite model parameters after optimizer step")
             completed = update
             sums.update({key: float(value.detach()) for key, value in components.items()})
+            if native_components is not None:
+                sums.update({"synthetic_" + key: float(value.detach()) for key, value in components.items()})
+                sums.update({"native_" + key: float(value.detach()) for key, value in native_components.items()})
+                sums["loss"] += native["native_loss_weight"] * float(native_components["loss"].detach())
             norms.append(float(norm))
             if update % 144 == 0 or update == args.updates:
                 row = {"optimizer_updates": update, "interval_updates": update - interval_start,
@@ -447,8 +547,9 @@ def run(args: argparse.Namespace) -> None:
                 print(json.dumps(row, sort_keys=True), flush=True)
                 persist(update, f"update-{update:04d}.pt" if update in BUDGETS else "resume.pt")
                 sums, norms, interval_start = Counter(), [], update
-            if (resource_snapshot()["process_peak_rss_mib"] > plan["resource_limits"]["peak_rss_gib"] * 1024 or
-                    elapsed_prior + time.perf_counter() - started > plan["resource_limits"]["fold_wall_minutes"] * 60):
+            limits = (native or plan)["resource_limits"]
+            if (resource_snapshot()["process_peak_rss_mib"] > limits["peak_rss_gib"] * 1024 or
+                    elapsed_prior + time.perf_counter() - started > limits["fold_wall_minutes"] * 60):
                 raise RuntimeError("Predeclared CPU memory/runtime budget exceeded")
         persist(completed, "endpoint.pt")
         manifest.update({"status": "COMPLETE_FIXED_ENDPOINT", "optimizer_updates": completed,
@@ -475,12 +576,14 @@ def main() -> None:
     parser.add_argument("--updates", type=int, choices=BUDGETS)
     parser.add_argument("--init-checkpoint", type=Path)
     parser.add_argument("--init-sha256")
+    parser.add_argument("--native-plan", type=Path, help="Optional single predeclared additive-release intervention")
+    parser.add_argument("--native-plan-sha256")
     parser.add_argument("--decision-receipt", type=Path)
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     if args.prepare_fold_manifest:
         if any((args.run_id, args.fold, args.updates, args.init_checkpoint,
-                args.init_sha256, args.decision_receipt, args.resume)):
+                args.init_sha256, args.decision_receipt, args.resume, args.native_plan, args.native_plan_sha256)):
             parser.error("Metadata-only preparation cannot be combined with training arguments")
         print(json.dumps(prepare_fold_manifest(json.loads(args.plan.read_text()), args.prepare_fold_manifest), sort_keys=True))
         return
