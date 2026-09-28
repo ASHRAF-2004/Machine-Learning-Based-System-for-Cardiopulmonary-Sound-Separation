@@ -1,0 +1,347 @@
+{
+  "base_git_commit": "57b4b5a6eed422c62831f5970ccab5bf694d90b1",
+  "benchmarks": {
+    "tcn": {
+      "forward_backward_seconds": [
+        0.1360274279722944,
+        0.1330537140602246,
+        0.12872333405539393
+      ],
+      "median_seconds": 0.1330537140602246
+    },
+    "tf": {
+      "forward_backward_seconds": [
+        0.18145362299401313,
+        0.15686350595206022,
+        0.15027050604112446
+      ],
+      "median_seconds": 0.15686350595206022
+    }
+  },
+  "development_pairs": [
+    [
+      "F_AF_A",
+      "F_N_LLA"
+    ],
+    [
+      "F_ESM_LLSB",
+      "F_PR_LLA"
+    ]
+  ],
+  "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+  "full_record_consistency_error": 4.470348358154297e-08,
+  "full_record_shape": [
+    2,
+    60001
+  ],
+  "gradient_rows": [
+    {
+      "base_loss": 10.397910118103027,
+      "base_norm": 26.805194207502034,
+      "cosine": 0.9368285428851783,
+      "level_db": -10,
+      "spectral_loss": 0.39673537015914917,
+      "spectral_norm": 0.8821769583829233,
+      "weighted_spectral_to_base_norm_ratio": 0.19746403287823067
+    },
+    {
+      "base_loss": 6.820804595947266,
+      "base_norm": 22.67585521676468,
+      "cosine": 0.9485972451778821,
+      "level_db": 0,
+      "spectral_loss": 0.30320990085601807,
+      "spectral_norm": 0.7650424612910782,
+      "weighted_spectral_to_base_norm_ratio": 0.2024291795774392
+    },
+    {
+      "base_loss": 11.055110931396484,
+      "base_norm": 29.444719068928745,
+      "cosine": 0.8496496732901333,
+      "level_db": 10,
+      "spectral_loss": 0.4076664447784424,
+      "spectral_norm": 0.9679468908153812,
+      "weighted_spectral_to_base_norm_ratio": 0.1972401683064719
+    }
+  ],
+  "kind": "DESIGN_PROBE_NOT_TRAINING",
+  "lambda_raw": 6.07705607197843,
+  "lambda_rule": "floor_2significant(min(.2*median(base_norm/spec_norm), .5*min(base_norm/spec_norm)))",
+  "lambda_selected": 6.0,
+  "model_states_unchanged": true,
+  "optimizer_updates": 0,
+  "oracle_caveat": "Not deployable, not generalization, not a strict waveform SI-SDR upper bound; binwise squared-complex-error projection",
+  "peak_rss_mib": 1191.875,
+  "python": "3.14.4",
+  "reference_assisted_bounded_real_mask_development_sdri": [
+    [
+      9.098943710327148,
+      9.156978607177734
+    ],
+    [
+      8.069449424743652,
+      8.074110984802246
+    ]
+  ],
+  "script_sha256": "ef97941b4f0a10607cf400ae256c8682d051060450ce895ac23eeff2e222367f",
+  "seed": 20260928,
+  "source_hashes": {
+    "HS/F_AF_A": "0c8586c0e130c27690ab8899c7936923410ea5de7caf77a1ce625414154eafbb",
+    "HS/F_ESM_LLSB": "c1f3218b6eb105c9a1a345781dc0f71ae001094fa8b83de53f97a29eab6d4c2d",
+    "LS/F_N_LLA": "d8e585f2e6c325deb607c0e3d299b135f23fbc36dff245b787562a6b26baf438",
+    "LS/F_PR_LLA": "a48ae948639da450eecce80aeeabe31419e6e4aad2ee21c7f26874cf5ef84ccb"
+  },
+  "spectral_identity_loss": 0.0,
+  "stft_roundtrip_max_error": 1.7881393432617188e-07,
+  "tcn_initial_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+  "tcn_parameter_count": 171313,
+  "test_audio_accessed": false,
+  "tf_frequency_conv_support": [
+    {
+      "frames": 188,
+      "hi": 1117,
+      "lo": 930,
+      "phase": 0
+    },
+    {
+      "frames": 188,
+      "hi": 1117,
+      "lo": 930,
+      "phase": 1
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 2
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 3
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 4
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 5
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 6
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 7
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 8
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 9
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 10
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 11
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 12
+    },
+    {
+      "frames": 204,
+      "hi": 1133,
+      "lo": 930,
+      "phase": 13
+    },
+    {
+      "frames": 188,
+      "hi": 1133,
+      "lo": 946,
+      "phase": 14
+    },
+    {
+      "frames": 188,
+      "hi": 1133,
+      "lo": 946,
+      "phase": 15
+    }
+  ],
+  "tf_initial_state_sha256": "99ec35d70f7cd6fa7aa2cae48bf9ab5e99bf0f157035abaeaafad4d490941ee3",
+  "tf_parameter_count": 390306,
+  "tf_shape_checks": [
+    {
+      "finite": true,
+      "mask_sum_max_error": 5.960464477539063e-08,
+      "mixture_max_error": 0.0,
+      "samples": 1,
+      "shape": [
+        1,
+        2,
+        1
+      ]
+    },
+    {
+      "finite": true,
+      "mask_sum_max_error": 1.1920928955078125e-07,
+      "mixture_max_error": 2.9802322387695312e-08,
+      "samples": 32000,
+      "shape": [
+        1,
+        2,
+        32000
+      ]
+    },
+    {
+      "finite": true,
+      "mask_sum_max_error": 1.1920928955078125e-07,
+      "mixture_max_error": 2.9802322387695312e-08,
+      "samples": 32001,
+      "shape": [
+        1,
+        2,
+        32001
+      ]
+    },
+    {
+      "finite": true,
+      "mask_sum_max_error": 1.1920928955078125e-07,
+      "mixture_max_error": 2.9802322387695312e-08,
+      "samples": 40000,
+      "shape": [
+        1,
+        2,
+        40000
+      ]
+    }
+  ],
+  "tf_time_conv_support": [
+    {
+      "frames": 412,
+      "hi": 1229,
+      "lo": 818,
+      "phase": 0
+    },
+    {
+      "frames": 412,
+      "hi": 1229,
+      "lo": 818,
+      "phase": 1
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 2
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 3
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 4
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 5
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 6
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 7
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 8
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 9
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 10
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 11
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 12
+    },
+    {
+      "frames": 428,
+      "hi": 1245,
+      "lo": 818,
+      "phase": 13
+    },
+    {
+      "frames": 412,
+      "hi": 1245,
+      "lo": 834,
+      "phase": 14
+    },
+    {
+      "frames": 412,
+      "hi": 1245,
+      "lo": 834,
+      "phase": 15
+    }
+  ],
+  "torch": "2.11.0+cpu",
+  "torchaudio": "2.11.0+cpu",
+  "validation_audio_accessed": false,
+  "working_tree_note": "New analytical prototype uncommitted at probe time; frozen model/runner unchanged",
+  "zero_output_max": 0.0
+}

@@ -1,0 +1,71 @@
+{
+  "batch4_forward_backward_seconds": [
+    0.20453769201412797,
+    0.16065543703734875,
+    0.15244551002979279
+  ],
+  "checks": [
+    {
+      "finite": true,
+      "mask_sum_max_error": 5.960464477539063e-08,
+      "mixture_max_error": 0.0,
+      "samples": 1,
+      "shape": [
+        1,
+        2,
+        1
+      ]
+    },
+    {
+      "finite": true,
+      "mask_sum_max_error": 1.1920928955078125e-07,
+      "mixture_max_error": 2.9802322387695312e-08,
+      "samples": 32000,
+      "shape": [
+        1,
+        2,
+        32000
+      ]
+    },
+    {
+      "finite": true,
+      "mask_sum_max_error": 1.1920928955078125e-07,
+      "mixture_max_error": 2.9802322387695312e-08,
+      "samples": 32001,
+      "shape": [
+        1,
+        2,
+        32001
+      ]
+    },
+    {
+      "finite": true,
+      "mask_sum_max_error": 1.1920928955078125e-07,
+      "mixture_max_error": 2.9802322387695312e-08,
+      "samples": 40000,
+      "shape": [
+        1,
+        2,
+        40000
+      ]
+    }
+  ],
+  "dependency_prototype_sha256": "ef97941b4f0a10607cf400ae256c8682d051060450ce895ac23eeff2e222367f",
+  "finite_gradients": true,
+  "initial_state_sha256": "8d617e4199c55ce0f0e1502ca7413305e1600c701f70e585f6dd41bd1584d687",
+  "kind": "DESIGN_ONLY_COMPLEX_MASK_SHAPE_PROBE",
+  "long_consistency_max": 5.960464477539063e-08,
+  "long_shape": [
+    2,
+    60001
+  ],
+  "median_forward_backward_seconds": 0.16065543703734875,
+  "model_state_unchanged": true,
+  "optimizer_updates": 0,
+  "parameter_count": 390450,
+  "real_audio_opened": false,
+  "script_sha256": "600a9e1d42091c6ea2e40ce35fcb4678621880c8c8d48101affaa613276cda67",
+  "seed": 20260928,
+  "test_audio_accessed": false,
+  "zero_max": 0.0
+}
