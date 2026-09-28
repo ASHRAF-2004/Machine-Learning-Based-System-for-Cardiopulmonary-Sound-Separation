@@ -1,7 +1,7 @@
 # ADR T01 — Own StethoFuse separator training plan
 
 28 September 2026. **T7 COMPLETE; ENSEMBLE RECONSIDERATION COMPLETE;
-SMALL TCN STANDALONE SELECTED; T8 FREEZE PREPARED; FINAL TEST SEALED; NOT DEPLOYED.**
+SMALL TCN STANDALONE SELECTED; FINAL SEPARATOR FROZEN; FINAL TEST SEALED; NOT DEPLOYED.**
 See [`T5_T6_BASELINE_EXECUTION.md`](T5_T6_BASELINE_EXECUTION.md) and
 [`T7_TUNING_DECISION.md`](T7_TUNING_DECISION.md) for run receipts.
 Original ADR T01 inspection: implementation `5d442be5`, documentation `a2fda968`.
@@ -20,10 +20,11 @@ supports **uncertain**, not established, robustness because validation covers
 only two family-pair groups. The baseline remains a valid comparator. All
 models remain offline research candidates only. The final test is still sealed.
 The subsequent validation-only reconsideration selected standalone small TCN
-without extra mask projection or a second expert. See
-[`FINAL_ENSEMBLE_RECONSIDERATION.md`](FINAL_ENSEMBLE_RECONSIDERATION.md) for the
-diagnostic evidence, Decision B and prepared T8 freeze checklist. Next is freeze
-completion and owner review before one-shot T9; no further fusion experiment,
+without extra mask projection or a second expert. T8 has now frozen this
+separator and predeclared T9; see
+[`FINAL_ENSEMBLE_RECONSIDERATION.md`](FINAL_ENSEMBLE_RECONSIDERATION.md) and
+[`research/configs/final_separator_v1.json`](../research/configs/final_separator_v1.json).
+T9 awaits separate explicit owner approval. No further fusion experiment,
 application integration or deployment is authorized.
 See [`T7_TUNING_DECISION.md`](T7_TUNING_DECISION.md) and
 [`T7_LUNA_HANDOFF.md`](T7_LUNA_HANDOFF.md) for immutable run hashes, results,
@@ -390,14 +391,14 @@ training commands. Runtime ranges are estimates, not implementation deadlines.
 | **T5 baseline** — same trainer `--stage baseline` | Fresh seed/init; only train families; all configured settings; actual time/RSS and validation logged each epoch; atomic resumable checkpoints. One tiny interrupted/resumed-state contract test, not another training campaign. | Estimated1.5–4 h; audit at epoch3; stop≤80 epochs/early-stop or resource guard. |
 | **T6 validation diagnosis** — evaluator and run report | All225 val conditions, heart/lung scores, failures, runtime, source-family/level breakdown. Compare frozen baselines; no superiority from training/overfit. | Model minutes; comparator cost measured first with a bounded development run; checkpoint results for owner. |
 | **T7 bounded tuning — COMPLETE** — T7_TUNING_DECISION.md; T7_LUNA_HANDOFF.md | One smaller-width variant; selected by frozen Q/tie selector; one confirmation. Results are validation-only and robustness uncertain. | Completed at clean implementation source commit `1950fc0`; stop for owner review. |
-| **Validation-only ensemble gate — COMPLETE** — FINAL_ENSEMBLE_RECONSIDERATION.md | Decision B: original small TCN waveform standalone. Weak localized filter/NMF complementarity does not justify a fusion experiment. | T8 freeze metadata prepared; test remains sealed. |
-| **T8 final freeze** — `freeze.json`, own checkpoint/model card | Lock code/config/data/recipe/model hashes, semantic labels, method list, failure rules and reporting. Any future ensemble decision must use validation **before this freeze**, or be excluded from this final study. | Metadata-only checkpoint; owner review before unlocking test. |
-| **T9 one-shot final evaluation** — explicit `--split test --freeze-manifest ...` | Exactly45 pairs ×5 levels; full15-s references; same preprocessing/metrics for all predeclared methods. Save all rows/failures, not best examples. No training or selection. | Bounded by measured validation throughput; one final report, no automatic rerun. |
+| **Validation-only ensemble gate — COMPLETE** — FINAL_ENSEMBLE_RECONSIDERATION.md | Decision B: original small TCN waveform standalone. Weak localized filter/NMF complementarity does not justify a fusion experiment. | Complete; test remains sealed. |
+| **T8 final freeze — COMPLETE** — `research/configs/final_separator_v1.json` | Locks model/checkpoint, source/config/recipe hashes, inference behavior, comparator set, failure rules and exact T9 reporting protocol. | Complete; T9 requires separate explicit owner approval. |
+| **T9 one-shot final evaluation — PREDECLARED, NOT RUN** | Frozen manifest test partition: 5 heart × 9 lung sources =45 pairs; five fixed levels =225 conditions, full15-s references. Compare mixture, selected TCN, Fixed Filter, Generic NMF. Report per-condition failures, source metrics, equal-family macro and pooled median/IQR, runtime. | No test recipes/audio opened. One run only; no test-driven selection or tuning. |
 | **T11 application integration** — existing strategy/job/private-result path | Later owner-approved local integration only after useful validation/evaluation and artifact/license qualification. Durable worker/security design remains unchanged. | Separate milestone; no auto-deploy. |
 
 The original first execution handoff was **T0–T4**; it, T5/T6 and T7 have
-completed. Do not repeat them. Ensemble reconsideration also completed with
-Decision B; next is T8 freeze completion and owner review before T9. Reuse focused pipeline contracts; add
+completed. Do not repeat them. Ensemble reconsideration and T8 freeze are
+complete; T9 is predeclared and awaits explicit owner approval. Reuse focused pipeline contracts; add
 another only for a concrete changed contract or defect. No broad application
 test suite merely for documentation. One nearby ML regression at the eventual
 implementation milestone, not after every edit.

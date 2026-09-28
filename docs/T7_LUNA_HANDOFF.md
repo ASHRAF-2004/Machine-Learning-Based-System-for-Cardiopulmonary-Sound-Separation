@@ -26,10 +26,11 @@ substitute the higher-scoring confirmation checkpoint or run another seed.
 The measured profile is 171,313 parameters with pinned torchaudio, not the
 earlier 170,545 estimate. Full hashes and summaries are in the decision record.
 
-The subsequently authorized validation-only ensemble reconsideration is now
-complete: [Decision B](FINAL_ENSEMBLE_RECONSIDERATION.md) retains the small
-standalone waveform model. T8 freeze metadata/checklist is prepared; T9 remains
-sealed pending full freeze and owner approval. No ensemble was evaluated in T7.
+The subsequent validation-only ensemble reconsideration completed with
+[Decision B](FINAL_ENSEMBLE_RECONSIDERATION.md), retaining the small standalone
+waveform model. T8 has frozen the model and predeclared T9; the test remains
+sealed pending separate explicit owner approval. No ensemble was evaluated in
+T7.
 
 ## 1. Exact experiment
 
@@ -184,9 +185,8 @@ No checkpoints/audio/caches in Git. Document only actual results afterward.
 → evidence/owner checkpoint and **STOP**. This decision allows at most three
 full runs including the already-completed baseline, not a second variant.
 
-Later, under separate approval: **validation-only ensemble reconsideration
-(legacy phase T10, moved before T8/T9)** → final separation-system freeze T8
-→ owner-authorized one-shot held-out evaluation T9. If ensemble is not selected
-for that study, freeze that exclusion too. Never test the single model first
-and then use its test result to design an ensemble. No application integration,
-live recordings, production services, security, backups, Axora or deployment.
+Subsequent gates: validation-only ensemble reconsideration (completed, Decision
+B) → final separation-system freeze T8 (completed) → owner-authorized one-shot
+held-out evaluation T9 (predeclared, not run). Do not run a post-test ensemble
+experiment against the same test data. No application integration, live
+recordings, production services, security, backups, Axora or deployment.

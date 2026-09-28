@@ -1,7 +1,7 @@
 # Final ensemble reconsideration — validation only
 
 2026-09-28. T7 COMPLETE / VALIDATION-ONLY ENSEMBLE DECISION COMPLETE /
-T8 FREEZE PREPARED / FINAL TEST SEALED / NOT DEPLOYED.
+T8 SYSTEM FROZEN / T9 PROTOCOL PREDECLARED / FINAL TEST SEALED / NOT DEPLOYED.
 
 ## Decision B — freeze the selected small Conv-TasNet standalone
 
@@ -189,30 +189,74 @@ row; failures abort rather than exclude conditions. No source/model/evaluator
 production implementation changed. Graphify required OAuth reauthentication;
 one attempt was followed by narrow reads of known paths.
 
-## T8 freeze checklist and next handoff
+## T8 freeze receipt and predeclared T9 protocol
 
-No Luna fusion experiment is requested. The concrete T8 record is
-[`research/configs/final_separator_t8_candidate_v1.json`](../research/configs/final_separator_t8_candidate_v1.json).
-It is prepared freeze metadata, **not authorization to open test data**.
+The frozen machine-readable system specification is
+[`research/configs/final_separator_v1.json`](../research/configs/final_separator_v1.json),
+SHA-256 `3780292ae6ff1ea6415fc1bd9b4b045bb91d5443068e806b08e9cb39735a1e34`.
+It identifies the selected checkpoint SHA
+`89f8d66134c0a49aa2a05971720cdffbdd1e501ebce99bb83119e6683d58ac93`, the
+N64/B32/H64 model (171,313 parameters), configuration SHA
+`3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8`, source
+manifest SHA `39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4`,
+validation recipe SHA
+`b4cef517cd4a64c267d3645ea6b918b5dfb72945f7536c0245b73228f00fdc90`, and
+17-file development recipe-set index SHA
+`9ab9fc26a68d5974c43519f349dd377745ac6608683bcce588582e7da31208c9`.
+The development recipe digest is an SHA-256 over sorted `sha256sum` entries,
+including each epoch-recipe digest and relative path. The spec freezes CPU
+execution, Python 3.14.4, torch/torchaudio 2.11.0+cpu, float32, mono 4-kHz
+PCM16 decoding, shared amplitude convention, heart/lung output order, 10-s
+windows / 8-s hop / 2-s overlap, right padding/exact trim, equal-residual
+consistency, finite-output contract, strict checkpoint loading and fail-closed
+behavior. Its status is frozen for held-out evaluation, **not deployed or
+clinically validated**.
 
-1. Verify candidate checkpoint hash/architecture/171,313 parameters and pinned
-   environment; retain seed20260928 best epoch8, never confirmation seed.
-2. Verify recorded inference, data-helper and metric source hashes; preserve
-   mono4kHz, shared whole-record peak, 10s/8s-hop overlap, right padding/trim,
-   fixed heart/lung labels, equal-residual consistency, no TF projection,
-   no second expert, no routing or learned/reference-based scaling.
-3. Attach a clean final code SHA and immutable artifact/config receipt; freeze
-   the complete system and the predeclared comparator list together. Failing
-   checkpoint/output validation fails the run; no silent fallback or substitution.
-4. Preserve exact source-manifest hash and final-test specification without
-   generating its recipes yet. No configuration or threshold remains to tune.
-5. Stop for the owner's explicit **T9** approval. Later run the frozen
-   standalone and declared mixture/Fixed Filter/NMF controls once on the held-out
-   sources through an explicit test-only evaluator, with the same preprocessing,
-   windows, labels and metrics. Save every condition/failure and source-separated
-   macro and descriptive distribution results. Do not use results to revise
-   experts, checkpoints, projection or weights; disappointing outcomes remain
-   evidence. Only a disclosed implementation defect can justify a corrected rerun.
+Before T9, the model was loaded strictly into the frozen 171,313-parameter
+architecture on CPU. A synthetic 40,037-sample mono waveform exercised window
+inference and tail trimming: output `[2, 40037]`, finite values, maximum
+`|heart+lung−mixture|` `2.98e−8`. No reference signal was involved. Checkpoint
+file SHA and all frozen metadata hashes matched. This is an integrity smoke
+check, not a quality evaluation.
+
+The exact T9 recipe is fixed in the JSON. After separate explicit owner
+authorization only, take the 5 frozen test heart sources × 9 lung sources,
+sorted by `(family, source ID)` with heart outermost, and evaluate all 45 pairs
+at `[-10,-5,0,5,10]` dB (225 conditions). Use each source's full 60,000 samples
+from start 0. Apply the existing `make_mixture` equation, the frozen RMS-defined
+lung/heart gain and one common peak scale, and write/hash an immutable recipe
+manifest before inference. T8 generated no test recipes and copied no test IDs
+into the freeze spec.
+
+Frozen methods, in order: original-mixture baseline, selected standalone TCN,
+Fixed Filter (existing 1024/256 STFT; 180/35-Hz heart and 130/55-Hz lung
+transitions), and Generic NMF (6 components, 80 iterations, seed 42 per
+inference window). VMD is excluded without strict no-fallback qualification;
+NeoSSNet is excluded as a target-domain-unqualified research-only model. Use
+identical condition mixtures, fixed semantic labels, shared whole-record gain,
+and 10/8-s inference windows. Metrics are heart/lung SI-SDR and SI-SDRi using
+the frozen zero-mean implementation and epsilon `1e-8`; improvement subtracts
+the same-condition mixture score against the same reference. Report every
+condition, per-method failure count, source-specific family-pair macro means
+(equal weighting of groups after averaging conditions within each group), and
+pooled median/IQR descriptively. Also report family/relative-level breakdowns
+and per-method inference time plus total run time. The 225 remixes are not
+independent subjects.
+
+Write recipes, per-condition metrics/failures, summary and environment/code/spec
+hashes under ignored `.local/training/stethofuse-tcn-v1/t9/`; no audio mixtures
+or checkpoints. Record failures without dropping conditions or substituting a
+method; a metric aggregate is valid only if that method has all conditions.
+After opening the test, do not change model, checkpoint, seed, preprocessing,
+windowing, consistency, source mapping, projection, experts, weights or
+comparators based on scores. A concrete software defect requires stopping and
+preserving partial evidence; a correction rerun needs explicit owner approval
+and must be identified as a correction, never tuning. Report results only for
+the frozen manikin/source-family domain, without clinical, patient-level or
+subject-independent claims.
+
+**T8 complete. Stop for explicit owner T9 approval.** No T9 recipe, audio,
+inference or score was accessed or created here.
 
 The old unqualified NeoSSNet/NMF ensemble is retained as historical research
 evidence and excluded from the final deployment candidate. No cross-protocol
