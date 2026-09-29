@@ -10,6 +10,7 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 : "${STETHOFUSE_RUNTIME_ROOT:?Set STETHOFUSE_RUNTIME_ROOT}"
 : "${STETHOFUSE_RUNTIME_ENV_FILE:?Set STETHOFUSE_RUNTIME_ENV_FILE}"
 : "${STETHOFUSE_DEPLOY_DIR:?Set STETHOFUSE_DEPLOY_DIR}"
+: "${STETHOFUSE_MODELS_ROOT:=$STETHOFUSE_RUNTIME_ROOT/models}"
 : "${RESTIC_REPOSITORY:?Set RESTIC_REPOSITORY to the approved remote repository}"
 : "${RESTIC_PASSWORD_FILE:?Set RESTIC_PASSWORD_FILE outside the project and runtime}"
 : "${RESTIC_CACHE_DIR:=/var/cache/stethofuse-restic}"
@@ -27,6 +28,12 @@ command -v python3 >/dev/null 2>&1 || fail 'Python 3 is not installed.'
   fail 'runtime data directory is missing or a symlink.'
 [[ -d "$STETHOFUSE_RUNTIME_ROOT/private" && ! -L "$STETHOFUSE_RUNTIME_ROOT/private" ]] || \
   fail 'private storage directory is missing or a symlink.'
+if [[ -e "$STETHOFUSE_MODELS_ROOT" || -L "$STETHOFUSE_MODELS_ROOT" ]]; then
+  [[ -d "$STETHOFUSE_MODELS_ROOT" && ! -L "$STETHOFUSE_MODELS_ROOT" ]] || \
+    fail 'model bundle root is not a regular directory.'
+elif [[ "${STETHOFUSE_ML_WORKER_ENABLED:-0}" == 1 ]]; then
+  fail 'model bundle root is required while the ML worker is enabled.'
+fi
 [[ -f "$STETHOFUSE_RUNTIME_ENV_FILE" && ! -L "$STETHOFUSE_RUNTIME_ENV_FILE" ]] || \
   fail 'runtime environment file is missing or a symlink.'
 [[ -f "$RESTIC_PASSWORD_FILE" && -s "$RESTIC_PASSWORD_FILE" && ! -L "$RESTIC_PASSWORD_FILE" ]] || \
@@ -100,6 +107,32 @@ restore_stack() {
     if ! "${compose[@]}" up -d "${services[@]}" >/dev/null; then
       printf 'StethoFuse backup: restart failed; operator intervention is required.\n' >&2
       result=1
+    else
+      deadline=$((SECONDS + 180))
+      restored=0
+      while (( SECONDS < deadline )); do
+        restored=1
+        for service in api web; do
+          mapfile -t ids < <("${compose[@]}" ps -q "$service")
+          if [[ "${#ids[@]}" != 1 ]] || \
+             [[ "$(docker inspect --type container --format '{{.State.Status}} {{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' "${ids[0]:-missing}" 2>/dev/null || true)" != 'running healthy' ]]; then
+            restored=0
+            break
+          fi
+        done
+        if [[ "$restored" == 1 && "${STETHOFUSE_ML_WORKER_ENABLED:-0}" == 1 ]]; then
+          mapfile -t ids < <("${compose[@]}" ps --status running -q ml-worker)
+          if [[ "${#ids[@]}" != 1 ]] || ! docker logs --tail 100 "${ids[0]:-missing}" 2>/dev/null | grep -Fq '"status": "ready"'; then
+            restored=0
+          fi
+        fi
+        [[ "$restored" == 1 ]] && break
+        sleep 2
+      done
+      if [[ "$restored" != 1 ]]; then
+        printf 'StethoFuse backup: services did not return healthy/ready within 180 seconds; operator intervention is required.\n' >&2
+        result=1
+      fi
     fi
   fi
   exit "$result"
@@ -114,10 +147,14 @@ trap 'exit 143' TERM
 restart_stack=1
 "${compose[@]}" stop --timeout 60 "${services[@]}" >/dev/null
 
-unsupported_entry="$(find "$STETHOFUSE_RUNTIME_ROOT/data" "$STETHOFUSE_RUNTIME_ROOT/private" \
+backup_paths=("$STETHOFUSE_RUNTIME_ROOT/data" "$STETHOFUSE_RUNTIME_ROOT/private")
+if [[ -d "$STETHOFUSE_MODELS_ROOT" ]]; then
+  backup_paths+=("$STETHOFUSE_MODELS_ROOT")
+fi
+unsupported_entry="$(find "${backup_paths[@]}" \
   -mindepth 1 ! -type d ! -type f -print -quit)"
 [[ -z "$unsupported_entry" ]] || \
-  fail 'persistent data contains a non-regular entry; refusing an incomplete backup.'
+  fail 'persistent data or model bundle contains a non-regular entry; refusing an incomplete backup.'
 
 manifest_file="$(mktemp "${TMPDIR:-/tmp}/stethofuse-backup-manifest.XXXXXX")"
 python3 "$script_dir/backup-manifest.py" create \
@@ -139,8 +176,7 @@ restic_call() {
 restic_call backup \
   --host stethofuse-production \
   --tag stethofuse --tag production \
-  "$STETHOFUSE_RUNTIME_ROOT/data" \
-  "$STETHOFUSE_RUNTIME_ROOT/private" \
+  "${backup_paths[@]}" \
   "$STETHOFUSE_RUNTIME_ENV_FILE" \
   "$manifest_file"
 

@@ -153,9 +153,15 @@ and the production configuration was not changed. The runtime env must include
 the reviewed code SHA before this option is enabled. A running worker check is
 not a model-health proof; verify its ready log and queue/error state operationally.
 
-The immutable `models` bundle is **outside the existing backup scope**. Before
-deployment, retain a verified encrypted off-host copy (checkpoint+spec+receipt)
-or explicitly approve adding that path to backup/restore tooling. A restored
-database/private snapshot is not a complete ML service without the matching
-model bundle and reviewed code image. No Restic/B2 snapshot/drill, credential
-change, pruning or production backup reconfiguration ran in this milestone.
+The immutable `models` bundle is included in the approved deployment backup
+scope at `/srv/stethofuse/models` (or the configured `STETHOFUSE_MODELS_ROOT`).
+The encrypted Restic snapshot covers data, private outputs, runtime config,
+and the model bundle in one quiesced window. The bundle's `SHA256SUMS` receipt
+is itself backed up and must be checked after a smallest-safe restore to a new
+staging directory. The backup helper stops web/API and, when
+`STETHOFUSE_ML_WORKER_ENABLED=1`, the one ML worker; its EXIT path restarts the
+same services and waits up to 180 seconds for API/web health and worker `ready`.
+If restart readiness fails, the backup exits nonzero and requires operator
+intervention. Queued jobs remain durable in SQLite while stopped and resume
+after the worker reports ready. Do not enable pruning or delete earlier
+snapshots.
