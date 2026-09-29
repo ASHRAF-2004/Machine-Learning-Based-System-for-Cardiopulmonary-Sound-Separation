@@ -269,5 +269,8 @@ External pretraining and native supervision negative transfer remain recorded;
 TreatmentA remains promising non-test research, not selected/not T9-evaluated.
 Its8/8 pair and5/5 fold improvements missed the unmodified +0.50dB gates.
 
-**Stop for owner deployment review.** No T9 rerun/audio access, model research,
-production integration, frontend visual-system redesign or Axora change occurred.
+This document preserves the local integration checkpoint. Production deployment
+and live acceptance were completed later; see
+[`PRODUCTION_ML_ACCEPTANCE_2026-09-29.md`](PRODUCTION_ML_ACCEPTANCE_2026-09-29.md).
+No T9 rerun/audio access, model research, frontend visual-system redesign or
+Axora change occurred in that later production acceptance.

@@ -1,9 +1,13 @@
-# Frozen separator worker — deployment review only
+# Frozen separator worker — deployed operations reference
 
-**IMPLEMENTED LOCALLY / TESTED LOCALLY / NOT DEPLOYED.** Do not execute the
-production steps below without separate owner authorization. No model training,
-T9 access, provider redesign, new listener, Caddy reload or Cloudflare change is
-part of this release. Existing production M1 and Axora remain untouched.
+**CURRENT STATUS (29 September 2026): DEPLOYED / LIVE SYNTHETIC ACCEPTANCE
+PASSED / ROLE-PRIVACY ACCEPTANCE PASSED / POST-ACCEPTANCE BACKUP VERIFIED.**
+The preparation checklist later in this file is historical and must not be
+replayed as a second deployment. See
+[`docs/PRODUCTION_ML_ACCEPTANCE_2026-09-29.md`](../docs/PRODUCTION_ML_ACCEPTANCE_2026-09-29.md)
+for the deployment/acceptance receipt. No model training, T9 rerun, provider
+redesign, new listener, Caddy reload or Cloudflare change occurred. Axora was
+not modified.
 
 ## Immutable artifact and environment
 
@@ -110,7 +114,7 @@ bounded operator/synthetic acceptance. No command invokes a training or
 evaluation runner. Local Git provenance reports HEAD and worktree-dirty state;
 container provenance uses the reviewed build's `STETHOFUSE_CODE_GIT_SHA`.
 
-## Prepared production service (NOT activated)
+## Production service configuration (deployed 29 September 2026)
 
 The existing service manager is Docker Compose, not a new systemd ML service.
 `compose.ml.yaml` is an explicit third override alongside the base and Firebase
@@ -120,7 +124,9 @@ logs, 2 CPU / 2GiB limit,64 PIDs and64MiB temporary filesystem. There is no
 worker port. It shares only the existing data/private mounts plus the read-only
 model bundle. Do not scale replicas; the host-local lock deliberately rejects it.
 
-After owner review, a deployment operator must:
+The following was the historical deployment sequence and is retained to explain
+the operational controls. It is not a request to redeploy or repeat migration,
+artifact staging, or service activation:
 
 1. Verify clean reviewed code/remote SHA and preserved artifact hashes. Record
    the existing running image IDs and a maintenance/rollback plan.
@@ -139,26 +145,27 @@ After owner review, a deployment operator must:
 7. Update backup configuration and receipt, then seek owner release acceptance.
    If startup fails, stop job submission; do not substitute another checkpoint.
 
-These are instructions, not evidence of production execution. Deployment
-approval, production image rollout, migration, service activation and live
-generated-output acceptance remain outstanding.
+This checklist is retained as the deployment's control record, not evidence by
+itself. Execution and acceptance evidence is in
+[`docs/PRODUCTION_ML_ACCEPTANCE_2026-09-29.md`](../docs/PRODUCTION_ML_ACCEPTANCE_2026-09-29.md).
+Do not replay it as a second deployment.
 
 ## Backup impact
 
-Generated outputs already live under the existing Restic `private` scope, and
+Generated outputs live under the existing Restic `private` scope, and
 jobs/results/provenance under `data`; no new user-data path is omitted. The
-prepared backup script's `STETHOFUSE_ML_WORKER_ENABLED=1` option also stops and
-restarts `ml-worker` with web/API, so all writers are quiescent. Default remains0
-and the production configuration was not changed. The runtime env must include
-the reviewed code SHA before this option is enabled. A running worker check is
-not a model-health proof; verify its ready log and queue/error state operationally.
+production backup environment has `STETHOFUSE_ML_WORKER_ENABLED=1`; the
+29 September verified snapshot stopped/restarted `ml-worker` with web/API, so
+all writers were quiescent. The runtime environment records the reviewed code
+SHA. A running worker check is not a model-health proof; verify its ready log
+and queue/error state operationally.
 
-The immutable `models` bundle is included in the approved deployment backup
-scope at `/srv/stethofuse/models` (or the configured `STETHOFUSE_MODELS_ROOT`).
-The encrypted Restic snapshot covers data, private outputs, runtime config,
-and the model bundle in one quiesced window. The bundle's `SHA256SUMS` receipt
-is itself backed up and must be checked after a smallest-safe restore to a new
-staging directory. The backup helper stops web/API and, when
+The immutable `models` bundle is included in the deployed backup scope at
+`/srv/stethofuse/models` (or the configured `STETHOFUSE_MODELS_ROOT`). The
+verified 29 September encrypted Restic snapshot covers data, private outputs,
+runtime config, and the model bundle in one quiesced window. Its `SHA256SUMS`
+receipt was checked after a smallest-safe isolated restore. The backup helper
+stops web/API and, when
 `STETHOFUSE_ML_WORKER_ENABLED=1`, the one ML worker; its EXIT path restarts the
 same services and waits up to 180 seconds for API/web health and worker `ready`.
 If restart readiness fails, the backup exits nonzero and requires operator
