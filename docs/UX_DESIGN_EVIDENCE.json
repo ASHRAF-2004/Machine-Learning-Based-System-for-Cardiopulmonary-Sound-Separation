@@ -1,6 +1,6 @@
 {
   "design_version": "frost-studio-v1",
-  "status": "INTERNALLY_FROZEN_AWAITING_OWNER_VISUAL_APPROVAL",
+  "status": "OWNER_APPROVED_CORE_INTEGRATED_LOCALLY",
   "date_local": "2026-09-30",
   "implementation_start_sha": "1678b88af70bc6e21ae694f46c37d72bfefed3e7",
   "implementation_source_sha": "dd5b38215d7e658aa4f27ede6546c140523656cc",
@@ -52,9 +52,10 @@
   "historical_snapshot_note": "Top-level v1 source, token, screenshot and Lighthouse receipts are preserved; current polish evidence is separate below.",
   "polish_revision": {
     "design_version": "frost-studio-v1.1",
-    "status": "POLISH_COMPLETE_AWAITING_OWNER_REVIEW",
+    "status": "POLISH_V1_OWNER_APPROVED",
     "design_direction_owner_approved": true,
-    "final_polish_owner_approved": false,
+    "final_polish_owner_approved": true,
+    "owner_approval_source": "Explicit owner-approved Frost Studio core integration instruction, 2026-09-30",
     "implementation_start_sha": "c46abf13dec60916816456a8c69238922ffdeab4",
     "documentation_start_sha": "5ba19502d289e703f4cbf54b6024990f119696d4",
     "root_start_sha": "12e86bc16c1f5917aac53e4164859f90b33c4a7b",
@@ -94,6 +95,8 @@
   "ml_changed": false,
   "t9_audio_accessed": false,
   "identity_backfill_applied": false,
-  "owner_approval_received": false,
+  "owner_approval_received": true,
+  "core_integration_evidence": "FROST_CORE_EVIDENCE.json",
+  "core_interface_deployed": false,
   "full_app_or_luna_execution_started": false
 }

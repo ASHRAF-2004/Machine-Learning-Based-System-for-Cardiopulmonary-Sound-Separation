@@ -1,4 +1,25 @@
-# Frost Studio v1.1 — bounded final polish, owner review pending
+# Frost Studio v1.1 — OWNER APPROVED
+
+The owner explicitly approved **polish-v1** on 30 September 2026 and authorized
+the bounded local core integration recorded in `FROST_CORE_INTEGRATION.md`.
+The visual direction is closed. This does not authorize deployment, the full
+identity/account/privacy handoff, global Insights or owl flight. The historical
+polish review below is preserved as the pre-approval record.
+
+## Owner-approved core integration checkpoint
+
+The real local interface is now connected, not just previewed. See
+[execution evidence](FROST_CORE_INTEGRATION.md):17 real-local groups,14 separately
+identified account/API mock regression groups and2 final owl-contact checks pass;
+both standalone builds exit0. Source `8174d54`; no backend runtime/migration,
+model, T9, authentication policy or production change. Ready detail, actual local
+Library/upload/stages, independent media/analysis and preserved account features
+were visually checked at1440×900/390×844/900px and Midnight.
+
+The approved token declarations/preview remain unchanged. Final scoped CSS
+prevents the app's legacy img rule from shrinking the branch. The core interface
+awaits owner review; full identity/account/Insights/flight work and deployment
+remain unauthorized. This is local technical evidence, not clinical/user UAT.
 
 30 September 2026. **FROST STUDIO POLISH COMPLETE — READY FOR OWNER REVIEW.**
 The owner approved the existing direction. Only the six requested refinements

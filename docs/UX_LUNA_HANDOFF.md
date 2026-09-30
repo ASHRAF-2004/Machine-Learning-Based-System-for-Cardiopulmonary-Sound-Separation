@@ -1,9 +1,25 @@
-# Frost Studio v1.1 — exact Luna handoff, NOT STARTED
+# Frost Studio v1.1 — owner-approved handoff, CORE ONLY AUTHORIZED
 
-30 September 2026. **STOP until owner reviews the final polish screenshots.**
-The direction is owner-approved; this six-item polish does not authorize L0–L12.
-No automatic delegation, propagation, identity backfill or deployment is authorized
-by this handoff. This is the contract for a later implementation turn.
+30 September 2026. The owner explicitly approved **polish-v1** and authorized
+only the local core workflow. Follow `FROST_CORE_INTEGRATION.md` for its bounded
+execution. Do not execute L0–L12 wholesale. Reuse these component contracts;
+identity/public-ID migrations, handle login/sharing, profile extensions,
+export/unlink/delete, global Insights and asset-gated owl flight remain pending.
+Production rollout still requires separate approval.
+
+## Core progress — STOP FOR OWNER REVIEW
+
+Bounded core execution is complete locally: `frontend/src/frost/` and the existing
+LiveAppProvider/API/AudioWorklet integration, source `8174d54`. Real local
+upload/capture, Overview/Library, stages, exact protected players and actual-source
+analysis pass. `FROST_CORE_INTEGRATION.md` and `FROST_CORE_EVIDENCE.json` separate
+real API/worker acceptance from mocked identity/account checks. Both builds exit0.
+No backend runtime/schema/auth/model changes or deployment.
+
+L1–L3/core part of L4/L10/L11 are selectively implemented, not blanket L0–L12
+completion. L0, new L5 handle services, L6 account extensions, L7, L8, L9 and global
+Insights are still pending. Working existing settings/review/Admin stay available.
+Do not begin any of these next milestones without owner authorization.
 
 ## Bounded polish contract
 
@@ -56,7 +72,10 @@ Detail/audio: `RecordingDetail.tsx`, `AudioPlayer.tsx`, `usePlayback.ts`,
 `SignalChart.tsx`, `signal.ts`. Profile: `Settings.tsx`, `SettingsSections.tsx`,
 `AvatarCrop.tsx`, `Identity.tsx`, `preferences.ts`. Sharing: `Sharing.tsx`.
 Owl: `PreviewOwl.tsx`, `OwlEyeMaterial.tsx`, `assets/botanical-perch.webp`.
-Everything lives under `frontend/src/ux-preview/`; real app remains unchanged.
+This preserved prototype map lives under `frontend/src/ux-preview/`. Neutral
+approved components now have fixture-free adaptations under `frontend/src/frost/`
+for the real local app; token values/materials are unchanged. The approved preview
+and fixture ownership are preserved. The real app is changed locally, not deployed.
 
 No preview identity/auth context, `fixtureMedia`, synthetic metrics, closed
 @wintercedar lookup, notification mock, export timer or deletion simulation may
@@ -69,19 +88,23 @@ that is a prototype boundary, not production navigation logic.
 |---|---|
 | `/app`, `/app/dashboard` | `/app/overview` |
 | `/app/recordings` | `/app/library` |
-| `/app/results` | `/app/library?status=ready` |
-| `/app/processing` | `/app/library?status=processing` |
+| `/app/results` | `/app/library?filter=ready` |
+| `/app/processing` | `/app/library?filter=processing` |
 | `/app/history` | `/app/library` |
 | `/app/recordings/:id` | Same recording detail, encompassing permitted job/result states |
-| `/app/results/:id`, `/app/processing/:id` | Resolve authorized parent via existing API, then recording detail; denied remains denied |
-| `/app/shared`, `/app/review-queue`, `/app/assigned` | `/app/shared`, with existing role/capability checks |
+| `/app/results/:id` | Direct authorized result detail; no owner-only job or original prerequisite |
+| `/app/processing/:id` | Owner-authorized job → actual parent recording; denied remains denied |
+| `/app/audio/:id` | Exact authorized audio only, no siblings |
+| `/app/shared` | Unified authorized shared Library, with actual review-queue link for analysts |
+| `/app/review-queue`, `/app/assigned` | Preserve current analyst assignment route/alias and role guards |
 | `/app/reviews/:id`, `/app/review-history` | Preserve review deep links/history access; nest workflow in Shared & assigned, not guessed redirects |
-| `/app/profile` | `/app/settings?section=profile` |
-| `/app/settings`, `/app/settings?section=...` | Combined six-section settings |
+| `/app/profile` | Existing working profile editor retained until account milestone |
+| `/app/settings`, `/app/settings?section=...` | Existing working sections + actual device System/Frost/Midnight preference; new service flows deferred |
 | `/app/recordings/new[/upload\|/record]` | Preserve existing capture/upload paths behind New recording |
 | `/app/admin/*`, `/app/help` | Preserve existing server-gated functions; apply frozen shell only |
 
-Primary navigation exactly Overview/Library/Shared & assigned/Insights. Personal
+Current core navigation Overview/Library/Shared & assigned; global Insights
+is deferred, not a dead item. Approved full IA retains Insights for later. Personal
 Profile & settings/Help. Administration is capability-gated, never inferred from
 a cached client role. Signed-in logo→Overview; public logo→landing.
 

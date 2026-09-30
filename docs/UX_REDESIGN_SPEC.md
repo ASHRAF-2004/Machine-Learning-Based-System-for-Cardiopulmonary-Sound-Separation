@@ -1,9 +1,16 @@
 # StethoFuse UX direction: Frost Studio
 
-Status: **FROST STUDIO v1.1 — POLISH COMPLETE, OWNER REVIEW PENDING**,
-30 September 2026. The owner approved the existing direction and authorized six
-bounded refinements, not another redesign. Final polish approval and separate
-remaining-app authorization are still required. Nothing is propagated or deployed.
+Status: **FROST STUDIO v1.1 / polish-v1 — OWNER APPROVED**, 30 September 2026.
+The owner explicitly approved the polished previews and authorized local core
+integration only: real upload/capture, Overview/Library/lifecycle, protected
+playback and per-recording analysis. No redesign or production deployment.
+Identity, account/data services, global Insights and genuine flight remain pending.
+
+The bounded core is now **implemented/tested locally** in `frontend/src/frost/`;
+execution and intentional real-data transitions are in `FROST_CORE_INTEGRATION.md`.
+The design preview remains unchanged. Public IDs/handles are not synthesized for
+real users. Existing functional account/review/Admin routes are preserved, not
+replaced with their preview prototypes. Owner review precedes any deployment.
 
 ## v1.1 polish delta
 
@@ -50,18 +57,20 @@ Build in that order. These are presentation modules, not new production services
 
 ## Information architecture
 
-Primary: Overview, Library, Shared & assigned, Insights.
+Approved full IA: Overview, Library, Shared & assigned, Insights. Current core
+navigation omits global Insights until implemented; no dead placeholder item.
 Personal: Profile & settings, Help. Administration only from server role.
 Library filters: All, Ready, Processing, Shared. Recorded/failed remain in All.
 Recorded → Queued → Processing → Ready, or Failed. Never invent percent complete
 when the worker reports only a state. Original remains safe on failure.
 
-Proposed application routes (Luna only): `/app/overview`, `/app/library`,
+Application core routes: `/app/overview`, `/app/library`,
 `/app/recordings/:id`, `/app/shared`, `/app/insights`, `/app/settings?section=...`.
 Old `/app/dashboard` → Overview; recordings list → Library; results list →
-Library?status=ready; processing/history lists → Library?status=processing/all.
-Old result/job detail resolves authorized parent recording through existing API,
-then redirects. Keep deep links and exact-resource permissions; never infer
+Library?filter=ready; processing/history lists → Library?filter=processing/all.
+Job detail resolves its owner-authorized parent recording through the existing API.
+Result detail stays directly result-authorized, with no owner-only job or original
+recording prerequisite. Keep deep links and exact-resource permissions; never infer
 access to the original or sibling outputs from a result grant.
 
 ## Frozen visual contract, version 1.1
