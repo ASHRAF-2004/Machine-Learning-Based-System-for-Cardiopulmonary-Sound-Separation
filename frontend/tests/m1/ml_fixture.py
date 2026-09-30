@@ -43,6 +43,9 @@ elif __name__ == "__main__":
     with TemporaryDirectory(prefix="stethofuse-ml-browser-") as directory:
         root = Path(directory)
         settings = Settings(root / "m1.sqlite3", root / "private", separation_enabled=True)
+        settings.validate()
+        # Local acceptance owns this new temporary directory, never an operator DB.
+        assert settings.database.parent == root and settings.private_storage.parent == root
         verifier = TestVerifier()
         store = M1Store(settings.database)
         store.initialize()
@@ -56,5 +59,7 @@ elif __name__ == "__main__":
         with socket.socket() as listener:
             listener.bind(("127.0.0.1", 0))
             print(json.dumps({"port":listener.getsockname()[1],"database":str(settings.database),
-                              "privateStorage":str(settings.private_storage),"analystId":analyst_id}),flush=True)
+                              "privateStorage":str(settings.private_storage),"analystId":analyst_id,
+                              "host":"127.0.0.1", "workerLock":str(settings.database)+".worker.lock",
+                              "identityMode":"TEST ONLY verifier injection + browser SDK stand-in"}),flush=True)
             uvicorn.Server(uvicorn.Config(app, access_log=False, log_level="warning")).run(sockets=[listener])

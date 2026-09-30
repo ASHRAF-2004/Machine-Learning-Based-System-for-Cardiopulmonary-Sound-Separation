@@ -44,6 +44,10 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
     throw new ApiError(401, 'session_expired', 'Sign in again.');
   }
   return {
+    async checkMedia(id: string, signal?: AbortSignal): Promise<void> {
+      // Recheck current resource authority without downloading private audio again.
+      await request(`/media/${id}`, {method: 'HEAD', signal});
+    },
     async json<T>(path: string, init?: RequestInit): Promise<T> { const response = await request(path, init); return response.status === 204 ? undefined as T : response.json(); },
     async media(id: string, signal?: AbortSignal): Promise<Blob> {
       const response = await request(`/media/${id}`, {signal});
