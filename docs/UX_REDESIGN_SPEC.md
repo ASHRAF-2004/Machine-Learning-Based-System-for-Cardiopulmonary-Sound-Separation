@@ -4,12 +4,16 @@ Status: **FROST STUDIO v1.1 / polish-v1 — OWNER APPROVED**, 30 September 2026.
 The owner explicitly approved the polished previews and authorized local core
 integration only: real upload/capture, Overview/Library/lifecycle, protected
 playback and per-recording analysis. No redesign or production deployment.
-Identity, account/data services, global Insights and genuine flight remain pending.
+The later1October continuation implements LOCAL identity/profile foundations only;
+account/data services, global Insights and genuine flight remain pending.
+Production backfill/deployment remain separately authorized gates.
 
 The bounded core is now **implemented/tested locally** in `frontend/src/frost/`;
 execution and intentional real-data transitions are in `FROST_CORE_INTEGRATION.md`.
 The design preview remains unchanged. Public IDs/handles are not synthesized for
-real users. Existing functional account/review/Admin routes are preserved, not
+real users in the frontend; the LOCAL identity foundation now allocates actual
+metadata transactionally in the backend (`LOCAL_IDENTITY_FOUNDATION.md`). Existing
+functional account/review/Admin routes are preserved, not
 replaced with their preview prototypes. Owner review precedes any deployment.
 
 ## v1.1 polish delta

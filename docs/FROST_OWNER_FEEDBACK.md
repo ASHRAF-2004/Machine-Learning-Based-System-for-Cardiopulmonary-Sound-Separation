@@ -1,6 +1,7 @@
 # Frost Studio — local owner feedback, 1 October 2026
 
-Status: implemented locally; owner review continues. Not deployed. Starting
+Status: owner approved the local feedback UI on1October2026 ("looks good. go to
+next step"). Not deployed. Starting
 implementation `c807bb5624b9a9aed54426b94df5ee718b552f69`. The approved visual
 system is retained. No new backend, authentication, model or database changes.
 
@@ -94,4 +95,6 @@ Frozen checkpoint/spec SHA-256 remain
 `1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658` /
 `2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b`.
 No training/tuning/T9 access, production, Axora, provider/security changes or data
-cleanup. Review data remains persistent. Owner acceptance remains pending.
+cleanup. Review data remains persistent. This approval covers the local UX/core,
+not clinical/device validation or a production rollout. The next bounded LOCAL
+identity foundation is tracked in `LOCAL_IDENTITY_FOUNDATION.md`.

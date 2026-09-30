@@ -1,0 +1,80 @@
+/* Approved Frost Studio settings composition, without preview behavior or data. */
+.sf-settings-private { display:flex;align-items:center;gap:7px;color:var(--text-secondary);font-size:11px; }
+.sf-settings-layout { display:grid;grid-template-columns:166px minmax(0,1fr);gap:24px;align-items:start; }
+.sf-settings-nav { display:flex;flex-direction:column;gap:5px;padding-top:6px; }
+.sf-settings-nav > button { background:transparent;border:0;border-radius:10px;min-height:44px;display:flex;align-items:center;gap:10px;text-align:left;font-size:12px;color:var(--text-secondary);padding:10px 12px; }
+.sf-settings-nav > button[aria-pressed="true"] { background:var(--accent-soft);color:var(--accent);font-weight:650; }
+.sf-settings-nav > button:hover { background:var(--glass-2); }
+.sf-settings-nav > p { display:flex;align-items:flex-start;gap:8px;font-size:10px;line-height:1.8;padding:20px 12px;border-top:1px solid var(--glass-border);margin-top:20px; }
+.sf-settings-nav > p svg { flex-shrink:0;margin-top:5px; }
+.sf-settings-content { background:var(--glass-strong);padding:26px 28px;min-height:0;min-width:0; }
+.sf-settings-content h2 { font-size:27px; }
+.sf-settings-content .sf-section-heading { margin-bottom:22px; }
+.sf-profile-summary { display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:26px; }
+.sf-profile-summary .sf-avatar { width:64px;height:64px;font-size:34px;flex-shrink:0; }
+.sf-profile-summary .sf-identity strong { font-family:var(--font-display);font-size:26px;font-weight:500;line-height:1.2;overflow-wrap:anywhere; }
+.sf-profile-summary .sf-identity small { font-size:12px;margin-top:5px; }
+.sf-profile-fields { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
+.sf-field { display:flex;flex-direction:column;gap:8px;font-size:12px;margin:0 0 16px;min-width:0; }
+.sf-field > span { font-weight:650; }
+.sf-field small { font-size:10px;line-height:1.5;color:var(--text-secondary); }
+.sf-field input,.sf-field select { font-size:12px; }
+.sf-handle-input { position:relative; }
+.sf-handle-input > span { position:absolute;left:13px;top:11px;color:var(--text-secondary);font-size:14px; }
+.sf-handle-input input { padding-left:32px; }
+.sf-profile-save { display:flex;justify-content:space-between;align-items:center;gap:16px; }
+.sf-profile-save .sf-copy { font-size:10px; }
+.sf-profile-save .sf-button { min-height:40px;font-size:11px; }
+.sf-profile-reference-note { display:block;color:var(--text-secondary);font-size:var(--type-small);margin-top:4px; }
+.sf-account-role { font-size:var(--type-small);color:var(--text-secondary); }
+.sf-account-details { margin-top:24px; }
+.sf-account-details dd { overflow-wrap:anywhere; }
+.sf-account-details p { margin-top:16px; }
+.sf-field small.sf-field-error { color:var(--danger); }
+.sf-field-error:empty { display:none; }
+.sf-account-saved { display:flex;gap:7px;align-items:center;color:var(--accent);font-size:var(--type-small);margin-bottom:16px; }
+.sf-theme-options { display:grid;grid-template-columns:repeat(3,1fr);gap:14px; }
+.sf-theme-option { border:1px solid var(--control-border);border-radius:10px;padding:12px 14px;background:var(--glass-strong);color:var(--text-primary);text-align:left;min-width:0; }
+.sf-theme-option[aria-pressed="true"] { border-color:var(--accent);box-shadow:0 0 0 1px var(--accent); }
+.sf-theme-mini { display:flex;gap:6px;height:54px;background:#e9efea;border-radius:6px;overflow:hidden;border:1px solid #d8e1d9;padding:7px;margin-bottom:12px; }
+.sf-theme-mini > i { width:25%;height:100%;background:#487564;border-radius:3px; }
+.sf-theme-mini > span { flex:1;display:flex;flex-direction:column;gap:5px; }
+.sf-theme-mini b { display:block;height:7px;background:#ccdcd0;border-radius:2px; }
+.sf-theme-mini b:first-child { width:48%;background:#457b65; }
+.sf-theme-mini b:last-child { width:76%; }
+.sf-theme-option--midnight .sf-theme-mini { background:#17282d;border-color:#405458; }
+.sf-theme-option--midnight .sf-theme-mini > i { background:#28433f; }
+.sf-theme-option--midnight .sf-theme-mini b { background:#374e50; }
+.sf-theme-option--midnight .sf-theme-mini b:first-child { background:#7cba9e; }
+.sf-theme-option--system .sf-theme-mini { background:linear-gradient(90deg,#e9efea 50%,#17282d 50%); }
+.sf-theme-option--system .sf-theme-mini b { background:linear-gradient(90deg,#ccdcd0 40%,#374e50 40%); }
+.sf-theme-option-label { display:flex;align-items:center;gap:7px;font-size:12px; }
+.sf-theme-option-label > svg:last-child:not(:first-child) { margin-left:auto;color:var(--accent); }
+.sf-theme-option small { display:block;color:var(--text-secondary);font-size:9px;margin-top:6px;line-height:1.5; }
+.sf-audio-setting { display:grid;grid-template-columns:1fr 245px;gap:24px;align-items:center; }
+.sf-audio-setting > div { display:flex;align-items:flex-start;gap:12px; }
+.sf-audio-setting > div > svg { color:var(--accent);margin-top:5px;flex-shrink:0; }
+.sf-audio-setting h2 { font-size:25px; }
+.sf-audio-setting p { font-size:11px;margin-top:5px;max-width:280px; }
+.sf-audio-setting > label > span { display:flex;align-items:center;justify-content:space-between;font-size:11px;gap:15px; }
+.sf-audio-setting label > span strong { color:var(--accent);font-variant-numeric:tabular-nums; }
+.sf-audio-setting input { margin:4px 0;height:28px; }
+.sf-audio-setting label { min-width:0; }
+.sf-audio-setting .sf-gain { width:auto; }
+.sf-audio-setting + .sf-notice { margin-top:24px; }
+.sf-setting-row { display:flex;align-items:center;gap:16px;padding:22px 0;border-bottom:1px solid var(--glass-border); }
+.sf-setting-row > div,.sf-setting-row > span { flex:1; }
+.sf-setting-row h3,.sf-setting-row strong { font-size:13px;font-weight:650; }
+.sf-setting-row p,.sf-setting-row small { font-size:11px;margin-top:5px;display:block;max-width:360px;line-height:1.6; }
+.sf-setting-row .sf-button { font-size:11px; }
+.sf-setting-row input[type="checkbox"] { width:20px;height:20px;min-height:20px;accent-color:var(--accent);flex-shrink:0; }
+.sf-account-copy { font-size:var(--type-body);line-height:1.7; }
+.sf-danger-row { margin-top:20px;padding:22px 20px;background:var(--danger-soft);border:1px solid var(--glass-border);border-radius:12px; }
+.sf-danger-row h3 { color:var(--danger); }
+.sf-dialog { border:1px solid var(--glass-border);background:var(--glass-strong);color:var(--text-primary);box-shadow:var(--shadow-elevated);border-radius:20px;padding:24px;width:min(540px,calc(100vw - 32px));max-height:calc(100svh - 48px);overflow-y:auto; }
+.sf-dialog::backdrop { background:rgba(15,37,30,.5);backdrop-filter:blur(5px); }
+.sf-dialog > header { display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px; }
+.sf-dialog h2 { font-size:31px; }
+.sf-dialog > p { font-size:13px;line-height:1.7;margin:14px 0 20px; }
+.sf-dialog-actions { display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:24px;flex-wrap:wrap; }
+.sf-app:has(dialog[open]) { overflow:hidden; }

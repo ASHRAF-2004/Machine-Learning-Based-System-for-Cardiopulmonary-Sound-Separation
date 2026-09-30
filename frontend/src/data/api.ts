@@ -12,6 +12,11 @@ const messages: Record<string, string> = {
   benchmark_unavailable: 'Benchmark execution is not available in this runtime.',
   last_admin: 'The last active administrator cannot be disabled or demoted.',
   upload_too_large: 'Choose a WAV file no larger than 25 MiB.',
+  invalid_handle: 'Start with a letter. Use 3–20 letters, numbers, dots or underscores, without consecutive or ending separators.',
+  reserved_handle: 'That handle is reserved. Try another name.',
+  handle_unavailable: 'That handle is already in use. Try another name.',
+  handle_change_used: 'Your one self-service handle change has already been used.',
+  identity_unavailable: 'Your handle or public reference could not be saved. Please retry.',
 };
 export function createApiClient(token: TokenSource, onSessionExpired: () => void, transport: typeof fetch = fetch) {
   async function request(path: string, init: RequestInit = {}): Promise<Response> {

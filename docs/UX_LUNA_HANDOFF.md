@@ -1,13 +1,14 @@
-# Frost Studio v1.1 — owner-approved handoff, CORE ONLY AUTHORIZED
+# Frost Studio v1.1 — owner-approved handoff, bounded LOCAL progress
 
 30 September 2026. The owner explicitly approved **polish-v1** and authorized
 only the local core workflow. Follow `FROST_CORE_INTEGRATION.md` for its bounded
 execution. Do not execute L0–L12 wholesale. Reuse these component contracts;
-identity/public-ID migrations, handle login/sharing, profile extensions,
+The later1October continuation authorized LOCAL L0/profile connections only,
+as recorded below. Handle login/sharing, avatar/account service extensions,
 export/unlink/delete, global Insights and asset-gated owl flight remain pending.
 Production rollout still requires separate approval.
 
-## Core progress — STOP FOR OWNER REVIEW
+## Core progress — owner approved1October2026
 
 Bounded core execution is complete locally: `frontend/src/frost/` and the existing
 LiveAppProvider/API/AudioWorklet integration, source `8174d54`. Real local
@@ -22,12 +23,31 @@ accuracy limits; preserve immediate request/queued/processing activity and reduc
 motion. Microphone recording is now locked **Coming soon** at the owner's request,
 including its direct route; WAV upload remains working. Retain capture code for
 later authorization. Listening fixtures must be eligible raw recorded HLS-CMDS,
-not mathematical tones. No identity/account milestone or deployment is authorized.
+not mathematical tones. That feedback pass itself did not authorize an identity/
+account milestone or deployment; the later bounded continuation is below.
 
 L1–L3/core part of L4/L10/L11 are selectively implemented, not blanket L0–L12
-completion. L0, new L5 handle services, L6 account extensions, L7, L8, L9 and global
-Insights are still pending. Working existing settings/review/Admin stay available.
-Do not begin any of these next milestones without owner authorization.
+completion. LOCAL L0 and real profile/appearance/audio connections are now complete
+for owner review. New L5 handle services, remaining L6 avatar/account extensions,
+L7, L8, L9 and global Insights are still pending. Existing review/Admin remain.
+The owner approved the integrated core/feedback UI and instructed continuation.
+The next authorized slice is LOCAL L0 plus its profile/core display connections,
+as bounded by `LOCAL_IDENTITY_FOUNDATION.md`. Do not execute all remaining phases.
+Production rollout, destructive account/data services, username login and new
+flight assets remain separately gated.
+
+## LOCAL L0 execution — ready for owner review
+
+`LOCAL_IDENTITY_FOUNDATION.md` records migration003/schema3, transactional handles/
+USR/REC/JOB/RES/MED/GRT/ASN, one self-service rename and preserved UID/exact-resource
+authority. `frost/Account.tsx` connects the approved layout; public IDs appear in
+core views/search without changing routes. Existing sharing still uses its legacy
+recipient ID. Handle lookup/login, avatar upload and export/delete remain pending.
+109 backend passes +26 subtests,6 browser/client groups,3 read-only follow-ups and
+both builds0; desktop/mobile/tablet/Midnight inspected. Original4196/8196 stays
+schema2; separate visible test-identity LOCAL review4197/8197 is schema3 with copied
+private artifacts and the unchanged worker. No production migration/deployment.
+Owner approval of this new slice is pending; do not execute remaining phases.
 
 ## Bounded polish contract
 

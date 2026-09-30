@@ -2,6 +2,7 @@
 @import './styles/foundation.css';
 @import './styles/recordings.css';
 @import './styles/audio.css';
+@import './styles/settings.css';
 @import './styles/responsive.css';
 @import './styles/density.css';
 @import './integration.css';

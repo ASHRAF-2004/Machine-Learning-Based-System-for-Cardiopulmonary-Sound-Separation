@@ -5,14 +5,12 @@ import Shell from '../frost/Shell';
 import {Overview as FrostOverview,Library as FrostLibrary} from '../frost/WorkspaceViews';
 import {NewRecording as FrostNewRecording,Upload as FrostUpload,RecordingComingSoon} from '../frost/Upload';
 import {RecordingDetail as FrostRecordingDetail,ResultDetail as FrostResultDetail,MediaDetail,LegacyJob} from '../frost/RecordingDetail';
-import {useFrostPreferences} from '../frost/preferences';
-import {Segments as FrostSegments} from '../frost/primitives';
+import FrostAccount from '../frost/Account';
 import {Badge,Button,CopyId,Empty,ErrorState,Field,Notice,PageHeading,Panel,Skeleton,StatStrip,Status,Table,UnsavedGuard} from '../components/ui';
 import {useLive} from '../data/live';
 import {useApp} from '../data/store';
 import {liveRoleLabel,type LiveAudit,type LiveGrant,type LiveJob,type LivePreferences,type LiveRecording,type LiveResult,type LiveReview,type LiveRole,type LiveStatus,type LiveUser,type MediaResource} from '../data/liveTypes';
 import {ApiError} from '../data/api';
-import {liveAuth,authErrorMessage} from '../auth/firebase';
 import './workspace-pages.css';
 import './account-pages.css';
 
@@ -50,17 +48,6 @@ function Review({id}:{id:string}){
  return <><PageHeading title="Assigned review" description="A non-diagnostic review of the exact assigned resource."/><RequestState {...data}/>{data.value&&<>{data.value.resource_kind==='result'?<FrostResultDetail id={data.value.resource_id} embedded/>:<MediaDetail id={data.value.resource_id} kind={data.value.resource_kind||'assigned_resource'} embedded/>}<Panel title="Review notes"><form onSubmit={save}><Field label="Review decision"><select value={decision} onChange={e=>setDecision(e.target.value as LiveReview['decision'])}><option value="pending">Pending</option><option value="accepted">Reviewed</option><option value="needs_attention">Needs attention / re-record</option></select></Field><Field label="Non-diagnostic notes" hint="Do not include patient identifiers. Maximum 10,000 characters."><textarea rows={7} maxLength={10000} value={notes} onChange={e=>setNotes(e.target.value)}/></Field>{error&&<ErrorState message={error}/>} {saved&&<p role="status">Review saved by the server.</p>}<Button type="submit" disabled={busy||!dirty}>{busy?'Saving…':'Save review'}</Button></form></Panel><UnsavedGuard when={dirty&&!busy}/></>}</>;
 }
 
-function Profile(){
- const {session,api,refreshAccount}=useLive();const user=session!.user;const [name,setName]=useState(user.display_name),[busy,setBusy]=useState(false),[error,setError]=useState(''),[saved,setSaved]=useState(false);
- async function save(e:FormEvent){e.preventDefault();setBusy(true);setError('');try{await api.json('/auth/me',{method:'PATCH',body:JSON.stringify({display_name:name.trim()})});await refreshAccount();setSaved(true);}catch(failure){setError(message(failure));}finally{setBusy(false);}}
- return <><PageHeading title="Your profile" description="Application profile and server-assigned access."/><Panel><p>Application ID: <CopyId value={user.id}/></p><p>Email: {user.email}</p><p>Role: {liveRoleLabel(user.role)}</p><p>Status: <Status value={user.status}/></p><form onSubmit={save}><Field label="Display name"><input required maxLength={200} value={name} onChange={e=>setName(e.target.value)}/></Field>{error&&<ErrorState message={error}/>} {saved&&<p role="status">Profile saved.</p>}<Button type="submit" disabled={busy||name.trim()===user.display_name}>Save changes</Button></form></Panel><UnsavedGuard when={!busy&&name.trim()!==user.display_name}/></>;
-}
-function Settings(){
- const {preferences,savePreferences,session,logout}=useLive();const {theme,setTheme}=useFrostPreferences();const [params]=useSearchParams();const section=params.get('section')||'general';const {notify}=useApp();
- const [busy,setBusy]=useState(false),[error,setError]=useState('');const appearance=preferences.appearance||{};
- async function save(value:LivePreferences){setBusy(true);setError('');try{await savePreferences(value);notify('Preferences saved by the server.');}catch(failure){setError(message(failure));}finally{setBusy(false);}}
- return <><PageHeading title="Personal settings" description="Live account settings. Unconnected operations remain unavailable."/><nav className="tabs" aria-label="Settings sections">{['general','appearance','notifications','security','recording','data'].map(s=><Link key={s} className={s===section?'active':''} to={`/app/settings?section=${s}`}>{s[0].toUpperCase()+s.slice(1)}</Link>)}</nav>{error&&<ErrorState message={error}/>}<Panel title={section==='appearance'?'Appearance':section==='security'?'Account security':'Account preferences'}>{section==='appearance'?<><h3>Appearance</h3><p>Choose how StethoFuse looks on this device.</p><FrostSegments label="Appearance" value={theme} onChange={setTheme} items={[{id:'system',label:'System'},{id:'frost',label:'Frost'},{id:'midnight',label:'Midnight'}]}/>{(['reducedMotion','snow','highContrast'] as const).map(key=><label className="setting-toggle" key={key}><span>{({reducedMotion:'Reduced motion',snow:'Snow',highContrast:'Higher contrast'})[key]}</span><input type="checkbox" disabled={busy} checked={appearance[key]===true||(key==='snow'&&appearance[key]!==false)} onChange={e=>void save({appearance:{...appearance,[key]:e.target.checked}})}/></label>)}</>:section==='security'?<><p>Firebase manages identity and browser-session persistence. This app never stores a separate password database.</p><Button variant="secondary" disabled={busy} onClick={async()=>{setBusy(true);setError('');try{await liveAuth.requestReset(session!.user.email);notify('Firebase accepted the recovery request. Check your inbox if eligible.');}catch(failure){setError(authErrorMessage(failure));}finally{setBusy(false);}}}>Request password reset</Button><Button variant="ghost" onClick={()=>void logout()}>Sign out of this session</Button><Notice>Provider linking and other device sessions require a separately connected reauthentication flow. They are not simulated.</Notice></>:section==='general'?<><p>Display name and application ID are available in your profile.</p><Button to="/app/profile" variant="secondary">Your profile</Button><Notice>General display preferences beyond appearance are not exposed by this M1 screen yet.</Notice></>:<Notice>{section==='notifications'?'Email and workflow notification delivery is not connected.':section==='recording'?'Device capture uses your browser-selected microphone. The server validates every saved PCM WAV.':'Account export, deletion and retention operations are not connected. No deletion or export completion is simulated.'}</Notice>}</Panel></>;
-}
 function AdminUsers(){
  const {api,refreshAccount,session}=useLive();const data=useRemote<{items:LiveUser[]}>('/admin/users');const [search,setSearch]=useState('');
  useEffect(()=>{void refreshAccount();},[refreshAccount]);
@@ -95,8 +82,7 @@ function LiveRoute(){
  if(['/app/review-queue','/app/assigned'].includes(pathname))return <Assignments/>;
  if(pathname==='/app/review-history')return <Unavailable title="Review history" detail="The current API exposes active assignments. Historical review retrieval is not connected to this screen yet; old notes are retained by the backend."/>;
  if(/^\/app\/reviews\/[^/]+$/.test(pathname))return <Review id={pathname.split('/')[3]}/>;
- if(pathname==='/app/profile')return <Profile/>;
- if(pathname==='/app/settings')return <Settings/>;
+ if(pathname==='/app/profile'||pathname==='/app/settings')return <FrostAccount/>;
  if(pathname==='/app/admin')return <AdminOverview/>;
  if(pathname==='/app/admin/users')return <AdminUsers/>;
  if(pathname==='/app/admin/audit')return <AdminAudit/>;

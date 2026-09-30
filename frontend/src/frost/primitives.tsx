@@ -108,7 +108,7 @@ export function ProfileIdentity({
   photo,
 }: {
   name: string;
-  handle: string;
+  handle?: string;
   compact?: boolean;
   photo?: string;
 }) {
@@ -127,7 +127,7 @@ export function ProfileIdentity({
       </span>
       <span>
         <strong>{name}</strong>
-        <small>@{handle}</small>
+        {handle && <small>@{handle}</small>}
       </span>
     </div>
   );
