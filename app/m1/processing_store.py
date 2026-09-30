@@ -12,7 +12,7 @@ from .ml_contract import MODEL_VERSION, ProcessingError
 class ProcessingStore:
     @staticmethod
     def _public_job(row):
-        keys = ("id", "recording_id", "requester_id", "status", "created_at", "started_at",
+        keys = ("id", "public_id", "recording_id", "requester_id", "status", "created_at", "started_at",
                 "completed_at", "error_code", "stage", "attempts", "model_version")
         result = {k: row[k] for k in keys}
         result["result_id"] = row["result_id"] if row["status"] == "succeeded" else None
@@ -31,10 +31,11 @@ class ProcessingStore:
                 if original is None:
                     raise AccessDenied("Access denied.")
                 job_id = uuid4().hex
-                db.execute("INSERT INTO m1_jobs(id,recording_id,requester_id,status,created_at,model_version,"
+                public_id = self._new_public_id(db, "m1_jobs", "JOB")
+                db.execute("INSERT INTO m1_jobs(id,public_id,recording_id,requester_id,status,created_at,model_version,"
                            "stage,result_id,heart_resource_id,lung_resource_id,input_sha256) "
-                           "VALUES (?,?,?,'queued',?,?,'queued',?,?,?,?)",
-                           (job_id, recording_id, actor["id"], int(time.time()), MODEL_VERSION,
+                           "VALUES (?,?,?,?,'queued',?,?,'queued',?,?,?,?)",
+                           (job_id, public_id, recording_id, actor["id"], int(time.time()), MODEL_VERSION,
                             uuid4().hex, uuid4().hex, uuid4().hex, original[0]))
                 self._audit(db, actor["id"], "separation.requested", job_id)
                 row = db.execute("SELECT * FROM m1_jobs WHERE id=?", (job_id,)).fetchone()
@@ -108,13 +109,13 @@ class ProcessingStore:
             self._active_user(db, job["requester_id"])
             now = int(time.time())
             provenance = {**provenance, "created_at": job["created_at"], "completed_at": now}
-            db.execute("INSERT INTO af_resources VALUES (?,?, 'result')", (job["result_id"], job["recording_id"]))
+            db.execute("INSERT INTO af_resources(id,recording_id,kind) VALUES (?,?, 'result')", (job["result_id"], job["recording_id"]))
             db.execute("INSERT INTO m1_results(id,recording_id,job_id,created_at,method_label,provenance_json) VALUES (?,?,?,?,?,?)",
                        (job["result_id"], job["recording_id"], job["id"], now, "Heart and lung separation",
                         json.dumps(provenance, sort_keys=True)))
             for kind, info in outputs.items():
                 resource_id = job[f"{kind}_resource_id"]
-                db.execute("INSERT INTO af_resources VALUES (?,?,?)", (resource_id, job["recording_id"], f"{kind}_audio"))
+                db.execute("INSERT INTO af_resources(id,recording_id,kind) VALUES (?,?,?)", (resource_id, job["recording_id"], f"{kind}_audio"))
                 db.execute("INSERT INTO m1_files(resource_id,relative_path,media_type,file_size_bytes,sha256) VALUES (?,?, 'audio/wav',?,?)",
                            (resource_id, info["relative_path"], info["size"], info["sha256"]))
                 db.execute("INSERT INTO m1_result_files VALUES (?,?)", (job["result_id"], resource_id))

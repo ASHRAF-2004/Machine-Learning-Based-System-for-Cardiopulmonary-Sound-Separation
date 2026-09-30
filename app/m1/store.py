@@ -14,18 +14,19 @@ from uuid import uuid4
 from app.access_foundation import AccessDenied, DevelopmentAccessStore, VerifiedIdentity
 from app.access_foundation.store import TABLES
 from .processing_store import ProcessingStore
+from .public_identity_store import PublicIdentityStore
 
 M1_TABLES = {"m1_meta", "m1_recording_data", "m1_files", "m1_jobs", "m1_results",
              "m1_result_files", "m1_reviews", "m1_preferences"}
 
 
-class M1Store(ProcessingStore, DevelopmentAccessStore):
+class M1Store(PublicIdentityStore, ProcessingStore, DevelopmentAccessStore):
     @staticmethod
     def _check_schema(db, *, allow_v1=False):
         names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
         if names != TABLES | M1_TABLES:
             raise ValueError("Not an isolated M1 database; legacy data is quarantined.")
-        if [r[0] for r in db.execute("SELECT version FROM af_meta")] != [1] or [r[0] for r in db.execute("SELECT version FROM m1_meta")] not in ([[1], [2]] if allow_v1 else [[2]]):
+        if [r[0] for r in db.execute("SELECT version FROM af_meta")] != [1] or [r[0] for r in db.execute("SELECT version FROM m1_meta")] not in ([[1], [2], [3]] if allow_v1 else [[3]]):
             raise ValueError("Unsupported M1 schema.")
 
     def initialize(self):
@@ -48,6 +49,12 @@ class M1Store(ProcessingStore, DevelopmentAccessStore):
                 for statement in migration.read_text().split(";"):
                     if statement.strip():
                         db.execute(statement)
+            if db.execute("SELECT version FROM m1_meta").fetchone()[0] == 2:
+                migration = Path(__file__).with_name("migrations") / "003_public_identity.sql"
+                for statement in migration.read_text().split(";"):
+                    if statement.strip():
+                        db.execute(statement)
+            self._backfill_public_fields(db)
             self._check_schema(db)
             db.commit()
         except BaseException:
@@ -61,7 +68,9 @@ class M1Store(ProcessingStore, DevelopmentAccessStore):
     def user_dto(row):
         return {"id": row["id"], "uid": row["provider_uid"], "email": row["email"],
                 "display_name": row["display_name"], "role": row["role"],
-                "status": row["status"], "email_verified": bool(row["email_verified"])}
+                "status": row["status"], "email_verified": bool(row["email_verified"]),
+                "public_id": row["public_id"], "handle": row["handle"],
+                "handle_change_count": row["handle_change_count"], "handle_changed_at": row["handle_changed_at"]}
 
     def me(self, identity):
         with self._connection() as db:
@@ -71,9 +80,11 @@ class M1Store(ProcessingStore, DevelopmentAccessStore):
         with self._connection() as db:
             return db.execute("SELECT 1 FROM af_users WHERE provider_uid=?", (identity.uid,)).fetchone() is not None
 
-    def update_profile(self, identity, display_name):
+    def update_profile(self, identity, display_name, handle=None):
         with self._connection(write=True) as db:
             actor = self._actor(db, identity)
+            if handle is not None:
+                self._change_handle(db, actor, handle)
             db.execute("UPDATE af_users SET display_name=?,updated_at=? WHERE id=?", (display_name, int(time.time()), actor["id"]))
             self._audit(db, actor["id"], "profile.changed", actor["id"])
         return self.me(identity)
@@ -93,8 +104,8 @@ class M1Store(ProcessingStore, DevelopmentAccessStore):
         with self._connection(write=True) as db:
             actor = self._actor(db, identity)
             recording_id, resource_id = uuid4().hex, uuid4().hex
-            db.execute("INSERT INTO af_recordings VALUES (?,?,?)", (recording_id, actor["id"], int(time.time())))
-            db.execute("INSERT INTO af_resources VALUES (?,?,?)", (resource_id, recording_id, "original_audio"))
+            db.execute("INSERT INTO af_recordings(id,owner_id,created_at) VALUES (?,?,?)", (recording_id, actor["id"], int(time.time())))
+            db.execute("INSERT INTO af_resources(id,recording_id,kind) VALUES (?,?,?)", (resource_id, recording_id, "original_audio"))
             db.execute("INSERT INTO m1_recording_data VALUES (?,?,?,?,?,?,?,?)", (recording_id, title, original_filename, duration_sec, sample_rate_hz, channels, file_size_bytes, resource_id))
             db.execute("INSERT INTO m1_files(resource_id,relative_path,media_type,file_size_bytes,sha256) VALUES (?,?,?,?,?)", (resource_id, relative_path, "audio/wav", file_size_bytes, sha256))
             self._audit(db, actor["id"], "recording.uploaded", recording_id)
@@ -116,11 +127,11 @@ class M1Store(ProcessingStore, DevelopmentAccessStore):
 
     @staticmethod
     def _resource_dto(row):
-        return {"id": row["id"], "kind": row["kind"], "media_type": row["media_type"],
+        return {"id": row["id"], "public_id": row["public_id"], "kind": row["kind"], "media_type": row["media_type"],
                 "url": f"/api/media/{row['id']}" if row["media_type"] else None}
 
     def _recording(self, db, actor, recording_id):
-        row = db.execute("SELECT d.*,o.owner_id,o.created_at FROM m1_recording_data d JOIN af_recordings o ON o.id=d.recording_id WHERE d.recording_id=?", (recording_id,)).fetchone()
+        row = db.execute("SELECT d.*,o.owner_id,o.created_at,o.public_id FROM m1_recording_data d JOIN af_recordings o ON o.id=d.recording_id WHERE d.recording_id=?", (recording_id,)).fetchone()
         if row is None:
             raise AccessDenied("Access denied.")
         resources = self._visible_resources(db, actor, recording_id)
@@ -209,7 +220,7 @@ class M1Store(ProcessingStore, DevelopmentAccessStore):
     def review(self, identity, grant_id, *, decision=None, notes=None):
         with self._connection(write=decision is not None) as db:
             actor = self._actor(db, identity)
-            grant = db.execute("SELECT resource_id FROM af_grants WHERE id=?", (grant_id,)).fetchone()
+            grant = db.execute("SELECT resource_id,assignment_public_id FROM af_grants WHERE id=?", (grant_id,)).fetchone()
             if grant is None:
                 raise AccessDenied("Access denied.")
             self._authorize_review(db, identity, grant_id, grant[0])
@@ -219,7 +230,7 @@ class M1Store(ProcessingStore, DevelopmentAccessStore):
             row = db.execute("SELECT * FROM m1_reviews WHERE assignment_id=?", (grant_id,)).fetchone()
             kind = db.execute("SELECT kind FROM af_resources WHERE id=?", (grant[0],)).fetchone()[0]
             value = dict(row) if row else {"assignment_id": grant_id, "resource_id": grant[0], "reviewer_id": actor["id"], "decision": "pending", "notes": "", "updated_at": None}
-            return {**value, "resource_kind": kind}
+            return {**value, "resource_kind": kind, "assignment_public_id": grant["assignment_public_id"]}
 
     def results(self, identity, result_id=None):
         with self._connection() as db:

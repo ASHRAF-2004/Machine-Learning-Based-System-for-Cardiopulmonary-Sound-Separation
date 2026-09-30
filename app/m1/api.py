@@ -20,6 +20,7 @@ from .config import PROJECT_ROOT, Settings
 from .media import BodyLimitMiddleware, byte_range, failure, open_authorized_media, persist_upload
 from .provider import configured_verifier
 from .store import M1Store
+from .public_identity import IdentityError
 
 
 class StrictBody(BaseModel):
@@ -32,6 +33,7 @@ class SessionBody(StrictBody):
 
 class ProfileBody(StrictBody):
     display_name: str = Field(min_length=1, max_length=200)
+    handle: str | None = Field(default=None, max_length=20)
 
 
 class TitleBody(StrictBody):
@@ -132,6 +134,10 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     async def database_error(_request, _error):
         return JSONResponse(status_code=503, content={"detail": {"code": "storage_unavailable", "message": "Application storage is unavailable."}})
 
+    @app.exception_handler(IdentityError)
+    async def identity_error(_request, error):
+        return JSONResponse(status_code=error.status, content={"detail": {"code": error.code, "message": error.message}})
+
     def database(request: Request):
         if request.app.state.store is None:
             raise failure(503, "backend_not_configured", "Local API storage is not configured.")
@@ -192,7 +198,7 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
 
     @app.patch("/api/auth/me")
     def profile(body: ProfileBody, who=Depends(principal), store=Depends(database)):
-        return envelope(store.update_profile(who, body.display_name), settings.separation_enabled)
+        return envelope(store.update_profile(who, body.display_name, body.handle), settings.separation_enabled)
 
     @app.get("/api/preferences")
     def preferences(who=Depends(principal), store=Depends(database)):

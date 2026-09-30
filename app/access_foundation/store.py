@@ -156,7 +156,7 @@ class DevelopmentAccessStore:
             row = db.execute("SELECT * FROM af_users WHERE provider_uid=?", (identity.uid,)).fetchone()
             if row is None:
                 now, user_id = int(time.time()), uuid4().hex
-                db.execute("INSERT INTO af_users VALUES (?,?,?,?,?,?,?,?,?)", (
+                db.execute("INSERT INTO af_users(id,provider_uid,email,display_name,role,status,email_verified,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?)", (
                     user_id, identity.uid, identity.email, display_name,
                     Role.HEALTHCARE_STAFF.value, Status.ACTIVE.value, 1, now, now,
                 ))
@@ -242,7 +242,7 @@ class DevelopmentAccessStore:
         with self._connection(write=True) as db:
             actor = self._actor(db, identity)
             recording_id = uuid4().hex
-            db.execute("INSERT INTO af_recordings VALUES (?,?,?)", (recording_id, actor["id"], int(time.time())))
+            db.execute("INSERT INTO af_recordings(id,owner_id,created_at) VALUES (?,?,?)", (recording_id, actor["id"], int(time.time())))
             return recording_id
 
     def _owner(self, db: sqlite3.Connection, actor: sqlite3.Row, recording_id: str) -> None:
@@ -261,7 +261,7 @@ class DevelopmentAccessStore:
         with self._connection(write=True) as db:
             self._owner(db, self._actor(db, identity), recording_id)
             resource_id = uuid4().hex
-            db.execute("INSERT INTO af_resources VALUES (?,?,?)", (resource_id, recording_id, kind))
+            db.execute("INSERT INTO af_resources(id,recording_id,kind) VALUES (?,?,?)", (resource_id, recording_id, kind))
             return resource_id
 
     def grant_access(
@@ -286,7 +286,7 @@ class DevelopmentAccessStore:
             ):
                 raise AccessDenied("Review requires an analyst and an explicitly scoped original or result.")
             grant_id = uuid4().hex
-            db.execute("INSERT INTO af_grants VALUES (?,?,?,?,?,?,?,?,?,?)", (
+            db.execute("INSERT INTO af_grants(id,recording_id,resource_id,grantor_id,recipient_id,permission,status,expires_at,created_at,revoked_at) VALUES (?,?,?,?,?,?,?,?,?,?)", (
                 grant_id, recording_id, resource_id, actor["id"], recipient_id,
                 permission, "active", expires_at, int(time.time()), None,
             ))
