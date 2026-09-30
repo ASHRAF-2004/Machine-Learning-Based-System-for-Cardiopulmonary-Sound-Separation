@@ -1,0 +1,114 @@
+@font-face {
+  font-family: SF Editorial;
+  src: url("/assets/fonts/cormorant-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: SF UI;
+  src: url("/assets/fonts/manrope-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+:root {
+  --background: #eef2ed;
+  --glass-1: rgba(250, 252, 249, 0.78);
+  --glass-2: #f4f7f3;
+  --glass-strong: #fbfcf9;
+  --glass-border: #d8e1d9;
+  --control-border: #7d9082;
+  --text-primary: #19372f;
+  --text-secondary: #53665c;
+  --accent: #245d4c;
+  --accent-hover: #194c3d;
+  --on-accent: #fff;
+  --accent-soft: #e0ece4;
+  --success: #28654b;
+  --success-soft: #e1eee5;
+  --warning: #815819;
+  --warning-soft: #f5ebd9;
+  --danger: #a03e49;
+  --danger-soft: #f9e9ec;
+  --focus: #416ba8;
+  --source-original: #597588;
+  --source-heart: #9c5b69;
+  --source-lung: #326d59;
+  --source-original-chart: #a1c0ce;
+  --source-heart-chart: #e4a8b5;
+  --source-lung-chart: #9acfbc;
+  --nav-bg: #213e35;
+  --nav-text: #edf5ee;
+  --nav-muted: #c1d3c8;
+  --nav-selected: rgba(210, 235, 218, 0.14);
+  --shadow: 0 8px 28px rgba(29, 55, 41, 0.045);
+  --shadow-elevated: 0 16px 48px rgba(20, 43, 32, 0.14);
+  --blur: 12px;
+  --blur-nav: 20px;
+  --radius-panel: 16px;
+  --radius-control: 10px;
+  --radius-pill: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --font-display: SF Editorial, Georgia, serif;
+  --font-ui: SF UI, system-ui, sans-serif;
+  --type-hero: 48px;
+  --type-section: 28px;
+  --type-body: 14px;
+  --type-small: 12px;
+  --motion-micro: 160ms;
+  --motion-panel: 240ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --sidebar-width: 224px;
+  --header-height: 64px;
+  --content-width: 1200px;
+}
+:root[data-theme="midnight"] {
+  --background: #101e21;
+  --glass-1: rgba(29, 45, 48, 0.86);
+  --glass-2: #223438;
+  --glass-strong: #1b2b2f;
+  --glass-border: #405458;
+  --control-border: #6f8586;
+  --text-primary: #edf5ee;
+  --text-secondary: #b7c9c4;
+  --accent: #9bd5ba;
+  --accent-hover: #b7e2cf;
+  --on-accent: #163329;
+  --accent-soft: #29483d;
+  --success: #9bd5ba;
+  --success-soft: #29483d;
+  --warning: #edc485;
+  --warning-soft: #473c2c;
+  --danger: #f1a0a8;
+  --danger-soft: #482e36;
+  --focus: #a9c9ff;
+  --source-original: #9dbdcc;
+  --source-heart: #dda9b2;
+  --source-lung: #99ceb8;
+  --nav-bg: #142c28;
+  --nav-selected: rgba(174, 226, 200, 0.13);
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+  --shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.3);
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-1: var(--glass-strong);
+    --blur: 0px;
+    --blur-nav: 0px;
+  }
+}
+@media (max-width: 760px) {
+  :root {
+    --type-hero: 38px;
+    --type-section: 26px;
+  }
+}

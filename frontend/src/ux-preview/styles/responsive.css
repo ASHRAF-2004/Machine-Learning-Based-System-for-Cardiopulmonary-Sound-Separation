@@ -1,0 +1,826 @@
+:root[data-theme="midnight"] .sf-app {
+  background-image:
+    linear-gradient(rgba(11, 28, 29, 0.96), rgba(11, 28, 29, 0.92)),
+    url("/assets/reference-match/mountains-1536.webp");
+}
+:root[data-theme="midnight"] .sf-sidebar {
+  background:
+    linear-gradient(180deg, rgba(16, 38, 32, 0.98), rgba(16, 38, 32, 0.94)),
+    url("/assets/reference-match/mountains-800.webp") center bottom/cover;
+}
+@media (max-width: 1200px) {
+  :root {
+    --sidebar-width: 208px;
+  }
+  .sf-main,
+  .sf-topbar {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .sf-logo img {
+    width: 165px;
+  }
+  .sf-sidebar {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .sf-overview-grid {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 20px;
+  }
+  .sf-progress-panel {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 16px;
+  }
+  .sf-progress-link {
+    display: none;
+  }
+  .sf-progress-title h2 {
+    font-size: 22px;
+  }
+  .sf-recordings--compact li {
+    grid-template-columns: minmax(180px, 1fr) 91px 32px;
+  }
+  .sf-recordings--compact .sf-recording-duration {
+    display: none;
+  }
+  .sf-recordings--compact .sf-row-action {
+    grid-column: 3;
+  }
+  .sf-recordings li,
+  .sf-list-head {
+    grid-template-columns: minmax(200px, 1.5fr) 80px 54px 90px 58px;
+    gap: 12px;
+  }
+  .sf-recording-access,
+  .sf-list-head > span:nth-child(5) {
+    display: none;
+  }
+  .sf-detail-grid {
+    grid-template-columns: minmax(0, 1fr) 238px;
+    gap: 20px;
+  }
+  .sf-panel {
+    padding: 20px;
+  }
+  .sf-detail-heading h1 {
+    font-size: 40px;
+  }
+  .sf-format {
+    display: none;
+  }
+  .sf-player-main {
+    grid-template-columns: 44px minmax(0, 1fr) 70px;
+    gap: 12px;
+  }
+  .sf-analysis-subhead > span {
+    display: none;
+  }
+  .sf-settings-layout {
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .sf-settings-content {
+    padding: 24px;
+  }
+  .sf-audio-setting {
+    grid-template-columns: 1fr 190px;
+    gap: 16px;
+  }
+}
+@media (max-width: 1000px) and (min-width: 761px) {
+  .sf-overview-grid,
+  .sf-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .sf-overview-rail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .sf-detail-rail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .sf-technical {
+    grid-column: 1/-1;
+  }
+  .sf-progress-panel {
+    grid-template-columns: 1fr;
+  }
+  .sf-progress-copy {
+    display: none;
+  }
+  .sf-progress-steps {
+    margin: 10px 0;
+  }
+  .sf-greeting {
+    padding-right: 195px;
+  }
+  .sf-greeting-art {
+    width: 190px;
+  }
+  .sf-owl {
+    right: 15px;
+    width: 125px;
+    height: 146px;
+  }
+  .sf-botanical-perch {
+    width: 214px;
+    right: -12px;
+    top: 84px;
+  }
+  .sf-greeting h1 {
+    font-size: 40px;
+  }
+  .sf-library-filters > span {
+    display: none;
+  }
+  .sf-recordings li,
+  .sf-list-head {
+    grid-template-columns: minmax(180px, 1fr) 58px 84px 54px;
+  }
+  .sf-recording-date,
+  .sf-list-head > span:nth-child(2) {
+    display: none;
+  }
+  .sf-recordings--compact li {
+    grid-template-columns: minmax(180px, 1fr) 92px 58px 32px;
+  }
+  .sf-recordings--compact .sf-recording-date {
+    display: block;
+  }
+  .sf-recordings--compact .sf-recording-duration {
+    display: block;
+  }
+  .sf-recordings--compact .sf-row-action {
+    grid-column: 4;
+  }
+  .sf-settings-layout {
+    grid-template-columns: 1fr;
+  }
+  .sf-settings-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+  .sf-settings-nav > p {
+    display: none;
+  }
+  .sf-settings-nav button {
+    padding: 8px 12px;
+  }
+  .sf-search-shortcut span,
+  .sf-search-shortcut kbd {
+    display: none;
+  }
+  .sf-settings-content {
+    min-height: 0;
+  }
+}
+@media (max-width: 760px) {
+  .sf-sidebar {
+    display: none;
+  }
+  .sf-main-column {
+    margin-left: 0;
+  }
+  .sf-main {
+    padding: 24px 20px 16px;
+  }
+  .sf-topbar {
+    height: 58px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+  .sf-mobile-menu {
+    display: flex;
+  }
+  .sf-location {
+    font-size: 10px;
+    gap: 7px;
+  }
+  .sf-location > span:first-child,
+  .sf-location > span:nth-child(2) {
+    display: none;
+  }
+  .sf-topbar-actions {
+    gap: 0;
+  }
+  .sf-topbar-actions .sf-button--icon {
+    width: 38px;
+  }
+  .sf-search-shortcut {
+    display: none;
+  }
+  .sf-header-avatar {
+    margin-left: 2px;
+    width: 32px;
+    height: 32px;
+  }
+  .sf-preview-label {
+    padding: 6px 20px;
+    font-size: 9px;
+    gap: 8px;
+  }
+  .sf-preview-label > span:last-child {
+    max-width: 170px;
+    text-align: right;
+    line-height: 1.4;
+  }
+  .sf-page-heading {
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .sf-page-heading p {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .sf-page-heading > .sf-button {
+    font-size: 11px;
+    padding: 10px 12px;
+    min-height: 42px;
+  }
+  .sf-greeting {
+    padding-right: 75px;
+    min-height: 198px;
+    margin-bottom: 20px;
+  }
+  .sf-greeting h1 {
+    font-size: 39px;
+    max-width: 240px;
+  }
+  .sf-greeting > div:first-child {
+    z-index: 2;
+  }
+  .sf-greeting p:not(.sf-date) {
+    max-width: 190px;
+  }
+  .sf-greeting .sf-button {
+    margin-top: 18px;
+  }
+  .sf-date {
+    font-size: 9px !important;
+  }
+  .sf-greeting-art {
+    width: 132px;
+    top: 13px;
+    bottom: 5px;
+    right: -9px;
+  }
+  .sf-owl {
+    width: 102px;
+    height: 119px;
+    right: 6px;
+    top: 26px;
+  }
+  .sf-botanical-perch {
+    width: 158px;
+    right: -7px;
+    top: 83px;
+  }
+  .sf-progress-panel {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    min-height: 0;
+  }
+  .sf-progress-title h2 {
+    font-size: 25px;
+  }
+  .sf-progress-copy {
+    font-size: 11px;
+    line-height: 1.7;
+    margin-left: 50px;
+    margin-top: 8px;
+  }
+  .sf-progress-title p {
+    font-size: 11px;
+  }
+  .sf-progress-steps {
+    margin-left: 1px;
+  }
+  .sf-progress-steps small {
+    font-size: 9px;
+    max-width: 94px;
+    line-height: 1.6;
+  }
+  .sf-progress-steps strong {
+    font-size: 11px;
+  }
+  .sf-progress-link {
+    display: none;
+  }
+  .sf-overview-grid,
+  .sf-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .sf-overview-rail,
+  .sf-detail-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .sf-panel {
+    padding: 20px;
+  }
+  .sf-recent-panel {
+    padding-bottom: 0;
+  }
+  .sf-recent-panel h2 {
+    font-size: 27px;
+  }
+  .sf-section-heading p {
+    font-size: 11px;
+  }
+  .sf-section-heading .sf-text-link {
+    font-size: 10px;
+    gap: 4px;
+  }
+  .sf-week-summary {
+    padding: 5px 8px 12px;
+  }
+  .sf-week-summary h2 {
+    max-width: none;
+  }
+  .sf-recordings--compact li {
+    grid-template-columns: minmax(0, 1fr) 82px 27px;
+    gap: 8px;
+    min-height: 85px;
+  }
+  .sf-recordings--compact .sf-recording-duration {
+    display: none;
+  }
+  .sf-recordings--compact .sf-row-action {
+    grid-column: 3;
+  }
+  .sf-recordings--compact .sf-recording-symbol {
+    display: none;
+  }
+  .sf-recordings--compact .sf-recording-date {
+    margin-left: 0;
+    margin-top: -8px;
+    font-size: 9px;
+  }
+  .sf-recording-title strong {
+    font-size: 11px;
+  }
+  .sf-copy {
+    font-size: 9px;
+    min-height: 30px;
+  }
+  .sf-status {
+    font-size: 10px;
+    padding: 7px;
+  }
+  .sf-recent-footer {
+    font-size: 9px;
+    line-height: 1.6;
+    padding: 12px 0;
+  }
+  .sf-library-panel {
+    padding: 16px 16px 0;
+  }
+  .sf-library-tools {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .sf-search-field {
+    max-width: none;
+    width: 100%;
+  }
+  .sf-sort {
+    display: none;
+  }
+  .sf-library-filters {
+    margin-bottom: 10px;
+  }
+  .sf-library-filters > span {
+    display: none;
+  }
+  .sf-segments {
+    max-width: 100%;
+    gap: 2px;
+    padding: 3px;
+  }
+  .sf-segments button {
+    font-size: 11px;
+    padding: 6px 10px;
+    min-height: 38px;
+    gap: 5px;
+  }
+  .sf-segments button span {
+    font-size: 9px;
+  }
+  .sf-list-head {
+    display: none;
+  }
+  .sf-recordings:not(.sf-recordings--compact) li {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto auto;
+    gap: 5px 8px;
+    padding: 17px 0;
+    min-height: 105px;
+  }
+  .sf-recordings:not(.sf-recordings--compact) .sf-recording-title {
+    grid-column: 1;
+    grid-row: 1/3;
+    gap: 10px;
+  }
+  .sf-recordings:not(.sf-recordings--compact) .sf-recording-symbol {
+    width: 30px;
+    background: none;
+  }
+  .sf-recordings:not(.sf-recordings--compact) .sf-recording-date {
+    grid-column: 1;
+    grid-row: 3;
+    margin-left: 40px;
+    font-size: 10px;
+  }
+  .sf-recordings:not(.sf-recordings--compact) .sf-recording-duration {
+    grid-column: 2;
+    grid-row: 3;
+    text-align: right;
+    font-size: 10px;
+  }
+  .sf-recordings:not(.sf-recordings--compact) .sf-status {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+  .sf-recordings:not(.sf-recordings--compact) .sf-row-action {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 38px;
+    font-size: 11px;
+    justify-content: flex-end;
+  }
+  .sf-recordings .sf-recording-access {
+    display: none;
+  }
+  .sf-library-footer p {
+    display: none;
+  }
+  .sf-library-bottom {
+    display: block;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+  .sf-library-bottom p {
+    margin-top: 8px;
+  }
+  .sf-back {
+    font-size: 10px;
+    margin-bottom: 12px;
+    min-height: 24px;
+  }
+  .sf-detail-heading {
+    display: block;
+  }
+  .sf-detail-heading h1 {
+    font-size: 37px;
+  }
+  .sf-detail-meta {
+    gap: 8px 12px;
+    margin-top: 10px;
+    font-size: 10px;
+  }
+  .sf-detail-meta .sf-copy {
+    font-size: 10px;
+  }
+  .sf-heading-actions {
+    margin-top: 14px;
+    justify-content: space-between;
+  }
+  .sf-heading-actions > .sf-button {
+    font-size: 12px;
+    min-height: 40px;
+  }
+  .sf-audio-panel {
+    padding: 20px 16px 12px;
+  }
+  .sf-audio-panel h2 {
+    font-size: 27px;
+  }
+  .sf-audio-panel .sf-section-heading {
+    margin-bottom: 10px;
+  }
+  .sf-format {
+    display: none;
+  }
+  .sf-player {
+    padding: 13px 0;
+  }
+  .sf-player-label {
+    margin-left: 54px;
+    gap: 7px;
+  }
+  .sf-player-label strong {
+    font-size: 23px;
+  }
+  .sf-player-label > span {
+    font-size: 9px;
+  }
+  .sf-icon-link {
+    width: 32px;
+    min-width: 32px;
+    height: 36px;
+  }
+  .sf-player-main {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 8px 10px;
+  }
+  .sf-timeline {
+    padding-bottom: 12px;
+  }
+  .sf-waveform {
+    height: 42px;
+  }
+  .sf-timeline > input {
+    height: 44px;
+  }
+  .sf-time {
+    font-size: 10px;
+  }
+  .sf-gain {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 65px 1fr;
+    align-items: center;
+    gap: 8px;
+  }
+  .sf-gain label {
+    font-size: 11px;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .sf-gain input {
+    min-height: 30px;
+    margin: 0;
+  }
+  .sf-gain small {
+    display: none;
+  }
+  .sf-playback-note {
+    font-size: 9px;
+    align-items: flex-start;
+    line-height: 1.7;
+    padding-top: 11px;
+  }
+  .sf-analysis-panel {
+    padding: 20px 16px 16px;
+  }
+  .sf-analysis-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sf-analysis-heading h2 {
+    font-size: 29px;
+  }
+  .sf-analysis-heading .sf-segments button {
+    font-size: 11px;
+    min-height: 36px;
+  }
+  .sf-analysis-subhead {
+    display: block;
+    margin-bottom: 14px;
+  }
+  .sf-analysis-subhead .sf-segments button {
+    min-height: 38px;
+    font-size: 11px;
+  }
+  .sf-analysis-subhead > span {
+    display: none;
+  }
+  .sf-chart-area,
+  .sf-chart-area canvas {
+    height: 156px;
+  }
+  .sf-chart-area {
+    gap: 6px;
+  }
+  .sf-y-axis,
+  .sf-colour-axis,
+  .sf-x-axis,
+  .sf-signal-chart figcaption {
+    font-size: 9px;
+  }
+  .sf-x-axis {
+    margin-right: 26px;
+    margin-left: 32px;
+  }
+  .sf-signal-chart figcaption {
+    line-height: 1.6;
+  }
+  .sf-settings-private {
+    display: none;
+  }
+  .sf-settings-layout {
+    display: block;
+  }
+  .sf-settings-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 5px;
+    padding: 0 0 10px;
+    margin-bottom: 15px;
+  }
+  .sf-settings-nav > button {
+    white-space: nowrap;
+    min-height: 44px;
+    flex-shrink: 0;
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+  .sf-settings-nav > p {
+    display: none;
+  }
+  .sf-settings-content {
+    padding: 20px;
+    min-height: 0;
+  }
+  .sf-settings-content h2 {
+    font-size: 27px;
+  }
+  .sf-profile-summary {
+    display: block;
+    margin-bottom: 22px;
+  }
+  .sf-profile-summary .sf-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 29px;
+  }
+  .sf-profile-summary .sf-identity strong {
+    font-size: 25px;
+  }
+  .sf-avatar-actions {
+    margin-top: 16px;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .sf-profile-fields {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .sf-profile-save {
+    gap: 10px;
+  }
+  .sf-profile-save .sf-copy {
+    font-size: 9px;
+  }
+  .sf-profile-save .sf-button {
+    padding: 10px;
+    font-size: 10px;
+  }
+  .sf-theme-options {
+    gap: 7px;
+  }
+  .sf-theme-option {
+    padding: 10px 8px;
+  }
+  .sf-theme-mini {
+    height: 46px;
+    padding: 5px;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .sf-theme-option-label {
+    font-size: 10px;
+    gap: 5px;
+  }
+  .sf-theme-option-label > svg:first-child,
+  .sf-system-icon {
+    display: none;
+  }
+  .sf-theme-option-label > svg:last-child {
+    width: 14px;
+  }
+  .sf-theme-option small {
+    font-size: 9px;
+  }
+  .sf-audio-setting {
+    display: block;
+  }
+  .sf-audio-setting > label {
+    display: block;
+    margin-top: 22px;
+  }
+  .sf-audio-setting p {
+    font-size: 11px;
+  }
+  .sf-settings-shortcuts {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .sf-setting-row {
+    flex-wrap: wrap;
+    padding: 20px 0;
+    gap: 12px;
+  }
+  .sf-setting-row .sf-button {
+    margin-left: 37px;
+  }
+  .sf-setting-row p {
+    max-width: none;
+  }
+  .sf-danger-row {
+    padding: 18px 14px;
+  }
+  .sf-danger-row .sf-button {
+    margin-left: 50px;
+  }
+  .sf-setting-row > span:not(.sf-setting-icon) {
+    min-width: 160px;
+  }
+  .sf-footer {
+    padding: 20px 20px 100px;
+    display: block;
+    text-align: center;
+  }
+  .sf-footer > span {
+    display: none;
+  }
+  .sf-footer p {
+    font-size: 9px;
+  }
+  .sf-mobile-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    inset-inline: 0;
+    background: var(--glass-strong);
+    backdrop-filter: blur(var(--blur));
+    border-top: 1px solid var(--glass-border);
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+    z-index: 25;
+    justify-content: space-around;
+    box-shadow: 0 -3px 20px rgba(15, 40, 25, 0.05);
+  }
+  .sf-mobile-nav > a,
+  .sf-mobile-nav > button {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    min-width: 62px;
+    background: none;
+    border: 0;
+    color: var(--text-secondary);
+    font-size: 9px;
+  }
+  .sf-mobile-nav [aria-current="page"] {
+    color: var(--accent);
+    font-weight: 650;
+  }
+  .sf-toast {
+    bottom: 88px;
+    left: 50%;
+    font-size: 12px;
+    padding: 12px 16px;
+  }
+  .sf-skip {
+    left: 20px;
+  }
+  .sf-dialog {
+    padding: 20px;
+  }
+  .sf-dialog h2 {
+    font-size: 28px;
+  }
+  .sf-dialog-actions {
+    gap: 8px;
+  }
+  .sf-dialog-actions .sf-button {
+    white-space: normal;
+  }
+  .sf-capture-options {
+    grid-template-columns: 1fr;
+  }
+  .sf-capture-options > .sf-button {
+    min-height: 105px;
+  }
+  .sf-input-action .sf-button {
+    padding: 10px 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *:before,
+  *:after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .sf-button:hover {
+    transform: none !important;
+  }
+}
