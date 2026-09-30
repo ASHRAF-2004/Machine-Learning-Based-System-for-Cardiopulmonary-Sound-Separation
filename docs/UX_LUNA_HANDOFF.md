@@ -16,6 +16,14 @@ analysis pass. `FROST_CORE_INTEGRATION.md` and `FROST_CORE_EVIDENCE.json` separa
 real API/worker acceptance from mocked identity/account checks. Both builds exit0.
 No backend runtime/schema/auth/model changes or deployment.
 
+1 October owner-review revision: `FROST_OWNER_FEEDBACK.md` is normative for the
+current local UI. Keep the authorized-sample Before & after table and its explicit
+accuracy limits; preserve immediate request/queued/processing activity and reduced
+motion. Microphone recording is now locked **Coming soon** at the owner's request,
+including its direct route; WAV upload remains working. Retain capture code for
+later authorization. Listening fixtures must be eligible raw recorded HLS-CMDS,
+not mathematical tones. No identity/account milestone or deployment is authorized.
+
 L1–L3/core part of L4/L10/L11 are selectively implemented, not blanket L0–L12
 completion. L0, new L5 handle services, L6 account extensions, L7, L8, L9 and global
 Insights are still pending. Working existing settings/review/Admin stay available.

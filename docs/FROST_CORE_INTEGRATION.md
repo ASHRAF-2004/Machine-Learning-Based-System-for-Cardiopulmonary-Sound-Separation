@@ -6,6 +6,13 @@ decisions are frozen; this is application integration, not a redesign/deployment
 Starting implementation `287a9f753a36fca691ad481b37134d9ed20beb53`, documentation
 `c08045c5179c09887579d5339f0cb0e143902425`, root `7b6c88abe834e715d6b912a58bd0fc4c2a27443e`.
 
+Local owner-review follow-up, 1 October: [FROST_OWNER_FEEDBACK.md](FROST_OWNER_FEEDBACK.md)
+records measured before/after comparison, immediate separation activity and the
+owner-requested microphone Coming soon gate. Upload stays available. Historical
+fake-microphone acceptance below is preserved; it is not current capture availability.
+Use eligible raw HLS-CMDS recordings for listening reviews, not procedural tones.
+No production rollout or owner acceptance is implied by this follow-up.
+
 ## Contract mapping (before implementation)
 
 | Component | Existing real endpoint/data | Authority | Adapter |

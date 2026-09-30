@@ -3,7 +3,7 @@ import {Link,Navigate,useLocation,useNavigate,useSearchParams} from 'react-route
 import {ArrowRight,Plus,UploadSimple} from '@phosphor-icons/react';
 import Shell from '../frost/Shell';
 import {Overview as FrostOverview,Library as FrostLibrary} from '../frost/WorkspaceViews';
-import {NewRecording as FrostNewRecording,Upload as FrostUpload} from '../frost/Upload';
+import {NewRecording as FrostNewRecording,Upload as FrostUpload,RecordingComingSoon} from '../frost/Upload';
 import {RecordingDetail as FrostRecordingDetail,ResultDetail as FrostResultDetail,MediaDetail,LegacyJob} from '../frost/RecordingDetail';
 import {useFrostPreferences} from '../frost/preferences';
 import {Segments as FrostSegments} from '../frost/primitives';
@@ -13,7 +13,6 @@ import {useApp} from '../data/store';
 import {liveRoleLabel,type LiveAudit,type LiveGrant,type LiveJob,type LivePreferences,type LiveRecording,type LiveResult,type LiveReview,type LiveRole,type LiveStatus,type LiveUser,type MediaResource} from '../data/liveTypes';
 import {ApiError} from '../data/api';
 import {liveAuth,authErrorMessage} from '../auth/firebase';
-import LiveCapture from '../components/LiveCapture';
 import './workspace-pages.css';
 import './account-pages.css';
 
@@ -85,7 +84,7 @@ function LiveRoute(){
  if(pathname==='/app/shared')return <FrostLibrary sharedOnly/>;
  if(pathname==='/app/recordings/new')return <FrostNewRecording/>;
  if(pathname==='/app/recordings/new/upload')return <FrostUpload/>;
- if(pathname==='/app/recordings/new/record')return <LiveCapture/>;
+ if(pathname==='/app/recordings/new/record')return <RecordingComingSoon/>;
  if(/^\/app\/recordings\/[^/]+$/.test(pathname))return <FrostRecordingDetail id={pathname.split('/')[3]} ownerTools={record=><Grants record={record}/>}/>;
  if(pathname==='/app/processing')return <Navigate replace to="/app/library?filter=processing"/>;
  if(pathname==='/app/history')return <Navigate replace to="/app/library"/>;

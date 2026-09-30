@@ -51,7 +51,66 @@
 .sf-live textarea { background: var(--control-surface); color: var(--text-primary); border-color: var(--control-border); }
 .sf-live .inline-link { color: var(--accent); }
 .sf-live .sf-gain input[type="range"] { accent-color: var(--accent); }
+.sf-live .sf-comparison-panel { margin: 24px 0; }
+.sf-live .sf-comparison-label { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
+.sf-live .sf-comparison-table { width: 100%; table-layout: fixed; border-collapse: collapse; margin-top: 20px; font-size: 13px; font-variant-numeric: tabular-nums; }
+.sf-live .sf-comparison-table th,.sf-live .sf-comparison-table td { padding: 12px 8px; border-bottom: 1px solid var(--glass-border); text-align: left; vertical-align: middle; background: transparent; color: var(--text-primary); white-space: normal; }
+.sf-live .sf-comparison-table th:first-child { width: 30%; padding-left: 0; }
+.sf-live .sf-comparison-table th { font-weight: 600; }
+.sf-live .sf-comparison-table thead th { padding-top: 0; }
+.sf-live .sf-comparison-table thead small { display: block; font-size: 11px; line-height: 1.45; color: var(--text-secondary); font-weight: 400; margin-top: 3px; white-space: normal; }
+.sf-live .sf-comparison-table th[data-source="heart"] { color: var(--source-heart); }
+.sf-live .sf-comparison-table th[data-source="lung"] { color: var(--source-lung); }
+.sf-live .sf-comparison-table td small { font-size: 11px; color: var(--text-secondary); }
+.sf-live .sf-comparison-unavailable { color: var(--text-secondary); font-size: 12px; }
+.sf-live .sf-comparison-warning { display: inline-flex; flex-wrap: wrap; gap: 4px; align-items: center; color: var(--warning); font-size: 12px; }
+.sf-live .sf-comparison-flags td { font-size: 12px; }
+.sf-live .sf-comparison-guidance { display: flex; gap: 12px; margin-top: 20px; padding: 16px; border: 1px solid var(--glass-border); border-radius: var(--radius-control); background: var(--glass-2); }
+.sf-live .sf-comparison-guidance > svg { flex-shrink: 0; color: var(--accent); margin-top: 2px; }
+.sf-live .sf-comparison-guidance h3 { font-size: 14px; font-family: var(--font-ui); font-weight: 650; }
+.sf-live .sf-comparison-guidance p,.sf-live .sf-crest-explanation { font-size: 12px; line-height: 1.7; color: var(--text-secondary); margin-top: 8px; }
+.sf-live .sf-comparison-guidance summary { font-size: 12px; min-height: 44px; margin-top: 12px; color: var(--accent); cursor: pointer; padding: 8px 0; }
+.sf-live .sf-progress-panel { grid-template-columns: 1fr 1.2fr; }
+.sf-live .sf-progress-panel--working .sf-progress-icon { width: 44px; height: 44px; flex-shrink: 0; }
+.sf-live .sf-working-wave { height: 24px; display: flex; gap: 3px; align-items: center; }
+.sf-live .sf-working-wave i { display: block; width: 3px; height: 20px; border-radius: 3px; background: currentColor; transform: scaleY(.4); animation: sf-separation-wave 1s ease-in-out infinite alternate; }
+.sf-live .sf-working-wave i:nth-child(2),.sf-live .sf-working-wave i:nth-child(4) { animation-delay: .18s; }
+.sf-live .sf-working-wave i:nth-child(3) { animation-delay: .36s; }
+.sf-live .sf-working-spinner { animation: sf-separation-spin 1.2s linear infinite; }
+.sf-live .sf-status--processing svg { animation: sf-separation-spin 1.2s linear infinite; }
+@keyframes sf-separation-wave { to { transform: scaleY(1); } }
+@keyframes sf-separation-spin { to { transform: rotate(360deg); } }
+.sf-live .sf-create-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px; margin-bottom: 24px; }
+.sf-live .sf-create-upload { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 32px; background: var(--glass-strong); }
+.sf-live .sf-create-upload h2,.sf-live .sf-create-locked h2,.sf-live .sf-recording-soon h2 { font-size: 30px; margin: 20px 0 8px; }
+.sf-live .sf-create-upload p { max-width: 36ch; margin-bottom: 24px; }
+.sf-live .sf-create-symbol { display: inline-flex; justify-content: center; align-items: center; width: 56px; height: 56px; background: var(--accent-soft); color: var(--accent); border-radius: var(--radius-control); }
+.sf-live .sf-create-format { font-size: 12px; margin-top: 16px; color: var(--text-secondary); }
+.sf-live .sf-create-locked { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+.sf-live .sf-create-locked h2 { margin-top: 16px; }
+.sf-live .sf-create-locked > .sf-subtle { max-width: 30ch; margin-top: 12px; font-size: 12px; }
+.sf-live .sf-recording-lock { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.sf-live .sf-recording-lock img { display: block; width: 144px; height: 144px; object-fit: contain; }
+.sf-live .sf-soon-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid var(--glass-border); background: var(--control-surface); border-radius: 999px; color: var(--text-secondary); font-size: 12px; }
+.sf-live .sf-recording-soon { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; padding: 40px 24px; }
+.sf-live .sf-recording-soon h2 { margin: 0; }
+.sf-live .sf-recording-soon p { max-width: 50ch; }
+@media (prefers-reduced-motion:reduce) {
+  .sf-live .sf-working-wave i,.sf-live .sf-working-spinner,.sf-live .sf-status--processing svg { animation: none; }
+  .sf-live .sf-working-wave i:nth-child(2),.sf-live .sf-working-wave i:nth-child(4) { transform: scaleY(.7); }
+  .sf-live .sf-working-wave i:nth-child(3) { transform: scaleY(1); }
+}
 @media (max-width:760px) {
+  .sf-live .sf-progress-panel,.sf-live .sf-create-grid { grid-template-columns: 1fr; }
+  .sf-live .sf-comparison-label { display: none; }
+  .sf-live .sf-comparison-table { font-size: 12px; }
+  .sf-live .sf-comparison-table th,.sf-live .sf-comparison-table td { padding: 10px 4px; overflow-wrap: anywhere; }
+  .sf-live .sf-comparison-table th:first-child { width: 27%; }
+  .sf-live .sf-comparison-table td small { display: block; }
+  .sf-live .sf-comparison-guidance { padding: 12px; }
+  .sf-live .sf-create-upload { padding: 24px; }
+  .sf-live .sf-create-locked { padding: 20px; }
+  .sf-live .sf-recording-lock img { width: 120px; height: 120px; }
   .sf-live .sf-library-filters { align-items: flex-start; }
   .sf-live .sf-library-filters .sf-segments { max-width: 100%; overflow-x: auto; }
   .sf-live .sf-recordings li { min-width: 0; }
