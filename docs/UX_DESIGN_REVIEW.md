@@ -1,4 +1,96 @@
-# Frost Studio v1 — owner visual-review checkpoint
+# Frost Studio v1.1 — bounded final polish, owner review pending
+
+30 September 2026. **FROST STUDIO POLISH COMPLETE — READY FOR OWNER REVIEW.**
+The owner approved the existing direction. Only the six requested refinements
+were made; remaining-app implementation and deployment remain unauthorized.
+Starting HEADs: implementation `c46abf13dec60916816456a8c69238922ffdeab4`,
+documentation `5ba19502d289e703f4cbf54b6024990f119696d4`, root
+`12e86bc16c1f5917aac53e4164859f90b33c4a7b`. Both remote branches matched.
+
+## Actual polish changes
+
+| Item | Implemented and reviewed |
+|---|---|
+| Glass | Shared ordinary/strong alpha, workspace veil, inset highlight and soft shadow; text tokens unchanged, controls opaque. No new blur layer/dependency. |
+| Owl eyes | Iris matrix12% toward its own luminance, not a whole-owl filter. Green remains clear; desktop/mobile claw contact, pose, leafy branch and tracking unchanged. |
+| Overview rail | Shared item and existing weekly facts in one aligned strong-glass panel with a separator; tablet columns, mobile after recent items. |
+| Appearance | Exact clear heading and device-specific helper; same System/Frost/Midnight choices/preferences. |
+| Playback | Visible0/100/200% scale, midpoint tick, tinted boost half, current percentage and reserved-width Boost label; source-labelled accessible values and one shared helper. |
+| Preview ownership | Both safety labels remain visible in `App.tsx`, supplied via optional shell notice slot. Normal app entry/fixtures remain separate. |
+
+## Environment recovery and finite verification
+
+Earlier sandbox failures changed no project files: loopback access was denied,
+terminal GitHub DNS failed, and Playwright daemon writes returned EROFS.
+After the owner relaunched the session, a create/write/remove daemon probe passed,
+the isolated127.0.0.1:4193 preview returned200, headed Chrome rendered it and a
+fresh baseline screenshot was saved **before edits**. `gh auth status` verifies
+ASHRAF-2004; terminal branch-ref checks now succeed. No security policy, HOME,
+dependency/browser install, credentials or production service was changed.
+Graphify was queried first; stale frontend indexing justified scoped file reads.
+Healthy connectors were not reconnected and the full MCP audit was not repeated.
+
+Commands below ran separately from `implementation/frontend`, not chained to a
+preview server. The older ambiguous−1 entries are not treated as build evidence:
+both current standalone compilations completed normally.
+
+| Command | Actual exit code |
+|---|---|
+| `npm run build` (`tsc -b && vite build`) |0 |
+| `npx --no-install vite build --config ux-preview.vite.config.ts` |0 |
+| `STETHOFUSE_UX_REVISION=polish-v1 node tests/ux-preview.mjs` |0;12/12 groups |
+| `STETHOFUSE_UX_REVISION=polish-v1 node tools/ux-previews.mjs` |0 |
+
+The focused checks were run once, extending existing groups rather than adding
+a test campaign:100/150/200% via keyboard, stable gain-control bounds, native
+GainNode≈2 and unchanged compressor, one source, URL/context cleanup, automatic
+media/401/403 states, theme persistence/layout stability,1440/1024/900/390 overflow,
+44px mobile slider and bottom-nav clearance, keyboard focus, reduced motion and
+page-wide owl follow. Zero console errors or external requests. Normal `dist`
+contains none of the preview warning/fixture/scene markers. No backend/ML suite
+or new Lighthouse run; earlier Lighthouse evidence below is historical only.
+
+All refreshed images were visually inspected, including Privacy, tablet, both
+owl crops and actual boost states. No extra visual correction was needed after
+this render; no design direction was reopened. Text/plots/controls remain clear
+against the actual composited surfaces. Pixel/background samples: ordinary
+Frost `(1000,540)` RGB245/249/246 gives primary12.13:1, secondary5.77:1;
+strong Frost `(900,280)` RGB250/252/248 gives12.49:1/5.94:1; strong Midnight
+RGB26/42/46 gives13.36:1/8.60:1. These are limited samples, not full WCAG proof.
+
+## Updated visual evidence
+
+New ignored directory: `frontend/output/playwright/ux-review/polish-v1/`.
+Previous screenshots and reports remain intact; the new baseline is
+`before-overview-light-desktop.png`. The original seven filenames are refreshed
+here (desktop1440×900, mobile390×844, Frost/Midnight). Supplements:
+
+- `08-profile-privacy-desktop.png` — Frost1440×900; prototype warnings retained.
+- `09-recording-detail-boost150-desktop.png` — actual native slider150%, Frost.
+- `10-overview-tablet.png` — Frost900×900.
+- `11-recording-detail-boost200-mobile.png` — actual slider200%,390×844.
+- `12-overview-full-page.png` —1440×900 viewport/full-page companion showing
+  both weekly facts; ordinary scrolling is intentional.
+- `owl-perch-desktop-closeup.png`, `owl-perch-mobile-closeup.png` — green eyes
+  and unchanged claw/branch contact at device resolution.
+
+`preview-index.json` hashes the automated captures, including owl crops;
+`docs/UX_DESIGN_EVIDENCE.json` adds a polish receipt without erasing v1 history.
+Five-axis scoped review: no unresolved Critical/Important findings. Correctness:
+native slider semantics and preferences preserved. Readability: named components/
+shared tokens. Architecture: optional environment notice, isolated entry.
+Security: no authorization/adapter/fallback changes, preview warnings retained.
+Performance: no new blur/filter layers, dependency or idle motion.
+
+Remaining limits: only four representative screens; backend identity/sharing/
+export/delete/unlink/avatar/notification services remain unimplemented. Permission
+fixtures are not live authorization tests. Owl flight is **ASSET-GATED — NOT
+IMPLEMENTED**. No production, ML, T9, authentication, data or Axora changes.
+STOP for owner review; do not execute the prepared Luna handoff.
+
+---
+
+# Preserved Frost Studio v1 — initial owner visual-review checkpoint
 
 30 September 2026. **DESIGN SYSTEM APPROVED INTERNALLY — READY FOR OWNER VISUAL
 REVIEW.** This is internal self-review, not owner approval or a user study. No

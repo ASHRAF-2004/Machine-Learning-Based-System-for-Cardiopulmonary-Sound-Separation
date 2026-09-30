@@ -6,7 +6,10 @@ import path from "node:path";
 const base = process.env.STETHOFUSE_UX_URL || "http://127.0.0.1:4193";
 if (!["127.0.0.1", "localhost", "[::1]"].includes(new URL(base).hostname))
   throw new Error("UX checks are local-only.");
-const out = path.resolve(import.meta.dirname, "../output/playwright/ux-review");
+const revision = process.env.STETHOFUSE_UX_REVISION || "";
+if (revision && !/^[a-z0-9-]{1,40}$/.test(revision))
+  throw new Error("UX evidence revision must be a simple directory name.");
+const out = path.resolve(import.meta.dirname, "../output/playwright/ux-review", revision);
 await fs.mkdir(out, { recursive: true });
 const browser = await chromium.launch({
   executablePath: process.env.CHROME_BIN || "/usr/bin/google-chrome",
@@ -96,6 +99,10 @@ try {
         await page.getByText("Processing history", { exact: true }).count(),
         0,
       );
+      assert(await page.getByText("Local design preview", { exact: true }).isVisible());
+      assert(await page.getByText("Synthetic recordings · no production connection", { exact: true }).isVisible());
+      const shell = await fs.readFile(new URL("../src/ux-preview/Shell.tsx", import.meta.url), "utf8");
+      assert(!shell.includes("Local design preview") && !shell.includes("no production connection"));
     },
   );
   await group(
@@ -187,14 +194,33 @@ try {
     },
   );
   await group(
-    "200% playback uses GainNode 2 and compressor; single active source and keyboard seek",
+    "100/150/200% discoverability, native GainNode/compressor, single source and keyboard seek",
     async () => {
       const slider = page.getByRole("slider", {
-        name: "Original playback gain",
+        name: "Original playback volume",
         exact: true,
       });
+      assert.equal(await slider.inputValue(), "100");
+      assert.equal(await slider.getAttribute("min"), "0");
+      assert.equal(await slider.getAttribute("max"), "200");
+      assert.equal(await slider.getAttribute("aria-valuetext"), "100 percent");
+      const gainControl = page.locator(".sf-player--original .sf-gain");
+      assert.deepEqual(await gainControl.locator(".sf-gain-scale span").allTextContents(), ["0", "100", "200%"]);
+      assert(!(await gainControl.getByText("Boost", { exact: true }).isVisible()));
+      assert(await page.getByText("Playback volume up to 200%. Saved files stay unchanged.", { exact: true }).isVisible());
+      const geometry = await gainControl.boundingBox();
       await slider.focus();
+      await slider.press("Home");
+      for (let step = 0; step < 30; step++) await slider.press("ArrowRight");
+      assert.equal(await slider.inputValue(), "150");
+      assert.equal(await slider.getAttribute("aria-valuetext"), "150 percent, boost enabled");
+      assert(await gainControl.getByText("Boost", { exact: true }).isVisible());
+      assert.deepEqual(geometry, await gainControl.boundingBox(), "Showing Boost must not resize the control");
       await slider.press("End");
+      assert.equal(await slider.inputValue(), "200");
+      assert.equal(await slider.getAttribute("aria-valuetext"), "200 percent, boost enabled");
+      const boostedGeometry = await gainControl.boundingBox();
+      assert.deepEqual(geometry, boostedGeometry, "Boost state must not resize the control");
       await page
         .getByRole("button", { name: "Play Original", exact: true })
         .click();
@@ -232,7 +258,7 @@ try {
       await page
         .getByRole("button", { name: "Pause Heart", exact: true })
         .click();
-      return actual;
+      return { ...actual, presentationStates: [100, 150, 200], boostLayoutStable: true };
     },
   );
   await group(
@@ -255,12 +281,14 @@ try {
   await group(
     "Frost/Midnight/System and playback preference survive reload",
     async () => {
+      const before = await page.locator(".sf-overview-grid").boundingBox();
       await page
         .getByRole("button", { name: "Switch to Midnight theme" })
         .click();
       await page.waitForFunction(
         () => document.documentElement.dataset.theme === "midnight",
       );
+      assert.deepEqual(before, await page.locator(".sf-overview-grid").boundingBox(), "Theme change must not move the Overview layout");
       await page.reload();
       await page.getByRole("heading", { level: 1 }).waitFor();
       assert.equal(
@@ -268,6 +296,8 @@ try {
         "midnight",
       );
       await go("settings");
+      assert(await page.getByRole("heading", { name: "Appearance", exact: true }).isVisible());
+      assert(await page.getByText("Choose how StethoFuse looks on this device.", { exact: true }).isVisible());
       await page
         .getByRole("button", { name: "System Follow your device", exact: true })
         .click();
@@ -282,7 +312,7 @@ try {
       await go("recording");
       assert.equal(
         await page
-          .getByRole("slider", { name: "Original playback gain" })
+          .getByRole("slider", { name: "Original playback volume" })
           .inputValue(),
         "200",
       );
@@ -313,7 +343,7 @@ try {
   await group(
     "Desktop/tablet/mobile overflow and mobile source controls",
     async () => {
-      for (const width of [1440, 1024, 390]) {
+      for (const width of [1440, 1024, 900, 390]) {
         await page.setViewportSize({
           width,
           height: width === 390 ? 844 : 900,
@@ -346,6 +376,13 @@ try {
         .getByRole("button", { name: "Play Heart" })
         .boundingBox();
       assert(play.width >= 44 && play.height >= 44);
+      const volume = page.getByRole("slider", { name: "Heart playback volume", exact: true });
+      await volume.scrollIntoViewIfNeeded();
+      const sliderBox = await volume.boundingBox();
+      const navBox = await page.getByRole("navigation", { name: "Mobile quick navigation" }).boundingBox();
+      assert(sliderBox.width >= 140 && sliderBox.height >= 44);
+      assert(sliderBox.y + sliderBox.height <= navBox.y, "Playback slider must clear mobile bottom navigation");
+      assert(await page.locator(".sf-player--heart .sf-gain-boost").isVisible());
       await page
         .getByRole("button", { name: "Open navigation", exact: true })
         .click();

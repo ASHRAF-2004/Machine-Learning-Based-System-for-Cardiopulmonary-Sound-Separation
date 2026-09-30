@@ -139,10 +139,8 @@ export function RecordingDetail({
             ))}
             <div className="sf-playback-note">
               <SpeakerHigh size={15} />
-              <span>
-                {gain > 100
-                  ? "Boost enabled. A compressor reduces clipping risk."
-                  : "Gain changes playback only. Your WAV files stay unchanged."}
+              <span id="sf-playback-help">
+                Playback volume up to 200%. Saved files stay unchanged.
               </span>
             </div>
             {playback.error && <Notice danger>{playback.error}</Notice>}

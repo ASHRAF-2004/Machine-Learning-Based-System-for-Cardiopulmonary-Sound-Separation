@@ -59,6 +59,12 @@ function PreviewApp() {
       notify={notify}
       drawer={drawer}
       setDrawer={setDrawer}
+      environmentNotice={
+        <div className="sf-preview-label">
+          <span><i />Local design preview</span>
+          <span>Synthetic recordings · no production connection</span>
+        </div>
+      }
     >
       {screen === "overview" && (
         <Overview onNew={() => setNewRecording(true)} />

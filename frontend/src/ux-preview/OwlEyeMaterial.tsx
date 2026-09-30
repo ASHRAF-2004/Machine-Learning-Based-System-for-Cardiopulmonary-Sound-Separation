@@ -1,4 +1,4 @@
-/** Display-only iris tint. Original approved assets and pose geometry stay intact. */
+/** Iris-only material: 12% less chroma, same luminance/mask and approved assets. */
 export function OwlEyeMaterial() {
   return (
     <svg className="sf-owl-material" aria-hidden="true" width="0" height="0">
@@ -20,7 +20,7 @@ export function OwlEyeMaterial() {
           <feColorMatrix
             in="SourceGraphic"
             type="matrix"
-            values="0.060 0.202 0.020 0 0  0.155 0.522 0.053 0 0  0.127 0.426 0.043 0 0  0 0 0 1 0"
+            values="0.068734 0.231404 0.023031 0 0  0.152334 0.513004 0.052071 0 0  0.127694 0.428524 0.043271 0 0  0 0 0 1 0"
             result="pineColour"
           />
           <feComposite

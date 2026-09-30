@@ -14,6 +14,11 @@ node tools/ux-previews.mjs
 npm run build
 ```
 
+For a new review revision, preserve prior evidence by setting
+`STETHOFUSE_UX_REVISION=polish-v1` on the two Node commands. The current polish
+receipt and refreshed screenshots are in that ignored subdirectory. The entry
+owns its safety labels; the shell accepts an optional environment-notice slot.
+
 The normal build uses the existing app entry and excludes this preview. An
 explicit optimized **local review** build is available for performance evidence:
 
@@ -32,7 +37,10 @@ notifications, export/delete and identity services are design-only boundaries.
 
 Theme/gain/name/one-handle-change persist locally. Avatar crop lasts this preview
 session only. Gain up to200% uses Web Audio and a compressor above100%; not a
-true-peak guarantee and never changes the WAV. Analysis is sample-derived;
+true-peak guarantee and never changes the WAV.
+The player shows a100% midpoint,200% maximum and Boost above100%, with accessible
+source/value announcements; this changes presentation, not the audio graph.
+Analysis is sample-derived;
 spectrogram columns are bounded and no clinical/accuracy score is calculated.
 
 Approved owl renderer/assets are reused. Local green-eye material and transparent

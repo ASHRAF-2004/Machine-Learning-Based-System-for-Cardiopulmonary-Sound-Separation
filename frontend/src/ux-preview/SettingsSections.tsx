@@ -35,8 +35,8 @@ export function Appearance({
   return (
     <div className="sf-appearance">
       <SectionHeading
-        title="Your preferred light"
-        description="A different atmosphere. The same familiar workspace."
+        title="Appearance"
+        description="Choose how StethoFuse looks on this device."
       />
       <div
         className="sf-theme-options"
@@ -90,7 +90,7 @@ export function AudioSettings({
         <SpeakerHigh size={22} />
         <div>
           <h2>Playback, your way.</h2>
-          <p>Boost quiet recordings without changing their files.</p>
+          <p>Playback volume up to 200%. Saved files stay unchanged.</p>
         </div>
       </div>
       <label>
@@ -99,6 +99,7 @@ export function AudioSettings({
         </span>
         <input
           aria-label="Preferred playback gain"
+          aria-valuetext={`${gain} percent${gain > 100 ? ", boost enabled" : ""}`}
           type="range"
           min={0}
           max={200}

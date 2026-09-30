@@ -184,9 +184,6 @@
 .sf-overview-rail {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-}
-.sf-attention-panel {
   background: var(--glass-strong);
 }
 .sf-attention-panel .sf-section-heading {
@@ -221,7 +218,9 @@
   color: var(--text-secondary);
 }
 .sf-week-summary {
-  padding: 0 8px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass-border);
 }
 .sf-week-summary h2 {
   font-size: 25px;
@@ -231,7 +230,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 16px 0;
+  margin: 12px 0;
 }
 .sf-week-summary > div span {
   font-size: 12px;

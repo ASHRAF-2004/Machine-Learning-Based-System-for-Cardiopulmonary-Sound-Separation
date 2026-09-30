@@ -14,9 +14,12 @@
 }
 :root {
   --background: #eef2ed;
-  --glass-1: rgba(250, 252, 249, 0.78);
+  --glass-1: rgba(250, 252, 249, 0.70);
   --glass-2: #f4f7f3;
-  --glass-strong: #fbfcf9;
+  --glass-strong: rgba(251, 252, 249, 0.94);
+  --glass-highlight: rgba(255, 255, 255, 0.75);
+  --control-surface: #fbfcf9;
+  --workspace-veil: rgba(238, 242, 237, 0.90);
   --glass-border: #d8e1d9;
   --control-border: #7d9082;
   --text-primary: #19372f;
@@ -42,7 +45,7 @@
   --nav-text: #edf5ee;
   --nav-muted: #c1d3c8;
   --nav-selected: rgba(210, 235, 218, 0.14);
-  --shadow: 0 8px 28px rgba(29, 55, 41, 0.045);
+  --shadow: 0 8px 28px rgba(29, 55, 41, 0.06);
   --shadow-elevated: 0 16px 48px rgba(20, 43, 32, 0.14);
   --blur: 12px;
   --blur-nav: 20px;
@@ -73,9 +76,12 @@
 }
 :root[data-theme="midnight"] {
   --background: #101e21;
-  --glass-1: rgba(29, 45, 48, 0.86);
+  --glass-1: rgba(29, 45, 48, 0.82);
   --glass-2: #223438;
-  --glass-strong: #1b2b2f;
+  --glass-strong: rgba(27, 43, 47, 0.96);
+  --glass-highlight: rgba(230, 247, 239, 0.10);
+  --control-surface: #1b2b2f;
+  --workspace-veil: rgba(16, 30, 33, 0.94);
   --glass-border: #405458;
   --control-border: #6f8586;
   --text-primary: #edf5ee;
@@ -100,8 +106,11 @@
   --shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.3);
 }
 @media (prefers-reduced-transparency: reduce) {
-  :root {
-    --glass-1: var(--glass-strong);
+  :root,
+  :root[data-theme] {
+    --glass-1: var(--control-surface);
+    --glass-strong: var(--control-surface);
+    --workspace-veil: var(--background);
     --blur: 0px;
     --blur-nav: 0px;
   }

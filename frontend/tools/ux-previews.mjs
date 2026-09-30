@@ -7,16 +7,20 @@ import { createHash } from "node:crypto";
 const base = process.env.STETHOFUSE_UX_URL || "http://127.0.0.1:4193";
 if (!["127.0.0.1", "localhost", "[::1]"].includes(new URL(base).hostname))
   throw new Error("UX preview captures are local-only.");
-const out = path.resolve(import.meta.dirname, "../output/playwright/ux-review");
+const revision = process.env.STETHOFUSE_UX_REVISION || "";
+if (revision && !/^[a-z0-9-]{1,40}$/.test(revision))
+  throw new Error("UX evidence revision must be a simple directory name.");
+const out = path.resolve(import.meta.dirname, "../output/playwright/ux-review", revision);
 await fs.mkdir(out, { recursive: true });
 const browser = await chromium.launch({
   executablePath: process.env.CHROME_BIN || "/usr/bin/google-chrome",
   headless: true,
 });
 const screenshots = [];
-async function capture(file, screen, theme = "frost", mobile = false, section) {
+async function capture(file, screen, theme = "frost", mobile = false, section, { gain, tablet = false } = {}) {
   const viewport = mobile
     ? { width: 390, height: 844 }
+    : tablet ? { width: 900, height: 900 }
     : { width: 1440, height: 900 };
   const context = await browser.newContext({
     viewport,
@@ -38,6 +42,13 @@ async function capture(file, screen, theme = "frost", mobile = false, section) {
       () =>
         document.querySelectorAll('[data-media-state="ready"]').length === 3,
     );
+    if (gain !== undefined) {
+      const slider = page.getByRole("slider", { name: "Original playback volume", exact: true });
+      await slider.focus();
+      await slider.press("Home");
+      for (let step = 0; step < gain / 5; step++) await slider.press("ArrowRight");
+      if (await slider.inputValue() !== String(gain)) throw new Error("Requested boost state did not render");
+    }
   }
   if (screen === "overview" && !mobile) {
     await page.waitForFunction(
@@ -67,17 +78,15 @@ async function capture(file, screen, theme = "frost", mobile = false, section) {
     animations: "disabled",
     scale: "css",
   });
-  if (screen === "overview")
+  if (screen === "overview" && !tablet) {
+    const closeup = mobile ? "owl-perch-mobile-closeup.png" : "owl-perch-desktop-closeup.png";
     await page.locator(".sf-greeting-art").screenshot({
-      path: path.join(
-        out,
-        mobile
-          ? "owl-perch-mobile-closeup.png"
-          : "owl-perch-desktop-closeup.png",
-      ),
+      path: path.join(out, closeup),
       animations: "disabled",
       scale: "device",
     });
+    screenshots.push({ file: closeup, viewport, theme, screen, kind: "owl-contact-closeup", sha256: createHash("sha256").update(await fs.readFile(path.join(out, closeup))).digest("hex") });
+  }
   const bytes = await fs.readFile(path.join(out, file));
   screenshots.push({
     file,
@@ -85,6 +94,7 @@ async function capture(file, screen, theme = "frost", mobile = false, section) {
     theme,
     screen,
     ...(section ? { section } : {}),
+    ...(gain !== undefined ? { playbackVolumePercent: gain, setThrough: "native slider keyboard input" } : {}),
     sha256: createHash("sha256").update(bytes).digest("hex"),
   });
   await context.close();
@@ -109,6 +119,9 @@ try {
     false,
     "Privacy & data",
   );
+  await capture("09-recording-detail-boost150-desktop.png", "recording", "frost", false, undefined, { gain: 150 });
+  await capture("10-overview-tablet.png", "overview", "frost", false, undefined, { tablet: true });
+  await capture("11-recording-detail-boost200-mobile.png", "recording", "frost", true, undefined, { gain: 200 });
   await fs.writeFile(
     path.join(out, "preview-index.json"),
     JSON.stringify(

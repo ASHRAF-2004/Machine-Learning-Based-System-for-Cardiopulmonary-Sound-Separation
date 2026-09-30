@@ -1,9 +1,17 @@
 # StethoFuse UX direction: Frost Studio
 
-Status: **FROST STUDIO v1 — INTERNALLY FROZEN FOR OWNER VISUAL REVIEW**,
-30 September 2026. Not owner-approved, propagated, or deployed.
-The owner's four-screen brief authorizes prototype implementation only, not
-the remaining application, identity migration, or deployment.
+Status: **FROST STUDIO v1.1 — POLISH COMPLETE, OWNER REVIEW PENDING**,
+30 September 2026. The owner approved the existing direction and authorized six
+bounded refinements, not another redesign. Final polish approval and separate
+remaining-app authorization are still required. Nothing is propagated or deployed.
+
+## v1.1 polish delta
+
+Only shared glass depth, iris chroma, the Overview rail, Appearance copy, playback
+boost discoverability and preview-banner ownership changed. Typography, palette,
+IA, owl/perch registration, tracking, audio graph and protected-media contract
+remain the approved v1 baseline. Evidence: `UX_DESIGN_REVIEW.md`, ignored
+`frontend/output/playwright/ux-review/polish-v1/`. No new flight assets.
 
 ## Objective and scope
 
@@ -56,7 +64,7 @@ Old result/job detail resolves authorized parent recording through existing API,
 then redirects. Keep deep links and exact-resource permissions; never infer
 access to the original or sibling outputs from a result grant.
 
-## Frozen visual contract, version 1
+## Frozen visual contract, version 1.1
 
 Name: Frost Studio. Dials: variance 5, motion 3, density 6. Calm professional
 composition, not a marketing hero or ornamental analytics dashboard.
@@ -64,9 +72,12 @@ composition, not a marketing hero or ornamental analytics dashboard.
 | Token | Frost | Midnight |
 |---|---|---|
 | background | #eef2ed | #101e21 |
-| glass-1 | rgba(250,252,249,.78) | rgba(29,45,48,.86) |
+| glass-1 | rgba(250,252,249,.70) | rgba(29,45,48,.82) |
 | glass-2 | #f4f7f3 | #223438 |
-| glass-strong | #fbfcf9 | #1b2b2f |
+| glass-strong | rgba(251,252,249,.94) | rgba(27,43,47,.96) |
+| glass-highlight | rgba(255,255,255,.75) | rgba(230,247,239,.10) |
+| control-surface | #fbfcf9 | #1b2b2f |
+| workspace-veil | rgba(238,242,237,.90) | rgba(16,30,33,.94) |
 | glass-border | #d8e1d9 | #405458 |
 | control-border | #7d9082 | #6f8586 |
 | text-primary | #19372f | #edf5ee |
@@ -85,7 +96,9 @@ headings 26–30. Body14–15/1.5; helper12–13, never tiny low-contrast paragr
 Spacing scale4/8/12/16/20/24/32/40/48. Panels radius16, controls10, chips fully
 rounded. Sidebar224 (208 below1200), header64 (58 mobile), desktop gutters32
 horizontally and24 above content, content max1200. Mobile20.
-Two depth levels: selective frosted navigation/hero; mostly opaque content.
+Ordinary panels allow restrained background bleed; strong audio/attention panels
+remain almost opaque. A shared inset upper-edge highlight and soft shadow define
+depth. Inputs/secondary controls remain solid on `control-surface`.
 Blur20px navigation,12px selected panels; no nested blurred cards. Shadows soft
 pine, not neon. Reduced transparency uses opaque surfaces.
 
@@ -101,7 +114,10 @@ Reduced motion removes arrival/transform/continuous motion.
 Identity greeting and one New recording CTA. One compact unfinished-recording
 strip with three explicit lifecycle steps; no fake completion percentage.
 Recent recordings occupy the main column; one shared attention item and a small
-textual activity summary occupy the side rail. Approved owl is a restrained
+textual activity summary occupy one strong-glass side rail, separated by a20px
+gap and a rule. At tablet widths the same sections sit side by side; on mobile
+they follow recent recordings. Keep the two existing facts, no extra widgets.
+Approved owl is a restrained
 editorial brand moment, not a giant empty-space filler.
 
 ### Library
@@ -117,6 +133,11 @@ rows per page with previous/next and total count. Search/filter reset pagination
 Title, secondary ID/date/Ready/private badge and Share. Three custom lanes
 Original/Heart/Lung with automatic loading and no autoplay. Play/pause, waveform
 seek, time/duration, per-source semantic colour and persisted0–200% gain.
+Keep the current percentage, visible0/100/200% scale and100% midpoint tick.
+The above100% half has a subtle accent tint; a reserved-width Boost label becomes
+visible above100% without resizing the control. Shared helper:
+"Playback volume up to 200%. Saved files stay unchanged."
+Accessible source-labelled sliders expose e.g. "150 percent, boost enabled".
 One lane plays at a time. Mobile has a source selector and one visible player,
 linked to analysis; desktop shows all three lanes. Space activates a focused
 play button; arrows move
@@ -136,7 +157,9 @@ provenance stays collapsed and cannot invent job-specific hashes or accuracy.
 
 Six section navigation: Profile, Appearance, Audio, Notifications, Privacy &
 data, Security. Profile identity + editable display name + one handle change.
-Appearance System/Frost/Midnight; audio gain; grouped notification controls.
+Appearance heading is exactly "Appearance", supported by "Choose how StethoFuse
+looks on this device." System/Frost/Midnight and preference behavior are unchanged;
+audio gain and grouped notification controls retain the existing structure.
 Avatar upload/crop accepts PNG/JPEG/WebP, <=2MiB and bounded decoded dimensions.
 Export prototype: Prepare → Preparing → Ready → Download explanation, with
 spam/junk note. No fabricated archive or email sent. Delete prototype explicitly
@@ -221,7 +244,7 @@ propagation. The freeze and measured review deltas are in `UX_DESIGN_REVIEW.md`.
 Original/Heart/Lung colours are slate/rose/pine. Frost values are
 #597588/#9c5b69/#326d59; Midnight values are #9dbdcc/#dda9b2/#99ceb8.
 Chart colours are retained on a charcoal field in both themes. Shadow levels are
-`0 8px 28px rgba(29,55,41,.045)` and `0 16px 48px rgba(20,43,32,.14)`;
+`0 8px 28px rgba(29,55,41,.06)` and `0 16px 48px rgba(20,43,32,.14)`;
 Midnight substitutes black alpha. Sidebar is deep pine with a restrained winter
 texture, not another floating card.
 
@@ -265,6 +288,9 @@ columns are a bounded visual summary, not a full-resolution diagnostic transform
 The four preview routes are `#overview`, `#library`, `#recording`, `#settings`.
 All list Open actions deliberately demonstrate the **one** representative ready
 recording; eight fixture rows do not imply eight completed detail screens.
+`App.tsx` owns both preview safety labels and passes them through the optional
+`environmentNotice` slot. `PreviewShell` contains no unconditional preview copy.
+Do not port fixture contexts or prototype providers into the real product shell.
 Shared & assigned, Insights and Help remain navigation/interaction boundaries,
 not newly implemented fifth/sixth screens. Capture/upload, real grants,
 notifications, avatar storage, export/delete and production identity remain
@@ -291,7 +317,9 @@ on30 September. Overview uses a transparent natural branch with small green
 leaves and no separate landscape behind the owl. Desktop/mobile close-ups show
 claws meeting the wood without a visible gap. Approved renderer/pose textures
 are unchanged; a selective display filter shifts blue iris chroma into shaded
-pine green. Global `window.pointermove` works over sidebar and content, with
+pine green. The v1.1 iris matrix blends12% toward the material's own luminance,
+reducing chroma without a whole-owl filter or changing pupil/highlights/mask.
+Global `window.pointermove` works over sidebar and content, with
 bounded yaw±30/pitch±18 and eased settling. No continuous idle loop.
 
 Two generated six-pose flight atlases were rejected: wings crossed cell bounds
@@ -318,6 +346,7 @@ motion/coarse-pointer users get a settled poster without tracking or flight.
 ## Freeze and approval boundary
 
 Internally reviewed four screens + Frost/Midnight + mobile + owl contact proof.
-Owner visual approval is outstanding. `UX_LUNA_HANDOFF.md` is a prepared
+The owner approved the direction; final v1.1 polish review is outstanding.
+Owl flight remains **ASSET-GATED — NOT IMPLEMENTED**. `UX_LUNA_HANDOFF.md` is a prepared
 contract, not permission to start Luna or the remaining app. Production and
 ML evaluation remain completely unchanged.

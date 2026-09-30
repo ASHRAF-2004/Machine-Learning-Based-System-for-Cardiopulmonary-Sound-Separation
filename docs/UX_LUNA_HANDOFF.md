@@ -1,8 +1,38 @@
-# Frost Studio v1 — exact Luna handoff, NOT STARTED
+# Frost Studio v1.1 — exact Luna handoff, NOT STARTED
 
-30 September 2026. **STOP until owner approves the screenshots and design.**
+30 September 2026. **STOP until owner reviews the final polish screenshots.**
+The direction is owner-approved; this six-item polish does not authorize L0–L12.
 No automatic delegation, propagation, identity backfill or deployment is authorized
 by this handoff. This is the contract for a later implementation turn.
+
+## Bounded polish contract
+
+- Use the v1.1 shared material tokens, upper-edge highlight and opaque control
+  surface. No extra backdrop layers or nested blur; Midnight is independently
+  defined. Keep existing typography, IA, palette, spacing and motion.
+- Overview's shared item and two weekly facts are one strong-glass rail, with
+  a20px separator. Tablet: two sections side by side. Mobile: after recent items.
+- Settings heading/helper: **Appearance** / **Choose how StethoFuse looks on
+  this device.** Keep System/Frost/Midnight and saved preferences.
+- Playback remains0–200%, default100%; visible100 midpoint and200 maximum,
+  tinted upper half, current value and reserved-width Boost label above100%.
+  Native slider name is source + "playback volume"; `aria-valuetext` includes
+  "150 percent, boost enabled" when applicable. Shared helper: **Playback
+  volume up to 200%. Saved files stay unchanged.** No DSP/compressor change.
+- `App.tsx` owns the two preview warnings, passed through optional
+  `environmentNotice`; reusable shell markup must not hard-code them. Keep
+  warnings in this preview and keep fixture providers out of the normal build.
+- Iris-only material has12% less chroma. Preserve pupils, highlights, branch/
+  claw anchors, renderer, page-wide follow and reduced motion. Flight remains
+  **ASSET-GATED — NOT IMPLEMENTED**; no new atlas or static-poster translation.
+
+Visual proof: refreshed seven screens, Privacy & data, tablet, both owl crops,
+actual150% desktop/200% mobile and full-page Overview under ignored
+`frontend/output/playwright/ux-review/polish-v1/`. Interactive proof: native
+keyboard gain, measured synthetic signals, themes/preferences, cleanup and mock
+denial states;12/12 focused groups pass. Real handles/public-ID migration,
+sharing, avatars, notification, export/delete/unlink and remaining routes are
+**not implemented** by this polish. Neither build output is permission to deploy.
 
 ## Invariants and normative sources
 

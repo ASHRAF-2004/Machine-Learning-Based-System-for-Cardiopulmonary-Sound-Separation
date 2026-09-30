@@ -105,8 +105,8 @@ export function Overview({ onNew }: { onNew: () => void }) {
             <span>Your complete recording history stays in the Library.</span>
           </div>
         </GlassPanel>
-        <div className="sf-overview-rail">
-          <GlassPanel className="sf-attention-panel">
+        <GlassPanel className="sf-overview-rail" label="Shared work and weekly activity">
+          <section className="sf-attention-panel">
             <SectionHeading title="Shared with you" />
             <div className="sf-shared-icon">
               <ShareNetwork size={25} />
@@ -122,8 +122,8 @@ export function Overview({ onNew }: { onNew: () => void }) {
               Open recording
               <ArrowRight size={17} />
             </a>
-          </GlassPanel>
-          <div className="sf-week-summary">
+          </section>
+          <section className="sf-week-summary">
             <h2>Your week, at a glance.</h2>
             <div>
               <span>
@@ -134,8 +134,8 @@ export function Overview({ onNew }: { onNew: () => void }) {
               </span>
             </div>
             <p>Your completed and unfinished work, kept together.</p>
-          </div>
-        </div>
+          </section>
+        </GlassPanel>
       </div>
     </>
   );

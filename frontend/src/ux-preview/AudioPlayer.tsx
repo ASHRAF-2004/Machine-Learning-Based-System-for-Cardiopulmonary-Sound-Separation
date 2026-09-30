@@ -138,22 +138,29 @@ export function AudioPlayer({
                 <time>{timeLabel(signal?.duration || 15)}</time>
               </div>
             </div>
-            <div className="sf-gain">
-              <label htmlFor={`gain-${source}`}>
+            <div className="sf-gain" data-boosted={gain > 100}>
+              <label htmlFor={`gain-${source}`} aria-hidden="true">
                 <SpeakerHigh size={15} />
-                <span>{gain}%</span>
+                <span className="sf-gain-value">{gain}%</span>
+                <span className="sf-gain-boost">Boost</span>
               </label>
-              <input
-                id={`gain-${source}`}
-                aria-label={`${sourceLabels[source]} playback gain`}
-                type="range"
-                min={0}
-                max={200}
-                step={5}
-                value={gain}
-                onChange={(e) => setGain(Number(e.target.value))}
-              />
-              <small>Playback gain</small>
+              <div className="sf-gain-track">
+                <input
+                  id={`gain-${source}`}
+                  aria-label={`${sourceLabels[source]} playback volume`}
+                  aria-valuetext={`${gain} percent${gain > 100 ? ", boost enabled" : ""}`}
+                  aria-describedby="sf-playback-help"
+                  type="range"
+                  min={0}
+                  max={200}
+                  step={5}
+                  value={gain}
+                  onChange={(e) => setGain(Number(e.target.value))}
+                />
+                <div className="sf-gain-scale" aria-hidden="true">
+                  <span>0</span><span>100</span><span>200%</span>
+                </div>
+              </div>
             </div>
           </div>
           <span className="sf-sr" role="status">

@@ -30,6 +30,7 @@ export function PreviewShell({
   notify,
   drawer,
   setDrawer,
+  environmentNotice,
 }: {
   screen: Screen;
   children: ReactNode;
@@ -39,6 +40,7 @@ export function PreviewShell({
   notify: (message: string) => void;
   drawer: boolean;
   setDrawer: (value: boolean) => void;
+  environmentNotice?: ReactNode;
 }) {
   const { identity: previewIdentity } = usePreviewIdentity();
   const labels: Record<Screen, string> = {
@@ -245,13 +247,7 @@ export function PreviewShell({
             </a>
           </div>
         </header>
-        <div className="sf-preview-label">
-          <span>
-            <i />
-            Local design preview
-          </span>
-          <span>Synthetic recordings · no production connection</span>
-        </div>
+        {environmentNotice}
         <main id="sf-main" className="sf-main" tabIndex={-1}>
           {children}
         </main>
