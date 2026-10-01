@@ -246,6 +246,46 @@ class M1Store(PublicIdentityStore, HandleSharingStore, ProcessingStore, Developm
             value = dict(row) if row else {"assignment_id": grant_id, "resource_id": grant[0], "reviewer_id": actor["id"], "decision": "pending", "notes": "", "updated_at": None}
             return {**value, **dict(context), "assignment_public_id": grant["assignment_public_id"]}
 
+    def recording_reviews(self, identity, recording_id, *, limit=3, offset=0):
+        """Owner's saved feedback/current assignments, not reviewer drafts or media authority.
+
+        Revocation prevents future reviewer access; saved observations remain part of
+        the owner's recording history. Both count and page use the same read snapshot.
+        """
+        if not 1 <= limit <= 20 or offset < 0:
+            raise ValueError("Invalid feedback page.")
+        with self._connection() as db:
+            actor = self._actor(db, identity)
+            self._owner(db, actor, recording_id)
+            now = int(time.time())
+            joins = (
+                "FROM af_grants g JOIN af_recordings o ON o.id=g.recording_id "
+                "JOIN af_resources r ON r.id=g.resource_id AND r.recording_id=o.id "
+                "JOIN af_users u ON u.id=g.recipient_id "
+                "LEFT JOIN m1_reviews v ON v.assignment_id=g.id "
+                "AND v.resource_id=g.resource_id AND v.reviewer_id=g.recipient_id "
+                "WHERE g.recording_id=? AND g.grantor_id=o.owner_id "
+                "AND g.permission='review' AND r.kind IN ('original_audio','result') "
+                "AND (v.assignment_id IS NOT NULL OR (g.status='active' "
+                "AND (g.expires_at IS NULL OR g.expires_at>?) AND u.role='audio_analyst' "
+                "AND u.status='active' AND u.email_verified=1)) "
+            )
+            total = db.execute("SELECT COUNT(*) " + joins, (recording_id, now)).fetchone()[0]
+            rows = db.execute(
+                "SELECT g.id AS assignment_id,g.assignment_public_id,g.resource_id,"
+                "r.kind AS resource_kind,u.display_name AS reviewer_display_name,"
+                "u.handle AS reviewer_handle,u.public_id AS reviewer_public_id,"
+                "COALESCE(v.decision,'pending') AS decision,COALESCE(v.notes,'') AS notes,"
+                "v.updated_at,g.created_at AS assigned_at,"
+                "CASE WHEN g.status='revoked' THEN 'revoked' "
+                "WHEN g.expires_at IS NOT NULL AND g.expires_at<=? THEN 'expired' "
+                "WHEN u.role!='audio_analyst' OR u.status!='active' OR u.email_verified!=1 "
+                "THEN 'reviewer_unavailable' ELSE 'active' END AS assignment_state "
+                + joins + "ORDER BY v.updated_at IS NULL,v.updated_at DESC,g.created_at DESC,g.id LIMIT ? OFFSET ?",
+                (now, recording_id, now, limit, offset),
+            ).fetchall()
+            return {"items": [dict(row) for row in rows], "total": total, "limit": limit, "offset": offset}
+
     def results(self, identity, result_id=None):
         with self._connection() as db:
             actor = self._actor(db, identity)

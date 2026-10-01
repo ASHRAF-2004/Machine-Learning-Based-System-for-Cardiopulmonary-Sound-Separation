@@ -6,7 +6,7 @@ import sqlite3
 from contextlib import asynccontextmanager
 from typing import Literal
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Request, Response
+from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request, Response
 from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
@@ -247,6 +247,11 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     @app.patch("/api/recordings/{recording_id}")
     def update_recording(recording_id: str, body: TitleBody, who=Depends(principal), store=Depends(database)):
         return store.update_recording(who, recording_id, body.title)
+
+    @app.get("/api/recordings/{recording_id}/reviews")
+    def recording_reviews(recording_id: str, limit: int = Query(default=3, ge=1, le=20),
+                          offset: int = Query(default=0, ge=0), who=Depends(principal), store=Depends(database)):
+        return store.recording_reviews(who, recording_id, limit=limit, offset=offset)
 
     @app.api_route("/api/media/{resource_id}", methods=["GET", "HEAD"])
     def media(resource_id: str, request: Request, download: bool = False, who=Depends(principal), store=Depends(database)):
