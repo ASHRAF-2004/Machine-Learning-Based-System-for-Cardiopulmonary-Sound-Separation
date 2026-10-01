@@ -2,6 +2,7 @@ export class ApiError extends Error {
   constructor(public status: number, public code: string, message: string) { super(message); }
 }
 type TokenSource = (force?: boolean) => Promise<string>;
+type FeedbackPage = {limit:number;offset?:number};
 const messages: Record<string, string> = {
   email_verification_required: 'Verify your email before opening the workspace.',
   account_disabled: 'This account is restricted. Contact the project owner.',
@@ -22,9 +23,15 @@ const messages: Record<string, string> = {
   invalid_grant: 'That permission or expiry could not be accepted. Check the sharing options.',
 };
 export function createApiClient(token: TokenSource, onSessionExpired: () => void, transport: typeof fetch = fetch) {
-  async function request(path: string, init: RequestInit = {}): Promise<Response> {
+  async function request(path: string, init: RequestInit = {}, page?:FeedbackPage): Promise<Response> {
     // Callers supply API-relative paths, never response URLs, absolute URLs or query tokens.
     if (!/^\/[a-z][a-z0-9/_-]*$/i.test(path) || path.includes('//') || path.includes('..')) throw new Error('Invalid API path.');
+    // Pagination is typed numeric data, never a caller-supplied URL/query/token.
+    let suffix='';
+    if(page){
+      if(!/^\/recordings\/[a-z0-9_-]+\/reviews$/i.test(path)||!Number.isSafeInteger(page.limit)||page.limit<1||page.limit>20||!Number.isSafeInteger(page.offset??0)||(page.offset??0)<0)throw new Error('Invalid feedback page.');
+      suffix=`?limit=${page.limit}&offset=${page.offset??0}`;
+    }
     for (let attempt = 0; attempt < 2; attempt++) {
       let bearer: string;
       try { bearer = await token(attempt === 1); } catch (error) { if (error instanceof DOMException && error.name === 'AbortError') throw error; onSessionExpired(); throw new ApiError(401, 'session_expired', 'Your session has expired. Sign in again.'); }
@@ -34,7 +41,7 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
       if (typeof init.body === 'string') headers.set('Content-Type', 'application/json');
       let response: Response;
       try {
-        response = await transport(`/api${path}`, {...init, headers, credentials: 'omit', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer'});
+        response = await transport(`/api${path}${suffix}`, {...init, headers, credentials: 'omit', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer'});
       } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') throw error;
         throw new ApiError(0, 'network_unavailable', 'The application service could not be reached. Check your connection and retry.');
@@ -56,7 +63,7 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
       // Recheck current resource authority without downloading private audio again.
       await request(`/media/${id}`, {method: 'HEAD', signal});
     },
-    async json<T>(path: string, init?: RequestInit): Promise<T> { const response = await request(path, init); return response.status === 204 ? undefined as T : response.json(); },
+    async json<T>(path: string, init?: RequestInit, page?:FeedbackPage): Promise<T> { const response = await request(path, init, page); return response.status === 204 ? undefined as T : response.json(); },
     async media(id: string, signal?: AbortSignal): Promise<Blob> {
       const response = await request(`/media/${id}`, {signal});
       const type = response.headers.get('Content-Type')?.split(';')[0] || '';

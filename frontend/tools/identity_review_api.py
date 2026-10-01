@@ -8,8 +8,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SHARING_REVIEW = "--sharing-review" in sys.argv
 SHARED_REVIEW = "--shared-review" in sys.argv
-assert not (SHARING_REVIEW and SHARED_REVIEW), "Choose one local review mode"
-REVIEW = ROOT / (".local/shared-review" if SHARED_REVIEW else ".local/handle-sharing-review" if SHARING_REVIEW else ".local/identity-review")
+FEEDBACK_REVIEW = "--feedback-review" in sys.argv
+assert sum((SHARING_REVIEW, SHARED_REVIEW, FEEDBACK_REVIEW)) <= 1, "Choose one local review mode"
+REVIEW = ROOT / (".local/review-feedback" if FEEDBACK_REVIEW else ".local/shared-review" if SHARED_REVIEW else ".local/handle-sharing-review" if SHARING_REVIEW else ".local/identity-review")
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "frontend/tests/m1"))
 
@@ -31,7 +32,7 @@ if __name__ == "__main__":
     store.initialize()
     store.register_verified_identity(verifier.lookup_existing("alice"))
     assert store.me(verifier.lookup_existing("alice"))["role"] == "healthcare_staff"
-    if SHARED_REVIEW:
+    if SHARED_REVIEW or FEEDBACK_REVIEW:
         # Reuse the established ml_fixture setup ONLY in this fixed local copy.
         # Never change the role/profile of an existing review account.
         admin_identity = verifier.lookup_existing("admin")
@@ -47,5 +48,5 @@ if __name__ == "__main__":
                                  confirmed_target_id=analyst_account.id, role=Role.AUDIO_ANALYST)
             store.update_profile(analyst_identity, "Local Audio Analyst")
         assert store.me(analyst_identity)["role"] == "audio_analyst", "Existing analyst role differs; review required"
-    uvicorn.run(create_app(settings, verifier=verifier), host="127.0.0.1", port=8199 if SHARED_REVIEW else 8198 if SHARING_REVIEW else 8197,
+    uvicorn.run(create_app(settings, verifier=verifier), host="127.0.0.1", port=8200 if FEEDBACK_REVIEW else 8199 if SHARED_REVIEW else 8198 if SHARING_REVIEW else 8197,
                 access_log=False, log_level="warning")

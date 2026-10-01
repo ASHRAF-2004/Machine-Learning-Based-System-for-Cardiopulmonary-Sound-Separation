@@ -43,4 +43,16 @@
   - Verify: keyboard disclosure/focus, no overflow, denied/error state clears sensitive views.
 - [x] Run standalone app/preview builds and five-axis review; record actual evidence.
 - [x] Commit/push implementation/FYP2/PAUSE checkpoint; no deployment.
-- [ ] Owner hands-on review of Shared & assigned / real review notes — current stop.
+- [x] Owner hands-on review of Shared & assigned / real review notes — “ok working and good”.
+
+## Current bounded L5 continuation — owner feedback / role purpose
+
+- [x] Owner-only bounded review reader; unchanged writer/grants.
+  - Verify: focused privacy/expiry/revocation/pagination API tests.
+- [x] Actual feedback panel and explicit save/publication copy; existing request flow.
+  - Verify: real owner assign → analyst save → owner feedback, refresh/session.
+- [x] Analyst-focused Overview using existing actual assignments/components.
+  - Verify: role priorities, honest counts/error, no extra permissions.
+- [x] Separate new local windows/data; focused visual/browser checks and finite builds.
+- [x] Five-axis review, evidence/FYP2/PAUSE and Git checkpoint; stop for hands-on review.
+- [ ] Owner review of new closed feedback loop — no deployment.

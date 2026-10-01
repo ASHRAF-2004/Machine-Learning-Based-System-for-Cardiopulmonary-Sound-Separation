@@ -1,5 +1,18 @@
 # Frost Studio v1.1 — OWNER APPROVED
 
+2 October LOCAL follow-up: owner approved previous Shared & assigned/saved notes
+(“ok working and good”). LOCAL_REVIEW_FEEDBACK.md closes owner-visible feedback
+and prioritizes actual Analyst assignments, without a new design/role/media policy.
+Compact pages/notes, actual handles/scope/time, existing Request review sharing;
+private drafts never publish. Eight final-layout-v6 captures under
+frontend/output/playwright/review-feedback/ personally inspected at1440×900/
+390×844/820×1000, Frost/Midnight. Reviewer-name contrast, compact mobile rows/action
+spacing and View all wrapping were corrected. Final themes await bounded actual
+control colour, not mid-transition screenshots; no theme-token change. 78 backend
+passes,8 client-unit checks,6 real groups +1 transport fault; both separate builds0.
+Two new LOCAL role windows4200 stay available. THIS follow-up needs owner hands-on
+review; no production/auth-policy/ML/T9/flight change.
+
 1 October latest bounded follow-up: owner approved compact details/@handle sharing
 with “ok good next”. LOCAL_SHARED_REVIEWS.md records actual Shared & assigned /
 Assigned reviews and persisted non-diagnostic notes, still LOCAL only. Three
@@ -11,7 +24,8 @@ were personally inspected at desktop1440×900/mobile390×844/tablet820×1000 and
 Midnight. 69 backend passes; real persistence/denial and separate transport-fault
 checks; both standalone builds0. NEW4199 fictional analyst review stays available.
 No new palette/layout concept, auth policy, ML/T9/production/renderer change.
-THIS slice awaits hands-on owner review; full account/Insights/flight remain gated.
+That earlier Shared & assigned slice is now owner-approved. The new feedback loop
+above awaits hands-on review; full account/Insights/flight remain gated.
 
 The owner explicitly approved **polish-v1** on 30 September 2026 and authorized
 the bounded local core integration recorded in `FROST_CORE_INTEGRATION.md`.

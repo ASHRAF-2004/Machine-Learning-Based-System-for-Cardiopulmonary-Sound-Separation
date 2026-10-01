@@ -1,5 +1,16 @@
 # StethoFuse UX direction: Frost Studio
 
+2 October bounded LOCAL review-loop refinement: previous Shared & assigned / saved
+notes are owner-approved (“ok working and good”). LOCAL_REVIEW_FEEDBACK.md connects
+owner-visible saved feedback/current assignments,3-row / See more / See less and
+long-note disclosure. Request review opens the existing owner @handle controls.
+Save review explicitly publishes observations to the owner; unsaved drafts do not.
+Analyst Overview prioritizes current assigned work; Staff stays recording-first.
+Both share the same frozen separator/player/technical-analysis tools. No blanket
+private access, new role, theme/token/IA redesign or clinical claim. Latest saved
+review per assignment, not a full version/history service. New follow-up awaits
+hands-on approval; no deployment or full remaining-handoff authorization.
+
 Status: **FROST STUDIO v1.1 / polish-v1 — OWNER APPROVED**, 30 September 2026.
 The owner explicitly approved the polished previews and authorized local core
 integration only: real upload/capture, Overview/Library/lifecycle, protected

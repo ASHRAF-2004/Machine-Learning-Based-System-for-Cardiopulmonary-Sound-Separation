@@ -32,7 +32,7 @@ export function Sharing({record}:{record:LiveRecording}){
   }
   async function mutate(action:(signal:AbortSignal)=>Promise<unknown>,kind:'saving'|'revoking',success:string){
     if(pending)return;const controller=new AbortController();request.current=controller;setPending(kind);setError('');setSaved('');
-    try{await action(controller.signal);if(!controller.signal.aborted){setSaved(success);data.reload();if(kind==='saving')setRecipient(null);}}
+    try{await action(controller.signal);if(!controller.signal.aborted){setSaved(success);data.reload();window.dispatchEvent(new Event('sf-review-updated'));if(kind==='saving')setRecipient(null);}}
     catch(failure){if(!controller.signal.aborted){setError(errorMessage(failure));if(kind==='saving')setRecipient(null);}}
     finally{if(!controller.signal.aborted)setPending(null);}
   }

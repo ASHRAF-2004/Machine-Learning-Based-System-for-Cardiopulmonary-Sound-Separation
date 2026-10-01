@@ -1,5 +1,18 @@
 # Frost Studio v1.1 — owner-approved handoff, bounded LOCAL progress
 
+## Current bounded L5 feedback loop — 2 October 2026
+
+Previous Shared & assigned / saved reviews are now owner-approved (“ok working and
+good”). LOCAL_REVIEW_FEEDBACK.md records LOCAL owner-only feedback,3-row disclosure,
+explicit Save review publication and Analyst-focused actual Overview. Request
+review reuses owner @handle sharing. Same reviewer/media/grant rules; no schema or
+new ML pipeline. 78 backend passes,8 mock client checks,6 real groups +1 labelled
+transport fault; inspected final-layout-v6 and separate app/preview builds0. TWO
+new fictional-role headed windows4200/8200 preserve old sessions/data. THIS follow-up
+needs hands-on review. Saved notes remain owner history after revoke; private drafts
+do not publish. Latest saved review per assignment, not full version history.
+Do not deploy or execute remaining account/Insights/flight phases automatically.
+
 ## Current bounded L5 follow-up — 1 October 2026
 
 The owner approved compact details / exact-handle sharing with “ok good next”.
@@ -9,8 +22,9 @@ actual saved review notes. Same exact-resource/role/expiry/revocation rules;
 one joined read adapter, no schema/policy change. 69 backend passes, 4 real browser
 groups + 1 separately labelled transport fault, final responsive/theme captures
 and separate app/preview builds exit 0. A NEW visible fictional-analyst local review
-4199/8199 retains two ordinary manual assignments. THIS slice awaits hands-on
-owner feedback; earlier sharing approval does not imply it is already accepted.
+4199/8199 retains two ordinary manual assignments. Hands-on owner feedback on that
+earlier slice was received (“ok working and good”). The new feedback loop above
+still needs review.
 Do not deploy or begin avatar/account-data/Insights/flight work.
 
 ## Latest owner-requested local refinement — 1 October 2026

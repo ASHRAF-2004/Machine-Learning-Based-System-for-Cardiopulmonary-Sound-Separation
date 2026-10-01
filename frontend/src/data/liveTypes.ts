@@ -10,6 +10,8 @@ export interface SharingRecipient {display_name:string;handle:string;public_id:s
 export interface LiveGrant {id:string;public_id?:string;assignment_public_id?:string|null;recording_id:string;resource_id:string|null;grantor_id:string;recipient_id:string;recipient?:SharingRecipient;permission:'read'|'review';status:'active'|'revoked';expires_at:number|null;created_at:number;revoked_at:number|null}
 export interface LiveAssignment extends LiveGrant {recording_title?:string|null;recording_public_id?:string;resource_kind?:string;review_decision?:LiveReview['decision'];review_updated_at?:number|null}
 export interface LiveReview {assignment_id:string;assignment_public_id?:string;resource_id:string;resource_kind?:string;recording_title?:string|null;recording_public_id?:string;reviewer_id:string;decision:'pending'|'accepted'|'needs_attention';notes:string;updated_at:number|null}
+export interface OwnerReview {assignment_id:string;assignment_public_id:string;resource_id:string;resource_kind:string;reviewer_display_name:string;reviewer_handle:string;reviewer_public_id:string;decision:LiveReview['decision'];notes:string;updated_at:number|null;assigned_at:number;assignment_state:'active'|'revoked'|'expired'|'reviewer_unavailable'}
+export interface OwnerReviewPage {items:OwnerReview[];total:number;limit:number;offset:number}
 export interface LiveAudit {id:string;actor_id:string;action:string;target_id:string;created_at:number}
 export type LivePreferences = Record<string,Record<string,unknown>>;
 export const liveRoleLabel = (role:LiveRole) => ({healthcare_staff:'Healthcare Staff',audio_analyst:'Audio Analyst',admin:'Administrator'}[role]);

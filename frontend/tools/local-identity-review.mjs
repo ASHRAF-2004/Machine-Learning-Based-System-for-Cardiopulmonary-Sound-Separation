@@ -9,16 +9,21 @@ import path from 'node:path';
 import {chromium} from 'playwright-core';
 
 const filename=fileURLToPath(import.meta.url),frontend=path.resolve(path.dirname(filename),'..');
-const sharingReview=process.argv.includes('--sharing-review'),sharedReview=process.argv.includes('--shared-review');
-if(sharingReview&&sharedReview)throw Error('Choose only one isolated review mode.');
-const root=path.resolve(frontend,'..'),review=path.join(root,sharedReview?'.local/shared-review':sharingReview?'.local/handle-sharing-review':'.local/identity-review');
-const source=path.join(root,sharedReview?'.local/handle-sharing-review':sharingReview?'.local/identity-review':'.local/manual-review');
+const modes=[
+  {flag:'--sharing-review',directory:'handle-sharing-review',source:'identity-review',frontendPort:4198,apiPort:8198,label:'LOCAL SHARING REVIEW',identities:['alice']},
+  {flag:'--shared-review',directory:'shared-review',source:'handle-sharing-review',frontendPort:4199,apiPort:8199,label:'LOCAL SHARED REVIEW',identities:['analyst']},
+  {flag:'--feedback-review',directory:'review-feedback',source:'shared-review',frontendPort:4200,apiPort:8200,label:'LOCAL REVIEW FEEDBACK',identities:['alice','analyst']},
+];
+const selected=modes.filter(mode=>process.argv.includes(mode.flag));if(selected.length>1)throw Error('Choose only one isolated review mode.');
+const mode=selected[0]||{flag:'',directory:'identity-review',source:'manual-review',frontendPort:4197,apiPort:8197,label:'LOCAL IDENTITY REVIEW',identities:['alice']};
+const root=path.resolve(frontend,'..'),review=path.join(root,'.local',mode.directory);
+const source=path.join(root,'.local',mode.source);
 const database=path.join(review,'data/review.sqlite3'),storage=path.join(review,'private');
 const python=path.join(root,'.local/ml-integration/venv/bin/python');
-const frontendPort=sharedReview?4199:sharingReview?4198:4197,apiPort=sharedReview?8199:sharingReview?8198:8197;
+const {frontendPort,apiPort}=mode;
 const url=`http://127.0.0.1:${frontendPort}`,api=`http://127.0.0.1:${apiPort}`,receipt=path.join(review,'session.json');
-const reviewLabel=sharedReview?'LOCAL SHARED REVIEW':sharingReview?'LOCAL SHARING REVIEW':'LOCAL IDENTITY REVIEW';
-const restartCommand=`node ${filename}${sharedReview?' --shared-review':sharingReview?' --sharing-review':''}`;
+const reviewLabel=mode.label;
+const restartCommand=`node ${filename}${mode.flag?' '+mode.flag:''}`;
 const checkpoint=path.join(root,'.local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/refit-all-nontest-seed20260928/checkpoints/endpoint.pt');
 const spec=path.join(root,'research/configs/final_separator_v2.json');
 const hashes={checkpoint:'1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658',spec:'2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b'};
@@ -53,30 +58,33 @@ await mkdir(path.join(review,'raw-hls'),{recursive:true,mode:0o700});
 const fixture=path.join(review,'raw-hls/M0001.wav');
 try{await cp(path.join(root,raw.files.mixture.path),fixture,{errorOnExist:true,force:false});}catch(error){if(error.code!=='ERR_FS_CP_EEXIST')throw error;}
 if(digest(await readFile(fixture))!==raw.files.mixture.sha256)throw Error('Review fixture mismatch; existing bytes preserved.');
-const children=[];let browser,stopping=false;
-const state={pid:process.pid,processBirth:await birth(process.pid),status:'starting',url,api,database,privateStorage:storage,workerLock:database+'.worker.lock',fixture,startedAt:new Date().toISOString(),identityMode:sharedReview?'TEST ONLY fixed verifier/SDK; fictional analyst, audio_analyst':'TEST ONLY fixed verifier/SDK; fictional Alice, healthcare_staff',checkpointSha256:hashes.checkpoint,specSha256:hashes.spec};
+const children=[],browsers=[],openBrowsers=new Set();let stopping=false;
+const state={pid:process.pid,processBirth:await birth(process.pid),status:'starting',url,api,database,privateStorage:storage,workerLock:database+'.worker.lock',fixture,startedAt:new Date().toISOString(),identityMode:'TEST ONLY fixed verifier/SDK; fictional '+mode.identities.join(' and ')+'; no live Firebase verification',checkpointSha256:hashes.checkpoint,specSha256:hashes.spec};
 async function save(){await writeFile(receipt,JSON.stringify(state,null,2)+'\n');}
 async function stopChild(child){if(child.exitCode!==null||child.signalCode!==null)return;await new Promise(resolve=>{child.once('exit',resolve);child.kill('SIGTERM');});}
-async function shutdown(reason,code=0){if(stopping)return;stopping=true;console.log(`Stopping ONLY identity review (${reason}). Data retained.`);if(browser)await browser.close().catch(()=>{});for(const child of children.slice().reverse())await stopChild(child.process);state.status='stopped';state.stoppedAt=new Date().toISOString();await save();process.exit(code);}
+async function shutdown(reason,code=0){if(stopping)return;stopping=true;console.log(`Stopping ONLY identity review (${reason}). Data retained.`);for(const browser of browsers)await browser.close().catch(()=>{});for(const child of children.slice().reverse())await stopChild(child.process);state.status='stopped';state.stoppedAt=new Date().toISOString();await save();process.exit(code);}
 process.once('SIGINT',()=>void shutdown('Ctrl+C'));process.once('SIGTERM',()=>void shutdown('targeted stop'));
 function start(name,args,cwd,env){const child=spawn(args[0],args.slice(1),{cwd,env,stdio:['ignore','pipe','pipe']});const item={name,process:child,log:''};children.push(item);const log=bytes=>{item.log+=bytes;process.stdout.write(`[${name}] ${bytes}`);};child.stdout.on('data',log);child.stderr.on('data',log);child.once('error',error=>{console.error(error.message);void shutdown('startup failure',1);});child.once('exit',()=>{if(!stopping)void shutdown(name+' exited',1);});state[name+'Pid']=child.pid;return item;}
 async function health(address){for(let i=0;i<120;i++){try{if((await fetch(address,{signal:AbortSignal.timeout(1000)})).ok)return;}catch{}await delay(100);}throw Error('Local health timeout: '+address);}
 try{
   console.log(`${reviewLabel} — no real credentials.\nFrontend ${url}\nAPI ${api}\nDB ${database}\nStorage ${storage}`);
-  start('api',[python,path.join(frontend,'tools/identity_review_api.py'),...(sharedReview?['--shared-review']:sharingReview?['--sharing-review']:[])],root,{...process.env,PYTHONUNBUFFERED:'1'});await health(api+'/health');
+  start('api',[python,path.join(frontend,'tools/identity_review_api.py'),...(mode.flag?[mode.flag]:[])],root,{...process.env,PYTHONUNBUFFERED:'1'});await health(api+'/health');
   start('frontend',[process.execPath,path.join(frontend,'node_modules/vite/bin/vite.js'),'--host','127.0.0.1','--port',String(frontendPort),'--strictPort'],frontend,{...process.env,STETHOFUSE_API_PROXY:api});await health(url);
   const worker=start('worker',[python,'-m','app.m1.worker'],root,{...process.env,PYTHONUNBUFFERED:'1',STETHOFUSE_M1_DATABASE:database,STETHOFUSE_M1_PRIVATE_STORAGE:storage,STETHOFUSE_SEPARATION_ENABLED:'1',STETHOFUSE_MODEL_CHECKPOINT:checkpoint,STETHOFUSE_SEPARATOR_SPEC:spec});
   for(let i=0;i<200&&!worker.log.includes('"status": "ready"');i++)await delay(100);
   if(!worker.log.includes('"status": "ready"'))throw Error('Frozen CPU worker did not become ready.');
   state.workerReady=JSON.parse(worker.log.split('\n').find(line=>line.includes('"status": "ready"')));
-  browser=await chromium.launchPersistentContext(path.join(review,'browser-profile'),{executablePath:'/usr/bin/google-chrome',headless:false,viewport:null,acceptDownloads:true,args:['--window-size=1440,900']});
+  for(const uid of mode.identities){
+  const browser=await chromium.launchPersistentContext(path.join(review,mode.identities.length>1?'browser-'+uid:'browser-profile'),{executablePath:'/usr/bin/google-chrome',headless:false,viewport:null,acceptDownloads:true,args:['--window-size=1440,900']});browsers.push(browser);openBrowsers.add(browser);
   await browser.route('**/node_modules/.vite/deps/firebase_app.js*',r=>r.fulfill({contentType:'application/javascript',path:path.join(frontend,'tests/m1/mock-firebase-app.mjs')}));
   await browser.route('**/node_modules/.vite/deps/firebase_auth.js*',r=>r.fulfill({contentType:'application/javascript',path:path.join(frontend,'tests/m1/mock-firebase-auth.mjs')}));
   await browser.route('**/src/config/runtime.ts*',r=>r.fulfill({contentType:'application/javascript',body:"export const FIREBASE_PROJECT='stethofuse-c18cd-3cca0';export const PUBLIC_ORIGIN='https://stethofuse.ashraf-alsaloul.com';export const DEMO_ENABLED=false;export const firebaseConfigurationError='';export const firebaseConfiguration=()=>({projectId:FIREBASE_PROJECT});"}));
-  await browser.addInitScript(({origin,mode,uid})=>{if(location.origin===origin){if(!sessionStorage.getItem('__identity_review_seeded')){sessionStorage.setItem('__m1_test_identity',JSON.stringify({uid,verified:true}));sessionStorage.setItem('__identity_review_seeded','1');}document.addEventListener('DOMContentLoaded',()=>{const label=document.createElement('div');label.id='local-identity-review-mode';label.setAttribute('role','note');label.textContent=mode+' · Fictional test identity · No real credentials';label.style.cssText='position:fixed;bottom:8px;right:12px;z-index:9999;max-width:calc(100vw - 24px);padding:6px 12px;border:1px solid #739483;border-radius:6px;background:#173e32;color:#fff;font:12px/1.4 sans-serif;pointer-events:none;';document.body.append(label);});}},{origin:url,mode:reviewLabel,uid:sharedReview?'analyst':'alice'});
+  await browser.addInitScript(({origin,mode,uid})=>{if(location.origin===origin){if(!sessionStorage.getItem('__identity_review_seeded')){sessionStorage.setItem('__m1_test_identity',JSON.stringify({uid,verified:true}));sessionStorage.setItem('__identity_review_seeded','1');}document.addEventListener('DOMContentLoaded',()=>{const label=document.createElement('div');label.id='local-identity-review-mode';label.setAttribute('role','note');label.textContent=mode+' · Fictional test identity · No real credentials';label.style.cssText='position:fixed;bottom:8px;right:12px;z-index:9999;max-width:calc(100vw - 24px);padding:6px 12px;border:1px solid #739483;border-radius:6px;background:#173e32;color:#fff;font:12px/1.4 sans-serif;pointer-events:none;';document.body.append(label);});}},{origin:url,mode:reviewLabel+' · '+(uid==='analyst'?'Audio Analyst':'Healthcare Staff / owner'),uid});
   await browser.route(value=>['http:','https:'].includes(value.protocol)&&value.origin!==url,r=>r.abort());
-  const page=browser.pages()[0]||await browser.newPage();await page.goto(url+'/app/profile');await page.getByRole('heading',{name:'Your profile',exact:true}).waitFor();await page.bringToFront();await page.screenshot({path:path.join(review,'setup.png')});
+  const page=browser.pages()[0]||await browser.newPage();await page.goto(url+(mode.flag==='--feedback-review'?'/app/overview':'/app/profile'));await page.locator('h1').waitFor();await page.bringToFront();await page.screenshot({path:path.join(review,mode.identities.length>1?'setup-'+uid+'.png':'setup.png')});
+  browser.once('close',()=>{openBrowsers.delete(browser);if(!stopping&&!openBrowsers.size)void shutdown('all review browsers closed');});
+  }
   state.status='ready';state.readyAt=new Date().toISOString();await save();
   console.log(`READY — keep this terminal open. No automated owner interaction.\nStop: ${restartCommand} --stop\nRestart: ${restartCommand}`);
-  browser.once('close',()=>{if(!stopping)void shutdown('browser closed');});await new Promise(()=>{});
+  await new Promise(()=>{});
 }catch(error){console.error(error.message);await shutdown('setup failed',1);}

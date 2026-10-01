@@ -1,5 +1,11 @@
 # Current continuation: LOCAL Shared & assigned / reviews
 
+Owner confirmed this slice works (“ok working and good”). Continue only its
+missing owner-feedback loop and true analyst-focused Overview under
+docs/LOCAL_REVIEW_FEEDBACK.md: owner-reader tests/API → compact owner feedback /
+existing assignment controls → real analyst priorities → isolated local role-cycle
+evidence/builds/checkpoint. Preserve all older unfinished account/flight tasks.
+
 Owner approved the compact-details/handle-sharing slice (“ok good next”). Follow
 the existing approved L5 contract and `docs/LOCAL_SHARED_REVIEWS.md` for the next
 bounded local slice, not the full account-data handoff. Order: authorized joined
