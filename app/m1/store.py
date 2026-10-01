@@ -217,9 +217,14 @@ class M1Store(PublicIdentityStore, HandleSharingStore, ProcessingStore, Developm
             if actor["role"] != "audio_analyst":
                 raise AccessDenied("Access denied.")
             return [dict(r) for r in db.execute(
-                "SELECT g.* FROM af_grants g JOIN af_recordings o ON o.id=g.recording_id JOIN af_users u ON u.id=o.owner_id "
+                "SELECT g.*,d.title AS recording_title,o.public_id AS recording_public_id,r.kind AS resource_kind,"
+                "COALESCE(v.decision,'pending') AS review_decision,v.updated_at AS review_updated_at "
+                "FROM af_grants g JOIN af_recordings o ON o.id=g.recording_id JOIN af_users u ON u.id=o.owner_id "
+                "JOIN af_resources r ON r.id=g.resource_id AND r.recording_id=o.id "
+                "LEFT JOIN m1_recording_data d ON d.recording_id=o.id LEFT JOIN m1_reviews v ON v.assignment_id=g.id "
                 "WHERE g.recipient_id=? AND g.permission='review' AND g.status='active' AND g.grantor_id=o.owner_id "
-                "AND u.status='active' AND u.email_verified=1 AND (g.expires_at IS NULL OR g.expires_at>?)",
+                "AND u.status='active' AND u.email_verified=1 AND (g.expires_at IS NULL OR g.expires_at>?) "
+                "ORDER BY CASE COALESCE(v.decision,'pending') WHEN 'pending' THEN 0 ELSE 1 END,g.created_at,g.id",
                 (actor["id"], int(time.time())),
             )]
 
@@ -234,9 +239,12 @@ class M1Store(PublicIdentityStore, HandleSharingStore, ProcessingStore, Developm
                 db.execute("INSERT INTO m1_reviews VALUES (?,?,?,?,?,?) ON CONFLICT(assignment_id) DO UPDATE SET decision=excluded.decision,notes=excluded.notes,updated_at=excluded.updated_at", (grant_id, grant[0], actor["id"], decision, notes, int(time.time())))
                 self._audit(db, actor["id"], "review.updated", grant_id)
             row = db.execute("SELECT * FROM m1_reviews WHERE assignment_id=?", (grant_id,)).fetchone()
-            kind = db.execute("SELECT kind FROM af_resources WHERE id=?", (grant[0],)).fetchone()[0]
+            context = db.execute(
+                "SELECT r.kind AS resource_kind,d.title AS recording_title,o.public_id AS recording_public_id "
+                "FROM af_resources r JOIN af_recordings o ON o.id=r.recording_id "
+                "LEFT JOIN m1_recording_data d ON d.recording_id=o.id WHERE r.id=?", (grant[0],)).fetchone()
             value = dict(row) if row else {"assignment_id": grant_id, "resource_id": grant[0], "reviewer_id": actor["id"], "decision": "pending", "notes": "", "updated_at": None}
-            return {**value, "resource_kind": kind, "assignment_public_id": grant["assignment_public_id"]}
+            return {**value, **dict(context), "assignment_public_id": grant["assignment_public_id"]}
 
     def results(self, identity, result_id=None):
         with self._connection() as db:
