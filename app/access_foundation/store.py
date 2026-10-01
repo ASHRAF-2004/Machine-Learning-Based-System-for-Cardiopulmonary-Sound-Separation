@@ -268,30 +268,38 @@ class DevelopmentAccessStore:
         self, identity: VerifiedIdentity, recording_id: str, recipient_id: str, *,
         permission: str = "read", resource_id: str | None = None, expires_at: int | None = None,
     ) -> str:
+        with self._connection(write=True) as db:
+            return self._grant_access(db, identity, recording_id, recipient_id,
+                                      permission=permission, resource_id=resource_id, expires_at=expires_at)
+
+    def _grant_access(
+        self, db: sqlite3.Connection, identity: VerifiedIdentity, recording_id: str, recipient_id: str, *,
+        permission: str = "read", resource_id: str | None = None, expires_at: int | None = None,
+    ) -> str:
+        """One policy, reused inside the caller's existing write transaction."""
         if permission not in {"read", "review"}:
             raise ValueError("Unknown grant permission.")
         if expires_at is not None and (type(expires_at) is not int or expires_at <= int(time.time())):
             raise ValueError("Grant expiry must be a future UTC epoch second.")
-        with self._connection(write=True) as db:
-            actor = self._actor(db, identity)
-            self._owner(db, actor, recording_id)
-            recipient = self._active_user(db, recipient_id)
-            if recipient_id == actor["id"]:
-                raise AccessDenied("Self-assignment is not supported.")
-            resource = db.execute("SELECT * FROM af_resources WHERE id=? AND recording_id=?", (resource_id, recording_id)).fetchone()
-            if resource_id is not None and resource is None:
-                raise AccessDenied("Access denied.")
-            if permission == "review" and (
-                recipient["role"] != "audio_analyst" or resource is None or resource["kind"] not in {"original_audio", "result"}
-            ):
-                raise AccessDenied("Review requires an analyst and an explicitly scoped original or result.")
-            grant_id = uuid4().hex
-            db.execute("INSERT INTO af_grants(id,recording_id,resource_id,grantor_id,recipient_id,permission,status,expires_at,created_at,revoked_at) VALUES (?,?,?,?,?,?,?,?,?,?)", (
-                grant_id, recording_id, resource_id, actor["id"], recipient_id,
-                permission, "active", expires_at, int(time.time()), None,
-            ))
-            self._audit(db, actor["id"], "grant.created", grant_id)
-            return grant_id
+        actor = self._actor(db, identity)
+        self._owner(db, actor, recording_id)
+        recipient = self._active_user(db, recipient_id)
+        if recipient_id == actor["id"]:
+            raise AccessDenied("Self-assignment is not supported.")
+        resource = db.execute("SELECT * FROM af_resources WHERE id=? AND recording_id=?", (resource_id, recording_id)).fetchone()
+        if resource_id is not None and resource is None:
+            raise AccessDenied("Access denied.")
+        if permission == "review" and (
+            recipient["role"] != "audio_analyst" or resource is None or resource["kind"] not in {"original_audio", "result"}
+        ):
+            raise AccessDenied("Review requires an analyst and an explicitly scoped original or result.")
+        grant_id = uuid4().hex
+        db.execute("INSERT INTO af_grants(id,recording_id,resource_id,grantor_id,recipient_id,permission,status,expires_at,created_at,revoked_at) VALUES (?,?,?,?,?,?,?,?,?,?)", (
+            grant_id, recording_id, resource_id, actor["id"], recipient_id,
+            permission, "active", expires_at, int(time.time()), None,
+        ))
+        self._audit(db, actor["id"], "grant.created", grant_id)
+        return grant_id
 
     def revoke_grant(self, identity: VerifiedIdentity, grant_id: str) -> None:
         with self._connection(write=True) as db:

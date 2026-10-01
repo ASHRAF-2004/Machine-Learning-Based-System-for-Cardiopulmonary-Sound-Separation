@@ -10,7 +10,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Request, Response
 from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import RequestValidationError
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from starlette.background import BackgroundTask
 from starlette.datastructures import UploadFile
 
@@ -41,10 +41,25 @@ class TitleBody(StrictBody):
 
 
 class GrantBody(StrictBody):
-    recipient_id: str = Field(min_length=1, max_length=128)
+    recipient_id: str | None = Field(default=None, min_length=1, max_length=128)
+    recipient_handle: str | None = Field(default=None, min_length=3, max_length=21)
+    recipient_public_id: str | None = Field(default=None, min_length=1, max_length=32)
     permission: Literal["read", "review"] = "read"
     resource_id: str | None = Field(default=None, max_length=128)
     expires_at: int | None = None
+
+    @model_validator(mode="after")
+    def exact_recipient(self):
+        if self.recipient_id is not None:
+            if self.recipient_handle is not None or self.recipient_public_id is not None:
+                raise ValueError("Use one recipient contract.")
+        elif self.recipient_handle is None or self.recipient_public_id is None:
+            raise ValueError("Find and confirm an exact handle.")
+        return self
+
+
+class RecipientBody(StrictBody):
+    handle: str = Field(min_length=3, max_length=21)
 
 
 class RevokeBody(StrictBody):
@@ -297,10 +312,20 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     @app.post("/api/recordings/{recording_id}/grants", status_code=201)
     def create_grant(recording_id: str, body: GrantBody, who=Depends(principal), store=Depends(database)):
         try:
-            grant_id = store.grant_access(who, recording_id, **body.model_dump())
+            scope = body.model_dump(include={"permission", "resource_id", "expires_at"})
+            if body.recipient_handle is not None:
+                grant_id = store.grant_by_handle(who, recording_id, body.recipient_handle, body.recipient_public_id, **scope)
+            else:
+                grant_id = store.grant_access(who, recording_id, body.recipient_id, **scope)
+        except IdentityError:
+            raise
         except ValueError:
             raise failure(422, "invalid_grant", "Invalid permission or expiry.") from None
         return store.grant_dto(who, grant_id)
+
+    @app.post("/api/recordings/{recording_id}/sharing-recipient")
+    def sharing_recipient(recording_id: str, body: RecipientBody, who=Depends(principal), store=Depends(database)):
+        return store.sharing_recipient(who, recording_id, body.handle)
 
     @app.delete("/api/grants/{grant_id}", status_code=204)
     def revoke(grant_id: str, who=Depends(principal), store=Depends(database)):

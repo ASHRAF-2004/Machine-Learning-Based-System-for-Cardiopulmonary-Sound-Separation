@@ -15,12 +15,13 @@ from app.access_foundation import AccessDenied, DevelopmentAccessStore, Verified
 from app.access_foundation.store import TABLES
 from .processing_store import ProcessingStore
 from .public_identity_store import PublicIdentityStore
+from .sharing_store import HandleSharingStore
 
 M1_TABLES = {"m1_meta", "m1_recording_data", "m1_files", "m1_jobs", "m1_results",
              "m1_result_files", "m1_reviews", "m1_preferences"}
 
 
-class M1Store(PublicIdentityStore, ProcessingStore, DevelopmentAccessStore):
+class M1Store(PublicIdentityStore, HandleSharingStore, ProcessingStore, DevelopmentAccessStore):
     @staticmethod
     def _check_schema(db, *, allow_v1=False):
         names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
@@ -183,15 +184,20 @@ class M1Store(PublicIdentityStore, ProcessingStore, DevelopmentAccessStore):
         with self._connection() as db:
             actor = self._actor(db, identity)
             self._owner(db, actor, recording_id)
-            return [dict(r) for r in db.execute("SELECT * FROM af_grants WHERE recording_id=? ORDER BY created_at DESC", (recording_id,))]
+            return [self._sharing_grant_dto(r) for r in db.execute(
+                "SELECT g.*,u.display_name AS recipient_display_name,u.handle AS recipient_handle,u.public_id AS recipient_public_id "
+                "FROM af_grants g JOIN af_users u ON u.id=g.recipient_id WHERE g.recording_id=? ORDER BY g.created_at DESC,g.id",
+                (recording_id,))]
 
     def grant_dto(self, identity, grant_id):
         with self._connection() as db:
             actor = self._actor(db, identity)
-            row = db.execute("SELECT * FROM af_grants WHERE id=?", (grant_id,)).fetchone()
+            row = db.execute(
+                "SELECT g.*,u.display_name AS recipient_display_name,u.handle AS recipient_handle,u.public_id AS recipient_public_id "
+                "FROM af_grants g JOIN af_users u ON u.id=g.recipient_id WHERE g.id=?", (grant_id,)).fetchone()
             if row is None or actor["id"] not in {row["grantor_id"], row["recipient_id"]}:
                 raise AccessDenied("Access denied.")
-            return dict(row)
+            return self._sharing_grant_dto(row)
 
     def revoke_all(self, identity, recording_id, recipient_id, confirmed_recording_id):
         if recording_id != confirmed_recording_id:
