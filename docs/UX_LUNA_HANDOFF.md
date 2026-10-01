@@ -1,5 +1,18 @@
 # Frost Studio v1.1 — owner-approved handoff, bounded LOCAL progress
 
+## Latest owner-requested local refinement — 1 October 2026
+
+`LOCAL_SHARING_REFINEMENT.md` supersedes the older pending-handle-sharing notes
+below for this bounded slice only. Real owner-context exact @handle lookup and
+confirmed grant creation/revocation now work locally; UID/roles/exact-resource
+policy are unchanged. Technical receipts are key facts first / See more / See less;
+sharing shows 3 active permissions, with previous/additional permissions disclosed.
+Actual local namespace 4198/8198 preserves earlier review DB/browser sessions.
+117 backend passes + 26 subtests, 4 real browser groups + 1 delayed-transport check,
+2 read-only layout groups and separate app/preview builds exit 0. Owner acceptance of
+these changes is pending. No production rollout, handle login, avatar/account-data,
+global Insights or flight authorization; do not execute the remaining handoff.
+
 30 September 2026. The owner explicitly approved **polish-v1** and authorized
 only the local core workflow. Follow `FROST_CORE_INTEGRATION.md` for its bounded
 execution. Do not execute L0–L12 wholesale. Reuse these component contracts;

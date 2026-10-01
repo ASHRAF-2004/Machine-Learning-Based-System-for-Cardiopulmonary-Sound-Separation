@@ -7,10 +7,7 @@ import {AudioWorkspace} from './AudioWorkspace';
 import {Button,CopyId,GlassPanel,Notice,StatusChip} from './primitives';
 import {dateLabel,errorMessage,useLibrary,useResource} from './data';
 import {Progress,RequestState} from './WorkspaceViews';
-
-function TechnicalDetails({record,result,job}:{record?:LiveRecording;result?:LiveResult;job?:LiveJob}){
-  return <details className="sf-technical sf-core-technical"><summary>Technical details & processing history</summary><dl>{record&&<>{record.public_id&&<><dt>Recording reference</dt><dd><CopyId value={record.public_id}/></dd></>}<dt>Internal recording identifier</dt><dd><CopyId value={record.id}/></dd><dt>Original format</dt><dd>{record.sample_rate_hz.toLocaleString()} Hz · {record.channels} channel(s) · {record.duration_sec.toFixed(1)} seconds</dd></>}{job&&<><dt>Processing reference</dt><dd><CopyId value={job.public_id||job.id}/></dd><dt>Status</dt><dd>{job.status}</dd><dt>Created / completed</dt><dd>{dateLabel(job.created_at)} / {dateLabel(job.completed_at)}</dd>{job.error_code&&<><dt>Failure category</dt><dd>{job.error_code}</dd></>}</>}{result&&<><dt>Result reference</dt><dd><CopyId value={result.public_id||result.id}/></dd><dt>Processing completed</dt><dd>{dateLabel(result.created_at)}</dd>{result.provenance&&Object.entries(result.provenance).map(([key,value])=><div key={key}><dt>{key.replaceAll('_',' ')}</dt><dd>{typeof value==='object'?JSON.stringify(value):String(value)}</dd></div>)}</>}</dl></details>;
-}
+import {TechnicalDetails} from './TechnicalDetails';
 export function RecordingDetail({id,ownerTools}:{id:string;ownerTools?:(record:LiveRecording)=>ReactNode}){
   const {api,session}=useLive(),record=useResource<LiveRecording>(`/recordings/${id}`),library=useLibrary();
   const [error,setError]=useState(''),[busy,setBusy]=useState(false),[requesting,setRequesting]=useState(false),[submitted,setSubmitted]=useState<LiveJob|null>(null),[editTitle,setEditTitle]=useState('');

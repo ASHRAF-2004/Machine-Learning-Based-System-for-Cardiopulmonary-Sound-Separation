@@ -17,6 +17,9 @@ const messages: Record<string, string> = {
   handle_unavailable: 'That handle is already in use. Try another name.',
   handle_change_used: 'Your one self-service handle change has already been used.',
   identity_unavailable: 'Your handle or public reference could not be saved. Please retry.',
+  recipient_unavailable: 'No available person matches that confirmed handle. Check the spelling and find the person again.',
+  sharing_lookup_limited: 'Too many lookups. Please wait before finding another person.',
+  invalid_grant: 'That permission or expiry could not be accepted. Check the sharing options.',
 };
 export function createApiClient(token: TokenSource, onSessionExpired: () => void, transport: typeof fetch = fetch) {
   async function request(path: string, init: RequestInit = {}): Promise<Response> {

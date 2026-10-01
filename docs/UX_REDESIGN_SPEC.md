@@ -8,6 +8,14 @@ The later1October continuation implements LOCAL identity/profile foundations onl
 account/data services, global Insights and genuine flight remain pending.
 Production backfill/deployment remain separately authorized gates.
 
+1 October owner feedback additionally authorizes the bounded LOCAL exact-handle
+sharing refinement in `LOCAL_SHARING_REFINEMENT.md`. Compact key technical facts
+precede full receipts under See more / See less. Sharing confirms a real name/
+@handle, not an entered application ID; only 3 active permissions appear initially,
+with additional/history entries disclosed. The existing backend authorization,
+UID identity and approved Frost visual system remain unchanged. No production
+or full account-management milestone is implied.
+
 The bounded core is now **implemented/tested locally** in `frontend/src/frost/`;
 execution and intentional real-data transitions are in `FROST_CORE_INTEGRATION.md`.
 The design preview remains unchanged. Public IDs/handles are not synthesized for

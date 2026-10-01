@@ -24,6 +24,15 @@ records that bounded LOCAL identity/profile slice, now ready for owner review.
 Full account/Insights/flight work and deployment remain separately gated.
 This is local technical evidence, not clinical validation.
 
+1 October subsequent owner feedback: `LOCAL_SHARING_REFINEMENT.md` records compact
+key facts with full-provenance disclosure and real exact @handle sharing through
+the same owner-only grant rules. Final inspected local captures are under
+`frontend/output/playwright/handle-sharing/v5/` and `final-layout-v2/`.
+The first visual review led to one refinement: inactive grants/history no longer
+appear as current access. Desktop/mobile/tablet/Midnight, keyboard/focus and real
+Heart-only/revoked backend denials pass. Both builds exit 0; new review 4198 remains local.
+No palette/IA/renderer redesign, production rollout or owner acceptance claim.
+
 30 September 2026. **FROST STUDIO POLISH COMPLETE — READY FOR OWNER REVIEW.**
 The owner approved the existing direction. Only the six requested refinements
 were made; remaining-app implementation and deployment remain unauthorized.

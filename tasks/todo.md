@@ -23,3 +23,12 @@
 - [x] Focused real-local identity/API/browser checks, separate finite builds, visual review.
 - [x] Record evidence/FYP2/PAUSE, commit/push, provide working LOCAL owner review.
 - [ ] Owner review of new identity/profile flow — next stop; no deployment.
+
+## Owner-requested LOCAL refinement — compact details / handle sharing
+
+- [x] Key technical facts first; full provenance behind See more / See less.
+- [x] Owner-only exact handle resolver, confirmed grant target, unchanged policy.
+- [x] Real recipient identity/scope UI; compact active-first grant list.
+- [x] Focused real-local privacy/revocation/browser checks and finite builds.
+- [x] Evidence/checkpoint, preserve local review data, stop for owner feedback.
+- [ ] Owner hands-on review of compact details and handle sharing — no deployment.

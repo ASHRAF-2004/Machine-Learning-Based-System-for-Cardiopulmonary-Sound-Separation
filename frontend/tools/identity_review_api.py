@@ -6,7 +6,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-REVIEW = ROOT / ".local/identity-review"
+SHARING_REVIEW = "--sharing-review" in sys.argv
+REVIEW = ROOT / (".local/handle-sharing-review" if SHARING_REVIEW else ".local/identity-review")
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "frontend/tests/m1"))
 
@@ -27,5 +28,5 @@ if __name__ == "__main__":
     store.initialize()
     store.register_verified_identity(verifier.lookup_existing("alice"))
     assert store.me(verifier.lookup_existing("alice"))["role"] == "healthcare_staff"
-    uvicorn.run(create_app(settings, verifier=verifier), host="127.0.0.1", port=8197,
+    uvicorn.run(create_app(settings, verifier=verifier), host="127.0.0.1", port=8198 if SHARING_REVIEW else 8197,
                 access_log=False, log_level="warning")

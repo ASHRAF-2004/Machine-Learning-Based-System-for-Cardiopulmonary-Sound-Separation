@@ -1,4 +1,12 @@
-# Current plan: LOCAL identity foundation — 1 October 2026
+# Current owner-feedback extension: compact details / exact handle sharing
+
+Owner requests are the bounded authorization. Preserve the completed identity
+work below and pending hands-on review. Contract: `docs/LOCAL_SHARING_REFINEMENT.md`.
+Order: concise technical disclosure → backend exact resolver/shared grant policy
+→ real frontend sharing → local role/revocation/browser checks → standalone builds
+→ evidence/checkpoint/owner review. No production or remaining account milestone.
+
+# Preserved plan: LOCAL identity foundation — 1 October 2026
 
 Owner approved the integrated core/feedback UI and instructed continuation until
 the next reviewable working slice. Execute L0 and only the profile/core display
