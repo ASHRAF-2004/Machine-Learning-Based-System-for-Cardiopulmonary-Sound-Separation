@@ -31,4 +31,16 @@
 - [x] Real recipient identity/scope UI; compact active-first grant list.
 - [x] Focused real-local privacy/revocation/browser checks and finite builds.
 - [x] Evidence/checkpoint, preserve local review data, stop for owner feedback.
-- [ ] Owner hands-on review of compact details and handle sharing — no deployment.
+- [x] Owner hands-on review of compact details and handle sharing — “ok good next”; no deployment.
+
+## Current continuation — LOCAL Shared & assigned / reviews
+
+- [x] Add authorized joined assignment/review context; no schema/policy change.
+  - Verify: focused API access/expiry/revocation tests.
+- [x] Connect approved shared/assigned tabs, compact priority list and actual review notes.
+  - Verify: real local save/refresh, exact-resource media and legacy links.
+- [x] Preserve owner sessions; open new isolated visible review, inspect responsive themes.
+  - Verify: keyboard disclosure/focus, no overflow, denied/error state clears sensitive views.
+- [x] Run standalone app/preview builds and five-axis review; record actual evidence.
+- [x] Commit/push implementation/FYP2/PAUSE checkpoint; no deployment.
+- [ ] Owner hands-on review of Shared & assigned / real review notes — current stop.

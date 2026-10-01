@@ -16,6 +16,15 @@ with additional/history entries disclosed. The existing backend authorization,
 UID identity and approved Frost visual system remain unchanged. No production
 or full account-management milestone is implied.
 
+The owner approved that sharing refinement with “ok good next”. The bounded LOCAL
+L5 follow-up now connects Shared with you / analyst Assigned reviews, title-first
+exact scopes, three pending-first items plus See more / See less, and real saved
+review outcome/notes. Same client/backend authorization and approved Frost materials;
+no migration or new access semantics. Old analyst aliases lead to
+/app/shared?view=assigned; exact /app/reviews/:id remains valid. Complete historical
+review retrieval remains pending; saved history is retained. LOCAL_SHARED_REVIEWS.md
+records tests/captures and the new hands-on review. No deployment or full next phase.
+
 The bounded core is now **implemented/tested locally** in `frontend/src/frost/`;
 execution and intentional real-data transitions are in `FROST_CORE_INTEGRATION.md`.
 The design preview remains unchanged. Public IDs/handles are not synthesized for

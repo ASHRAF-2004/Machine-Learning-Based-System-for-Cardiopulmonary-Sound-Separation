@@ -7,6 +7,8 @@ import {NewRecording as FrostNewRecording,Upload as FrostUpload,RecordingComingS
 import {RecordingDetail as FrostRecordingDetail,ResultDetail as FrostResultDetail,MediaDetail,LegacyJob} from '../frost/RecordingDetail';
 import FrostAccount from '../frost/Account';
 import {Sharing} from '../frost/Sharing';
+import {SharedWorkspace} from '../frost/SharedReviews';
+import {AssignedReview} from '../frost/AssignedReview';
 import {Badge,Button,CopyId,Empty,ErrorState,Field,Notice,PageHeading,Panel,Skeleton,StatStrip,Status,Table,UnsavedGuard} from '../components/ui';
 import {useLive} from '../data/live';
 import {useApp} from '../data/store';
@@ -31,17 +33,6 @@ function useRemote<T>(path:string,poll=false){
 function RequestState({loading,error,reload}:{loading:boolean;error:string;reload:()=>void}){return loading?<Skeleton/>:error?<ErrorState message={error} onRetry={reload}/>:null;}
 function Unavailable({title,detail}:{title:string;detail:string}){return <><PageHeading title={title} description="Live workspace"/><Notice title="Not connected in this milestone"><p>{detail}</p><p>No fictional values or simulated completion are substituted.</p></Notice><Button to="/app/dashboard" variant="secondary">Back to workspace</Button></>;}
 
-function Assignments(){
- const data=useRemote<{items:LiveGrant[]}>('/assignments');
- return <><PageHeading title="Review queue" description="Your active exact-resource analyst assignments." actions={<Button variant="secondary" onClick={data.reload}>Refresh access</Button>}/><RequestState {...data}/>{!data.loading&&!data.error&&(data.value?.items.length?<Table headers={['Assignment','Recording','Resource','Created','']} caption="Analyst assignments">{data.value.items.map(grant=><tr key={grant.id}><td><CopyId value={grant.id}/></td><td>{grant.recording_id}</td><td>{grant.resource_id}</td><td>{date(grant.created_at)}</td><td><Link className="inline-link" to={`/app/reviews/${grant.id}`}>Review <ArrowRight size={16}/></Link></td></tr>)}</Table>:<Empty title="No active assignments" description="Give the owner your @handle from Profile & settings. They can assign one exact original-audio or result resource for review."/>)}</>;
-}
-function Review({id}:{id:string}){
- const {api}=useLive();const data=useRemote<LiveReview>(`/assignments/${id}/review`);const [notes,setNotes]=useState(''),[decision,setDecision]=useState<LiveReview['decision']>('pending'),[error,setError]=useState(''),[busy,setBusy]=useState(false),[saved,setSaved]=useState(false);
- useEffect(()=>{if(data.value){setNotes(data.value.notes);setDecision(data.value.decision);}},[data.value]);
- const dirty=!!data.value&&(notes!==data.value.notes||decision!==data.value.decision);
- async function save(e:FormEvent){e.preventDefault();setBusy(true);setError('');setSaved(false);try{await api.json(`/assignments/${id}/review`,{method:'PUT',body:JSON.stringify({decision,notes})});setSaved(true);data.reload();}catch(failure){setError(message(failure));}finally{setBusy(false);}}
- return <><PageHeading title="Assigned review" description="A non-diagnostic review of the exact assigned resource."/><RequestState {...data}/>{data.value&&<>{data.value.resource_kind==='result'?<FrostResultDetail id={data.value.resource_id} embedded/>:<MediaDetail id={data.value.resource_id} kind={data.value.resource_kind||'assigned_resource'} embedded/>}<Panel title="Review notes"><form onSubmit={save}><Field label="Review decision"><select value={decision} onChange={e=>setDecision(e.target.value as LiveReview['decision'])}><option value="pending">Pending</option><option value="accepted">Reviewed</option><option value="needs_attention">Needs attention / re-record</option></select></Field><Field label="Non-diagnostic notes" hint="Do not include patient identifiers. Maximum 10,000 characters."><textarea rows={7} maxLength={10000} value={notes} onChange={e=>setNotes(e.target.value)}/></Field>{error&&<ErrorState message={error}/>} {saved&&<p role="status">Review saved by the server.</p>}<Button type="submit" disabled={busy||!dirty}>{busy?'Saving…':'Save review'}</Button></form></Panel><UnsavedGuard when={dirty&&!busy}/></>}</>;
-}
 
 function AdminUsers(){
  const {api,refreshAccount,session}=useLive();const data=useRemote<{items:LiveUser[]}>('/admin/users');const [search,setSearch]=useState('');
@@ -63,7 +54,7 @@ function LiveRoute(){
  if(pathname==='/app/overview'||pathname==='/app')return <FrostOverview/>;
  if(pathname==='/app/recordings')return <Navigate replace to="/app/library"/>;
  if(pathname==='/app/library')return <FrostLibrary/>;
- if(pathname==='/app/shared')return <FrostLibrary sharedOnly/>;
+ if(pathname==='/app/shared')return <SharedWorkspace/>;
  if(pathname==='/app/recordings/new')return <FrostNewRecording/>;
  if(pathname==='/app/recordings/new/upload')return <FrostUpload/>;
  if(pathname==='/app/recordings/new/record')return <RecordingComingSoon/>;
@@ -74,9 +65,9 @@ function LiveRoute(){
  if(pathname==='/app/results')return <Navigate replace to="/app/library?filter=ready"/>;
  if(/^\/app\/results\/[^/]+$/.test(pathname))return <FrostResultDetail id={pathname.split('/')[3]}/>;
  if(/^\/app\/audio\/[^/]+$/.test(pathname))return <MediaDetail id={pathname.split('/')[3]}/>;
- if(['/app/review-queue','/app/assigned'].includes(pathname))return <Assignments/>;
+ if(['/app/review-queue','/app/assigned'].includes(pathname))return <Navigate replace to="/app/shared?view=assigned"/>;
  if(pathname==='/app/review-history')return <Unavailable title="Review history" detail="The current API exposes active assignments. Historical review retrieval is not connected to this screen yet; old notes are retained by the backend."/>;
- if(/^\/app\/reviews\/[^/]+$/.test(pathname))return <Review id={pathname.split('/')[3]}/>;
+ if(/^\/app\/reviews\/[^/]+$/.test(pathname))return <AssignedReview id={pathname.split('/')[3]}/>;
  if(pathname==='/app/profile'||pathname==='/app/settings')return <FrostAccount/>;
  if(pathname==='/app/admin')return <AdminOverview/>;
  if(pathname==='/app/admin/users')return <AdminUsers/>;

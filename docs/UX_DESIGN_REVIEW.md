@@ -1,5 +1,18 @@
 # Frost Studio v1.1 — OWNER APPROVED
 
+1 October latest bounded follow-up: owner approved compact details/@handle sharing
+with “ok good next”. LOCAL_SHARED_REVIEWS.md records actual Shared & assigned /
+Assigned reviews and persisted non-diagnostic notes, still LOCAL only. Three
+pending-first assignments then See more / See less; original/result scope labels,
+real title/REC and unchanged sibling denial. New notes labels use separate helpers;
+final visual review raised notes type from inherited12px to operational14px.
+Nine final-layout-v2 images under frontend/output/playwright/shared-reviews/
+were personally inspected at desktop1440×900/mobile390×844/tablet820×1000 and
+Midnight. 69 backend passes; real persistence/denial and separate transport-fault
+checks; both standalone builds0. NEW4199 fictional analyst review stays available.
+No new palette/layout concept, auth policy, ML/T9/production/renderer change.
+THIS slice awaits hands-on owner review; full account/Insights/flight remain gated.
+
 The owner explicitly approved **polish-v1** on 30 September 2026 and authorized
 the bounded local core integration recorded in `FROST_CORE_INTEGRATION.md`.
 The visual direction is closed. This does not authorize deployment, the full

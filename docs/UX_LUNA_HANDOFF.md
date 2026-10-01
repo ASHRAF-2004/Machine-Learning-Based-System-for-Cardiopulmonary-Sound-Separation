@@ -1,5 +1,18 @@
 # Frost Studio v1.1 — owner-approved handoff, bounded LOCAL progress
 
+## Current bounded L5 follow-up — 1 October 2026
+
+The owner approved compact details / exact-handle sharing with “ok good next”.
+LOCAL_SHARED_REVIEWS.md records the now-working LOCAL Shared & assigned page,
+analyst-only Assigned reviews, three important items / See more / See less and
+actual saved review notes. Same exact-resource/role/expiry/revocation rules;
+one joined read adapter, no schema/policy change. 69 backend passes, 4 real browser
+groups + 1 separately labelled transport fault, final responsive/theme captures
+and separate app/preview builds exit 0. A NEW visible fictional-analyst local review
+4199/8199 retains two ordinary manual assignments. THIS slice awaits hands-on
+owner feedback; earlier sharing approval does not imply it is already accepted.
+Do not deploy or begin avatar/account-data/Insights/flight work.
+
 ## Latest owner-requested local refinement — 1 October 2026
 
 `LOCAL_SHARING_REFINEMENT.md` supersedes the older pending-handle-sharing notes
@@ -10,7 +23,7 @@ sharing shows 3 active permissions, with previous/additional permissions disclos
 Actual local namespace 4198/8198 preserves earlier review DB/browser sessions.
 117 backend passes + 26 subtests, 4 real browser groups + 1 delayed-transport check,
 2 read-only layout groups and separate app/preview builds exit 0. Owner acceptance of
-these changes is pending. No production rollout, handle login, avatar/account-data,
+these changes was received (“ok good next”). No production rollout, handle login, avatar/account-data,
 global Insights or flight authorization; do not execute the remaining handoff.
 
 30 September 2026. The owner explicitly approved **polish-v1** and authorized
@@ -136,9 +149,10 @@ that is a prototype boundary, not production navigation logic.
 | `/app/results/:id` | Direct authorized result detail; no owner-only job or original prerequisite |
 | `/app/processing/:id` | Owner-authorized job → actual parent recording; denied remains denied |
 | `/app/audio/:id` | Exact authorized audio only, no siblings |
-| `/app/shared` | Unified authorized shared Library, with actual review-queue link for analysts |
-| `/app/review-queue`, `/app/assigned` | Preserve current analyst assignment route/alias and role guards |
-| `/app/reviews/:id`, `/app/review-history` | Preserve review deep links/history access; nest workflow in Shared & assigned, not guessed redirects |
+| `/app/shared` | Shared with you; analyst Assigned reviews tab at `?view=assigned` |
+| `/app/review-queue`, `/app/assigned` | Analyst-guarded redirects to `/app/shared?view=assigned` |
+| `/app/reviews/:id` | Same exact-resource review identity; actual notes/outcome save |
+| `/app/review-history` | Existing honest unavailable state; stored historical notes retained, retrieval not connected |
 | `/app/profile` | Existing working profile editor retained until account milestone |
 | `/app/settings`, `/app/settings?section=...` | Existing working sections + actual device System/Frost/Midnight preference; new service flows deferred |
 | `/app/recordings/new[/upload\|/record]` | Preserve existing capture/upload paths behind New recording |
@@ -216,6 +230,13 @@ For large allowed WAVs, move equivalent analysis off main thread if necessary;
 verify numeric parity, not a new DSP/preprocessing design.
 
 ## L5 — Shared & assigned
+
+Bounded local execution: compact-details/@handle sharing approved; unified
+SharedReviews/AssignedReview now implemented and technically checked, owner review
+pending. Current resolver returns only actual name/handle/public reference, not
+email/UID/avatar. Avatar support and the broader account services below are deferred.
+See LOCAL_SHARED_REVIEWS.md; never reapply its functional-grant test to the owner's
+retained manual assignments. The approved visual system is not reopened.
 
 Reuse active grants/assignments and existing review submission endpoints. Exact
 authenticated handle lookup only: return avatar/display name/@handle and internal

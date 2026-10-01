@@ -1,4 +1,18 @@
-# Current owner-feedback extension: compact details / exact handle sharing
+# Current continuation: LOCAL Shared & assigned / reviews
+
+Owner approved the compact-details/handle-sharing slice (“ok good next”). Follow
+the existing approved L5 contract and `docs/LOCAL_SHARED_REVIEWS.md` for the next
+bounded local slice, not the full account-data handoff. Order: authorized joined
+context → unified shared/assigned UI and real review form → separate local review
+namespace → focused real permission/persistence/layout checks → builds/checkpoint.
+No migration, dependency, new access semantics, production or model change.
+Execution is complete locally: 69 backend passes, actual save/refresh/revocation
+and compact-list checks, responsive/theme review and both standalone builds0.
+New4199 owner review has real ordinary assignments under the approved fixed
+fictional identity harness; existing sessions preserved. STOP for its hands-on
+feedback, not automatic avatar/account-data/Insights/flight or deployment.
+
+# Preserved owner-feedback extension: compact details / exact handle sharing
 
 Owner requests are the bounded authorization. Preserve the completed identity
 work below and pending hands-on review. Contract: `docs/LOCAL_SHARING_REFINEMENT.md`.
