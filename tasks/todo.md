@@ -12,14 +12,22 @@
 - [ ] Resolve lifecycle policy/security/flight asset gates; no simulated success.
 - [x] Focused browser + appropriate application regression for releasable increment;
   standalone builds0. 174 passes +26 subtests/4 optional skips;8 client checks.
-- [ ] Five-axis review, evidence/FYP2/PAUSE, reviewed commits/push on existing branches.
+- [x] Five-axis review; required packaging defect fixed with red/green regression
+  and isolated image migration gate. Source/evidence commits pushed.
+- [ ] Final evidence/FYP2/PAUSE and exact remote merge receipt.
 - [ ] Merge existing PR9/2 only after release readiness; no force push.
 - [ ] Verified backup/rollback/migration, isolated StethoFuse deploy/live acceptance.
 - [ ] Post-release backup/service recovery/evidence; frozen ML/T9/Axora unchanged.
 
+Operational release `b6ee625` is now healthy, schema3, all original fields/private
+files preserved. Pre/post encrypted snapshots and small isolated restore verified;
+worker resumed. Signed-in Frost acceptance awaits actual Staff sign-in. Do not
+check the combined deployment/acceptance box or account gates on this basis alone.
+
 Avatar/lifecycle/notification/handle-login/flight are still explicitly gated. The
 owner's retention answer is pending; never check these boxes merely because the
-current tested interface can be released. No production mutation at this checkpoint.
+current tested interface has been released. No avatar/lifecycle/flight completion
+or new signed-in live acceptance is implied by the operational deployment.
 
 # Preserved Frost Studio prototype tasks
 

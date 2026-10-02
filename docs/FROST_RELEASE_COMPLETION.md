@@ -188,3 +188,57 @@ operator regression requiring every source migration to be admitted by the runti
 context. It first failed on003 as expected; after the fix it passes. Before retry,
 both corrected images must pass a filesystem presence check and isolated v2→v3
 migration/preservation check. No auth, model, inference or frontend design change.
+
+## Corrected production release / recovery receipt
+
+Deployed source **b6ee625abe0f4d8d5b2b136398656b4c810e8f83** from a clean Git
+archive. The correction's operator/identity checks passed20 cases, exit0. Both
+runtime images contain002/003; a network-disabled, read-only API container with
+only temporary fixture storage migrated schema2→3, preserved every old row,
+passed integrity/foreign-key checks and retained identical generated identities
+on repeated startup. It mounted no production path. The web image was built as
+a separate finite command, exit0; its normal-app payload is the tested interface,
+not the isolated preview. No package or image-base upgrade.
+
+Only the StethoFuse deploy symlink, reviewed image set and runtime code-SHA field
+changed. All other runtime/provider/storage values compare byte-for-byte with the
+pre-release copy. Production initialization applied003 transactionally once;
+schema3, integrity ok, zero FK errors. Before authenticated live interaction, all
+old fields compare exactly with the pre-release receipt:3 users,6 recordings,
+15 resources,3 grants,3 jobs/results,1 review,1 preference and12 private files.
+Original/generated WAV bytes and previously recorded provenance were not changed.
+
+The public API returns200; anonymous Insights/history return401. One web/API is
+healthy and exactly one restricted CPU worker is ready (network none, read-only,
+10001:10001,2 CPU/2GiB limit). First model load0.383867s; after backup restart
+0.361318s. These are startup observations, not job/clinical-performance claims.
+The worker runtime code SHA matches the deployed source. Frozen checkpoint/spec
+hashes match both live and restored copies; permissions remain root:10001,
+bundle0750/files0440, private/data10001:10001 mode0700. Models are mounted only
+by the worker, never web/API. Axora's actual public host `https://axora.management`
+returns200; an assumed alternative hostname failed DNS and is not health evidence.
+No Axora/provider/routing/auth-policy/ML/T9 mutation occurred.
+
+Post-release encrypted B2 snapshot
+**a32d8b1e6896a58217b16cb947858e5a6734125d319d65d5314502a4ceda001d**,
+2October15:02:41+08, covers data/private/models/runtime config. Existing quiescence
+stopped only StethoFuse web/API/worker at15:02:39 and resumed all healthy/ready;
+service result success/exit0 at15:02:59. A remote listing proved12 private files
+and expected model paths. Small isolated restore at the root-only recovery
+directory's `restored-post/` proved schema3/integrity ok, zero FK errors, expected
+counts and both exact artifact hashes. Live paths were never overwritten.
+Backup timer remains active; pruning remains disabled; no snapshots deleted.
+
+**Signed-in Frost production acceptance remains PENDING.** A dedicated visible
+Chrome window rendered the official production login with real Firebase and no
+test SDK, transport interception or fixture fallback. Staff sign-in was requested
+from the owner, without requesting/reading credentials. The older completed live
+ML/privacy acceptance is preserved but is not counted as a new signed-in Frost
+test. This receipt establishes operational deployment/recovery, not unrun live
+upload/playback/analyst checks or completion of gated account services.
+
+Rollback before003 failed was simply the preserved old images/env/symlink. After
+successful003, old schema2 code cannot be started against schema3: preserve new
+data first and use a matching protected DB/private recovery set if an actual
+rollback is required. Never manually downgrade/drop schema or overwrite newer
+user data. Keep the pre/post recovery anchors and old image tags available.

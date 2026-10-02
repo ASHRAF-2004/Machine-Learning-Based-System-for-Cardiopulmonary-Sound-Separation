@@ -12,6 +12,13 @@ The owner expressly waived intermediate review stops and requested merge/deploy;
 this is not invented hands-on acceptance. Frozen polish/ML/T9/privacy remain.
 Avatar/lifecycle/security/flight gates remain pending, not simulated completion.
 
+Operational addendum: corrected release `b6ee625` is deployed, schema3 and existing
+data/files preserved, post-release encrypted restore verified. No visual tokens,
+owl/player/analysis or model were changed for deployment. Dedicated visible Chrome
+renders real production Firebase login; new signed-in Frost acceptance is pending
+owner sign-in. Local inspected screenshots are not relabelled production evidence.
+See `FROST_RELEASE_COMPLETION.md`, including the first failed packaging attempt.
+
 2 October LOCAL follow-up: owner approved previous Shared & assigned/saved notes
 (“ok working and good”). LOCAL_REVIEW_FEEDBACK.md closes owner-visible feedback
 and prioritizes actual Analyst assignments, without a new design/role/media policy.

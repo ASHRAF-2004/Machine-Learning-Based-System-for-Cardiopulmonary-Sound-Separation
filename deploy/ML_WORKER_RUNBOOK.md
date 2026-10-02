@@ -1,6 +1,14 @@
 # Frozen separator worker — deployed operations reference
 
-**CURRENT STATUS (29 September 2026): DEPLOYED / LIVE SYNTHETIC ACCEPTANCE
+**CURRENT OPERATIONAL STATUS (2 October 2026):** the reviewed Frost interface is
+deployed at `b6ee625`, schema3, with pre/post encrypted recovery anchors verified.
+The frozen model/worker contract below is unchanged. New signed-in Frost live
+acceptance awaits owner sign-in; see
+[`Frost release receipt`](../docs/FROST_RELEASE_COMPLETION.md) for the corrected
+image gate, original packaging failure/rollback and data-preservation proof.
+Do not replay the historical deployment, rerun T9 or infer clinical qualification.
+
+**PREVIOUS BASELINE (29 September 2026): DEPLOYED / LIVE SYNTHETIC ACCEPTANCE
 PASSED / ROLE-PRIVACY ACCEPTANCE PASSED / POST-ACCEPTANCE BACKUP VERIFIED.**
 The preparation checklist later in this file is historical and must not be
 replayed as a second deployment. See
@@ -62,6 +70,13 @@ release, back up the stopped database/private directory as one consistent set.
 Schema rollback is **not** an automatic downgrade: old code rejects v2. Restore
 the matching pre-migration backup and old image set if needed, after preserving
 any post-release user data. Never drop columns/tables to force a rollback.
+
+The2October reviewed interface also requires `003_public_identity.sql` (schema3).
+It adds public reference/handle metadata only; Firebase UID and all authority are
+unchanged. Both002 and003 must be present in API/worker images. Verify migration
+inside an isolated image before release; a local source-only pass is insufficient.
+Schema2 code rejects schema3. Protect post-release data before any matching
+DB/private restore; do not edit schema-version tables to force compatibility.
 
 ## Worker lifecycle and failure policy
 

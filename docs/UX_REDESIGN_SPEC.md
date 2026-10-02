@@ -11,6 +11,12 @@ notification/handle-login security and flight assets remain explicit pending gat
 The older local/no-release statements below are historical checkpoints; they
 must not be mistaken for evidence that these pending capabilities were completed.
 
+2 October operational addendum: reviewed core/identity/sharing/analyst/history/
+own-Insights source `b6ee625` is deployed with schema3, unchanged frozen design,
+verified old data/files and encrypted recovery anchors. Signed-in Frost live
+acceptance awaits actual owner sign-in. This does not complete pending account
+services or owl flight; `FROST_RELEASE_COMPLETION.md` is the execution receipt.
+
 2 October bounded LOCAL review-loop refinement: previous Shared & assigned / saved
 notes are owner-approved (“ok working and good”). LOCAL_REVIEW_FEEDBACK.md connects
 owner-visible saved feedback/current assignments,3-row / See more / See less and

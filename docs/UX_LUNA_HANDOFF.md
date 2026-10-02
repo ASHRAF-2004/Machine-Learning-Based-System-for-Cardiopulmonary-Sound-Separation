@@ -19,6 +19,14 @@ flight remains ASSET-GATED. Continue only with their actual policy/security/asse
 prerequisites, not the preview timers/forms. Existing production rollout has not
 yet happened for this interface at this source checkpoint.
 
+Latest operational addendum: the tested increment is now deployed at source
+`b6ee625`, schema3, with verified pre/post encrypted recovery anchors. See
+`FROST_RELEASE_COMPLETION.md` for the first packaging failure/rollback, corrected
+isolated image gate, live data preservation and backup/resume proof. Signed-in
+Frost production acceptance is pending the owner's real Firebase sign-in, not
+silently replaced by local fictional identities. Remaining account/asset gates
+above stay pending; earlier local-only entries below describe historical scope.
+
 ## Current bounded L5 feedback loop — 2 October 2026
 
 Previous Shared & assigned / saved reviews are now owner-approved (“ok working and
