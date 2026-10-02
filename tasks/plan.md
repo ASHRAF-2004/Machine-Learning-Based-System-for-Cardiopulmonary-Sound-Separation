@@ -1,4 +1,36 @@
-# Current continuation: LOCAL Shared & assigned / reviews
+# Current continuation: finish approved Frost application and release — 2 October 2026
+
+Owner said “Done” and explicitly waived intermediate owner-review stops, requesting
+completion, push, merge of existing PRs and deployment. This supersedes earlier
+LOCAL-only release stops, not the frozen design/model/security invariants. Do not
+claim fresh hands-on acceptance or erase older evidence. Existing tasks remain.
+
+Capability/build order: review-history + own-workspace Insights → profile avatar
+and supported account capabilities → focused final regression/review → reviewed
+commits/push → existing PR9/2 merge → backed-up StethoFuse-only release/acceptance.
+Account lifecycle depends on a confirmed retention policy; handle login requires
+a secure contract; owl flight still depends on usable approved frames. Never fake
+these capabilities to call the release complete. No ML research or Axora changes.
+
+1. Connect bounded saved-review history under current exact-assignment authority;
+   revoked/expired/owner-disabled sources never expose titles, notes or siblings.
+2. Add own-recording Insights from real database aggregates, explicitly scoped;
+   no grantee/global-admin aggregate, invented metrics or clinical assessment.
+3. Finish supported settings/profile capabilities against real protected storage,
+   preserving approved materials and existing identity/session handling.
+4. Resolve lifecycle/security/assets gates without provider/auth bypasses. Use
+   the owner's asynchronous policy answer; never delete an existing account in
+   acceptance. Document unavailable capabilities honestly if a gate remains.
+5. Run focused real-local/browser checks and one appropriate final regression;
+   independent normal/preview builds. Five-axis review before merging.
+6. Push reviewed work as ASHRAF-2004 on existing branches/PRs. Before deployment,
+   verify health, backup/rollback anchor and migration preservation. One CPU worker;
+   preserve model/spec hashes, private grants, Firebase, routing and Axora isolation.
+
+Normative bounded execution contract: docs/FROST_RELEASE_COMPLETION.md. Tests use
+the isolated persistent local review and eligible RAW non-test HLS audio only.
+
+# Preserved continuation: LOCAL Shared & assigned / reviews
 
 Owner confirmed this slice works (“ok working and good”). Continue only its
 missing owner-feedback loop and true analyst-focused Overview under

@@ -12,6 +12,9 @@ export interface LiveAssignment extends LiveGrant {recording_title?:string|null;
 export interface LiveReview {assignment_id:string;assignment_public_id?:string;resource_id:string;resource_kind?:string;recording_title?:string|null;recording_public_id?:string;reviewer_id:string;decision:'pending'|'accepted'|'needs_attention';notes:string;updated_at:number|null}
 export interface OwnerReview {assignment_id:string;assignment_public_id:string;resource_id:string;resource_kind:string;reviewer_display_name:string;reviewer_handle:string;reviewer_public_id:string;decision:LiveReview['decision'];notes:string;updated_at:number|null;assigned_at:number;assignment_state:'active'|'revoked'|'expired'|'reviewer_unavailable'}
 export interface OwnerReviewPage {items:OwnerReview[];total:number;limit:number;offset:number}
+export interface SavedReview {assignment_id:string;assignment_public_id:string;resource_id:string;recording_title:string|null;recording_public_id:string;resource_kind:string;decision:LiveReview['decision'];notes:string;updated_at:number}
+export interface SavedReviewPage {items:SavedReview[];total:number;limit:number;offset:number}
+export interface WorkspaceInsights {scope:'owned_recordings';timezone:'UTC';as_of:number;counts:{total:number;recorded:number;queued:number;processing:number;ready:number;failed:number};recorded_seconds:number;days:{date:string;recordings:number;completed:number}[]}
 export interface LiveAudit {id:string;actor_id:string;action:string;target_id:string;created_at:number}
 export type LivePreferences = Record<string,Record<string,unknown>>;
 export const liveRoleLabel = (role:LiveRole) => ({healthcare_staff:'Healthcare Staff',audio_analyst:'Audio Analyst',admin:'Administrator'}[role]);

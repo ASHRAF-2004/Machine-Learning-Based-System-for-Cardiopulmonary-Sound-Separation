@@ -16,12 +16,13 @@ from app.access_foundation.store import TABLES
 from .processing_store import ProcessingStore
 from .public_identity_store import PublicIdentityStore
 from .sharing_store import HandleSharingStore
+from .workspace_store import WorkspaceStore
 
 M1_TABLES = {"m1_meta", "m1_recording_data", "m1_files", "m1_jobs", "m1_results",
              "m1_result_files", "m1_reviews", "m1_preferences"}
 
 
-class M1Store(PublicIdentityStore, HandleSharingStore, ProcessingStore, DevelopmentAccessStore):
+class M1Store(PublicIdentityStore, HandleSharingStore, WorkspaceStore, ProcessingStore, DevelopmentAccessStore):
     @staticmethod
     def _check_schema(db, *, allow_v1=False):
         names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
@@ -213,19 +214,13 @@ class M1Store(PublicIdentityStore, HandleSharingStore, ProcessingStore, Developm
 
     def assignments(self, identity):
         with self._connection() as db:
-            actor = self._actor(db, identity)
-            if actor["role"] != "audio_analyst":
-                raise AccessDenied("Access denied.")
+            joins, values = self._review_scope(db, identity)
             return [dict(r) for r in db.execute(
                 "SELECT g.*,d.title AS recording_title,o.public_id AS recording_public_id,r.kind AS resource_kind,"
                 "COALESCE(v.decision,'pending') AS review_decision,v.updated_at AS review_updated_at "
-                "FROM af_grants g JOIN af_recordings o ON o.id=g.recording_id JOIN af_users u ON u.id=o.owner_id "
-                "JOIN af_resources r ON r.id=g.resource_id AND r.recording_id=o.id "
-                "LEFT JOIN m1_recording_data d ON d.recording_id=o.id LEFT JOIN m1_reviews v ON v.assignment_id=g.id "
-                "WHERE g.recipient_id=? AND g.permission='review' AND g.status='active' AND g.grantor_id=o.owner_id "
-                "AND u.status='active' AND u.email_verified=1 AND (g.expires_at IS NULL OR g.expires_at>?) "
+                + joins +
                 "ORDER BY CASE COALESCE(v.decision,'pending') WHEN 'pending' THEN 0 ELSE 1 END,g.created_at,g.id",
-                (actor["id"], int(time.time())),
+                values,
             )]
 
     def review(self, identity, grant_id, *, decision=None, notes=None):

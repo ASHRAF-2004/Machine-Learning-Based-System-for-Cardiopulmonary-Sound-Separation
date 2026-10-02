@@ -1,5 +1,16 @@
 # StethoFuse UX direction: Frost Studio
 
+2 October continuation: the owner waived intermediate reviews and requested
+push/merge/deployment of completed work. Frost Studio polish-v1 remains approved;
+no visual decision reopened. `FROST_RELEASE_COMPLETION.md` adds real bounded saved
+review history and scoped own-Library Insights through approved materials and
+navigation. Current saved-history access inherits the exact assignment, not
+permanent access after revocation. New mobile headings stack their primary action;
+no typography/palette/player/analysis/renderer change. Account lifecycle, avatar,
+notification/handle-login security and flight assets remain explicit pending gates.
+The older local/no-release statements below are historical checkpoints; they
+must not be mistaken for evidence that these pending capabilities were completed.
+
 2 October bounded LOCAL review-loop refinement: previous Shared & assigned / saved
 notes are owner-approved (“ok working and good”). LOCAL_REVIEW_FEEDBACK.md connects
 owner-visible saved feedback/current assignments,3-row / See more / See less and

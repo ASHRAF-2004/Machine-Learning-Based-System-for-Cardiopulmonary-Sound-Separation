@@ -1,4 +1,27 @@
-# Frost Studio prototype tasks
+# Frost Studio completion and release — owner continuation2October2026
+
+- [x] Recheck permissions, clean nested HEADs, GitHub ASHRAF-2004, existing PR9/2.
+- [x] Record latest continuation: intermediate owner reviews waived, merge/deploy
+  requested; preserve older pending-review records without inventing test evidence.
+- [x] Connect bounded saved-review history with exact-resource revocation parity.
+  - Verify: focused role/owner/expiry/privacy/pagination tests; real browser history.
+- [x] Connect real own-workspace Insights and frozen navigation/components.
+  - Verify: cross-owner aggregates denied, actual counts and empty/error/mobile states.
+- [ ] Complete supported profile/account work under documented security contracts.
+  - Verify: protected artifact validation/ownership and no provider/runtime bypass.
+- [ ] Resolve lifecycle policy/security/flight asset gates; no simulated success.
+- [x] Focused browser + appropriate application regression for releasable increment;
+  standalone builds0. 174 passes +26 subtests/4 optional skips;8 client checks.
+- [ ] Five-axis review, evidence/FYP2/PAUSE, reviewed commits/push on existing branches.
+- [ ] Merge existing PR9/2 only after release readiness; no force push.
+- [ ] Verified backup/rollback/migration, isolated StethoFuse deploy/live acceptance.
+- [ ] Post-release backup/service recovery/evidence; frozen ML/T9/Axora unchanged.
+
+Avatar/lifecycle/notification/handle-login/flight are still explicitly gated. The
+owner's retention answer is pending; never check these boxes merely because the
+current tested interface can be released. No production mutation at this checkpoint.
+
+# Preserved Frost Studio prototype tasks
 
 - [x] Preflight, owner reference study, skill verification, initial design contract.
 - [x] Foundations: reusable tokens/shell + four-screen isolated local entry.
@@ -55,4 +78,5 @@
   - Verify: role priorities, honest counts/error, no extra permissions.
 - [x] Separate new local windows/data; focused visual/browser checks and finite builds.
 - [x] Five-axis review, evidence/FYP2/PAUSE and Git checkpoint; stop for hands-on review.
-- [ ] Owner review of new closed feedback loop — no deployment.
+- [x] Owner continuation2October: “Done”; intermediate review stop waived.
+  This is continuation authorization, not invented additional hands-on test evidence.

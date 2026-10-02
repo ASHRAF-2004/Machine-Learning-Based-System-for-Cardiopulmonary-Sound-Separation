@@ -1,48 +1,18 @@
-import {useCallback,useEffect,useId,useRef,useState} from 'react';
+import {useId,useState} from 'react';
 import {CaretDown,CaretUp,ClipboardText,SpinnerGap} from '@phosphor-icons/react';
-import {useLive} from '../data/live';
-import type {OwnerReviewPage} from '../data/liveTypes';
+import type {OwnerReview} from '../data/liveTypes';
 import {Button,CopyId,GlassPanel,Notice,ProfileIdentity,SectionHeading} from './primitives';
 import {ReviewStatus} from './AssignmentRows';
-import {dateLabel,errorMessage} from './data';
-
-/** Owner-only response, bounded three-row pages. Refresh discards previous pages. */
-function useOwnerReviews(id:string){
-  const {api}=useLive();
-  const [response,setResponse]=useState<{client:typeof api;id:string;page:OwnerReviewPage}|null>(null);
-  const [error,setError]=useState(''),[loading,setLoading]=useState(true),[more,setMore]=useState(false),[revision,setRevision]=useState(0);
-  const nextRequest=useRef<AbortController|null>(null);
-  const reload=useCallback(()=>setRevision(value=>value+1),[]);
-  const value=response?.client===api&&response.id===id?response.page:null;
-  useEffect(()=>{
-    const controller=new AbortController();nextRequest.current?.abort();setMore(false);setResponse(null);setLoading(true);setError('');
-    void api.json<OwnerReviewPage>(`/recordings/${id}/reviews`,{signal:controller.signal},{limit:3}).then(page=>{
-      if(!controller.signal.aborted)setResponse({client:api,id,page});
-    }).catch(failure=>{if(!controller.signal.aborted)setError(errorMessage(failure));}).finally(()=>{if(!controller.signal.aborted)setLoading(false);});
-    const refresh=()=>{if(!document.hidden)reload();};
-    window.addEventListener('focus',refresh);document.addEventListener('visibilitychange',refresh);window.addEventListener('sf-review-updated',refresh);
-    return()=>{controller.abort();nextRequest.current?.abort();window.removeEventListener('focus',refresh);document.removeEventListener('visibilitychange',refresh);window.removeEventListener('sf-review-updated',refresh);};
-  },[api,id,revision,reload]);
-  async function loadMore(){
-    if(!value||loading||more)return;
-    const controller=new AbortController();nextRequest.current=controller;setMore(true);setError('');
-    try{
-      const page=await api.json<OwnerReviewPage>(`/recordings/${id}/reviews`,{signal:controller.signal},{limit:3,offset:value.items.length});
-      if(!controller.signal.aborted)setResponse({client:api,id,page:{...page,items:[...value.items,...page.items].filter((item,index,items)=>items.findIndex(other=>other.assignment_id===item.assignment_id)===index)}});
-    }catch(failure){if(!controller.signal.aborted){setResponse(null);setError(errorMessage(failure));}}
-    finally{if(!controller.signal.aborted)setMore(false);}
-  }
-  function collapse(){nextRequest.current?.abort();setMore(false);if(value)setResponse({client:api,id,page:{...value,items:value.items.slice(0,3)}});}
-  return {value,error,loading,more,reload,loadMore,collapse};
-}
-function FeedbackNotes({notes,saved}:{notes:string;saved:boolean}){
+import {dateLabel} from './data';
+import {useReviewPage} from './useReviewPage';
+export function FeedbackNotes({notes,saved}:{notes:string;saved:boolean}){
   const [expanded,setExpanded]=useState(false),id=useId();
   if(!notes)return <p className="sf-subtle">{saved?'No notes were added.':'Waiting for the analyst’s saved observations.'}</p>;
   return <div><p className="sf-feedback-notes" id={id}>{notes.length>300&&!expanded?notes.slice(0,300)+'…':notes}</p>{notes.length>300&&<Button variant="ghost" aria-controls={id} aria-expanded={expanded} onClick={()=>setExpanded(value=>!value)}>{expanded?'Read less':'Read more notes'}</Button>}</div>;
 }
 const states={active:'Current assignment',revoked:'Access revoked',expired:'Assignment expired',reviewer_unavailable:'Reviewer unavailable'};
 export function OwnerReviewFeedback({id,onRequest}:{id:string;onRequest:()=>void}){
-  const data=useOwnerReviews(id),listId=useId();
+  const data=useReviewPage<OwnerReview>(`/recordings/${id}/reviews`),listId=useId();
   return <GlassPanel className="sf-owner-feedback" label="Analyst feedback">
     <SectionHeading title="Analyst feedback" description="A second pair of ears, with observations saved for you." action={<Button variant="secondary" onClick={onRequest}><ClipboardText size={18}/>Request review</Button>}/>
     {data.error?<div role="alert"><Notice danger>{data.error}</Notice><Button variant="ghost" onClick={data.reload}>Retry feedback</Button></div>:data.loading?<p className="sf-feedback-loading" role="status"><SpinnerGap size={18}/>Loading feedback…</p>:data.value&&<>

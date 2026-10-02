@@ -1,5 +1,24 @@
 # Frost Studio v1.1 — owner-approved handoff, bounded LOCAL progress
 
+## Current continuation and releasable progress — 2 October 2026
+
+The owner said “Done” and explicitly requested continued work, push/merge and
+deployment without intermediate visual-review stops. This supersedes the older
+LOCAL-only stop/no-main-merge entries below, not frozen design, ML/T9, privacy or
+unresolved lifecycle/asset gates. Do not invent another hands-on owner acceptance.
+`FROST_RELEASE_COMPLETION.md` records new real `/api/reviews/history` and
+`/api/insights` reads plus their approved component adapters. `/app/review-history`
+now shows bounded current authorized saved reviews; `/app/insights` is connected
+and is in navigation. Owned-library activity only, no audio quality score.
+174 application passes +26 subtests/4 optional skips,8 MOCK client checks,3 real
+browser groups +1 labelled transport fault; inspected final-v3 responsive/themes;
+both standalone builds0. No new schema from these two readers (release still
+requires the existing additive003 migration for earlier local identity work).
+Avatar/lifecycle/notification services and secure handle login are not complete;
+flight remains ASSET-GATED. Continue only with their actual policy/security/assets
+prerequisites, not the preview timers/forms. Existing production rollout has not
+yet happened for this interface at this source checkpoint.
+
 ## Current bounded L5 feedback loop — 2 October 2026
 
 Previous Shared & assigned / saved reviews are now owner-approved (“ok working and

@@ -291,6 +291,15 @@ def create_app(settings: Settings | None = None, *, verifier=None) -> FastAPI:
     def jobs(who=Depends(principal), store=Depends(database)):
         return {"items": store.jobs(who)}
 
+    @app.get("/api/insights")
+    def insights(who=Depends(principal), store=Depends(database)):
+        return store.insights(who)
+
+    @app.get("/api/reviews/history")
+    def review_history(limit: int = Query(default=3, ge=1, le=20),
+                       offset: int = Query(default=0, ge=0), who=Depends(principal), store=Depends(database)):
+        return store.review_history(who, limit=limit, offset=offset)
+
     @app.get("/api/jobs/{job_id}")
     def job(job_id: str, who=Depends(principal), store=Depends(database)):
         return store.jobs(who, job_id)

@@ -29,7 +29,7 @@ export function createApiClient(token: TokenSource, onSessionExpired: () => void
     // Pagination is typed numeric data, never a caller-supplied URL/query/token.
     let suffix='';
     if(page){
-      if(!/^\/recordings\/[a-z0-9_-]+\/reviews$/i.test(path)||!Number.isSafeInteger(page.limit)||page.limit<1||page.limit>20||!Number.isSafeInteger(page.offset??0)||(page.offset??0)<0)throw new Error('Invalid feedback page.');
+      if(!(path==='/reviews/history'||/^\/recordings\/[a-z0-9_-]+\/reviews$/i.test(path))||!Number.isSafeInteger(page.limit)||page.limit<1||page.limit>20||!Number.isSafeInteger(page.offset??0)||(page.offset??0)<0)throw new Error('Invalid feedback page.');
       suffix=`?limit=${page.limit}&offset=${page.offset??0}`;
     }
     for (let attempt = 0; attempt < 2; attempt++) {

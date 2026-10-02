@@ -4,7 +4,7 @@ import {spawn} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {createServer} from 'node:net';
 import {fileURLToPath} from 'node:url';
-import {cp,mkdir,open,readFile,writeFile,stat} from 'node:fs/promises';
+import {cp,mkdir,open,readFile,readlink,writeFile,stat} from 'node:fs/promises';
 import path from 'node:path';
 import {chromium} from 'playwright-core';
 
@@ -32,7 +32,13 @@ const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function birth(pid){const value=await readFile(`/proc/${pid}/stat`,'utf8');return value.slice(value.lastIndexOf(')')+2).split(' ')[19];}
 if(process.argv.includes('--stop')){
   let state;try{state=JSON.parse(await readFile(receipt,'utf8'));}catch(error){if(error.code==='ENOENT'){console.log('No identity-review session; data retained.');process.exit(0);}throw error;}
-  try{if(await birth(state.pid)!==state.processBirth||!(await readFile(`/proc/${state.pid}/cmdline`,'utf8')).split('\0').includes(filename))throw Error('PID identity mismatch; refusing to signal.');process.kill(state.pid,'SIGTERM');console.log('Stop requested for identity review only. All review data is retained.');}
+  try{
+    const argv=(await readFile(`/proc/${state.pid}/cmdline`,'utf8')).split('\0');
+    const cwd=await readlink(`/proc/${state.pid}/cwd`);
+    // Normal relative-path launch must still match this exact script and PID birth.
+    if(await birth(state.pid)!==state.processBirth||!argv[1]||path.resolve(cwd,argv[1])!==filename)throw Error('PID identity mismatch; refusing to signal.');
+    process.kill(state.pid,'SIGTERM');console.log('Stop requested for identity review only. All review data is retained.');
+  }
   catch(error){if(!['ENOENT','ESRCH'].includes(error.code))throw error;console.log('Session already stopped; data retained.');}
   process.exit(0);
 }

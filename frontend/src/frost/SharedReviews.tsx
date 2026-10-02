@@ -30,6 +30,7 @@ function AssignedQueue(){
   const visible=expanded?rows:rows.slice(0,3);
   return <GlassPanel className="sf-assignment-panel" label="Assigned reviews">
     <SectionHeading title="Your review queue" description="Unfinished reviews first. Each assignment covers one original or result." action={<Button variant="ghost" onClick={data.reload}>Refresh access</Button>}/>
+    <Link className="sf-text-link" to="/app/review-history">Saved review history</Link>
     <div className="sf-assignment-tools"><label className="sf-search-field"><MagnifyingGlass size={20}/><span className="sf-sr">Search assigned reviews by title or public reference</span><input type="search" value={search} placeholder="Search title, REC or ASN reference" onChange={event=>change('q',event.target.value)}/>{search&&<Button variant="icon" aria-label="Clear review search" onClick={()=>change('q','')}><X size={18}/></Button>}</label><Segments<'pending'|'all'> label="Review filters" value={all?'all':'pending'} onChange={value=>change('reviews',value)} items={[{id:'pending',label:'To review'},{id:'all',label:'All assignments'}]}/></div>
     <RequestState {...data}/>
     {data.value&&!data.error&&(rows.length?<>

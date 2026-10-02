@@ -9,6 +9,8 @@ import FrostAccount from '../frost/Account';
 import {Sharing} from '../frost/Sharing';
 import {SharedWorkspace} from '../frost/SharedReviews';
 import {AssignedReview} from '../frost/AssignedReview';
+import {ReviewHistory} from '../frost/ReviewHistory';
+import {Insights} from '../frost/Insights';
 import {Badge,Button,CopyId,Empty,ErrorState,Field,Notice,PageHeading,Panel,Skeleton,StatStrip,Status,Table,UnsavedGuard} from '../components/ui';
 import {useLive} from '../data/live';
 import {useApp} from '../data/store';
@@ -55,6 +57,7 @@ function LiveRoute(){
  if(pathname==='/app/recordings')return <Navigate replace to="/app/library"/>;
  if(pathname==='/app/library')return <FrostLibrary/>;
  if(pathname==='/app/shared')return <SharedWorkspace/>;
+ if(pathname==='/app/insights')return <Insights/>;
  if(pathname==='/app/recordings/new')return <FrostNewRecording/>;
  if(pathname==='/app/recordings/new/upload')return <FrostUpload/>;
  if(pathname==='/app/recordings/new/record')return <RecordingComingSoon/>;
@@ -66,7 +69,7 @@ function LiveRoute(){
  if(/^\/app\/results\/[^/]+$/.test(pathname))return <FrostResultDetail id={pathname.split('/')[3]}/>;
  if(/^\/app\/audio\/[^/]+$/.test(pathname))return <MediaDetail id={pathname.split('/')[3]}/>;
  if(['/app/review-queue','/app/assigned'].includes(pathname))return <Navigate replace to="/app/shared?view=assigned"/>;
- if(pathname==='/app/review-history')return <Unavailable title="Review history" detail="The current API exposes active assignments. Historical review retrieval is not connected to this screen yet; old notes are retained by the backend."/>;
+ if(pathname==='/app/review-history')return <ReviewHistory/>;
  if(/^\/app\/reviews\/[^/]+$/.test(pathname))return <AssignedReview id={pathname.split('/')[3]}/>;
  if(pathname==='/app/profile'||pathname==='/app/settings')return <FrostAccount/>;
  if(pathname==='/app/admin')return <AdminOverview/>;
