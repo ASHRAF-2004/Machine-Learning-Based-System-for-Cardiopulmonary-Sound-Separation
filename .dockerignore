@@ -20,6 +20,7 @@ app/m1/*
 !app/m1/migrations/
 app/m1/migrations/*
 !app/m1/migrations/002_processing.sql
+!app/m1/migrations/003_public_identity.sql
 !app/ml/
 app/ml/*
 !app/ml/stethofuse_tcn.py

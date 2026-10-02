@@ -164,3 +164,27 @@ Database schema2/integrity ok:3 users,6 recordings,15 resources,3 grants,3 jobs,
 3 results,1 saved review. Production model/spec hashes exactly match the frozen
 values. Actual release execution/backup/migration/live acceptance must be recorded
 separately after they occur; these preflight observations are not deployment proof.
+
+## First release attempt / recovered packaging defect
+
+Source10d07a9 was pushed and exported from clean Git. Pre-migration encrypted
+snapshot `09f6d0ed6def14fad3de995d3f89513a173476e443a77cdcdfa0d1f92c14d7a5`
+completed remotely at14:28+08. A focused restore of schema2 SQLite and frozen model
+bundle into `/var/backups/stethofuse/frost-release-20261002.jkTawY/restored-pre`
+proved integrity ok and both exact hashes. Existing helper quiesced/resumed all
+three StethoFuse writers; pruning stayed disabled. Old images were preserved as
+`:pre-frost-20261002`, root-only runtime copy retained, no SSH trust bypass.
+
+The first new container startup failed closed: the Docker context allowlist had
+not included `003_public_identity.sql`. Both API/worker reported a missing migration;
+API became unhealthy and public API briefly502. No migration or generated result
+was published: SQLite remained schema2,3 users/6 recordings/3 succeeded jobs intact.
+Restored old image aliases/runtime/deploy symlink immediately; old services/public
+API200 resumed. No DB restore/downgrade or data deletion was needed. Axora remained
+200 throughout. This is an unsuccessful deployment attempt, not live acceptance.
+
+Minimal correction: explicitly include003 beside002 in `.dockerignore`. Added one
+operator regression requiring every source migration to be admitted by the runtime
+context. It first failed on003 as expected; after the fix it passes. Before retry,
+both corrected images must pass a filesystem presence check and isolated v2→v3
+migration/preservation check. No auth, model, inference or frontend design change.
