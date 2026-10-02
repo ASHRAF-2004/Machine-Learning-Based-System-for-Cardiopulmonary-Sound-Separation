@@ -229,7 +229,7 @@ directory's `restored-post/` proved schema3/integrity ok, zero FK errors, expect
 counts and both exact artifact hashes. Live paths were never overwritten.
 Backup timer remains active; pruning remains disabled; no snapshots deleted.
 
-**Signed-in Frost production acceptance remains PENDING.** A dedicated visible
+**At the release checkpoint, signed-in Frost acceptance was PENDING.** A dedicated visible
 Chrome window rendered the official production login with real Firebase and no
 test SDK, transport interception or fixture fallback. Staff sign-in was requested
 from the owner, without requesting/reading credentials. The older completed live
@@ -242,3 +242,51 @@ successful003, old schema2 code cannot be started against schema3: preserve new
 data first and use a matching protected DB/private recovery set if an actual
 rollback is required. Never manually downgrade/drop schema or overwrite newer
 user data. Keep the pre/post recovery anchors and old image tags available.
+
+## Live Staff acceptance / remaining Analyst sign-in gate
+
+On2October the owner completed real Google/Firebase sign-in in the existing
+ordinary Brave profile. Google had refused the dedicated automated Chrome
+session; no browser-security workaround, profile/cookie copying, Firebase change
+or authentication-code change was used. Normal Brave rendered the actual signed-in
+Frost Overview as the existing Healthcare Staff `@ivoryfinch`.
+
+Uploaded the dataset's **recorded** `datasets/hls_cmds/raw/Mix/M0001.wav`, not
+mathematical tones. The existing native-triplet manifest marks M0001 eligible
+non-test, with no exclusion reasons; complete SHA-256
+`8e0efd28aaf89f7efbd8107805a74bd837bcc70ea3dc4b4b783eff0e6a220616` agrees
+with the uploaded original. This is a non-patient manikin workflow fixture, not
+training, native-triplet supervision, T9 or a new accuracy evaluation.
+
+| Live observation | Actual result |
+|---|---|
+| Recording | `REC-GCD3-P6HBEG`, labelled raw-HLS/non-patient/no-T9 acceptance |
+| Request / durable job | Visible Starting indicator; DB queued then succeeded, `JOB-6SB3-VQNK8F`, one attempt |
+| Result | `RES-8H8V-J0VREG`; automatic private Original/Heart/Lung loading |
+| Worker | CPU inference0.145538s; processing0.256122s; actual code SHA remainsb6ee625 |
+| Artifacts | Both finite4-kHz mono float32 outputs,60,000 samples; original hash unchanged |
+| Playback | Heart seek to7s, source switching, keyboard100/150/200% and Boost; restored initial100% |
+| Download | Heart WAV hash `d2a1fa541116b634455c8e1ce1b502b7628e7e69ee93443b6e3d69cfbfa0f1da` matches stored output |
+| Measured before/after | Original/Heart/Lung crest14.2/14.6/14.9dB, with levels/duration/clipping; not an accuracy judgment |
+| Persistence / Insights | Full refresh restores Ready; Library/Insights and DB agree:5 owned recordings,4 Ready |
+| Integrity | Schema3/integrity ok, zero FK errors, both frozen model hashes unchanged |
+| Owner sharing | Exact-handle lookup `@blueheron`; successful narrow grants and `grant.created` audits |
+
+Only two temporary scopes were created on this new acceptance recording:
+Heart read `GRT-67DT-NTPQ1F` and exact result review `GRT-46T1-XX9Z6J` /
+`ASN-133J-S0Q42V`. Neither grants Original or Lung. Older grants remain revoked;
+older recordings/results are not removed. These grants are **active pending the
+live Analyst check and deliberate revocation**, not a permanent sharing change.
+
+The separate ordinary Brave login window is ready for the owner to sign in as
+the existing Analyst `@blueheron`. Analyst access/sibling isolation, saved review/
+history, owner feedback, revocation/denial and final post-acceptance encrypted
+backup are **PENDING**, not inferred from the Staff view or earlier local tests.
+The verifieda32d8b1 post-release snapshot predates this new recording/grants.
+No new repeat-POST latency or HTTP latency claim is made; earlier idempotency
+evidence remains historical. This is not owner hands-on or clinical acceptance.
+
+Ignored local receipt: `frontend/output/playwright/frost-production-live-v1/staff-receipt.json`,
+SHA-256 `42fe75cdb2896b8079020669c0796a3a810ceef243c1ada7d230f7d0622298da`.
+The receipt lists personally inspected window captures and the authorized download.
+No model, inference, source, frontend, auth policy, routing or Axora change occurred.
