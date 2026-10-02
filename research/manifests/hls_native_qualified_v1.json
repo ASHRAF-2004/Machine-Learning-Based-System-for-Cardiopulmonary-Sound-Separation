@@ -1,0 +1,3891 @@
+{
+  "correspondence_path": "research/evidence/hls_native_correspondence_v1.json",
+  "correspondence_sha256": "cfb9909913b243024ead476298a6b613798a9089530fe27a6eb9e4d3417200e9",
+  "counts": {
+    "N1": 27,
+    "N2": 0,
+    "N3": 0,
+    "REJECTED_CORRESPONDENCE": 73,
+    "UNASSESSED_T9_EXCLUDED": 45,
+    "exact_triplet_duplicates_not_selected": 1,
+    "selected_training_triplets": 26
+  },
+  "notes": [
+    "N1 means quantified waveform correspondence, not proof of simultaneous physical acquisition.",
+    "Every selected row happens to be in the later release ID block; ID was not a selection criterion.",
+    "Rejected early triplets are not demonstrated useless for all future methods; none enters this bounded waveform intervention.",
+    "T9-associated native files are unassessed and unopened, not technically rejected based on test audio."
+  ],
+  "registry_path": "research/manifests/hls_native_triplets_v1.json",
+  "registry_sha256": "56f958996682fd61e598efc07c1084c8d41a2d5fdf8c453802dc27d8109fb0ae",
+  "rows": [
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        128.2071282787847,
+        144.4940401511669
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0001"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:s3|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        27.688692797499787,
+        35.07664063825693
+      ],
+      "heart_family": "S3",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0002"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        53.26824085995352,
+        69.86398970515381
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0003"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s3|ls:coarse-crackles",
+      "heart_family": "S3",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0004"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:fine-crackles",
+      "heart_family": "AV Block",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0005"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:s3|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        178.91114531727303,
+        336.5096946849633
+      ],
+      "heart_family": "S3",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0006"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        37.68854693670335,
+        202.93861964399105
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0007"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:early-systolic-murmur|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        85.28764347708405,
+        64.70895762404147
+      ],
+      "heart_family": "Early Systolic Murmur",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0008"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        378.047874997187,
+        584.0793068946706
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0009"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:early-systolic-murmur|ls:coarse-crackles",
+      "heart_family": "Early Systolic Murmur",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0010"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:normal",
+      "heart_family": "S4",
+      "lung_family": "Normal",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0011"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:rhonchi",
+      "heart_family": "AV Block",
+      "lung_family": "Rhonchi",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0012"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        179.60235018491537,
+        80.67134811716507
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0013"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        23.525377201558296,
+        29.5649594266033
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0014"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:coarse-crackles",
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0015"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        157.98201308006327,
+        170.48830344481163
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0016"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s3|ls:coarse-crackles",
+      "heart_family": "S3",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0017"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        73.13673430059653,
+        59.02496979164201
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0018"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        37.22378635985461,
+        32.35799081256138
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0019"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        248.40089149464154,
+        152.62319926527874
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0020"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:late-systolic-murmur|ls:coarse-crackles",
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0021"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:fine-crackles",
+      "heart_family": "AV Block",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0022"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        18.92796035767183,
+        18.65094591052862
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0023"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:wheezing",
+      "heart_family": "S4",
+      "lung_family": "Wheezing",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0024"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        53.70735755573745,
+        35.72175559941277
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0025"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:s3|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        140.16147930713407,
+        138.03464048236552
+      ],
+      "heart_family": "S3",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0026"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:coarse-crackles",
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0027"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:coarse-crackles",
+      "heart_family": "AV Block",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block",
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0028"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        419.6820262999614,
+        380.0815935704388
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0029"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:pleural-rub",
+      "heart_family": "S4",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0030"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:fine-crackles",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        84.72575434657475,
+        72.01313726583274
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0031"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        42.06121091049793,
+        57.440406826648356
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0032"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:fine-crackles",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        88.21371394213327,
+        93.0848049900262
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0033"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:early-systolic-murmur|ls:coarse-crackles",
+      "heart_family": "Early Systolic Murmur",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0034"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:fine-crackles",
+      "heart_family": "S4",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0035"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:s3|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        717.5630155815843,
+        862.1531700748255
+      ],
+      "heart_family": "S3",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0036"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:normal",
+      "heart_family": "AV Block",
+      "lung_family": "Normal",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0037"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:s3|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        881.5159193370764,
+        1149.0543843786393
+      ],
+      "heart_family": "S3",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0038"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:normal|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        219.3749726541222,
+        196.92460981530957
+      ],
+      "heart_family": "Normal",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0039"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        30.055081795497657,
+        32.49366342838075
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0040"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        71.06784047173086,
+        50.26649514804338
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0041"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:coarse-crackles",
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0042"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        93.76432635731098,
+        80.78930105620488
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0043"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:normal|ls:coarse-crackles",
+      "heart_family": "Normal",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0044"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:fine-crackles",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        65.5551044103617,
+        101.49327818693911
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0045"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        475.86903645234815,
+        488.77151056988436
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0046"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        33.3341344546107,
+        61.256215418321965
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0047"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:wheezing",
+      "heart_family": "S4",
+      "lung_family": "Wheezing",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0048"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:rhonchi",
+      "heart_family": "S4",
+      "lung_family": "Rhonchi",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0049"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:early-systolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        1596.2271610195173,
+        2154.721566245801
+      ],
+      "heart_family": "Early Systolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0050"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        51.89712439692839,
+        87.3905237906241
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0051"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:early-systolic-murmur|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        187.43381335271806,
+        221.09542091189135
+      ],
+      "heart_family": "Early Systolic Murmur",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0052"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:atrial-fibrillation|ls:coarse-crackles",
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0053"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        103.72066901747182,
+        150.46677372154127
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0054"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:fine-crackles",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        541.3963231908451,
+        423.1596451742751
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0055"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:rhonchi",
+      "heart_family": "AV Block",
+      "lung_family": "Rhonchi",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0056"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:coarse-crackles",
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0057"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:rhonchi",
+      "heart_family": "S4",
+      "lung_family": "Rhonchi",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0058"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:s3|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        115.90386956464756,
+        178.8908776273869
+      ],
+      "heart_family": "S3",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0059"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        54.5454234819208,
+        44.80737919182401
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0060"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:rhonchi",
+      "heart_family": "S4",
+      "lung_family": "Rhonchi",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0061"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:tachycardia|ls:coarse-crackles",
+      "heart_family": "Tachycardia",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0062"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:pleural-rub",
+      "heart_family": "S4",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0063"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:pleural-rub",
+      "heart_family": "S4",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0064"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        59.57087574577083,
+        260.0361406679321
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0065"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:normal|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        187.99978694130684,
+        291.6634933101179
+      ],
+      "heart_family": "Normal",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0066"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        120.66609128760892,
+        76.17587826644224
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0067"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:s3|ls:fine-crackles",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        849.5608345552848,
+        576.7535470830505
+      ],
+      "heart_family": "S3",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0068"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:late-systolic-murmur|ls:coarse-crackles",
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0069"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        67.275365283311,
+        139.88657402452782
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0070"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:s3|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        183.60635577639067,
+        188.12725415460272
+      ],
+      "heart_family": "S3",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0071"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:s3|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        214.88883357174808,
+        237.6750451163289
+      ],
+      "heart_family": "S3",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0072"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        98.0688677442819,
+        75.17397840538784
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0073"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:normal|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        34.23010705543064,
+        23.78093379636442
+      ],
+      "heart_family": "Normal",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0074"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:early-systolic-murmur|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        51.05545866593299,
+        59.621156667654105
+      ],
+      "heart_family": "Early Systolic Murmur",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0075"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:fine-crackles",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        2314.3719090220475,
+        1088.8404356671558
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0076"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        13663.9611610594,
+        18043.97455600189
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0077"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        301.9141044340517,
+        299.74282471293066
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0078"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:tachycardia|ls:coarse-crackles",
+      "heart_family": "Tachycardia",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0079"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        449.4046800240214,
+        580.646724542904
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0080"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        250.26023221075778,
+        461.57609384841254
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0081"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:fine-crackles",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        78.41833427305603,
+        86.54708893247815
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0082"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:pleural-rub",
+      "heart_family": "AV Block",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0083"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:early-systolic-murmur|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        41.1867204308105,
+        31.639660886092482
+      ],
+      "heart_family": "Early Systolic Murmur",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0084"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:normal|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        22.311843571453977,
+        19.702605102596838
+      ],
+      "heart_family": "Normal",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0085"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        3542.395360644966,
+        3073.893878713314
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0086"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:atrial-fibrillation|ls:coarse-crackles",
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0087"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:rhonchi",
+      "heart_family": "S4",
+      "lung_family": "Rhonchi",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0088"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        134.6750185273643,
+        180.52507787905762
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0089"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        33.172140176242294,
+        44.2449481732846
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0090"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        83.2416805994213,
+        53.78889787288511
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0091"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:wheezing",
+      "heart_family": "S4",
+      "lung_family": "Wheezing",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0092"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:coarse-crackles",
+      "heart_family": "AV Block",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block",
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0093"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        45.225607973166575,
+        58.083439069235034
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0094"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        99.96029799326202,
+        119.28659463686563
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0095"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:normal|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        63.24371352406742,
+        32.769417929120245
+      ],
+      "heart_family": "Normal",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0096"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-diastolic-murmur|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        162.18084750539145,
+        214.76426865445862
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0097"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:tachycardia|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        112.06876907632167,
+        70.8798349574434
+      ],
+      "heart_family": "Tachycardia",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0098"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:fine-crackles",
+      "heart_family": "AV Block",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0099"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:late-systolic-murmur|ls:coarse-crackles",
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0100"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        34.161750513059104,
+        26.426011464760137
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0101"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:atrial-fibrillation|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        28.929573431848585,
+        23.657853558176846
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0102"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:normal|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        831.1491028809988,
+        818.5570027055516
+      ],
+      "heart_family": "Normal",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0103"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:fine-crackles",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        57.53008366993914,
+        58.309405204197944
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0104"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:wheezing",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        144.3658039498268,
+        137.3295906339805
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Wheezing",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0105"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:normal|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        126.15579603964132,
+        140.03255849512254
+      ],
+      "heart_family": "Normal",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0106"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:normal|ls:pleural-rub",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        25.600107070880792,
+        34.808609581058164
+      ],
+      "heart_family": "Normal",
+      "lung_family": "Pleural Rub",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0107"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:late-systolic-murmur|ls:rhonchi",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        1209.3860711652758,
+        844.3017342788088
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "lung_family": "Rhonchi",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0108"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:mid-systolic-murmur|ls:fine-crackles",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        106.45767828377643,
+        86.0588507802964
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0109"
+    },
+    {
+      "eligible_non_test": true,
+      "family_pair_id": "hs:early-systolic-murmur|ls:normal",
+      "full_flank_residual_weaker_source_rms_ratios": [
+        77.47972899450697,
+        88.6483981232027
+      ],
+      "heart_family": "Early Systolic Murmur",
+      "lung_family": "Normal",
+      "quality_tier": "REJECTED_CORRESPONDENCE",
+      "reasons": [
+        "IDENTITY_DELAY_SHARED_GAIN_RESIDUAL_EXCEEDS_10_PERCENT_WEAKER_SOURCE_RMS_ON_AT_LEAST_ONE_FULL_FLANK"
+      ],
+      "selected": false,
+      "triplet_id": "M0110"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f3",
+        "f4"
+      ],
+      "family_pair_id": "hs:normal|ls:fine-crackles",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0111.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0111.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "ac20a79f36c83ff6c29dbe3e1a10b06ca04d2a2a8772e8b6f6e21fb351338004",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "26109cae"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0111.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0111.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "9abfb764cde2e2f9151e07694b354655bc386c4c13fb1a63450aaa2c82e1fd7f",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "25c7f967"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0111.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0111.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "2253e27468f6ebac29eccaac4f04de2355ee1f554fc93f87348d4b147af519aa",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "43d27760"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0035461950084604587,
+        0.004797535941181478
+      ],
+      "gain": 3.4842346621426774,
+      "heart_family": "Normal",
+      "heart_lag_samples": 0,
+      "lung_family": "Fine Crackles",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LLA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0111"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f3",
+        "f5"
+      ],
+      "family_pair_id": "hs:late-systolic-murmur|ls:pleural-rub",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0112.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0112.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "3faf12768e5efec6beb1a2e9352564e8cc3077251c9a1c0dbcbde2d822aae89a",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "d5b7f710"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0112.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0112.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "c5b652830b5302016fb2be3003bcb420415843d1fa8ef870c9a79e53920471f2",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "7e5c7e7d"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0112.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0112.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "1a099c6c9d883983bb7a4be18286300104d7e921e4f8ec5ea8183d2476901218",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "96147815"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00023819495449934504,
+        0.0003909749207353449
+      ],
+      "gain": 23.689612923771854,
+      "heart_family": "Late Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Pleural Rub",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LLA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0112"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f2",
+        "f4",
+        "f5"
+      ],
+      "family_pair_id": "hs:mid-systolic-murmur|ls:rhonchi",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0113.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0113.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "0708a0409c0dda2c1d5d5b80fc7ce59a08567ba9bb26a3f603e29391c607e275",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "d3c0575a"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0113.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0113.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "abcfdd694638d1cf4f728e7b71db7f2729e9dc45b313c7e0944eb311c4ccac52",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "5632fdf6"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0113.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0113.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "c684a8b501f689c59a0100260193de7b4ce87ef6c60cda6dd500a8908ca101f4",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "e8784f20"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.001907142554366684,
+        0.002403845749250153
+      ],
+      "gain": 15.239408826861998,
+      "heart_family": "Mid Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Rhonchi",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RUSB",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0113"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f3",
+        "f5"
+      ],
+      "family_pair_id": "hs:atrial-fibrillation|ls:wheezing",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0114.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0114.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "0c8586c0e130c27690ab8899c7936923410ea5de7caf77a1ce625414154eafbb",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "10ef3678"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0114.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0114.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "7730efe789b1e6595b6cd7f94945cf62b737d56fc240b1cd8108c08a68604cc4",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "76c7fd00"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0114.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0114.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "7c1f47b3a1bf503ee3ea332f36adec99c0a95c00e03ba9d19382969ceb4cdada",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "5c2188b7"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00036335911499276255,
+        0.00036172984404265557
+      ],
+      "gain": 26.50626746590088,
+      "heart_family": "Atrial Fibrillation",
+      "heart_lag_samples": 0,
+      "lung_family": "Wheezing",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "Apex",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0114"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f3"
+      ],
+      "family_pair_id": "hs:atrial-fibrillation|ls:fine-crackles",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0115.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0115.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "d16353a5eaeabad19401408c817ebb0efc681fef1a9280727cbc5070c6db336d",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "a649b5b0"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0115.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0115.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "6c9fdb5ca7917bf64b2009ecdb764f85ac18c62ebb408b67a5f6be83618932a8",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "5106f2d6"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0115.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0115.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "8896dd44410fa731ac30fa50f2f136bd1d7d1c701299f722bdc6dca998ea9663",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "a7a5f714"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.000460382856341634,
+        0.0005182325989737428
+      ],
+      "gain": 38.68244933298633,
+      "heart_family": "Atrial Fibrillation",
+      "heart_lag_samples": 0,
+      "lung_family": "Fine Crackles",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LLA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0115"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:coarse-crackles",
+      "heart_family": "S4",
+      "lung_family": "Coarse Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4",
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "selected": false,
+      "triplet_id": "M0116"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f4",
+        "f5"
+      ],
+      "family_pair_id": "hs:early-systolic-murmur|ls:rhonchi",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0117.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0117.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "55a52703700170aab00b3c77ba284806956c53bb2ecb5fb57aef45d22f43070a",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "1dc7e290"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0117.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0117.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "763508c72b054c769b83be7b42df01c3fc17e710aaabffa67a4e61885f44da42",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "1bd05ec6"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0117.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0117.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "3f43113611d341a3f1bc8a1d200bd29be0551e29867e1ea933e9412b1fbd7a93",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "19ed77e1"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0003162094427761946,
+        0.0002796481544094567
+      ],
+      "gain": 19.832923350033823,
+      "heart_family": "Early Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Rhonchi",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RMA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0117"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f4"
+      ],
+      "family_pair_id": "hs:tachycardia|ls:fine-crackles",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0118.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0118.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "a3489fc0304fa4d3726b0e2b5e910676219bc84a3f6a77586dcb8f4be95a5123",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "efe03162"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0118.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0118.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "da6211d11656a0a6f7eb3991f7c2b2bad92177d8db61e4482fe452291130969a",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "1932b5f7"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0118.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0118.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "c52936f1214b8869fb9e20b47b282e0dbbf58f3642992d2eec6d0c3a8b56c334",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "ae370f86"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0011866193699825605,
+        0.0009406430705647901
+      ],
+      "gain": 8.140401232885184,
+      "heart_family": "Tachycardia",
+      "heart_lag_samples": 0,
+      "lung_family": "Fine Crackles",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RMA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0118"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f3"
+      ],
+      "family_pair_id": "hs:s3|ls:wheezing",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0119.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0119.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "b95d26556628a4d9690d252b6e6a4766288e2df9a525dce4a41db3a97c34ccc2",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "d0e10cd8"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0119.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0119.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "7730efe789b1e6595b6cd7f94945cf62b737d56fc240b1cd8108c08a68604cc4",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "76c7fd00"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0119.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0119.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "db636c9c1d0d4099a456cad7e9f2cc70e552dc73a633d0abdf5db15bf82d252b",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "90fb9d83"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00033707708514317563,
+        0.0008941019374724806
+      ],
+      "gain": 13.623078170378754,
+      "heart_family": "S3",
+      "heart_lag_samples": 0,
+      "lung_family": "Wheezing",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LLA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0119"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f4"
+      ],
+      "family_pair_id": "hs:early-systolic-murmur|ls:fine-crackles",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0120.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0120.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "a2d13bfd001519cb1a972c96ade909d31a59224064acbbaf83ade15aa49634fa",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "9600120c"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0120.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0120.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "4cb7d9feefd0e8656e649e015a0b6f658ebcae65b461eabdb13868f6c0e6f0dc",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "85d1417d"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0120.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0120.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "c616651fd106b3bd9f0cf046f84c6262a6a2ec3acfb9318da47784b03aa0653f",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "b496ef96"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.000140622080292909,
+        0.000156476114797991
+      ],
+      "gain": 135.38929379733386,
+      "heart_family": "Early Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Fine Crackles",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LLA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0120"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:wheezing",
+      "heart_family": "AV Block",
+      "lung_family": "Wheezing",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0121"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "heldout_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f3",
+        "f4",
+        "f5"
+      ],
+      "family_pair_id": "hs:normal|ls:normal",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0122.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0122.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "6d993c4c589a0cc79db882746bdecbbe24befc1a58e980b704fb7ffaf5b5ca80",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "204974ba"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0122.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0122.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "1ba22da1f72f00a382f854065cb8f7cce39f3a155335275cb01023fa9c7e940a",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "f7ad2e3e"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0122.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0122.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "45f2d3443c304259b7b3d330ba07da6a37e17b8bbf4815c62bee6e595f239451",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "df5837a8"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0006287594609078028,
+        0.0005149755914145037
+      ],
+      "gain": 59.13648627241048,
+      "heart_family": "Normal",
+      "heart_lag_samples": 0,
+      "lung_family": "Normal",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RC",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0122"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f3"
+      ],
+      "family_pair_id": "hs:late-diastolic-murmur|ls:wheezing",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0123.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0123.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "7cc5ed4feca6640f948180982b4dd6a2af3eccae5064089f56fad3be6b53fe96",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "90cf60f7"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0123.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0123.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "f3faa92fd750f9b37ecd0de60fdb13d6ddf3ca45702c0c8db985ef17eb468cb9",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "1c24d7ec"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0123.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0123.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "52032c8dfc3d8f14d17555e7ee556e427af03d438cf9ec6e8a2fe4f91b2f1267",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "1aefd7df"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.001386113869527574,
+        0.0007592123734980769
+      ],
+      "gain": 5.148965625003739,
+      "heart_family": "Late Diastolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Wheezing",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LMA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0123"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:wheezing",
+      "heart_family": "AV Block",
+      "lung_family": "Wheezing",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0124"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f2",
+        "f3",
+        "f4",
+        "f5"
+      ],
+      "family_pair_id": "hs:mid-systolic-murmur|ls:normal",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0125.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0125.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "260191f3f132c026e47f08ab18c7ede9f3207c3bc26ee019d4e6888b90bf1c2f",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "a44cadfa"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0125.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0125.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "7c7e83b21a113db5782bf07364b05002ed6818b234c9f4ed16e6c20311d82902",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "e63bb3f5"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0125.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0125.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "64b2c3e0e069341d8ffde28deae08a157f950a572b9acec298938ec9ce554857",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "caa3702e"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0016097473197300162,
+        0.0011292451070633383
+      ],
+      "gain": 5.169713862880234,
+      "heart_family": "Mid Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Normal",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LUSB",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0125"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "duplicate_of": "M0111",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f3",
+        "f4"
+      ],
+      "family_pair_id": "hs:normal|ls:fine-crackles",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0126.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0126.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "ac20a79f36c83ff6c29dbe3e1a10b06ca04d2a2a8772e8b6f6e21fb351338004",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "26109cae"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0126.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0126.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "9abfb764cde2e2f9151e07694b354655bc386c4c13fb1a63450aaa2c82e1fd7f",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "25c7f967"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0126.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0126.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "2253e27468f6ebac29eccaac4f04de2355ee1f554fc93f87348d4b147af519aa",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "43d27760"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0035461950084604587,
+        0.004797535941181478
+      ],
+      "gain": 3.4842346621426774,
+      "heart_family": "Normal",
+      "heart_lag_samples": 0,
+      "lung_family": "Fine Crackles",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [
+        "EXACT_TRIPLET_DUPLICATE_RETAIN_LEXICOGRAPHIC_FIRST"
+      ],
+      "recording_position": "LLA",
+      "selected": false,
+      "transfer_filter": "identity",
+      "triplet_id": "M0126"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f3"
+      ],
+      "family_pair_id": "hs:s3|ls:wheezing",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0127.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0127.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "2f726202cb58008ea99e7ffcee59349b93b24d8d21024881775696a1efb66d88",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "e34577d7"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0127.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0127.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "66631c4fd6c083a85fe29340515dbb4b97646f788ce94d6aee584b9e07e3b6cb",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "48394de5"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0127.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0127.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "4f4164c6a6151999ab1545cf8e04befbdb388248046c7a9bda692e26f54ed758",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "1928d206"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00021478495378169756,
+        0.00020534959527176332
+      ],
+      "gain": 27.719028165451462,
+      "heart_family": "S3",
+      "heart_lag_samples": 0,
+      "lung_family": "Wheezing",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LLA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0127"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "family_pair_id": "hs:mid-systolic-murmur|ls:fine-crackles",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0128.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0128.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "9e7e6935baca8d4718502025b867bae1027785a6d52fc6f3bc46d2907f5f5f23",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "6617fa8b"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0128.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0128.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "795ccd669ca166f78dbe709513306726a2be780730a84dbcee2637a55a45054d",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "ca0e24ed"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0128.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0128.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "5cfca2669c0f21ca5f8ff4baefd9e42f447fcf1104ffdb548231ec6c6b67bcfd",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "52c6c5a4"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00024220035255210253,
+        0.00020496092143471064
+      ],
+      "gain": 18.733118758780787,
+      "heart_family": "Mid Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Fine Crackles",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RUSB",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0128"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f5"
+      ],
+      "family_pair_id": "hs:tachycardia|ls:wheezing",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0129.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0129.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "c73d7749bbed0d9281913e0fbdf70ed01e5c10f6e41be4d06d65d71064bf9d94",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "b6217e22"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0129.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0129.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "7730efe789b1e6595b6cd7f94945cf62b737d56fc240b1cd8108c08a68604cc4",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "76c7fd00"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0129.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0129.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "6b34d8e1907160c85da51c0804e271b84baa16be5f7540ce7eb3e49dc0ee4bc9",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "d26d1738"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00030290918330428085,
+        0.00036110230515709477
+      ],
+      "gain": 27.53084225217838,
+      "heart_family": "Tachycardia",
+      "heart_lag_samples": 0,
+      "lung_family": "Wheezing",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "Apex",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0129"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f2",
+        "f4",
+        "f5"
+      ],
+      "family_pair_id": "hs:early-systolic-murmur|ls:normal",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0130.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0130.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "c1f3218b6eb105c9a1a345781dc0f71ae001094fa8b83de53f97a29eab6d4c2d",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "ebf5411e"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0130.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0130.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "05a9b7a07e9b7c6f3ae59d05a722b9c64073eaa677bf1ca45d91efd5551b3861",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "d14af23c"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0130.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0130.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "be498757649b600f5b6fe0ee4968beb462c8ea3b296efc4d4c72b4097ed150f8",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "7292526a"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0010306293166257687,
+        0.0005902098688518098
+      ],
+      "gain": 5.124643862241785,
+      "heart_family": "Early Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Normal",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LLSB",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0130"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:fine-crackles",
+      "heart_family": "S4",
+      "lung_family": "Fine Crackles",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0131"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f3"
+      ],
+      "family_pair_id": "hs:s3|ls:wheezing",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0132.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0132.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "e4ce9cad3f1cf4032b0a111ea4ab332b780ecf0c66a5ef42869d0f44175b8783",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "576604bd"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0132.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0132.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "bc5d13efdb59f2691d0b4b08dd4357415d4badfb5254e16c282896ef666e90cd",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "5ca6a5a3"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0132.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0132.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "cd20481747782bde426c274b2ad5c00f030b9f35687047f26911458c0bf7441d",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "4d3715d9"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0001810237234610061,
+        0.00018368955162481276
+      ],
+      "gain": 16.750798815067732,
+      "heart_family": "S3",
+      "heart_lag_samples": 0,
+      "lung_family": "Wheezing",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LUA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0132"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f3",
+        "f4"
+      ],
+      "family_pair_id": "hs:normal|ls:fine-crackles",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0133.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0133.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "1e44aa69ab96779a6bcaadbfa931faf88701a2f2a4f5fbae0ede995627969149",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "62137146"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0133.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0133.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "a7394eb73eeeb0d43bf497be9846b8a51f112f609be8c29a5b91da7bc1d80f12",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "da057215"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0133.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0133.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "1b947810a858ad358b005519adb866fac8a3b12530aed2882e2f2339a9f7125b",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "5047806f"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00020369122702708069,
+        0.0003423280750547332
+      ],
+      "gain": 22.62635047260699,
+      "heart_family": "Normal",
+      "heart_lag_samples": 0,
+      "lung_family": "Fine Crackles",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "Apex",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0133"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:normal",
+      "heart_family": "AV Block",
+      "lung_family": "Normal",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0134"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:normal",
+      "heart_family": "S4",
+      "lung_family": "Normal",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0135"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f5"
+      ],
+      "family_pair_id": "hs:tachycardia|ls:wheezing",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0136.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0136.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "51088c45295ad7d52bd07a16c8d79d52eda0b168d87f6bc4eeebfd109ddea141",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "179f7ab1"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0136.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0136.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "27f83d63b5eb7280b8121764b4a051ea23dfd31c866724fb2ab052ed9e9c296c",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "f8b3a26d"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0136.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0136.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "2558ae3f2daa587a5ae763d5840a07ddd677fce309f8fe12fcf373f264ba3421",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "1726c32d"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00011783627274357237,
+        0.00015991049499281232
+      ],
+      "gain": 17.71058228073589,
+      "heart_family": "Tachycardia",
+      "heart_lag_samples": 0,
+      "lung_family": "Wheezing",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RUSB",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0136"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "heldout_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "family_pair_id": "hs:late-diastolic-murmur|ls:fine-crackles",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0137.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0137.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "82f4276b0dc48d189ec952659bba468b19448614167c23ad26b73663d1de546c",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "225fe05c"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0137.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0137.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "a7394eb73eeeb0d43bf497be9846b8a51f112f609be8c29a5b91da7bc1d80f12",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "da057215"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0137.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0137.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "cb38ebefdff818ade48e38faf68c6a379908e42bec5929b4d71aa52bcf9c9b66",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "e4b5e2d3"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00017289665149723934,
+        0.00022195170022849223
+      ],
+      "gain": 22.364109529225978,
+      "heart_family": "Late Diastolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Fine Crackles",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "Apex",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0137"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f2",
+        "f4",
+        "f5"
+      ],
+      "family_pair_id": "hs:tachycardia|ls:normal",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0138.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0138.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "c73d7749bbed0d9281913e0fbdf70ed01e5c10f6e41be4d06d65d71064bf9d94",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "b6217e22"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0138.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0138.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "73a7070b2a33aca15376bd7d802e6b581308d43e258e9249f3fb9065d3622c6f",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "fb1724ea"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0138.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0138.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "305bf5ba496b5d6325a544832e7720cca14caed15e64d4ec5b668585e54e6b0d",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "e32c1eae"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0014447176069191437,
+        0.0006728116094197213
+      ],
+      "gain": 8.916602042107495,
+      "heart_family": "Tachycardia",
+      "heart_lag_samples": 0,
+      "lung_family": "Normal",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LLA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0138"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f3"
+      ],
+      "family_pair_id": "hs:s3|ls:wheezing",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0139.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0139.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "e47372e6546db6426159d14f677d151e9e5d371bb2e37eba867dc0150d1f149a",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "ab5ff3a0"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0139.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0139.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "3401b9b9886a750e8cd12a0674341925b9bb98e846c73ddf2d75c6e316c670b7",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "fe952687"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0139.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0139.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "f6d98aa572b6d7e2e53e7f687d523722a2501699f3addf980366863f0c446c3c",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "90d0b928"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00027537031673531,
+        0.0003975775113447174
+      ],
+      "gain": 21.20603826693537,
+      "heart_family": "S3",
+      "heart_lag_samples": 0,
+      "lung_family": "Wheezing",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "LC",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0139"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f2",
+        "f4",
+        "f5"
+      ],
+      "family_pair_id": "hs:early-systolic-murmur|ls:normal",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0140.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0140.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "8dcaf616ccb1aa74674c7a29f6d16e5ee91c0d5e3b2af17a5c2349481aa669de",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "61b841e3"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0140.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0140.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "012a1a39d4f38e5b08717bfb134b69e90621989c86f5e6181e307f178eb6a673",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "edf7c684"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0140.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0140.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "7bee72e35b31a57327be65f6678ee09cc8f17f5612c7dd97ebf65254fa5233f1",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "0af8c04f"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0011120322267460891,
+        0.0010327697790409806
+      ],
+      "gain": 4.8864675762240095,
+      "heart_family": "Early Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Normal",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RLA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0140"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:s4|ls:wheezing",
+      "heart_family": "S4",
+      "lung_family": "Wheezing",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "selected": false,
+      "triplet_id": "M0141"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f2",
+        "f3",
+        "f4",
+        "f5"
+      ],
+      "family_pair_id": "hs:mid-systolic-murmur|ls:normal",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0142.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0142.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "9e7e6935baca8d4718502025b867bae1027785a6d52fc6f3bc46d2907f5f5f23",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "6617fa8b"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0142.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0142.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "35684faf15c46f643bb036f13a574fb52008b19f0021f13b93ecae45d48c601d",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "d133bfea"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0142.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0142.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "83242fa577152b902c9e77acfc6ee2207886a012de40992f527fe97ea7deceaf",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "2cfc9d73"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.00032460010614644203,
+        0.0003385056180297161
+      ],
+      "gain": 27.8350160637882,
+      "heart_family": "Mid Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Normal",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RMA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0142"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "heldout_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f1",
+        "f2",
+        "f5"
+      ],
+      "family_pair_id": "hs:early-systolic-murmur|ls:wheezing",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0143.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0143.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "8dcaf616ccb1aa74674c7a29f6d16e5ee91c0d5e3b2af17a5c2349481aa669de",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "61b841e3"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0143.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0143.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "9aff30a6000fcc22b5b879ed83df2fa8089600e7ff8476d126d0f248dbf9c372",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "8427a61d"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0143.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0143.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "57c0af0c1a159d9881fd704fc983f9a377cbd0ac0aae343e7c9cd7a8de710636",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "d9523ef8"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.000564088588823531,
+        0.0005063216436129988
+      ],
+      "gain": 5.009558083712915,
+      "heart_family": "Early Systolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Wheezing",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "F",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RLA",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0143"
+    },
+    {
+      "eligible_non_test": false,
+      "family_pair_id": "hs:av-block|ls:normal",
+      "heart_family": "AV Block",
+      "lung_family": "Normal",
+      "quality_tier": "UNASSESSED_T9_EXCLUDED",
+      "reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "selected": false,
+      "triplet_id": "M0144"
+    },
+    {
+      "acquisition_status": "AFFINE_ADDITIVE_RELEASE_SUBSET_CAPTURE_MODE_UNVERIFIED",
+      "correspondence_partition": "fit_pair",
+      "eligible_non_test": true,
+      "eligible_training_folds": [
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "family_pair_id": "hs:late-diastolic-murmur|ls:normal",
+      "files": {
+        "heart": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/H0145.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/H0145.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "686eab0950d15feffa7bae6900c9bf591ea1ed0feba35aa6e8bb3fc796eba7fb",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "1c6b7331"
+        },
+        "lung": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/L0145.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/L0145.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "35684faf15c46f643bb036f13a574fb52008b19f0021f13b93ecae45d48c601d",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "d133bfea"
+        },
+        "mixture": {
+          "archive_bytes_match": true,
+          "archive_member": "Mix/M0145.wav",
+          "audio_bytes_opened": true,
+          "bits_per_sample": 16,
+          "channels": 1,
+          "duration_seconds": 15.0,
+          "encoding": "NONE",
+          "frames": 60000,
+          "path": "datasets/hls_cmds/raw/Mix/M0145.wav",
+          "sample_rate": 4000,
+          "samples_decoded": false,
+          "sha256": "b92fd3cd2e5eb8eb86140b73091f1a2edd0e3078e8a26e75d2357516834cfaf2",
+          "uncompressed_bytes": 120044,
+          "zip_crc32": "75b0df7f"
+        }
+      },
+      "full_flank_residual_weaker_source_rms_ratios": [
+        0.0018451017174979576,
+        0.0013765795210128678
+      ],
+      "gain": 6.2709940647090425,
+      "heart_family": "Late Diastolic Murmur",
+      "heart_lag_samples": 0,
+      "lung_family": "Normal",
+      "lung_lag_samples": 0,
+      "manikin_gender_label": "M",
+      "quality_tier": "N1",
+      "reasons": [],
+      "recording_position": "RUSB",
+      "selected": true,
+      "transfer_filter": "identity",
+      "triplet_id": "M0145"
+    }
+  ],
+  "rule": {
+    "acceptance": "BOTH full temporal flank residual RMS / min(gain*heart RMS,gain*lung RMS) <=0.1",
+    "alignment": "identity; zero lag; no warp",
+    "assessment_intervals_seconds": [
+      [
+        0,
+        6
+      ],
+      [
+        9,
+        15
+      ]
+    ],
+    "duplicate_rule": "identical ordered mixture/heart/lung hashes; retain lexicographic first triplet",
+    "filter": "identity; no fitted transfer filter",
+    "gain": "positive least-squares common scalar fitted on6-9s only",
+    "no_ID_range_selection": true,
+    "no_model_scores_used": true,
+    "threshold": 0.1
+  },
+  "schema_version": 1,
+  "selected_counts_by_fold": {
+    "f1": 17,
+    "f2": 22,
+    "f3": 16,
+    "f4": 15,
+    "f5": 13
+  },
+  "selected_ids": [
+    "M0111",
+    "M0112",
+    "M0113",
+    "M0114",
+    "M0115",
+    "M0117",
+    "M0118",
+    "M0119",
+    "M0120",
+    "M0122",
+    "M0123",
+    "M0125",
+    "M0127",
+    "M0128",
+    "M0129",
+    "M0130",
+    "M0132",
+    "M0133",
+    "M0136",
+    "M0137",
+    "M0138",
+    "M0139",
+    "M0140",
+    "M0142",
+    "M0143",
+    "M0145"
+  ],
+  "selected_role": "A_DIRECT_WAVEFORM_SUPERVISION_FOR_QUALIFIED_SUBSET_ONLY",
+  "source_allowlist_path": ".local/training/stethofuse-tcn-v1/t7-small-seed20260928/eligible_split.csv",
+  "source_allowlist_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+  "status": "SIGNAL_CORRESPONDENCE_QUALIFIED_NOT_MODEL_EVALUATED",
+  "target_contract": {
+    "heart": "g*h_reference",
+    "inference_references_required": false,
+    "input": "released mixture waveform m",
+    "lung": "g*l_reference",
+    "native_target_residual_projection": false,
+    "output_domain": "empirically shared-gain mixture recording domain; capture mode unverified"
+  },
+  "test_audio_opened": false,
+  "training_performed": false
+}

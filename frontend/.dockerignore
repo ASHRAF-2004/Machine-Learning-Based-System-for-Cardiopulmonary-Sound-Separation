@@ -1,0 +1,14 @@
+**
+!package.json
+!package-lock.json
+!Dockerfile.production
+!Caddyfile.production
+!tsconfig.json
+!vite.config.ts
+!index.html
+!src/
+!src/**
+!public/
+!public/**
+!tools/
+!tools/owl_diagnostics.ts

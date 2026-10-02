@@ -1,0 +1,1113 @@
+{
+  "schema_version": 1,
+  "status": "COMPLETE_HLS_ONLY_REPLACEMENT_T8_TEST_SEALED",
+  "selected_strategy": "C_HLS_ONLY",
+  "external_pilot_adopted": false,
+  "full_external_scaleup": false,
+  "tuning_variants": 0,
+  "extra_model_seeds": 0,
+  "external_data": {
+    "accepted_registry_path_ignored": ".local/datasets/pilot-acquisition-v1/accepted-registry-v1.json",
+    "accepted_registry_sha256": "09b2aefca4c957ea0346039f7ca8d4d5c553f49bf109f6b0da02a390e733328d",
+    "tracked_manifest_path": "research/manifests/external_pilot_registry_v1.json",
+    "tracked_manifest_sha256": "c922d58bf1cf2b0daae0acdfc110199c55f70c5b1cf5120c2eb0dc04372ffae6",
+    "candidate_recordings": 613,
+    "accepted_recordings": 398,
+    "excluded_recordings": 215,
+    "train_heart_recordings": 115,
+    "train_heart_subject_groups": 74,
+    "train_lung_recordings": 240,
+    "train_lung_subjects": 133,
+    "purity": "Tier B imperfect source-dominant targets; not clean separation truth"
+  },
+  "control_receipt": {
+    "path": "research/evidence/external_hls_control_decision_v1.json",
+    "sha256": "0d8893d61d9ed9517d0227781f33b3357b1c41f85d4ee80228f1691545d47dbe"
+  },
+  "treatment_receipt": {
+    "path": "research/evidence/external_pilot_transfer_decision_v1.json",
+    "sha256": "596859fdaa6456369e8b6d876bfc18ba813e837f2844d4e06771a5cb79a34e41"
+  },
+  "runs": [
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/cv-f1-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "70a04bc465f3fffb5860bed29a2adf3ad2cf9e0b0d65a9f4ece21c120a8d09c2",
+        "training_recipes.jsonl": "e2058b62e753b3ca6c8229d3f8d1deb99bf3f89238be4b340e2fe11e440b1154"
+      },
+      "created_utc": "2026-09-28T16:51:44.000609+00:00",
+      "endpoint_sha256": "312ab091ae7ad40f143c37bac4919ecefab3865e59a2f6cfd7494de2bdde585a",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 1152,
+      "process_peak_rss_mib": 1028.68359375,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f1",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "328b38c79e4261c0226067cb54403ace2442cedc",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": null,
+        "initialization_checkpoint_sha256": null,
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "a1efb08815f8026f67e8772a898e370f58daa6c592ccca361e3cbaad1cf65581",
+        "updates": 1152
+      },
+      "provenance_sha256": "06f5184511cdaa42f8247d83d17eb91c17d88c5a1720d2d36a5f28a65a300098",
+      "run_id": "cv-f1-seed20260928",
+      "runtime_seconds": 212.59386300307233,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_fixed_update_control"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/cv-f2-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "70a04bc465f3fffb5860bed29a2adf3ad2cf9e0b0d65a9f4ece21c120a8d09c2",
+        "training_recipes.jsonl": "fbb561028e3af81e68598ef1a6d2da500530ecdb81bd95c313f143431dd563cc"
+      },
+      "created_utc": "2026-09-28T16:55:17.363445+00:00",
+      "endpoint_sha256": "862898d6e942c92ff63f8599373740bcf990ce96f1b9b40d314228fc7970e4f7",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 1152,
+      "process_peak_rss_mib": 1016.8359375,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f2",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "328b38c79e4261c0226067cb54403ace2442cedc",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": null,
+        "initialization_checkpoint_sha256": null,
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "6e599311ef4e976c8b249c3d829b478b9982b15887638b5b7939884c50e3bc83",
+        "updates": 1152
+      },
+      "provenance_sha256": "710260e0592d02ccfe4ca11f15b654ea08a2117217fd61f3842384e09453cdd2",
+      "run_id": "cv-f2-seed20260928",
+      "runtime_seconds": 218.29122220596764,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_fixed_update_control"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/cv-f3-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "70a04bc465f3fffb5860bed29a2adf3ad2cf9e0b0d65a9f4ece21c120a8d09c2",
+        "training_recipes.jsonl": "589a21b7984b95ffc2183084062accef523336e68329aff6f72e7e6958b91b67"
+      },
+      "created_utc": "2026-09-28T16:58:56.508096+00:00",
+      "endpoint_sha256": "258333c8c9c9dff2288f982a1fcb470761c9caad06935008c02c5f62fd57de79",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 1152,
+      "process_peak_rss_mib": 1012.7109375,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f3",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "328b38c79e4261c0226067cb54403ace2442cedc",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": null,
+        "initialization_checkpoint_sha256": null,
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "396dc80a46c3cab0d23dd78042e3cc30da7b81f06f52082c004b4bda643ec56c",
+        "updates": 1152
+      },
+      "provenance_sha256": "86da60b3a9a00373e8d58e99a70fce0eaa563f473f146e90aa012052063530b9",
+      "run_id": "cv-f3-seed20260928",
+      "runtime_seconds": 211.5739529809216,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_fixed_update_control"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/cv-f4-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "70a04bc465f3fffb5860bed29a2adf3ad2cf9e0b0d65a9f4ece21c120a8d09c2",
+        "training_recipes.jsonl": "6f4882c2e75d5b996f94e67430170aa507b905da7dbc38a501c18f9661c9e547"
+      },
+      "created_utc": "2026-09-28T17:02:28.897814+00:00",
+      "endpoint_sha256": "d895e7abac7719bdf9477187f3939cc6b984d6711224dc7fae6a52d512182ab3",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 1152,
+      "process_peak_rss_mib": 1027.21484375,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f4",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "328b38c79e4261c0226067cb54403ace2442cedc",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": null,
+        "initialization_checkpoint_sha256": null,
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "02ebc036f66442a334b1cc70aaf7a88ace24d3c5a5f0947bc08c263928045c92",
+        "updates": 1152
+      },
+      "provenance_sha256": "42763e4909e4ab3f19f76f947a33419d07d30982b83e6761575734856b25fb0d",
+      "run_id": "cv-f4-seed20260928",
+      "runtime_seconds": 201.38414493203163,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_fixed_update_control"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/cv-f5-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "70a04bc465f3fffb5860bed29a2adf3ad2cf9e0b0d65a9f4ece21c120a8d09c2",
+        "training_recipes.jsonl": "f1186b13d8fa70a2866997d881f1bcee8ac3e7a12a765dc1dfe659f514db77a5"
+      },
+      "created_utc": "2026-09-28T17:05:51.082254+00:00",
+      "endpoint_sha256": "a40aa141aab7c7f04ac02dc70cd2f4e0d91b87ce7affd50f7dbc1e8f680741ac",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 1152,
+      "process_peak_rss_mib": 1029.46484375,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f5",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "328b38c79e4261c0226067cb54403ace2442cedc",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": null,
+        "initialization_checkpoint_sha256": null,
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "34eb59f063a4608d47aeec1639ba25cfeeb0e0def2c3296a0c15f1b4038d9177",
+        "updates": 1152
+      },
+      "provenance_sha256": "1e768fa477a04c137a499f6cd4ec34fffdb560790d55bf646e0c2cec6cbd1d5d",
+      "run_id": "cv-f5-seed20260928",
+      "runtime_seconds": 198.28949460200965,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_fixed_update_control"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-external-v1/pilot-pretrain-seed20260928",
+      "created_utc": "2026-09-28T17:10:16.135515+00:00",
+      "endpoint_sha256": "546e7ec4cbd0f246250f3c9d224eaafbd48034a32790b3c1694dd3f183467bce",
+      "external_validation_summary": {
+        "checkpoint_selection_used": false,
+        "conditions": 32,
+        "failures": 0,
+        "heart_si_sdr_db": {
+          "descriptive_mean": 9.61980958692796,
+          "descriptive_median": 9.986701998414006
+        },
+        "heart_si_sdri_db": {
+          "descriptive_mean": 8.77068907580952,
+          "descriptive_median": 9.135259440605143
+        },
+        "independence": "correlated remixes, not 32 independent subjects",
+        "inference": "8-second normalized forward with fixed-label target-free consistency; external sanity only",
+        "lung_si_sdr_db": {
+          "descriptive_mean": 8.766736075298066,
+          "descriptive_median": 8.471070271294764
+        },
+        "lung_si_sdri_db": {
+          "descriptive_mean": 9.636270481082871,
+          "descriptive_median": 9.977285773504793
+        },
+        "runtime_seconds": 0.8393385990057141,
+        "source_targets": "Tier B imperfect clinical sources, not isolated references"
+      },
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initial_artifact_hashes": {
+        "config.json": "1537b49e078c580ef6a0b45beec1affb7e5c4bea6df8f4c580839a035622dedd",
+        "external_validation_recipes.jsonl": "3c02571132bf236d0c8428008f8ee7d960a09eb217087200940ea8f13f37a133",
+        "recipes.jsonl": "7cc7aff36e9fedb4922d7d2ff24a734d80d810c120d91f0690ee00f39b74bc35",
+        "resolved_registry.json": "8a344df705df8ed4c6c5cf7e3f4479c6d95949724b6724f4cbd4a0060067a992"
+      },
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 2304,
+      "process_peak_rss_mib": 1022.84375,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "config_path": "/home/ashraf/Documents/StethoFuse/implementation/research/configs/external_pretraining_pilot_v1.json",
+        "config_sha256": "dedc8fd654aa9a976b255ae0c8095e6d7a13ce6b1c9a7743f6e5a3585e95489e",
+        "device": "cpu",
+        "external_validation_recipe_content_sha256": "e3adca9a78abc19f37f2e14563a4f68ce958e06176a749b6ebe19e9412adf9e6",
+        "git": {
+          "commit": "328b38c79e4261c0226067cb54403ace2442cedc",
+          "dirty": false
+        },
+        "hls_audio_access": false,
+        "initialization": "fresh_seeded_library_default_no_checkpoint",
+        "loss": "fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "normalized_registry_sha256": "73ff85b1c6027e671c6c509b82232b8b05e3c47c4c41232a1158e30450c7e779",
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "optimizer_updates": 2304,
+        "parameter_count": 171313,
+        "phase": "pilot",
+        "pilot_decision_sha256": null,
+        "python": "3.14.4",
+        "recipe_content_sha256": "295db6b73fc86c71f2e0059fe3936641777f43b6827aa68d3de65c4b06279092",
+        "registry_path": "/home/ashraf/Documents/StethoFuse/implementation/.local/datasets/pilot-acquisition-v1/accepted-registry-v1.json",
+        "registry_sha256": "09b2aefca4c957ea0346039f7ca8d4d5c553f49bf109f6b0da02a390e733328d",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu"
+      },
+      "provenance_sha256": "802366d2fab5d77a036dceee5ee546ba972334b04b762a914db5711c3607eed7",
+      "run_id": "pilot-pretrain-seed20260928",
+      "runtime_seconds": 295.9617440260481,
+      "shared_age_domains": [
+        "Adolescent",
+        "Child",
+        "Infant"
+      ],
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_record_counts": {
+        "heart": 115,
+        "lung": 240
+      },
+      "training_stage": "external_pretraining",
+      "training_subject_counts": {
+        "heart": 74,
+        "lung": 133
+      },
+      "unused_rows": [
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:49748_AV_1"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:49748_PV_2"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:50100_AV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:50155_AV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:50155_PV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:50244_PV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:68213_TV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:68406_TV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:84718_PV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:84718_TV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:85042_MV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "circor-1.0.3:85042_TV"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:40686765_6.7_1_p1_3025"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:40686765_6.7_1_p4_3008"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41087486_3.8_0_p1_825"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41087486_3.8_0_p2_826"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41091768_7.7_0_p3_855"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41091768_7.7_0_p4_856"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41099241_4.0_0_p1_3210"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41099241_4.0_0_p4_3211"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41260684_3.8_1_p1_245"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41260684_3.8_1_p2_246"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41264697_2.4_0_p3_459"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41264697_2.4_0_p4_460"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41277654_11.7_0_p2_2704"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41277654_11.7_0_p3_2652"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41283612_0.2_0_p3_2171"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41283612_0.2_0_p4_2241"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41283662_3.4_0_p1_2387"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:41283662_3.4_0_p2_2372"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:63906783_5.1_1_p2_2283"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:64719544_3.5_1_p1_761"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:64719544_3.5_1_p2_762"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:64840083_1.6_0_p1_697"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:64840083_1.6_0_p3_699"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:64914400_12.1_0_p1_2788"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:64914400_12.1_0_p4_3076"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:65045423_5.0_1_p4_220"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:65045423_5.2_1_p1_2805"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:65058931_3.4_1_p2_1086"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:65058931_3.4_1_p4_1088"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:65066754_9.0_0_p2_1235"
+        },
+        {
+          "reason": "heldout_subject",
+          "registry_key": "sprsound-biocas2022:65066754_9.0_0_p3_835"
+        }
+      ]
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-external-v1/pilot-ft-f1-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "332ede8335cbaabac84322908e9dea4f97ffb10ee343045747a91c5d3e8c2c9d",
+        "training_recipes.jsonl": "97b249d99ea4b8271896b68480ba314bfed6ec83d2da0afa1c383c937ce71eb6"
+      },
+      "created_utc": "2026-09-28T17:16:34.055101+00:00",
+      "endpoint_sha256": "9c598b491979b4161abcbe79fe24ceeffb6f5bb59da4448ebc8f9977f4ae3f99",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "2d937042d690f04384511e1c705f2007fef56bc6e2eb3702ad7a85cc6e5b013f",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 576,
+      "process_peak_rss_mib": 1014.85546875,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f1",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "9b0664a96ea865d237f157fe6d7ad0199d0d0596",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": "/home/ashraf/Documents/StethoFuse/implementation/.local/training/stethofuse-external-v1/pilot-pretrain-seed20260928/checkpoints/endpoint.pt",
+        "initialization_checkpoint_sha256": "546e7ec4cbd0f246250f3c9d224eaafbd48034a32790b3c1694dd3f183467bce",
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "external_pretraining_endpoint",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "75d93e0cfe8d2bebde1085003d1227d8775a737b5d9371906327cd717698cfb5",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "external_pretraining_weights_fresh_optimizer",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "b87c465843a74794fee9a3a38707f002f477873bea9eb2cf3600ef0bbc30676e",
+        "updates": 576
+      },
+      "provenance_sha256": "8f861f6b0585886030a9befdce5defb10555aea1f7d8f9f44fe4cf42d8257528",
+      "run_id": "pilot-ft-f1-seed20260928",
+      "runtime_seconds": 97.49684581707697,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_external_initialized_finetuning"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-external-v1/pilot-ft-f2-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "332ede8335cbaabac84322908e9dea4f97ffb10ee343045747a91c5d3e8c2c9d",
+        "training_recipes.jsonl": "0e8ff67a5a1df84cc68949245b33586c354cdd43a2ad8023d5adf6f58ba4a7da"
+      },
+      "created_utc": "2026-09-28T17:18:12.350178+00:00",
+      "endpoint_sha256": "573b436ff851ab2249b65ffe94b67d2c9edcf2c65d6f41eb30b191f2d40d0bb3",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "2d937042d690f04384511e1c705f2007fef56bc6e2eb3702ad7a85cc6e5b013f",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 576,
+      "process_peak_rss_mib": 1014.8671875,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f2",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "9b0664a96ea865d237f157fe6d7ad0199d0d0596",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": "/home/ashraf/Documents/StethoFuse/implementation/.local/training/stethofuse-external-v1/pilot-pretrain-seed20260928/checkpoints/endpoint.pt",
+        "initialization_checkpoint_sha256": "546e7ec4cbd0f246250f3c9d224eaafbd48034a32790b3c1694dd3f183467bce",
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "external_pretraining_endpoint",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "75d93e0cfe8d2bebde1085003d1227d8775a737b5d9371906327cd717698cfb5",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "external_pretraining_weights_fresh_optimizer",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "6c9a8a0cdfc196d590bb035ddb7690fd6e09776d4b5e5beeb92d46926eff611e",
+        "updates": 576
+      },
+      "provenance_sha256": "be4b728df307bb245bada97c446b236b76a67a21ab5b2e10c45622e81823c5b0",
+      "run_id": "pilot-ft-f2-seed20260928",
+      "runtime_seconds": 97.74799446808174,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_external_initialized_finetuning"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-external-v1/pilot-ft-f3-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "332ede8335cbaabac84322908e9dea4f97ffb10ee343045747a91c5d3e8c2c9d",
+        "training_recipes.jsonl": "b7ee2e70ed594acc4cbcd5a4d0df17795d8d91e72967bc530a4d72f8d5cc21b4"
+      },
+      "created_utc": "2026-09-28T17:19:50.881599+00:00",
+      "endpoint_sha256": "6e7969689d0e1566132bd91a4d5a7d4673f0cdeb125139f1a627cd57bc8af776",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "2d937042d690f04384511e1c705f2007fef56bc6e2eb3702ad7a85cc6e5b013f",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 576,
+      "process_peak_rss_mib": 1003.5625,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f3",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "9b0664a96ea865d237f157fe6d7ad0199d0d0596",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": "/home/ashraf/Documents/StethoFuse/implementation/.local/training/stethofuse-external-v1/pilot-pretrain-seed20260928/checkpoints/endpoint.pt",
+        "initialization_checkpoint_sha256": "546e7ec4cbd0f246250f3c9d224eaafbd48034a32790b3c1694dd3f183467bce",
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "external_pretraining_endpoint",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "75d93e0cfe8d2bebde1085003d1227d8775a737b5d9371906327cd717698cfb5",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "external_pretraining_weights_fresh_optimizer",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "318cc31846a96477a203eef7543d6d2af5ee687f4719e38e768148167d85fbbf",
+        "updates": 576
+      },
+      "provenance_sha256": "1355586970a0c51ceb93b1053f8218e18ac3158d41fc5b384f10ffdb90a523ff",
+      "run_id": "pilot-ft-f3-seed20260928",
+      "runtime_seconds": 93.38200930703897,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_external_initialized_finetuning"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-external-v1/pilot-ft-f4-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "332ede8335cbaabac84322908e9dea4f97ffb10ee343045747a91c5d3e8c2c9d",
+        "training_recipes.jsonl": "c7406f074ddba4bcb3991092288e193524c5f255ff495b0c4e98e16c8ed1a5b4"
+      },
+      "created_utc": "2026-09-28T17:21:25.060952+00:00",
+      "endpoint_sha256": "125f0cd7f18f18eacac90c131fb62ef008fef0b18fd4c7def51f0f42b2c6b475",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "2d937042d690f04384511e1c705f2007fef56bc6e2eb3702ad7a85cc6e5b013f",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 576,
+      "process_peak_rss_mib": 1022.9453125,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f4",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "9b0664a96ea865d237f157fe6d7ad0199d0d0596",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": "/home/ashraf/Documents/StethoFuse/implementation/.local/training/stethofuse-external-v1/pilot-pretrain-seed20260928/checkpoints/endpoint.pt",
+        "initialization_checkpoint_sha256": "546e7ec4cbd0f246250f3c9d224eaafbd48034a32790b3c1694dd3f183467bce",
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "external_pretraining_endpoint",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "75d93e0cfe8d2bebde1085003d1227d8775a737b5d9371906327cd717698cfb5",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "external_pretraining_weights_fresh_optimizer",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "62cd192b77843503ded5bc36707df118c7ae6f123d1f31cf8c7009517931db0e",
+        "updates": 576
+      },
+      "provenance_sha256": "6b116b8640cfe3f25f65f5a5eac9027fb193b7f6cc0679e52d2f0c363e12699d",
+      "run_id": "pilot-ft-f4-seed20260928",
+      "runtime_seconds": 92.30076055100653,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_external_initialized_finetuning"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-external-v1/pilot-ft-f5-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "e3f8012bc786af4e6580c578d13d0499dd113cd050518f8ebff783d77a3c1aeb",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "332ede8335cbaabac84322908e9dea4f97ffb10ee343045747a91c5d3e8c2c9d",
+        "training_recipes.jsonl": "14d89c0ef027fad79ad722d629400ea28faca2ab247741c4d913f81e4a949541"
+      },
+      "created_utc": "2026-09-28T17:22:58.137986+00:00",
+      "endpoint_sha256": "766d013118e3c9cb739cb9e9cf6402ff272f0298278fa009ce61e50513558cbc",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "2d937042d690f04384511e1c705f2007fef56bc6e2eb3702ad7a85cc6e5b013f",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 576,
+      "process_peak_rss_mib": 1020.3046875,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "af1abb524f63f71a98e7c786c38960181082a100890f4d261a2b6fc2bf8ebf94",
+        "decision_receipt_sha256": null,
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "f5",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "9b0664a96ea865d237f157fe6d7ad0199d0d0596",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": "/home/ashraf/Documents/StethoFuse/implementation/.local/training/stethofuse-external-v1/pilot-pretrain-seed20260928/checkpoints/endpoint.pt",
+        "initialization_checkpoint_sha256": "546e7ec4cbd0f246250f3c9d224eaafbd48034a32790b3c1694dd3f183467bce",
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "external_pretraining_endpoint",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "75d93e0cfe8d2bebde1085003d1227d8775a737b5d9371906327cd717698cfb5",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "external_pretraining_weights_fresh_optimizer",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "697a9bf1a423ca755e7e6624ffe9109e839df3c04cb14e09bca1356db789a178",
+        "updates": 576
+      },
+      "provenance_sha256": "524ad32060a9fe5795707609812d68ef2f4421b569b44f5d24a455b7959b874f",
+      "run_id": "pilot-ft-f5-seed20260928",
+      "runtime_seconds": 90.4732904630946,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_external_initialized_finetuning"
+    },
+    {
+      "artifact_directory_ignored": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1/refit-all-nontest-seed20260928",
+      "artifact_hashes": {
+        "base_config.json": "9b1fe686ff83650c24728744a963b19003e6f60511524b7a38adaea3b5fb3e16",
+        "cv_recipes.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+        "eligible_sources.json": "0454b9d7de7948e2cd118a66f7d153c0ee8e590ba3ff9ed2a862cdf6a97fe7eb",
+        "plan.json": "70a04bc465f3fffb5860bed29a2adf3ad2cf9e0b0d65a9f4ece21c120a8d09c2",
+        "training_recipes.jsonl": "41df9eaeaa0848af73634d549fcc0d6f7685da6c5fde4cba1d9d9302db472749"
+      },
+      "created_utc": "2026-09-28T17:26:47.174474+00:00",
+      "endpoint_sha256": "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+      "failures": 0,
+      "fresh_seeded_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "initialized_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "optimizer_state_entries_at_start": 0,
+      "optimizer_updates": 576,
+      "process_peak_rss_mib": 1012.6953125,
+      "provenance": {
+        "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+        "base_config_sha256": "3edf8ad6f7e286478b02a827191ac2b44bfe9e9391f8ff4aa819aa5f15612ee8",
+        "cv_recipe_content_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "decision_receipt_sha256": "761a22fe18ebbcdcaf097ba8793624af20e21579706116f09bbd54a5bdee20cc",
+        "device": "cpu",
+        "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+        "fold": "refit",
+        "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+        "git": {
+          "commit": "7eefa37100bb40d878d48b84b3811557ce98512b",
+          "dirty": false
+        },
+        "initialization_checkpoint_path": null,
+        "initialization_checkpoint_sha256": null,
+        "loss": "unchanged_fixed_label_mean_negative_si_sdr_plus_5_rms_normalized_l1",
+        "lr_schedule": [
+          {
+            "from_update_inclusive": 1,
+            "lr": 0.001,
+            "through_update_inclusive": 1152
+          }
+        ],
+        "numpy": "2.4.4",
+        "optimizer": {
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-8,
+          "gradient_clip_norm": 5,
+          "lr": 0.001,
+          "name": "AdamW",
+          "weight_decay": 0.0001
+        },
+        "original_plan_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "original_source_manifest_sha256_provenance_only": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+        "parameter_count": 171313,
+        "plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7",
+        "production_access": false,
+        "python": "3.14.4",
+        "resolved_initialization_policy": "fresh_library_default_no_checkpoint_loading",
+        "seed": 20260928,
+        "test_access": false,
+        "torch": "2.11.0+cpu",
+        "torchaudio": "2.11.0+cpu",
+        "training_recipe_content_sha256": "3fad3eddf8cbaaff4130a173b6c99a82dc66a856623862ff3f00b5ebeb65b08a",
+        "updates": 576
+      },
+      "provenance_sha256": "c77f541b5e670d928a954f304bcd98364fecf4691b6797051133693f6f8dbe69",
+      "run_id": "refit-all-nontest-seed20260928",
+      "runtime_seconds": 75.17907955299597,
+      "status": "COMPLETE_FIXED_ENDPOINT",
+      "stopping_reason": "predeclared_fixed_update_budget",
+      "training_stage": "hls_fixed_update_control"
+    }
+  ],
+  "interpretation": "This bounded external pilot failed target transfer; HLS-only predeclared gate passed. Final HLS refit is not assigned a held-out score or claimed superior to original T8.",
+  "t9_accessed": false,
+  "production_touched": false,
+  "frontend_changed": false
+}

@@ -1,0 +1,344 @@
+{
+  "accepted": false,
+  "checks": {
+    "absolute_utility": false,
+    "at_least_4_of_5_fold_Q_gains": false,
+    "at_least_6_of_8_pair_M_gains": false,
+    "both_source_macro_gains_at_least_0.25": false,
+    "delta_M_at_least_0.5": false,
+    "delta_Q_at_least_0.5": false,
+    "negative_rate_increase_at_most_5pp": true,
+    "no_new_numerical_failures": true,
+    "no_pair_source_regression_over_0.5": false
+  },
+  "control_receipt_sha256": "0d8893d61d9ed9517d0227781f33b3357b1c41f85d4ee80228f1691545d47dbe",
+  "delta": {
+    "M": -0.24004071253534986,
+    "Q": -0.3277063770407167,
+    "heart_sdri": -0.1523750480299828,
+    "lung_sdri": -0.3277063770407167
+  },
+  "family_pair_deltas": {
+    "Atrial Fibrillation | Wheezing": {
+      "M": -0.5658465170717397,
+      "Q": -0.8868496618784043,
+      "heart_sdri": -1.1317853493584376,
+      "lung_sdri": 9.231521495811634e-05
+    },
+    "Early Systolic Murmur | Rhonchi": {
+      "M": 0.06772484840169146,
+      "Q": 0.10928475101251145,
+      "heart_sdri": 0.026164945790871474,
+      "lung_sdri": 0.10928475101251145
+    },
+    "Late Diastolic Murmur | Fine Crackles": {
+      "M": -0.8655171318722716,
+      "Q": -1.7023114928616594,
+      "heart_sdri": -0.028722770882883886,
+      "lung_sdri": -1.7023114928616594
+    },
+    "Late Systolic Murmur | Wheezing": {
+      "M": -0.07626406479194014,
+      "Q": -0.60076477950852,
+      "heart_sdri": -0.60076477950852,
+      "lung_sdri": 0.44823664992463985
+    },
+    "Mid Systolic Murmur | Normal": {
+      "M": 0.09492228671471992,
+      "Q": -0.084544712605233,
+      "heart_sdri": 0.27438928603467283,
+      "lung_sdri": -0.084544712605233
+    },
+    "Normal | Pleural Rub": {
+      "M": -0.20026708394826342,
+      "Q": -0.3948460389638153,
+      "heart_sdri": -0.3948460389638153,
+      "lung_sdri": -0.005688128932711534
+    },
+    "S3 | Fine Crackles": {
+      "M": -0.414531352970116,
+      "Q": -1.450541477120269,
+      "heart_sdri": 0.6214787711800369,
+      "lung_sdri": -1.450541477120269
+    },
+    "Tachycardia | Rhonchi": {
+      "M": 0.03945331525512019,
+      "Q": 0.06382107904202816,
+      "heart_sdri": 0.015085551468212222,
+      "lung_sdri": 0.06382107904202816
+    }
+  },
+  "fold_Q_deltas": {
+    "f1": -0.084544712605233,
+    "f2": -0.3948460389638153,
+    "f3": 0.0865529150272697,
+    "f4": -0.8662750644334789,
+    "f5": -1.5764264849909644
+  },
+  "initialization_checkpoint_sha256": "546e7ec4cbd0f246250f3c9d224eaafbd48034a32790b3c1694dd3f183467bce",
+  "kind": "EXTERNAL_TRANSFER_ADOPTION_DECISION",
+  "pilot_protocol_sha256": "dedc8fd654aa9a976b255ae0c8095e6d7a13ce6b1c9a7743f6e5a3585e95489e",
+  "plan_sha256": "75d93e0cfe8d2bebde1085003d1227d8775a737b5d9371906327cd717698cfb5",
+  "selected_metrics": {
+    "M": 1.7229268979479078,
+    "Q": 1.5857097789840917,
+    "conditions": 1775,
+    "evidence_hashes": {
+      ".local/training/stethofuse-external-v1/pilot-ft-f1-seed20260928/run_manifest.json": "b84330cd2f821c71ac2cb5ae3bc87843abd3c3ece816ad6004cc20639c12dd62",
+      ".local/training/stethofuse-external-v1/pilot-ft-f1-seed20260928/validation-0576.jsonl": "21b7ba26026ec0f1b04e43187c0755a852f24c32008786c071e00a96b2c4a52e",
+      ".local/training/stethofuse-external-v1/pilot-ft-f2-seed20260928/run_manifest.json": "41d1fdcf76773824b8a5a84205df8125ed1eeb84758dc33f451fbb969a7ce371",
+      ".local/training/stethofuse-external-v1/pilot-ft-f2-seed20260928/validation-0576.jsonl": "cd4d7c74cde0d7b19a4eed12692ba7fadaa3f562e43ceb7e45eb11b11892d2da",
+      ".local/training/stethofuse-external-v1/pilot-ft-f3-seed20260928/run_manifest.json": "10c655ef1df009597bb8d995692b908083cffd23e16d9e79b01c75b7dba09cb8",
+      ".local/training/stethofuse-external-v1/pilot-ft-f3-seed20260928/validation-0576.jsonl": "28bd0fd172ee56528ba7d4cd6063bbc73e052c0349d05c9a19d6bbf5638b4775",
+      ".local/training/stethofuse-external-v1/pilot-ft-f4-seed20260928/run_manifest.json": "b9d4c9c02e4e1150ef0927c9c3172d5255ea8aed9fe680976baf6793bfbbf956",
+      ".local/training/stethofuse-external-v1/pilot-ft-f4-seed20260928/validation-0576.jsonl": "655201e46647b739a408dc03883f1a1dbe0535b3b899e655372499e3380f879e",
+      ".local/training/stethofuse-external-v1/pilot-ft-f5-seed20260928/run_manifest.json": "d333ca5b309a116cdb6175a15cbd035de19f5409b1b5c03721a0e84747a94b0a",
+      ".local/training/stethofuse-external-v1/pilot-ft-f5-seed20260928/validation-0576.jsonl": "c5b5476d160b67e959d66695702e71298479757b51402dde59e19e3f866e9f63"
+    },
+    "failures": 0,
+    "family_pair_count": 8,
+    "family_pairs": {
+      "Atrial Fibrillation | Wheezing": {
+        "M": 2.2954684278647015,
+        "Q": 1.8519974393180205,
+        "conditions": 140,
+        "heart_sdr": 1.8902218027835789,
+        "heart_sdri": 1.8519974393180205,
+        "lung_sdr": 2.7771632651646425,
+        "lung_sdri": 2.738939416411383
+      },
+      "Early Systolic Murmur | Rhonchi": {
+        "M": 1.0942023292721201,
+        "Q": 0.916378310903672,
+        "conditions": 240,
+        "heart_sdr": 1.265420957311799,
+        "heart_sdri": 1.2720263476405682,
+        "lung_sdr": 0.9097741595672484,
+        "lung_sdri": 0.916378310903672
+      },
+      "Late Diastolic Murmur | Fine Crackles": {
+        "M": 1.8569563282806227,
+        "Q": 0.9062570817900496,
+        "conditions": 150,
+        "heart_sdr": 2.8517581612766576,
+        "heart_sdri": 2.807655574771196,
+        "lung_sdr": 0.9503589009867782,
+        "lung_sdri": 0.9062570817900496
+      },
+      "Late Systolic Murmur | Wheezing": {
+        "M": 0.6546652153361121,
+        "Q": -0.12437017751782914,
+        "conditions": 175,
+        "heart_sdr": -0.13415627952516201,
+        "heart_sdri": -0.12437017751782914,
+        "lung_sdr": 1.4239139848451718,
+        "lung_sdri": 1.4337006081900534
+      },
+      "Mid Systolic Murmur | Normal": {
+        "M": 1.7576828755196818,
+        "Q": 1.3512449080412017,
+        "conditions": 420,
+        "heart_sdr": 2.1579325894880084,
+        "heart_sdri": 2.164120842998162,
+        "lung_sdr": 1.3450572029925911,
+        "lung_sdri": 1.3512449080412017
+      },
+      "Normal | Pleural Rub": {
+        "M": 1.1319161936777837,
+        "Q": 0.8250514401599154,
+        "conditions": 405,
+        "heart_sdr": 0.8516510954099751,
+        "heart_sdri": 0.8250514401599154,
+        "lung_sdr": 1.465379595976367,
+        "lung_sdri": 1.438780947195652
+      },
+      "S3 | Fine Crackles": {
+        "M": 3.1191208833214534,
+        "Q": 2.077909343435512,
+        "conditions": 125,
+        "heart_sdr": 4.124499193881214,
+        "heart_sdri": 4.160332423207395,
+        "lung_sdr": 2.0420749098626683,
+        "lung_sdri": 2.077909343435512
+      },
+      "Tachycardia | Rhonchi": {
+        "M": 1.873402930310787,
+        "Q": 1.8224676159052104,
+        "conditions": 120,
+        "heart_sdr": 1.9432108885891894,
+        "heart_sdri": 1.9243382447163637,
+        "lung_sdr": 1.841340387568302,
+        "lung_sdri": 1.8224676159052104
+      }
+    },
+    "folds": {
+      "f1": {
+        "M": 1.7576828755196818,
+        "Q": 1.3512449080412017,
+        "conditions": 420,
+        "failures": 0,
+        "family_pair_count": 1,
+        "family_pairs": {
+          "Mid Systolic Murmur | Normal": {
+            "M": 1.7576828755196818,
+            "Q": 1.3512449080412017,
+            "conditions": 420,
+            "heart_sdr": 2.1579325894880084,
+            "heart_sdri": 2.164120842998162,
+            "lung_sdr": 1.3450572029925911,
+            "lung_sdri": 1.3512449080412017
+          }
+        },
+        "heart_sdr": 2.1579325894880084,
+        "heart_sdri": 2.164120842998162,
+        "lung_sdr": 1.3450572029925911,
+        "lung_sdri": 1.3512449080412017,
+        "negative_rate_percent": {
+          "heart": 25.71428571428571,
+          "lung": 33.57142857142857
+        }
+      },
+      "f2": {
+        "M": 1.1319161936777837,
+        "Q": 0.8250514401599154,
+        "conditions": 405,
+        "failures": 0,
+        "family_pair_count": 1,
+        "family_pairs": {
+          "Normal | Pleural Rub": {
+            "M": 1.1319161936777837,
+            "Q": 0.8250514401599154,
+            "conditions": 405,
+            "heart_sdr": 0.8516510954099751,
+            "heart_sdri": 0.8250514401599154,
+            "lung_sdr": 1.465379595976367,
+            "lung_sdri": 1.438780947195652
+          }
+        },
+        "heart_sdr": 0.8516510954099751,
+        "heart_sdri": 0.8250514401599154,
+        "lung_sdr": 1.465379595976367,
+        "lung_sdri": 1.438780947195652,
+        "negative_rate_percent": {
+          "heart": 38.76543209876544,
+          "lung": 37.53086419753087
+        }
+      },
+      "f3": {
+        "M": 1.4838026297914535,
+        "Q": 1.3694229634044413,
+        "conditions": 360,
+        "failures": 0,
+        "family_pair_count": 2,
+        "family_pairs": {
+          "Early Systolic Murmur | Rhonchi": {
+            "M": 1.0942023292721201,
+            "Q": 0.916378310903672,
+            "conditions": 240,
+            "heart_sdr": 1.265420957311799,
+            "heart_sdri": 1.2720263476405682,
+            "lung_sdr": 0.9097741595672484,
+            "lung_sdri": 0.916378310903672
+          },
+          "Tachycardia | Rhonchi": {
+            "M": 1.873402930310787,
+            "Q": 1.8224676159052104,
+            "conditions": 120,
+            "heart_sdr": 1.9432108885891894,
+            "heart_sdri": 1.9243382447163637,
+            "lung_sdr": 1.841340387568302,
+            "lung_sdri": 1.8224676159052104
+          }
+        },
+        "heart_sdr": 1.6043159229504942,
+        "heart_sdri": 1.598182296178466,
+        "lung_sdr": 1.3755572735677752,
+        "lung_sdri": 1.3694229634044413,
+        "negative_rate_percent": {
+          "heart": 19.444444444444446,
+          "lung": 31.11111111111111
+        }
+      },
+      "f4": {
+        "M": 1.475066821600407,
+        "Q": 0.8638136309000957,
+        "conditions": 315,
+        "failures": 0,
+        "family_pair_count": 2,
+        "family_pairs": {
+          "Atrial Fibrillation | Wheezing": {
+            "M": 2.2954684278647015,
+            "Q": 1.8519974393180205,
+            "conditions": 140,
+            "heart_sdr": 1.8902218027835789,
+            "heart_sdri": 1.8519974393180205,
+            "lung_sdr": 2.7771632651646425,
+            "lung_sdri": 2.738939416411383
+          },
+          "Late Systolic Murmur | Wheezing": {
+            "M": 0.6546652153361121,
+            "Q": -0.12437017751782914,
+            "conditions": 175,
+            "heart_sdr": -0.13415627952516201,
+            "heart_sdri": -0.12437017751782914,
+            "lung_sdr": 1.4239139848451718,
+            "lung_sdri": 1.4337006081900534
+          }
+        },
+        "heart_sdr": 0.8780327616292084,
+        "heart_sdri": 0.8638136309000957,
+        "lung_sdr": 2.100538625004907,
+        "lung_sdri": 2.0863200123007184,
+        "negative_rate_percent": {
+          "heart": 41.269841269841265,
+          "lung": 14.920634920634921
+        }
+      },
+      "f5": {
+        "M": 2.488038605801038,
+        "Q": 1.4920832126127808,
+        "conditions": 275,
+        "failures": 0,
+        "family_pair_count": 2,
+        "family_pairs": {
+          "Late Diastolic Murmur | Fine Crackles": {
+            "M": 1.8569563282806227,
+            "Q": 0.9062570817900496,
+            "conditions": 150,
+            "heart_sdr": 2.8517581612766576,
+            "heart_sdri": 2.807655574771196,
+            "lung_sdr": 0.9503589009867782,
+            "lung_sdri": 0.9062570817900496
+          },
+          "S3 | Fine Crackles": {
+            "M": 3.1191208833214534,
+            "Q": 2.077909343435512,
+            "conditions": 125,
+            "heart_sdr": 4.124499193881214,
+            "heart_sdri": 4.160332423207395,
+            "lung_sdr": 2.0420749098626683,
+            "lung_sdri": 2.077909343435512
+          }
+        },
+        "heart_sdr": 3.4881286775789357,
+        "heart_sdri": 3.4839939989892956,
+        "lung_sdr": 1.4962169054247232,
+        "lung_sdri": 1.4920832126127808,
+        "negative_rate_percent": {
+          "heart": 5.090909090909091,
+          "lung": 37.09090909090909
+        }
+      }
+    },
+    "heart_sdr": 1.8688173011519076,
+    "heart_sdri": 1.860144016911724,
+    "lung_sdr": 1.594382800870471,
+    "lung_sdri": 1.5857097789840917,
+    "negative_rate_percent": {
+      "heart": 26.985915492957744,
+      "lung": 31.211267605633804
+    }
+  },
+  "selected_optimizer_updates": 576,
+  "test_access": false
+}

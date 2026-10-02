@@ -1,0 +1,382 @@
+/* Review refinement: readable operational type, calm surfaces, compact audio. */
+.sf-main {
+  padding-top: 24px;
+}
+.sf-recording-reference {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.sf-compact-date {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.sf-recordings--compact .sf-recording-title > div {
+  gap: 2px;
+}
+.sf-recordings--compact li {
+  min-height: 70px;
+  padding: 10px 0;
+}
+.sf-main-column {
+  background: var(--workspace-veil);
+}
+.sf-sidebar nav > a,
+.sf-sidebar nav > button,
+.sf-button {
+  font-size: var(--type-body);
+}
+.sf-location,
+.sf-copy,
+.sf-status,
+.sf-recording-date,
+.sf-recording-duration,
+.sf-recording-access,
+.sf-row-action,
+.sf-format,
+.sf-detail-meta,
+.sf-metric,
+.sf-field small,
+.sf-avatar-actions small,
+.sf-theme-option small,
+.sf-audio-setting p,
+.sf-setting-row p,
+.sf-setting-row small,
+.sf-check-rules,
+.sf-playback-note,
+.sf-profile-save .sf-copy,
+.sf-identity--compact small,
+.sf-role {
+  font-size: var(--type-small);
+}
+.sf-recording-title strong,
+.sf-field input,
+.sf-field select,
+.sf-profile-save .sf-button,
+.sf-avatar-actions .sf-button,
+.sf-setting-row .sf-button,
+.sf-settings-nav > button,
+.sf-search-field input {
+  font-size: var(--type-body);
+}
+.sf-identity--compact strong {
+  font-size: 13px;
+}
+.sf-field > span,
+.sf-theme-option-label,
+.sf-audio-setting > label > span,
+.sf-quality-list strong {
+  font-size: 13px;
+}
+.sf-quality-list span {
+  font-size: var(--type-small);
+  line-height: 1.6;
+}
+.sf-quality-list .sf-check-warning {
+  color: var(--warning);
+}
+.sf-check-rules summary {
+  min-height: 32px;
+}
+.sf-notice,
+.sf-section-heading p,
+.sf-progress-title p,
+.sf-attention-panel > p,
+.sf-shared-recording > strong,
+.sf-week-summary > div span {
+  font-size: 13px;
+}
+.sf-progress-steps strong,
+.sf-progress-steps small,
+.sf-progress-copy,
+.sf-shared-recording > span:not(.sf-status) {
+  font-size: var(--type-small);
+}
+.sf-library-filters > span,
+.sf-recent-footer,
+.sf-library-footer,
+.sf-library-bottom,
+.sf-settings-shortcuts > span {
+  font-size: var(--type-small);
+}
+.sf-list-head,
+.sf-preview-label {
+  font-size: var(--type-small);
+}
+.sf-greeting {
+  min-height: 160px;
+  margin-bottom: 20px;
+}
+.sf-progress-panel {
+  min-height: 132px;
+  margin-bottom: 20px;
+}
+.sf-overview-grid {
+  gap: 20px;
+}
+.sf-week-summary h2 {
+  font-size: 22px;
+}
+.sf-pagination {
+  display: flex;
+  gap: 4px;
+}
+.sf-mobile-source {
+  display: none;
+}
+.sf-sidebar nav > a,
+.sf-sidebar nav > button {
+  font-size: 13px;
+  gap: 10px;
+  padding-inline: 10px;
+  white-space: nowrap;
+}
+.sf-private-note {
+  padding-bottom: 20px;
+}
+.sf-private-note > span {
+  font-size: 12px;
+}
+.sf-header-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.sf-owl-material {
+  position: absolute;
+  pointer-events: none;
+}
+.sf-owl img,
+.sf-owl canvas {
+  filter: url(#sf-pine-irises);
+}
+.sf-detail-heading {
+  margin-bottom: 20px;
+}
+.sf-audio-panel {
+  padding: 20px 20px 12px;
+}
+.sf-audio-panel .sf-section-heading {
+  margin-bottom: 10px;
+}
+.sf-player-main {
+  grid-template-columns: 44px minmax(0, 1fr) 104px;
+  gap: 12px;
+}
+.sf-waveform {
+  height: 40px;
+}
+.sf-timeline > input {
+  height: 40px;
+  min-height: 40px;
+}
+.sf-player {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.sf-analysis-panel .sf-chart-area,
+.sf-analysis-panel .sf-chart-area canvas {
+  height: 148px;
+}
+.sf-time {
+  font-size: var(--type-small);
+}
+.sf-icon-link {
+  width: 32px;
+  height: 44px;
+}
+.sf-analysis-subhead .sf-segments button,
+.sf-analysis-heading .sf-segments button {
+  font-size: var(--type-small);
+  min-height: 34px;
+}
+.sf-analysis-subhead > span,
+.sf-x-axis,
+.sf-y-axis,
+.sf-colour-axis,
+.sf-signal-chart figcaption {
+  font-size: var(--type-small);
+}
+.sf-player-label > span,
+.sf-technical,
+.sf-technical dt,
+.sf-technical dd,
+.sf-technical p,
+.sf-footer p,
+.sf-share-panel .sf-button,
+.sf-header-avatar {
+  font-size: var(--type-small);
+}
+.sf-section-heading {
+  margin-bottom: 16px;
+}
+.sf-profile-summary {
+  margin-bottom: 20px;
+}
+.sf-settings-content .sf-section-heading {
+  margin-bottom: 18px;
+}
+.sf-settings-content hr {
+  margin: 20px 0;
+}
+@media (max-width: 1200px) and (min-width: 761px) {
+  .sf-player {
+    grid-template-columns: 75px minmax(0, 1fr) 28px;
+    gap: 10px;
+  }
+  .sf-player-main {
+    grid-template-columns: 44px minmax(0, 1fr) 104px;
+    gap: 10px;
+  }
+  .sf-player-label strong {
+    font-size: 23px;
+  }
+  .sf-player-label > span {
+    font-size: 10px;
+  }
+}
+@media (max-width: 760px) {
+  .sf-app {
+    background-image: none;
+  }
+  .sf-main-column {
+    background: var(--background);
+  }
+  .sf-recording-title strong {
+    font-size: 13px;
+  }
+  .sf-status {
+    font-size: var(--type-small);
+  }
+  .sf-recordings--compact .sf-recording-date {
+    font-size: var(--type-small);
+  }
+  .sf-recordings--compact li {
+    min-height: 85px;
+  }
+  .sf-recording-reference {
+    gap: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .sf-copy,
+  .sf-detail-meta,
+  .sf-detail-meta .sf-copy {
+    font-size: var(--type-small);
+  }
+  .sf-page-heading > .sf-button,
+  .sf-heading-actions > .sf-button {
+    min-height: 44px;
+  }
+  .sf-segments button,
+  .sf-analysis-subhead .sf-segments button,
+  .sf-analysis-heading .sf-segments button {
+    min-height: 44px;
+  }
+  .sf-player {
+    grid-template-columns: 1fr 44px;
+    gap: 2px 0;
+    padding: 14px 0;
+  }
+  .sf-player-label {
+    flex-direction: row;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 8px;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .sf-player-label strong {
+    font-size: 24px;
+  }
+  .sf-player-label > span {
+    font-size: var(--type-small);
+  }
+  .sf-player-download {
+    grid-column: 2;
+    grid-row: 1;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+  }
+  .sf-player-main {
+    grid-column: 1/-1;
+    grid-row: 2;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 4px 12px;
+  }
+  .sf-waveform {
+    height: 44px;
+  }
+  .sf-timeline > input {
+    height: 44px;
+    min-height: 44px;
+  }
+  .sf-gain input {
+    height: 44px;
+    min-height: 44px;
+  }
+  .sf-gain {
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .sf-playback-note {
+    font-size: var(--type-small);
+  }
+  .sf-audio-panel {
+    padding: 20px 16px 10px;
+  }
+  .sf-detail-heading h1 {
+    font-size: 36px;
+  }
+  .sf-detail-heading {
+    margin-bottom: 20px;
+  }
+  .sf-mobile-source {
+    display: block;
+    margin: 12px 0 4px;
+  }
+  .sf-mobile-source .sf-segments {
+    display: flex;
+  }
+  .sf-mobile-source .sf-segments button {
+    flex: 1;
+    justify-content: center;
+  }
+  .sf-audio-lane[data-selected="false"] {
+    display: none;
+  }
+  .sf-analysis-subhead {
+    display: none;
+  }
+  .sf-greeting {
+    min-height: 198px;
+  }
+  .sf-progress-panel {
+    min-height: 0;
+  }
+  .sf-section-heading .sf-text-link {
+    font-size: var(--type-small);
+  }
+  .sf-mobile-nav > a,
+  .sf-mobile-nav > button {
+    font-size: var(--type-small);
+  }
+  .sf-theme-option-label {
+    font-size: 12px;
+  }
+  .sf-theme-option small {
+    font-size: var(--type-small);
+  }
+  .sf-profile-save .sf-button {
+    font-size: 12px;
+  }
+  .sf-settings-nav > button {
+    font-size: 12px;
+  }
+  .sf-technical summary {
+    min-height: 44px;
+  }
+}

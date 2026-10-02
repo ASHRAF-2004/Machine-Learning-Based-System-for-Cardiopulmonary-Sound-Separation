@@ -1,0 +1,467 @@
+{
+  "version": "frost-studio-core-local-v1",
+  "status": "COMPLETE_LOCALLY_READY_FOR_OWNER_REVIEW",
+  "owner_approval": {
+    "design": "Frost Studio polish-v1",
+    "received": true,
+    "date": "2026-09-30",
+    "authority": "Explicit owner instruction; local core only, not deployment"
+  },
+  "starting_shas": {
+    "implementation": "287a9f753a36fca691ad481b37134d9ed20beb53",
+    "documentation": "c08045c5179c09887579d5339f0cb0e143902425",
+    "root": "7b6c88abe834e715d6b912a58bd0fc4c2a27443e"
+  },
+  "implementation_code_commit": "8174d54e723ae6fa878f83c935556ea1775db3cc",
+  "execution_note": "Full real-local acceptance preceded the source commit; worker records starting SHA plus dirty=true. Final scoped CSS perch/range corrections received separate layout checks and a standalone app rebuild.",
+  "checkpoint_sha256": "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+  "separator_spec_sha256": "2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b",
+  "synthetic_fixture": "M0001.wav",
+  "fixture_sha256": "c269cb03dac8915f49502ac578e755453f638de26a4430908dd2887902e5f230",
+  "builds": [
+    {
+      "command": "npm run build",
+      "exit_code": 0
+    },
+    {
+      "command": "npx --no-install vite build --config ux-preview.vite.config.ts",
+      "exit_code": 0
+    }
+  ],
+  "review": {
+    "axes": [
+      "correctness",
+      "readability",
+      "architecture",
+      "security",
+      "performance"
+    ],
+    "critical_or_important_findings_remaining": 0,
+    "visually_inspected": true,
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "width": 390,
+        "height": 844
+      },
+      {
+        "width": 900,
+        "height": 1000
+      }
+    ],
+    "themes": [
+      "Frost",
+      "Midnight"
+    ],
+    "new_lighthouse_campaign": false
+  },
+  "receipts": [
+    {
+      "id": "integration-v7",
+      "path": "frontend/output/playwright/frost-core/integration-v7/results.json",
+      "sha256": "255a201842e4c6c299080a71e2138a526f3cf9b10434ede389cab25c71288fee",
+      "scope": "LOCAL synthetic M0001.wav; existing test-only Firebase SDK/verifier stand-in, REAL API/proxy/SQLite/private storage/frozen worker. Not Firebase/emulator/production/physical hardware qualification.",
+      "started_at": "2026-09-30T14:11:55.831Z",
+      "completed_at": "2026-09-30T14:12:45.859Z",
+      "checks": [
+        {
+          "name": "REAL API empty Overview, authenticated logo and no preview identities/banners",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL upload/review M0001.wav -> persisted Library identity",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL quick separation request -> durable queued state, repeated request reuses job",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL unchanged frozen worker -> processing -> succeeded, no synthetic UI progress",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL auto media, unboosted analysis source switching, seek and 100/150/200% gain",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL downloaded output unchanged; float WAV samples finite, stored rate/length exact",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL refresh/new authenticated session restores persisted state, legacy links preserve identities",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL Overview/Library data, working search/filter/sort/pages, long title and missing display name",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL integrated owl: approved renderer, page-wide pointer tracking and unchanged perched assets",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL integrated Frost/Midnight/mobile/tablet, keyboard focus, reduced motion and no overflow",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL anonymous/unrelated/exact Heart access, result metadata separately authorized",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL sign-out stops playback and revokes loaded private object URLs",
+          "status": "PASS"
+        },
+        {
+          "name": "FAKE MICROPHONE, REAL AudioWorklet/PCM upload, original stored sample rate is not device-resampled analysis",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL durable failed job presentation; TEST-ONLY inference exception, no fallback/retry claim",
+          "status": "PASS"
+        },
+        {
+          "name": "PURE browser signal checks: supported PCM8/extensible PCM, silence has unavailable crest, malformed WAV fails",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL API stopped -> truthful unavailable state, no preview fallback",
+          "status": "PASS"
+        },
+        {
+          "name": "No page exceptions, no preview assets/fixtures in live routes, no leaked audio after sign-out",
+          "status": "PASS"
+        }
+      ],
+      "browser_errors": 0,
+      "screenshots": [
+        {
+          "name": "00-overview-empty-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "59f479578970177a586bddf8a7787ad99d12b07dc4da279a38b90d1ae2e78106"
+        },
+        {
+          "name": "03-upload-review-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "f598f9952caa5dc37cacb85ed6e86f90ea056b14a7cef3988f6c3c91f21c0720"
+        },
+        {
+          "name": "02-library-recorded-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "51e0c8021905887d77e9794113c6dbf0209e6d0db152ef4e5f23ff059efa4a41"
+        },
+        {
+          "name": "04-queued-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "4d653740bfe9869f3929bc81bb18c2084904675a820df85e551f7eb744655a31"
+        },
+        {
+          "name": "05-processing-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "d6ccb3577b95f07a056c244c71c06a5b57618aded913343ad618b75c54633e95"
+        },
+        {
+          "name": "06-ready-detail-frost-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "32a41b1b374241e0f42788a05d31f3b05f8aee3738408cff20b88942602e5614"
+        },
+        {
+          "name": "06b-ready-detail-frost-full.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "46c8d7b17a6c3257f10dae3653bc3aeebab8051699bbaa6d5b3f8073ddd721fc"
+        },
+        {
+          "name": "07-ready-detail-boost150-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "5625ac9d2bb78da9b8c9e3f434a6e720308539105588ba4c2f59c42afeb2e9c8"
+        },
+        {
+          "name": "02-library-light-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "411667a8b64ff05810c0fcc54c164996b96405b06d58dc1f7ec6f620c468d699"
+        },
+        {
+          "name": "01-overview-light-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "ec09a9dba4aa4c22e2fc308d5b0c9fcc379436f2130403df56a52262f454fdf4"
+        },
+        {
+          "name": "08-ready-detail-midnight-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "e37757965e2d3c43b33d941f348b9889fba6a9a63b757be87397a2ba64c88b41"
+        },
+        {
+          "name": "10-ready-detail-tablet.png",
+          "viewport": {
+            "width": 900,
+            "height": 1000
+          },
+          "sha256": "555bd467eb7bf27cf4855d78f3008df94fd701c1c8c72a38f12b120d9590b5b9"
+        },
+        {
+          "name": "09-ready-detail-mobile.png",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "6eb8a61633157e958abbaf863ee1974f57e848fd2e87f2355e1cf34e14b59f8c"
+        },
+        {
+          "name": "11-ready-detail-mobile-boost150.png",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "07b0e470fdc21962eb29a7891e25962c2232ca26e64bd2d58693476f767df933"
+        },
+        {
+          "name": "12-overview-mobile.png",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "504b320e00af1a2cd9349479f9c13a7122b6c905258072fdbbf8b5608c8f7624"
+        },
+        {
+          "name": "13-exact-heart-access.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "3ede229e10c3abe142001bc875f1db3aeebec186035424ca2a364237eea69e96"
+        },
+        {
+          "name": "15-device-capture-review.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "e82e6cb612c78e7857be8593729f28f1a7507218e211b1bfafcac454ae8c7629"
+        },
+        {
+          "name": "16-failed-job.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "cfadb0aac9ca0f230ba11b3218d1f4e538469f06137f9bebc95ade26a132c74e"
+        },
+        {
+          "name": "14-service-unavailable.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "af95379039a1f6ae4d258e6c60cf660c79bdd219f44efd18e7e2dc26f9f90e61"
+        }
+      ],
+      "worker_provenance": {
+        "code_git_sha": "287a9f753a36fca691ad481b37134d9ed20beb53",
+        "code_worktree_dirty": true,
+        "environment": {
+          "device": "cpu",
+          "numpy": "2.4.4",
+          "python": "3.14.4",
+          "scipy": "1.17.0",
+          "torch": "2.11.0+cpu",
+          "torchaudio": "2.11.0+cpu"
+        },
+        "parameter_count": 171313,
+        "model_version": "stethofuse-tcn-small-hls-refit-waveform-v2",
+        "output_samples": 60000,
+        "input_sha256": "c269cb03dac8915f49502ac578e755453f638de26a4430908dd2887902e5f230",
+        "heart_sha256": "1061975bfd926b3a7e40c045e2cecd80b0a17721d32b6d0912d13e010af3c72f",
+        "lung_sha256": "d80354141aab0bdb4b587b8f3bca3fd394b0eeae33764d4b25c1fe5ef4edfa2b"
+      }
+    },
+    {
+      "id": "application-regression-v2",
+      "path": "frontend/output/playwright/frost-core/application-regression-v2/results.json",
+      "sha256": "93f3a1f6b1c6c5819c5d1bf5548dbafa76bde7bd12dcdf9f081fb3c258e9f7c7",
+      "scope": "Actual missing-config UI plus network-substituted MOCK official Firebase SDK modules and MOCK API. Not emulator, real Firebase, local backend or production verification.",
+      "started_at": "2026-09-30T14:12:30.215Z",
+      "checks": [
+        {
+          "name": "Actual missing-config live build is fail-closed and ignores fixture storage",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK SDK email login + bearer session sync and refresh restoration",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK API owned collections, denied foreign record and no synthetic results",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK async upload waits for a server recording ID, then automatically authenticated media blob",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK explicit original-resource review grant is awaited and server-returned",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK preferences envelope, profile persistence and mobile containment",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK logout clears live presentation and no app credentials/tokens are stored",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK analyst review saves exact assignment and revocation denies subsequent access",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK staff route denial and server role refresh",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK 401 refresh attempt ends in expired session without stale data",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK official Google popup adapter and explicit logout",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK registration remains unverified until explicit verification and reload",
+          "status": "PASS"
+        },
+        {
+          "name": "MOCK reset request and action code is consumed once, cleared from URL and not persisted",
+          "status": "PASS"
+        },
+        {
+          "name": "No runtime errors, external provider requests, query tokens or submitted ownership/role fields",
+          "status": "PASS"
+        }
+      ],
+      "browser_errors": 0,
+      "screenshots": []
+    },
+    {
+      "id": "contact-v1",
+      "path": "frontend/output/playwright/frost-core/contact-v1/results.json",
+      "sha256": "6a0a85f1b7f9cfcb198139db7457710f214390c7f161bc5e37e09f36c7902c48",
+      "scope": "LOCAL layout-only: REAL isolated API with empty authorized Library, test SDK/verifier identity. No worker/inference.",
+      "started_at": "2026-09-30T14:18:49.861Z",
+      "completed_at": "2026-09-30T14:18:55.455Z",
+      "checks": [
+        {
+          "name": "REAL API empty Overview, authenticated logo and no preview identities/banners",
+          "status": "PASS"
+        },
+        {
+          "name": "REAL integrated owl: approved renderer, page-wide pointer tracking and unchanged perched assets",
+          "status": "PASS"
+        }
+      ],
+      "browser_errors": 0,
+      "screenshots": [
+        {
+          "name": "00-overview-empty-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "2054dd363fa2877eaa43330b5acf9a66e7e200032b61fa08581cba717cb96af4"
+        },
+        {
+          "name": "17-overview-contact-desktop.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "2054dd363fa2877eaa43330b5acf9a66e7e200032b61fa08581cba717cb96af4"
+        },
+        {
+          "name": "owl-desktop-closeup.png",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "sha256": "e2538bf53ada15ec8647b7f906ab295aedc80d1b6a2c291f3dc026660978226e"
+        },
+        {
+          "name": "18-overview-contact-mobile.png",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "6c17390b40c40a0eae765cdf91d8db99a1e6dbaeed0f397542c8c8e6b285f08e"
+        },
+        {
+          "name": "owl-mobile-closeup.png",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "sha256": "c262bfa7767e74d2fb4b42cccfc870260191eaba1a0ce8cbe77360d16baa16b0"
+        }
+      ]
+    }
+  ],
+  "artifact_note": "Ignored local evidence; no screenshots, WAVs, private audio, model weights or generated archives committed. contact-v1 is the final branch/contact reference; integration-v7's populated Overview precedes that small CSS correction.",
+  "boundaries": {
+    "production_changed": false,
+    "axora_changed": false,
+    "backend_runtime_changed": false,
+    "schema_migration": false,
+    "auth_policy_changed": false,
+    "real_provider_accounts_changed": false,
+    "ml_changed": false,
+    "t9_accessed": false,
+    "identity_backfill": false,
+    "preview_changed": false,
+    "preview_fixtures_in_normal_app": false,
+    "clinical_or_device_qualification_claimed": false
+  },
+  "deferred": [
+    "handles/public IDs/backfill",
+    "username login",
+    "new handle-sharing services",
+    "avatar/profile backend extensions",
+    "export/unlink/delete services",
+    "global Insights",
+    "owl flight ASSET-GATED — NOT IMPLEMENTED"
+  ],
+  "next_step": "Owner review. Do not deploy or execute remaining handoff."
+}

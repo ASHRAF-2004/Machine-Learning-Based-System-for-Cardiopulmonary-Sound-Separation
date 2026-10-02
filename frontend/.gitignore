@@ -1,0 +1,22 @@
+node_modules/
+dist/
+.cache/
+test-results/
+.env.local
+*.tsbuildinfo
+
+# Local visual evidence and historical generated fields remain on disk.
+evidence/
+output/
+.playwright-cli/
+public/assets/owl/frames/
+public/assets/owl/continuous-field/
+
+# Credentials/configuration are never checkpoint assets.
+.env
+.env.*
+!.env.example
+*-firebase-adminsdk-*.json
+*service-account*.json
+*.pem
+*.key

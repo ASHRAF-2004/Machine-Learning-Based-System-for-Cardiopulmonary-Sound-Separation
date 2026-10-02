@@ -1,0 +1,243 @@
+{
+  "method": "Full-source head/neck; lower torso registration only; one750\u2013900 transition",
+  "views": [
+    {
+      "name": "neutral-original",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/neutral-original.png",
+      "source_sha256": "9215004380eca970bdcaa0f831e3b0b64e7805812afdfd29dd677019ad747d8e",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/neutral-original.png",
+      "sha256": "7e065a26b8aa9b71248dfb92f26e026e2f1700d9a47bb81ec2f2c506fb95525b",
+      "head_translation": [
+        0,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 0.0
+    },
+    {
+      "name": "yaw-minus15-pitch-minus9",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-minus15-pitch-minus9.png",
+      "source_sha256": "1858aabb3fcb690659bfde4dfe0fcbadf894036f387dd1504ad71a8406bf931f",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-minus15-pitch-minus9.png",
+      "sha256": "d85b68cd329e53732cd0ed0f30c7b13afa753f7a086a07b2c9cf9d46f1ce1fdc",
+      "head_translation": [
+        0,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 24.88010597229004
+    },
+    {
+      "name": "yaw-minus15-pitch-plus9",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-minus15-pitch-plus9.png",
+      "source_sha256": "09aa348f34d0d7b740dc8559cb75c0b2cfdf1fd6c2e5adf782a5b87551aebcc6",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-minus15-pitch-plus9.png",
+      "sha256": "8dc4b13012fd57977dc95e7be2c9044545f06aa5218a1d957e219c7abcc5a644",
+      "head_translation": [
+        -2,
+        -1
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 10.8590669631958
+    },
+    {
+      "name": "yaw-minus15-pitch0",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-minus15-pitch0.png",
+      "source_sha256": "55af3b5814bc24e318ccfcaaca85a097acc7089f3d60172206ddf342549aa3da",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-minus15-pitch0.png",
+      "sha256": "cc680b8946e561fb870549e23c98eba42825f9a16bb00bcf3d7c5b5d078552f5",
+      "head_translation": [
+        0,
+        -1
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 9.109108924865723
+    },
+    {
+      "name": "yaw-minus30-pitch-minus18",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-minus30-pitch-minus18.png",
+      "source_sha256": "079b755c3e839ccbbe35a46f1775fe56d48f3c626c6fea169370d84b707b8e4d",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-minus30-pitch-minus18.png",
+      "sha256": "a78ba3df9dd91c62d84042c42a3326f738af2f2b4ccdc6978998f32cd6ca9d09",
+      "head_translation": [
+        0,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 16.977582931518555
+    },
+    {
+      "name": "yaw-minus30-pitch-plus18",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-minus30-pitch-plus18.png",
+      "source_sha256": "9f34a4b7e0a812f01bbb307ec378d5a57699482eae6d8d1574b92dc089978b6e",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-minus30-pitch-plus18.png",
+      "sha256": "ee43a821e4ee7309e5cbc8668abfcae35f0dfdc0bb234d903ab168c3c2f9f735",
+      "head_translation": [
+        -1,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 7.464005470275879
+    },
+    {
+      "name": "yaw-minus30-pitch0",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-minus30-pitch0.png",
+      "source_sha256": "11a5e95422d6f2f5306e82505a95008a32f6c06b7dc578fed5a5e318d73fbdb7",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-minus30-pitch0.png",
+      "sha256": "d872b87b0fded89ef827bea3bbfa78e7658e09363e697826dff6e7b61177e8ec",
+      "head_translation": [
+        -1,
+        -1
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 10.097960472106934
+    },
+    {
+      "name": "yaw-plus15-pitch-minus9",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-plus15-pitch-minus9.png",
+      "source_sha256": "3c69a6b65980fb44455b555b2ad177772902ad5b1681377a09382e63a572ee29",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-plus15-pitch-minus9.png",
+      "sha256": "58ff1f4c340c513c1dd453d522b3b831c69a7bb72fa1e4a30dd889b58e5207da",
+      "head_translation": [
+        -1,
+        -1
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 12.47686767578125
+    },
+    {
+      "name": "yaw-plus15-pitch-plus9",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-plus15-pitch-plus9.png",
+      "source_sha256": "801a10d4445abf822c42dc42ac5fa4428597712e9f8da50b8e2603f14d443ff1",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-plus15-pitch-plus9.png",
+      "sha256": "8f2e6d6807d421ef8120b39fdd781684947b2871fe0b5b137319b0089ac88bb3",
+      "head_translation": [
+        -2,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 11.733114242553711
+    },
+    {
+      "name": "yaw-plus15-pitch0",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-plus15-pitch0.png",
+      "source_sha256": "142f8c9a81e0de34d0d984357d35db415f0f7da7124ee9a1a1aa334f3aaa12e2",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-plus15-pitch0.png",
+      "sha256": "bdc24d3caa53838cb985ad79892235b3b1c5c25e6197a98dbb0abdc3213043d2",
+      "head_translation": [
+        -1,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 9.676780700683594
+    },
+    {
+      "name": "yaw-plus30-pitch-minus18",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-plus30-pitch-minus18.png",
+      "source_sha256": "efee293481a3927319174c1404a45d437eed9c50ad939bcf05642678c7184bf0",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-plus30-pitch-minus18.png",
+      "sha256": "2bc199366873b138343428d933fd170716994882186a19474d23135e5146d205",
+      "head_translation": [
+        0,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 12.94212818145752
+    },
+    {
+      "name": "yaw-plus30-pitch-plus18",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-plus30-pitch-plus18.png",
+      "source_sha256": "0308042fbf9f744fa2d07392c5130b0b4b8d8f4db432ca2f945568f6e0d4adf5",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-plus30-pitch-plus18.png",
+      "sha256": "7193dddc391c154e1bf7c660967d3997c74da044aa54039ea3fe203d34e3bcf2",
+      "head_translation": [
+        0,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 9.423409461975098
+    },
+    {
+      "name": "yaw-plus30-pitch0",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw-plus30-pitch0.png",
+      "source_sha256": "940380bf108bd65d46f745ced748885aae7e5dd4096a894be4ec02efd79e4c6b",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw-plus30-pitch0.png",
+      "sha256": "feeca58faf40518a40e2c833dd0db8c76a1ee6a2bc3ba8b9431a89302647be62",
+      "head_translation": [
+        -1,
+        -1
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 9.42546272277832
+    },
+    {
+      "name": "yaw0-pitch-minus18",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw0-pitch-minus18.png",
+      "source_sha256": "1e9d967ab578c08d3eebfc54bd5f2c077ac30de72f7ed2909aa3b8fdd9aa6c84",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw0-pitch-minus18.png",
+      "sha256": "e973a2ba3f23aaf37b027f906c5f5ab3b34ba3d25f87b9cb590d2d457b549802",
+      "head_translation": [
+        -2,
+        -1
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 7.7534565925598145
+    },
+    {
+      "name": "yaw0-pitch-minus9",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw0-pitch-minus9.png",
+      "source_sha256": "5a04eea1c0af5f3ff8589f144a5ec9bae012b85d41918a03c1ff87e4df077249",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw0-pitch-minus9.png",
+      "sha256": "43cb8f1137460e5bd6c8e5444d7e4b86e5295f36573e49025b620162c8ac9431",
+      "head_translation": [
+        -1,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 12.233707427978516
+    },
+    {
+      "name": "yaw0-pitch-plus18",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw0-pitch-plus18.png",
+      "source_sha256": "e3b4bae5e2624535101b9ea97d4d8f1ff5b8be1418a82055ec0361e88d02e4b7",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw0-pitch-plus18.png",
+      "sha256": "01fb23f7917084db45eeac6669f0a9a99395ad45b56dba8d2eaffe9f9af8bcb6",
+      "head_translation": [
+        -1,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 9.267809867858887
+    },
+    {
+      "name": "yaw0-pitch-plus9",
+      "source": "/home/ashraf/Documents/StethoFuse/StethoFuse-codex-package/owl-3d-lab/frame-study/key-poses/yaw0-pitch-plus9.png",
+      "source_sha256": "553b2ad1a19dd3d1fe3f666108838feda538a3198d53fd92e839a2c626546890",
+      "file": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/owl-neck-continuity/registered/yaw0-pitch-plus9.png",
+      "sha256": "dc39b45cd0efe99ee4a5099342a2061b158bbc1a196268078fdfe7868dc9a240",
+      "head_translation": [
+        -2,
+        0
+      ],
+      "head_unchanged_below_row": 500,
+      "fixed_body_from_row": 900,
+      "max_body_registration_pixels": 10.437254905700684
+    }
+  ]
+}

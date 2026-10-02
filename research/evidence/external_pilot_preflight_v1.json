@@ -1,0 +1,18 @@
+{
+  "status": "QUALIFIED_BEFORE_TRAINING",
+  "registry_sha256": "09b2aefca4c957ea0346039f7ca8d4d5c553f49bf109f6b0da02a390e733328d",
+  "config_sha256": "dedc8fd654aa9a976b255ae0c8095e6d7a13ce6b1c9a7743f6e5a3585e95489e",
+  "train_draws": 9216,
+  "train_recipe_content_sha256": "295db6b73fc86c71f2e0059fe3936641777f43b6827aa68d3de65c4b06279092",
+  "external_validation_conditions": 32,
+  "external_validation_recipe_content_sha256": "e3adca9a78abc19f37f2e14563a4f68ce958e06176a749b6ebe19e9412adf9e6",
+  "all_crops_finite_non_silent": true,
+  "max_normalized_additivity_error": 1.1920928955078125e-7,
+  "materialization_runtime_seconds": 3.128125015995465,
+  "preflight_model_created": false,
+  "preflight_optimizer_updates": 0,
+  "focused_tests_passed": 9,
+  "focused_tests_seconds": 1.54,
+  "held_out_T9_accessed": false,
+  "production_changed": false
+}

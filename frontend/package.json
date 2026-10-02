@@ -1,0 +1,6 @@
+{
+  "name": "stethofuse-frontend", "private": true, "version": "1.0.0", "type": "module",
+  "scripts": {"dev": "vite --host 127.0.0.1 --port 4180", "dev:demo": "vite --mode demo --host 127.0.0.1 --port 4182", "build": "tsc -b && vite build", "preview": "vite preview --host 127.0.0.1 --port 4180", "test": "node tests/browser.mjs", "assets": "python3 tools/optimize_assets.py"},
+  "dependencies": {"react": "19.3.0", "react-dom": "19.3.0", "react-router-dom": "7.18.4", "@phosphor-icons/react": "2.1.10", "firebase": "12.19.0"},
+  "devDependencies": {"typescript": "7.0.2", "vite": "8.3.0", "@vitejs/plugin-react": "6.1.1", "@types/react": "19.2.14", "@types/react-dom": "19.2.3", "playwright-core": "1.63.0"}
+}

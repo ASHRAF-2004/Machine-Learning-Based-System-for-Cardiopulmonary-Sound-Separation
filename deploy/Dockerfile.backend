@@ -1,0 +1,34 @@
+FROM python:3.14.4-slim@sha256:2ca02f32b4d9d893863367ce07ec1972819f476dd38d8612f2a9cb6a41cbb727 AS wheels
+
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1
+WORKDIR /build
+COPY deploy/requirements-runtime.lock.txt ./requirements-runtime.lock.txt
+RUN python -m pip wheel --require-hashes --wheel-dir=/wheels \
+    -r requirements-runtime.lock.txt
+
+FROM python:3.14.4-slim@sha256:2ca02f32b4d9d893863367ce07ec1972819f476dd38d8612f2a9cb6a41cbb727 AS runtime
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1
+WORKDIR /app
+COPY deploy/requirements-runtime.lock.txt /tmp/requirements-runtime.lock.txt
+COPY --from=wheels /wheels /wheels
+RUN python -m pip install --no-index --find-links=/wheels --require-hashes \
+      -r /tmp/requirements-runtime.lock.txt \
+    && rm -rf /wheels /tmp/requirements-runtime.lock.txt \
+    && groupadd --system --gid 10001 stethofuse \
+    && useradd --system --uid 10001 --gid 10001 --home-dir /nonexistent \
+       --shell /usr/sbin/nologin stethofuse
+
+COPY --chown=10001:10001 app/main.py /app/app/main.py
+COPY --chown=10001:10001 app/access_foundation /app/app/access_foundation
+COPY --chown=10001:10001 app/m1 /app/app/m1
+COPY --chown=10001:10001 app/static /app/app/static
+
+USER 10001:10001
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
+  CMD ["python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--no-access-log"]

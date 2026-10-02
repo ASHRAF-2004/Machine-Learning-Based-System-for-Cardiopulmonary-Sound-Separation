@@ -1,0 +1,98 @@
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.backend
+    image: stethofuse/api:local
+    restart: unless-stopped
+    user: "${STETHOFUSE_API_UID:-10001}:${STETHOFUSE_API_GID:-10001}"
+    environment:
+      STETHOFUSE_M1_DATABASE: /var/lib/stethofuse/data/m1.sqlite3
+      STETHOFUSE_M1_PRIVATE_STORAGE: /var/lib/stethofuse/private
+      STETHOFUSE_FIREBASE_PROJECT: stethofuse-c18cd-3cca0
+      STETHOFUSE_FIREBASE_ENABLED: "${STETHOFUSE_FIREBASE_ENABLED:-0}"
+    volumes:
+      - type: bind
+        source: ${STETHOFUSE_RUNTIME_ROOT:?Set STETHOFUSE_RUNTIME_ROOT to a dedicated persistent directory}/data
+        target: /var/lib/stethofuse/data
+      - type: bind
+        source: ${STETHOFUSE_RUNTIME_ROOT:?Set STETHOFUSE_RUNTIME_ROOT to a dedicated persistent directory}/private
+        target: /var/lib/stethofuse/private
+    expose:
+      - "8000"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 2.0
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+        max-file: "3"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)
+      interval: 30s
+      timeout: 4s
+      start_period: 35s
+      retries: 3
+
+  web:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.production
+      secrets:
+        - firebase-project-id
+        - firebase-api-key
+        - firebase-auth-domain
+        - firebase-app-id
+    image: stethofuse/web:local
+    restart: unless-stopped
+    user: "1000:1000"
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "${STETHOFUSE_BIND_ADDRESS:-127.0.0.1}:${STETHOFUSE_HTTP_PORT:-8088}:8080"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+      - /config:rw,noexec,nosuid,size=16m,uid=1000,gid=1000,mode=0700
+      - /data:rw,noexec,nosuid,size=16m,uid=1000,gid=1000,mode=0700
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 64
+    mem_limit: 256m
+    cpus: 0.5
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 4s
+      start_period: 45s
+      retries: 3
+
+secrets:
+  firebase-project-id:
+    environment: VITE_FIREBASE_PROJECT_ID
+  firebase-api-key:
+    environment: VITE_FIREBASE_API_KEY
+  firebase-auth-domain:
+    environment: VITE_FIREBASE_AUTH_DOMAIN
+  firebase-app-id:
+    environment: VITE_FIREBASE_APP_ID

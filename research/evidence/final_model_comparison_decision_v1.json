@@ -1,0 +1,1475 @@
+{
+  "control": {
+    "aggregate": {
+      "Q_db": 1.9134161560248084,
+      "balanced_mean_db": 1.9629676104832576,
+      "conditions": 1775,
+      "failures": 0,
+      "family_pair_groups": 8,
+      "fold_table": {
+        "f1": {
+          "Q_db": 1.4357896206464347,
+          "balanced_mean_db": 1.662760588804962,
+          "conditions": 420,
+          "family_pair_groups": 1,
+          "heart_si_sdri_db": 1.8897315569634892,
+          "lung_si_sdri_db": 1.4357896206464347
+        },
+        "f2": {
+          "Q_db": 1.2198974791237307,
+          "balanced_mean_db": 1.3321832776260472,
+          "conditions": 405,
+          "family_pair_groups": 1,
+          "heart_si_sdri_db": 1.2198974791237307,
+          "lung_si_sdri_db": 1.4444690761283636
+        },
+        "f3": {
+          "Q_db": 1.2828700483771716,
+          "balanced_mean_db": 1.4302135479630478,
+          "conditions": 360,
+          "family_pair_groups": 2,
+          "heart_si_sdri_db": 1.577557047548924,
+          "lung_si_sdri_db": 1.2828700483771716
+        },
+        "f4": {
+          "Q_db": 1.7300886953335746,
+          "balanced_mean_db": 1.7961221125322469,
+          "conditions": 315,
+          "family_pair_groups": 2,
+          "heart_si_sdri_db": 1.7300886953335746,
+          "lung_si_sdri_db": 1.8621555297309191
+        },
+        "f5": {
+          "Q_db": 3.068509697603745,
+          "balanced_mean_db": 3.128062848222232,
+          "conditions": 275,
+          "family_pair_groups": 2,
+          "heart_si_sdri_db": 3.1876159988407187,
+          "lung_si_sdri_db": 3.068509697603745
+        }
+      },
+      "heart_macro_si_sdr_db": 2.0211923491818906,
+      "heart_macro_si_sdri_db": 2.012519064941707,
+      "lung_macro_si_sdr_db": 1.9220891779111877,
+      "lung_macro_si_sdri_db": 1.9134161560248084,
+      "negative_condition_rate_heart": 0.24788732394366197,
+      "negative_condition_rate_lung": 0.28732394366197184,
+      "pair_table": {
+        "Atrial Fibrillation \u00d7 Wheezing": {
+          "balanced_mean_db": 2.8613149449364412,
+          "conditions": 140,
+          "heart_si_sdr_db": 3.022007152142016,
+          "heart_si_sdri_db": 2.983782788676458,
+          "lung_si_sdr_db": 2.777070949949684,
+          "lung_si_sdri_db": 2.738847101196425
+        },
+        "Early Systolic Murmur \u00d7 Rhonchi": {
+          "balanced_mean_db": 1.0264774808704287,
+          "conditions": 240,
+          "heart_si_sdr_db": 1.239256011520928,
+          "heart_si_sdri_db": 1.2458614018496967,
+          "lung_si_sdr_db": 0.8004894085547368,
+          "lung_si_sdri_db": 0.8070935598911606
+        },
+        "Late Diastolic Murmur \u00d7 Fine Crackles": {
+          "balanced_mean_db": 2.7224734601528944,
+          "conditions": 150,
+          "heart_si_sdr_db": 2.880480932159542,
+          "heart_si_sdri_db": 2.83637834565408,
+          "lung_si_sdr_db": 2.6526703938484375,
+          "lung_si_sdri_db": 2.608568574651709
+        },
+        "Late Systolic Murmur \u00d7 Wheezing": {
+          "balanced_mean_db": 0.7309292801280523,
+          "conditions": 175,
+          "heart_si_sdr_db": 0.4666084999833582,
+          "heart_si_sdri_db": 0.4763946019906909,
+          "lung_si_sdr_db": 0.9756773349205319,
+          "lung_si_sdri_db": 0.9854639582654136
+        },
+        "Mid Systolic Murmur \u00d7 Normal": {
+          "balanced_mean_db": 1.662760588804962,
+          "conditions": 420,
+          "heart_si_sdr_db": 1.8835433034533355,
+          "heart_si_sdri_db": 1.8897315569634892,
+          "lung_si_sdr_db": 1.429601915597824,
+          "lung_si_sdri_db": 1.4357896206464347
+        },
+        "Normal \u00d7 Pleural Rub": {
+          "balanced_mean_db": 1.3321832776260472,
+          "conditions": 405,
+          "heart_si_sdr_db": 1.2464971343737905,
+          "heart_si_sdri_db": 1.2198974791237307,
+          "lung_si_sdr_db": 1.4710677249090789,
+          "lung_si_sdri_db": 1.4444690761283636
+        },
+        "S3 \u00d7 Fine Crackles": {
+          "balanced_mean_db": 3.5336522362915694,
+          "conditions": 125,
+          "heart_si_sdr_db": 3.503020422701177,
+          "heart_si_sdri_db": 3.538853652027358,
+          "lung_si_sdr_db": 3.4926163869829354,
+          "lung_si_sdri_db": 3.528450820555781
+        },
+        "Tachycardia \u00d7 Rhonchi": {
+          "balanced_mean_db": 1.833949615055667,
+          "conditions": 120,
+          "heart_si_sdr_db": 1.9281253371209772,
+          "heart_si_sdri_db": 1.9092526932481515,
+          "lung_si_sdr_db": 1.7775193085262742,
+          "lung_si_sdri_db": 1.7586465368631823
+        }
+      }
+    },
+    "decision_receipt_sha256": "0d8893d61d9ed9517d0227781f33b3357b1c41f85d4ee80228f1691545d47dbe",
+    "fold_validation_sha256": {
+      "f1": "df088b95611cb2dc088dc4f956586142d4bc3a8046a1bc954d07128b9f4fd615",
+      "f2": "a8572581aba3d47d4c8d30b40b3053c7403d732030d8f416871bc4916cfc0d0d",
+      "f3": "6f3364925329bee6c2936dc5cdc5ee6494295f6b56f3387e11b0d48d7158fc64",
+      "f4": "9c12fb44ead8b447436897243bc877f22bc002bc7a3cff85006fce3937943d65",
+      "f5": "b74e0274d547df75562567b47d304b71638a1bcc14efe477c867a20b70f5e7c5"
+    }
+  },
+  "final_refit_authorized": false,
+  "frontend_touched": false,
+  "implementation_sha": "7d18f010b6ac247aab9f6b36b9daa379d2485536",
+  "interpretation": "Grouped non-test evidence only; no T9 generalization claim.",
+  "plan_sha256": "6776e53c1d53c66d39c8882169b6de729bc05358f337e26a91257fd74dce8103",
+  "production_touched": false,
+  "schema_version": 1,
+  "status": "FROZEN_PRE_T9_DECISION",
+  "test_access": false,
+  "treatments": {
+    "A": {
+      "aggregate": {
+        "Q_db": 2.3989137860255147,
+        "balanced_mean_db": 2.4515372569821663,
+        "conditions": 1775,
+        "failures": 0,
+        "family_pair_groups": 8,
+        "fold_table": {
+          "f1": {
+            "Q_db": 1.5865169503054402,
+            "balanced_mean_db": 1.8498283728405673,
+            "conditions": 420,
+            "family_pair_groups": 1,
+            "heart_si_sdri_db": 2.1131397953756945,
+            "lung_si_sdri_db": 1.5865169503054402
+          },
+          "f2": {
+            "Q_db": 2.142496731823632,
+            "balanced_mean_db": 2.183440111282227,
+            "conditions": 405,
+            "family_pair_groups": 1,
+            "heart_si_sdri_db": 2.142496731823632,
+            "lung_si_sdri_db": 2.2243834907408218
+          },
+          "f3": {
+            "Q_db": 1.4571518993408592,
+            "balanced_mean_db": 1.6617449402707876,
+            "conditions": 360,
+            "family_pair_groups": 2,
+            "heart_si_sdri_db": 1.8663379812007161,
+            "lung_si_sdri_db": 1.4571518993408592
+          },
+          "f4": {
+            "Q_db": 2.2340960230767055,
+            "balanced_mean_db": 2.4066731394338974,
+            "conditions": 315,
+            "family_pair_groups": 2,
+            "heart_si_sdri_db": 2.5792502557910892,
+            "lung_si_sdri_db": 2.2340960230767055
+          },
+          "f5": {
+            "Q_db": 3.4432364111638005,
+            "balanced_mean_db": 3.7210967061625824,
+            "conditions": 275,
+            "family_pair_groups": 2,
+            "heart_si_sdri_db": 3.4432364111638005,
+            "lung_si_sdri_db": 3.998957001161364
+          }
+        },
+        "heart_macro_si_sdr_db": 2.512834012179001,
+        "heart_macro_si_sdri_db": 2.5041607279388174,
+        "lung_macro_si_sdr_db": 2.407586807911894,
+        "lung_macro_si_sdri_db": 2.3989137860255147,
+        "negative_condition_rate_heart": 0.19661971830985916,
+        "negative_condition_rate_lung": 0.24,
+        "pair_table": {
+          "Atrial Fibrillation \u00d7 Wheezing": {
+            "balanced_mean_db": 3.240669692639451,
+            "conditions": 140,
+            "heart_si_sdr_db": 3.661267153403062,
+            "heart_si_sdri_db": 3.623042789937504,
+            "lung_si_sdr_db": 2.8965204440946577,
+            "lung_si_sdri_db": 2.8582965953413986
+          },
+          "Early Systolic Murmur \u00d7 Rhonchi": {
+            "balanced_mean_db": 1.320086964093936,
+            "conditions": 240,
+            "heart_si_sdr_db": 1.592274689624783,
+            "heart_si_sdri_db": 1.598880079953552,
+            "lung_si_sdr_db": 1.034689696897896,
+            "lung_si_sdri_db": 1.04129384823432
+          },
+          "Late Diastolic Murmur \u00d7 Fine Crackles": {
+            "balanced_mean_db": 3.3746024657386275,
+            "conditions": 150,
+            "heart_si_sdr_db": 3.223719818849702,
+            "heart_si_sdri_db": 3.1796172323442398,
+            "lung_si_sdr_db": 3.6136895183297444,
+            "lung_si_sdri_db": 3.5695876991330153
+          },
+          "Late Systolic Murmur \u00d7 Wheezing": {
+            "balanced_mean_db": 1.5726765862283432,
+            "conditions": 175,
+            "heart_si_sdr_db": 1.5256716196373414,
+            "heart_si_sdri_db": 1.535457721644674,
+            "lung_si_sdr_db": 1.600108827467131,
+            "lung_si_sdri_db": 1.6098954508120125
+          },
+          "Mid Systolic Murmur \u00d7 Normal": {
+            "balanced_mean_db": 1.8498283728405673,
+            "conditions": 420,
+            "heart_si_sdr_db": 2.1069515418655413,
+            "heart_si_sdri_db": 2.1131397953756945,
+            "lung_si_sdr_db": 1.5803292452568298,
+            "lung_si_sdri_db": 1.5865169503054402
+          },
+          "Normal \u00d7 Pleural Rub": {
+            "balanced_mean_db": 2.183440111282227,
+            "conditions": 405,
+            "heart_si_sdr_db": 2.1690963870736915,
+            "heart_si_sdri_db": 2.142496731823632,
+            "lung_si_sdr_db": 2.250982139521537,
+            "lung_si_sdri_db": 2.2243834907408218
+          },
+          "S3 \u00d7 Fine Crackles": {
+            "balanced_mean_db": 4.067590946586536,
+            "conditions": 125,
+            "heart_si_sdr_db": 3.6710223606571812,
+            "heart_si_sdri_db": 3.706855589983361,
+            "lung_si_sdr_db": 4.392491869616868,
+            "lung_si_sdri_db": 4.428326303189713
+          },
+          "Tachycardia \u00d7 Rhonchi": {
+            "balanced_mean_db": 2.003402916447639,
+            "conditions": 120,
+            "heart_si_sdr_db": 2.1526685263207055,
+            "heart_si_sdri_db": 2.13379588244788,
+            "lung_si_sdr_db": 1.8918827221104901,
+            "lung_si_sdri_db": 1.8730099504473983
+          }
+        }
+      },
+      "gate": {
+        "clauses": {
+          "balanced_pair_improves_at_least_6_of_8": true,
+          "delta_Q_at_least_0_50": false,
+          "delta_balanced_at_least_0_50": false,
+          "every_pair_source_nonnegative": true,
+          "fold_Q_improves_at_least_4_of_5": true,
+          "heart_absolute_macro_at_least_1": true,
+          "heart_gain_at_least_0_25": true,
+          "heart_negative_rate_increase_at_most_5pp": true,
+          "lung_absolute_macro_at_least_1": true,
+          "lung_gain_at_least_0_25": true,
+          "lung_negative_rate_increase_at_most_5pp": true,
+          "worst_pair_source_regression_not_below_minus_0_50": true,
+          "zero_failures_and_all_conditions": true
+        },
+        "delta_Q_db": 0.48549763000070634,
+        "delta_balanced_mean_db": 0.48856964649890866,
+        "delta_heart_macro_si_sdri_db": 0.49164166299711054,
+        "delta_lung_macro_si_sdri_db": 0.48549763000070634,
+        "fold_Q_deltas_db": {
+          "f1": 0.15072732965900548,
+          "f2": 0.9225992526999012,
+          "f3": 0.17428185096368765,
+          "f4": 0.504007327743131,
+          "f5": 0.3747267135600554
+        },
+        "heart_negative_rate_delta_pp": -5.126760563380281,
+        "lung_negative_rate_delta_pp": -4.732394366197185,
+        "pair_balanced_deltas_db": {
+          "Atrial Fibrillation \u00d7 Wheezing": 0.3793547477030099,
+          "Early Systolic Murmur \u00d7 Rhonchi": 0.29360948322350744,
+          "Late Diastolic Murmur \u00d7 Fine Crackles": 0.6521290055857332,
+          "Late Systolic Murmur \u00d7 Wheezing": 0.8417473061002909,
+          "Mid Systolic Murmur \u00d7 Normal": 0.18706778403560542,
+          "Normal \u00d7 Pleural Rub": 0.8512568336561799,
+          "S3 \u00d7 Fine Crackles": 0.5339387102949669,
+          "Tachycardia \u00d7 Rhonchi": 0.16945330139197212
+        },
+        "pass": false,
+        "source_pair_deltas_db": {
+          "Atrial Fibrillation \u00d7 Wheezing": {
+            "heart": 0.6392600012610461,
+            "lung": 0.11944949414497374
+          },
+          "Early Systolic Murmur \u00d7 Rhonchi": {
+            "heart": 0.35301867810385534,
+            "lung": 0.2342002883431593
+          },
+          "Late Diastolic Murmur \u00d7 Fine Crackles": {
+            "heart": 0.3432388866901599,
+            "lung": 0.9610191244813064
+          },
+          "Late Systolic Murmur \u00d7 Wheezing": {
+            "heart": 1.0590631196539833,
+            "lung": 0.6244314925465989
+          },
+          "Mid Systolic Murmur \u00d7 Normal": {
+            "heart": 0.22340823841220536,
+            "lung": 0.15072732965900548
+          },
+          "Normal \u00d7 Pleural Rub": {
+            "heart": 0.9225992526999012,
+            "lung": 0.7799144146124581
+          },
+          "S3 \u00d7 Fine Crackles": {
+            "heart": 0.16800193795600293,
+            "lung": 0.8998754826339317
+          },
+          "Tachycardia \u00d7 Rhonchi": {
+            "heart": 0.2245431891997287,
+            "lung": 0.11436341358421598
+          }
+        },
+        "worst_pair_source_delta_db": 0.11436341358421598
+      },
+      "pass": false,
+      "result": {
+        "capacity_gate": {
+          "checkpoint_reuse_for_grouped_training": false,
+          "checkpoint_sha256": "4b5952a3f9e72d759c314379749ad3a100dba00ca407a92e6c1475575043a52b",
+          "created_utc": "2026-09-28T20:43:58.771501+00:00",
+          "criteria": {
+            "every_case_source_normalized_l1_reduction_min_fraction": 0.5,
+            "every_case_source_si_sdri_min_db": 10.0,
+            "max_seconds": 600,
+            "max_updates": 400
+          },
+          "git_commit": "7d18f010b6ac247aab9f6b36b9daa379d2485536",
+          "history": [
+            {
+              "optimizer_updates": 0,
+              "runtime_seconds": 0.3404683320550248,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.0516892671585083,
+                  "sdri_db": -5.542448043823242,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.05337148904800415,
+                  "sdri_db": -1.751731038093567,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": -0.02942943572998047,
+                  "sdri_db": -12.994858741760254,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": -0.03912913799285889,
+                  "sdri_db": -1.3042556047439575,
+                  "source": "lung"
+                }
+              ]
+            },
+            {
+              "optimizer_updates": 20,
+              "runtime_seconds": 1.8768029940547422,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.2841172218322754,
+                  "sdri_db": 1.3067556619644165,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.2853870987892151,
+                  "sdri_db": 1.2881479263305664,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.3253142237663269,
+                  "sdri_db": 1.2055368423461914,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.3189570903778076,
+                  "sdri_db": 1.2130048274993896,
+                  "source": "lung"
+                }
+              ]
+            },
+            {
+              "optimizer_updates": 40,
+              "runtime_seconds": 3.3851899120491,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.36837053298950195,
+                  "sdri_db": 3.474799156188965,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.36949098110198975,
+                  "sdri_db": 3.401993989944458,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.4008309245109558,
+                  "sdri_db": 3.2073540687561035,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.3951854109764099,
+                  "sdri_db": 3.2665352821350098,
+                  "source": "lung"
+                }
+              ]
+            },
+            {
+              "optimizer_updates": 60,
+              "runtime_seconds": 4.884209816111252,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.41875994205474854,
+                  "sdri_db": 4.583162307739258,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.419791042804718,
+                  "sdri_db": 4.52202844619751,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.440144419670105,
+                  "sdri_db": 4.162942409515381,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.43486928939819336,
+                  "sdri_db": 4.146426200866699,
+                  "source": "lung"
+                }
+              ]
+            },
+            {
+              "optimizer_updates": 80,
+              "runtime_seconds": 6.418459134059958,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.45222973823547363,
+                  "sdri_db": 5.117238998413086,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.45320141315460205,
+                  "sdri_db": 5.156529426574707,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.46457338333129883,
+                  "sdri_db": 4.836948394775391,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.45952844619750977,
+                  "sdri_db": 4.9903082847595215,
+                  "source": "lung"
+                }
+              ]
+            },
+            {
+              "optimizer_updates": 100,
+              "runtime_seconds": 7.9240275820484385,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.44936931133270264,
+                  "sdri_db": 5.260671138763428,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.45034605264663696,
+                  "sdri_db": 6.118176460266113,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.48224151134490967,
+                  "sdri_db": 5.123517036437988,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.47736304998397827,
+                  "sdri_db": 5.831433296203613,
+                  "source": "lung"
+                }
+              ]
+            },
+            {
+              "optimizer_updates": 120,
+              "runtime_seconds": 9.45075421303045,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.5260239839553833,
+                  "sdri_db": 6.778697967529297,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.526864767074585,
+                  "sdri_db": 6.8509674072265625,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.5550170540809631,
+                  "sdri_db": 6.768852710723877,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.5508242845535278,
+                  "sdri_db": 6.923511028289795,
+                  "source": "lung"
+                }
+              ]
+            },
+            {
+              "optimizer_updates": 140,
+              "runtime_seconds": 10.953472579014488,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.5815134048461914,
+                  "sdri_db": 8.120869636535645,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.5822557210922241,
+                  "sdri_db": 8.125065803527832,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.6121299266815186,
+                  "sdri_db": 8.105441093444824,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.6084752678871155,
+                  "sdri_db": 8.105101585388184,
+                  "source": "lung"
+                }
+              ]
+            },
+            {
+              "optimizer_updates": 160,
+              "runtime_seconds": 12.463036915054545,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.6149795055389404,
+                  "sdri_db": 8.946030616760254,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.6156624555587769,
+                  "sdri_db": 8.94569206237793,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.6407544612884521,
+                  "sdri_db": 8.94515609741211,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.6373695135116577,
+                  "sdri_db": 8.931410789489746,
+                  "source": "lung"
+                }
+              ]
+            },
+            {
+              "optimizer_updates": 180,
+              "runtime_seconds": 13.953852052101865,
+              "sources": [
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.6857889890670776,
+                  "sdri_db": 10.78198528289795,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_AF_A/F_N_LLA",
+                  "heart_id": "F_AF_A",
+                  "lung_id": "F_N_LLA",
+                  "normalized_l1_reduction": 0.6863464117050171,
+                  "sdri_db": 10.784597396850586,
+                  "source": "lung"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.6801934838294983,
+                  "sdri_db": 10.010916709899902,
+                  "source": "heart"
+                },
+                {
+                  "case": "F_ESM_LLSB/F_PR_LLA",
+                  "heart_id": "F_ESM_LLSB",
+                  "lung_id": "F_PR_LLA",
+                  "normalized_l1_reduction": 0.6771802306175232,
+                  "sdri_db": 10.035074234008789,
+                  "source": "lung"
+                }
+              ]
+            }
+          ],
+          "initial_state_sha256": "8d617e4199c55ce0f0e1502ca7413305e1600c701f70e585f6dd41bd1584d687",
+          "pairs": [
+            [
+              "F_AF_A",
+              "F_N_LLA"
+            ],
+            [
+              "F_ESM_LLSB",
+              "F_PR_LLA"
+            ]
+          ],
+          "parameter_count": 390450,
+          "passed_at_update": 180,
+          "peak_rss_mib": 620.46875,
+          "plan_sha256": "6776e53c1d53c66d39c8882169b6de729bc05358f337e26a91257fd74dce8103",
+          "run_id": "tf-capacity-seed20260928",
+          "runtime_seconds": 13.957156772026792,
+          "seed": 20260928,
+          "source_hashes": {
+            "HS/F_AF_A": "0c8586c0e130c27690ab8899c7936923410ea5de7caf77a1ce625414154eafbb",
+            "HS/F_ESM_LLSB": "c1f3218b6eb105c9a1a345781dc0f71ae001094fa8b83de53f97a29eab6d4c2d",
+            "LS/F_N_LLA": "d8e585f2e6c325deb607c0e3d299b135f23fbc36dff245b787562a6b26baf438",
+            "LS/F_PR_LLA": "a48ae948639da450eecce80aeeabe31419e6e4aad2ee21c7f26874cf5ef84ccb"
+          },
+          "status": "PASS",
+          "test_access": false,
+          "updates_completed": 180,
+          "validation_access": false
+        },
+        "runs": [
+          {
+            "endpoint_sha256": "5f95840ff7541faf11bd2c9fbbf398221ba5652144ed641972c3e74fc0144acf",
+            "failures": 0,
+            "fold": "f1",
+            "initial_state_sha256": "8d617e4199c55ce0f0e1502ca7413305e1600c701f70e585f6dd41bd1584d687",
+            "optimizer_updates": 576,
+            "parameter_count": 390450,
+            "peak_rss_mib": 918.6640625,
+            "provenance_sha256": "eb6d770fd37781525f7b83cdc6c1dfd415380a3e2441fe9d386e999c67d13212",
+            "run_id": "a-tfcomplex-f1-seed20260928",
+            "runtime_seconds": 129.32955840905197,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "A",
+            "validation_rows": 420,
+            "validation_summary": {
+              "conditions": 420,
+              "failures": 0,
+              "family_pair_groups": 1,
+              "heart_family_mean_si_sdri_db": 2.1131397953756945,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 2.1069515418655413,
+                "pooled_iqr": 10.084506203999936,
+                "pooled_mean": 2.1069515418655413,
+                "pooled_median": 3.6828685469885123
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 2.1131397953756945,
+                "pooled_iqr": 4.364692350359696,
+                "pooled_mean": 2.1131397953756945,
+                "pooled_median": 1.123245886033015
+              },
+              "lung_family_mean_si_sdri_db": 1.5865169503054402,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 1.5803292452568298,
+                "pooled_iqr": 11.056543004525977,
+                "pooled_mean": 1.5803292452568298,
+                "pooled_median": 1.6372835205184888
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 1.5865169503054402,
+                "pooled_iqr": 4.305760323624208,
+                "pooled_mean": 1.5865169503054402,
+                "pooled_median": 1.1674513600614054
+              },
+              "runtime_seconds": 37.07173538394272,
+              "selection_q_db": 1.5865169503054402,
+              "tie_break_mean_db": 1.8498283728405673
+            }
+          },
+          {
+            "endpoint_sha256": "cd1c0f919e1ca3b699b15c6772cf6a530f6a09e62a3982467aa259332122b3bf",
+            "failures": 0,
+            "fold": "f2",
+            "initial_state_sha256": "8d617e4199c55ce0f0e1502ca7413305e1600c701f70e585f6dd41bd1584d687",
+            "optimizer_updates": 576,
+            "parameter_count": 390450,
+            "peak_rss_mib": 943.265625,
+            "provenance_sha256": "d3f937b2e4ab183d59b09a32c68c97ff73e3d0fc08179bd18ea52bb3657ad17b",
+            "run_id": "a-tfcomplex-f2-seed20260928",
+            "runtime_seconds": 129.4465406340314,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "A",
+            "validation_rows": 405,
+            "validation_summary": {
+              "conditions": 405,
+              "failures": 0,
+              "family_pair_groups": 1,
+              "heart_family_mean_si_sdri_db": 2.142496731823632,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 2.1690963870736915,
+                "pooled_iqr": 10.402424236527047,
+                "pooled_mean": 2.1690963870736915,
+                "pooled_median": 3.2391917170906965
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 2.142496731823632,
+                "pooled_iqr": 3.158742803559357,
+                "pooled_mean": 2.142496731823632,
+                "pooled_median": 1.5511924134589385
+              },
+              "lung_family_mean_si_sdri_db": 2.2243834907408218,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 2.250982139521537,
+                "pooled_iqr": 10.817325675586634,
+                "pooled_mean": 2.250982139521537,
+                "pooled_median": 2.912958288332394
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 2.2243834907408218,
+                "pooled_iqr": 3.3120703377078646,
+                "pooled_mean": 2.2243834907408218,
+                "pooled_median": 1.7969063169701407
+              },
+              "runtime_seconds": 36.4396283099195,
+              "selection_q_db": 2.142496731823632,
+              "tie_break_mean_db": 2.183440111282227
+            }
+          },
+          {
+            "endpoint_sha256": "735a0a1ea50056f78961291604c3503f7eec9b88d1f2389548339a6c8676e16a",
+            "failures": 0,
+            "fold": "f3",
+            "initial_state_sha256": "8d617e4199c55ce0f0e1502ca7413305e1600c701f70e585f6dd41bd1584d687",
+            "optimizer_updates": 576,
+            "parameter_count": 390450,
+            "peak_rss_mib": 918.84375,
+            "provenance_sha256": "a12b7e8f581cd8c390de894477c1c3c2e93ffc56dec4e270431d31cdeef28f89",
+            "run_id": "a-tfcomplex-f3-seed20260928",
+            "runtime_seconds": 127.2357603959972,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "A",
+            "validation_rows": 360,
+            "validation_summary": {
+              "conditions": 360,
+              "failures": 0,
+              "family_pair_groups": 2,
+              "heart_family_mean_si_sdri_db": 1.8663379812007161,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 1.8724716079727441,
+                "pooled_iqr": 11.59267854133874,
+                "pooled_mean": 1.7790726351900907,
+                "pooled_median": 1.874723657414422
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 1.8663379812007161,
+                "pooled_iqr": 2.095336372843127,
+                "pooled_mean": 1.7771853474516617,
+                "pooled_median": 1.4738263609866253
+              },
+              "lung_family_mean_si_sdri_db": 1.4571518993408592,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 1.4632862095041932,
+                "pooled_iqr": 8.301516532995851,
+                "pooled_mean": 1.3204207053020942,
+                "pooled_median": 1.9625541763786274
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 1.4571518993408592,
+                "pooled_iqr": 3.529538885421715,
+                "pooled_mean": 1.3185325489720126,
+                "pooled_median": 1.5726397663279654
+              },
+              "runtime_seconds": 33.11874644306954,
+              "selection_q_db": 1.4571518993408592,
+              "tie_break_mean_db": 1.6617449402707876
+            }
+          },
+          {
+            "endpoint_sha256": "c9654ded946c35fb9e2eeedb69b2fbe57aca30d122413fca46c072e4328eefd7",
+            "failures": 0,
+            "fold": "f4",
+            "initial_state_sha256": "8d617e4199c55ce0f0e1502ca7413305e1600c701f70e585f6dd41bd1584d687",
+            "optimizer_updates": 576,
+            "parameter_count": 390450,
+            "peak_rss_mib": 920.2109375,
+            "provenance_sha256": "734885fc411227615fa8382e9b0a4475af99cf74e24925e759eb48efc2e763ba",
+            "run_id": "a-tfcomplex-f4-seed20260928",
+            "runtime_seconds": 121.53833379992284,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "A",
+            "validation_rows": 315,
+            "validation_summary": {
+              "conditions": 315,
+              "failures": 0,
+              "family_pair_groups": 2,
+              "heart_family_mean_si_sdri_db": 2.5792502557910892,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 2.5934693865202014,
+                "pooled_iqr": 9.550280379091198,
+                "pooled_mean": 2.4748251901998843,
+                "pooled_median": 3.3989299909252955
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 2.5792502557910892,
+                "pooled_iqr": 4.497211321052365,
+                "pooled_mean": 2.463273307552598,
+                "pooled_median": 2.427916250403026
+              },
+              "lung_family_mean_si_sdri_db": 2.234096023076705,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 2.2483146357808943,
+                "pooled_iqr": 8.602927524679046,
+                "pooled_mean": 2.176291768190476,
+                "pooled_median": 2.5464978228793593
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 2.2340960230767055,
+                "pooled_iqr": 4.103877346163147,
+                "pooled_mean": 2.164740403936184,
+                "pooled_median": 2.6427981291677094
+              },
+              "runtime_seconds": 28.713696473045275,
+              "selection_q_db": 2.234096023076705,
+              "tie_break_mean_db": 2.406673139433897
+            }
+          },
+          {
+            "endpoint_sha256": "6067493c52756d353dca5af328e79c99594ee67271a9dfd3cf3728c8dfa1d33b",
+            "failures": 0,
+            "fold": "f5",
+            "initial_state_sha256": "8d617e4199c55ce0f0e1502ca7413305e1600c701f70e585f6dd41bd1584d687",
+            "optimizer_updates": 576,
+            "parameter_count": 390450,
+            "peak_rss_mib": 917.04296875,
+            "provenance_sha256": "a3569b0a16ed2cf4a04cc2415efd8329d33cc6890b690c426ba5ba61d8826ccc",
+            "run_id": "a-tfcomplex-f5-seed20260928",
+            "runtime_seconds": 127.50894538790453,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "A",
+            "validation_rows": 275,
+            "validation_summary": {
+              "conditions": 275,
+              "failures": 0,
+              "family_pair_groups": 2,
+              "heart_family_mean_si_sdri_db": 3.4432364111638005,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 3.4473710897534415,
+                "pooled_iqr": 12.544948644608237,
+                "pooled_mean": 3.4270391560349194,
+                "pooled_median": 3.359164775774519
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 3.4432364111638005,
+                "pooled_iqr": 3.1953650910967637,
+                "pooled_mean": 3.419271031271113,
+                "pooled_median": 2.3298881326274223
+              },
+              "lung_family_mean_si_sdri_db": 3.998957001161364,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 4.003090693973306,
+                "pooled_iqr": 5.982214961117115,
+                "pooled_mean": 3.9676905870966186,
+                "pooled_median": 4.562653800397185
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 3.998957001161364,
+                "pooled_iqr": 6.140580898725241,
+                "pooled_mean": 3.959923428249696,
+                "pooled_median": 4.063615456376559
+              },
+              "runtime_seconds": 30.41565624496434,
+              "selection_q_db": 3.4432364111638005,
+              "tie_break_mean_db": 3.7210967061625824
+            }
+          }
+        ]
+      }
+    },
+    "B": {
+      "aggregate": {
+        "Q_db": 2.017226328885842,
+        "balanced_mean_db": 2.0493722874563307,
+        "conditions": 1775,
+        "failures": 0,
+        "family_pair_groups": 8,
+        "fold_table": {
+          "f1": {
+            "Q_db": 1.4463457607198271,
+            "balanced_mean_db": 1.6726052851009094,
+            "conditions": 420,
+            "family_pair_groups": 1,
+            "heart_si_sdri_db": 1.8988648094819918,
+            "lung_si_sdri_db": 1.4463457607198271
+          },
+          "f2": {
+            "Q_db": 1.5038518740210294,
+            "balanced_mean_db": 1.5464435256035536,
+            "conditions": 405,
+            "family_pair_groups": 1,
+            "heart_si_sdri_db": 1.5038518740210294,
+            "lung_si_sdri_db": 1.589035177186078
+          },
+          "f3": {
+            "Q_db": 1.2891734768191538,
+            "balanced_mean_db": 1.4462561740721616,
+            "conditions": 360,
+            "family_pair_groups": 2,
+            "heart_si_sdri_db": 1.6033388713251695,
+            "lung_si_sdri_db": 1.2891734768191538
+          },
+          "f4": {
+            "Q_db": 1.6230283032388488,
+            "balanced_mean_db": 1.707479622020022,
+            "conditions": 315,
+            "family_pair_groups": 2,
+            "heart_si_sdri_db": 1.6230283032388488,
+            "lung_si_sdri_db": 1.7919309408011952
+          },
+          "f5": {
+            "Q_db": 3.3983474677917465,
+            "balanced_mean_db": 3.4342289483809068,
+            "conditions": 275,
+            "family_pair_groups": 2,
+            "heart_si_sdri_db": 3.3983474677917465,
+            "lung_si_sdri_db": 3.470110428970067
+          }
+        },
+        "heart_macro_si_sdr_db": 2.0901915302670027,
+        "heart_macro_si_sdri_db": 2.081518246026819,
+        "lung_macro_si_sdr_db": 2.025899350772222,
+        "lung_macro_si_sdri_db": 2.017226328885842,
+        "negative_condition_rate_heart": 0.2304225352112676,
+        "negative_condition_rate_lung": 0.27436619718309857,
+        "pair_table": {
+          "Atrial Fibrillation \u00d7 Wheezing": {
+            "balanced_mean_db": 2.757111918092143,
+            "conditions": 140,
+            "heart_si_sdr_db": 2.9134422676576253,
+            "heart_si_sdri_db": 2.875217904192067,
+            "lung_si_sdr_db": 2.677229780745477,
+            "lung_si_sdri_db": 2.639005931992218
+          },
+          "Early Systolic Murmur \u00d7 Rhonchi": {
+            "balanced_mean_db": 1.109522052361776,
+            "conditions": 240,
+            "heart_si_sdr_db": 1.3297453493711717,
+            "heart_si_sdri_db": 1.336350739699941,
+            "lung_si_sdr_db": 0.876089213687187,
+            "lung_si_sdri_db": 0.8826933650236107
+          },
+          "Late Diastolic Murmur \u00d7 Fine Crackles": {
+            "balanced_mean_db": 2.9937752697536597,
+            "conditions": 150,
+            "heart_si_sdr_db": 3.0665246016793346,
+            "heart_si_sdri_db": 3.022422015173872,
+            "lung_si_sdr_db": 3.0092303435301764,
+            "lung_si_sdri_db": 2.9651285243334473
+          },
+          "Late Systolic Murmur \u00d7 Wheezing": {
+            "balanced_mean_db": 0.6578473259479012,
+            "conditions": 175,
+            "heart_si_sdr_db": 0.36105260027829744,
+            "heart_si_sdri_db": 0.3708387022856303,
+            "lung_si_sdr_db": 0.9350693262652905,
+            "lung_si_sdri_db": 0.9448559496101722
+          },
+          "Mid Systolic Murmur \u00d7 Normal": {
+            "balanced_mean_db": 1.6726052851009094,
+            "conditions": 420,
+            "heart_si_sdr_db": 1.8926765559718384,
+            "heart_si_sdri_db": 1.8988648094819918,
+            "lung_si_sdr_db": 1.4401580556712166,
+            "lung_si_sdri_db": 1.4463457607198271
+          },
+          "Normal \u00d7 Pleural Rub": {
+            "balanced_mean_db": 1.5464435256035536,
+            "conditions": 405,
+            "heart_si_sdr_db": 1.530451529271089,
+            "heart_si_sdri_db": 1.5038518740210294,
+            "lung_si_sdr_db": 1.6156338259667935,
+            "lung_si_sdri_db": 1.589035177186078
+          },
+          "S3 \u00d7 Fine Crackles": {
+            "balanced_mean_db": 3.874682627008154,
+            "conditions": 125,
+            "heart_si_sdr_db": 3.7384396910834403,
+            "heart_si_sdri_db": 3.774272920409621,
+            "lung_si_sdr_db": 3.9392579000338426,
+            "lung_si_sdri_db": 3.975092333606687
+          },
+          "Tachycardia \u00d7 Rhonchi": {
+            "balanced_mean_db": 1.7829902957825474,
+            "conditions": 120,
+            "heart_si_sdr_db": 1.8891996468232235,
+            "heart_si_sdri_db": 1.870327002950398,
+            "lung_si_sdr_db": 1.7145263602777887,
+            "lung_si_sdri_db": 1.6956535886146968
+          }
+        }
+      },
+      "gate": {
+        "clauses": {
+          "balanced_pair_improves_at_least_6_of_8": false,
+          "delta_Q_at_least_0_50": false,
+          "delta_balanced_at_least_0_50": false,
+          "every_pair_source_nonnegative": true,
+          "fold_Q_improves_at_least_4_of_5": true,
+          "heart_absolute_macro_at_least_1": true,
+          "heart_gain_at_least_0_25": false,
+          "heart_negative_rate_increase_at_most_5pp": true,
+          "lung_absolute_macro_at_least_1": true,
+          "lung_gain_at_least_0_25": false,
+          "lung_negative_rate_increase_at_most_5pp": true,
+          "worst_pair_source_regression_not_below_minus_0_50": true,
+          "zero_failures_and_all_conditions": true
+        },
+        "delta_Q_db": 0.10381017286103367,
+        "delta_balanced_mean_db": 0.08640467697307308,
+        "delta_heart_macro_si_sdri_db": 0.06899918108511205,
+        "delta_lung_macro_si_sdri_db": 0.10381017286103367,
+        "fold_Q_deltas_db": {
+          "f1": 0.01055614007339245,
+          "f2": 0.2839543948972987,
+          "f3": 0.006303428441982284,
+          "f4": -0.10706039209472573,
+          "f5": 0.3298377701880013
+        },
+        "heart_negative_rate_delta_pp": -1.7464788732394376,
+        "lung_negative_rate_delta_pp": -1.2957746478873267,
+        "pair_balanced_deltas_db": {
+          "Atrial Fibrillation \u00d7 Wheezing": -0.10420302684429839,
+          "Early Systolic Murmur \u00d7 Rhonchi": 0.08304457149134725,
+          "Late Diastolic Murmur \u00d7 Fine Crackles": 0.27130180960076533,
+          "Late Systolic Murmur \u00d7 Wheezing": -0.07308195418015107,
+          "Mid Systolic Murmur \u00d7 Normal": 0.00984469629594753,
+          "Normal \u00d7 Pleural Rub": 0.21426024797750642,
+          "S3 \u00d7 Fine Crackles": 0.34103039071658436,
+          "Tachycardia \u00d7 Rhonchi": -0.050959319273119474
+        },
+        "pass": false,
+        "source_pair_deltas_db": {
+          "Atrial Fibrillation \u00d7 Wheezing": {
+            "heart": -0.10856488448439094,
+            "lung": -0.09984116920420671
+          },
+          "Early Systolic Murmur \u00d7 Rhonchi": {
+            "heart": 0.09048933785024427,
+            "lung": 0.07559980513245013
+          },
+          "Late Diastolic Murmur \u00d7 Fine Crackles": {
+            "heart": 0.18604366951979223,
+            "lung": 0.35655994968173843
+          },
+          "Late Systolic Murmur \u00d7 Wheezing": {
+            "heart": -0.10555589970506057,
+            "lung": -0.04060800865524139
+          },
+          "Mid Systolic Murmur \u00d7 Normal": {
+            "heart": 0.00913325251850261,
+            "lung": 0.01055614007339245
+          },
+          "Normal \u00d7 Pleural Rub": {
+            "heart": 0.2839543948972987,
+            "lung": 0.1445661010577144
+          },
+          "S3 \u00d7 Fine Crackles": {
+            "heart": 0.2354192683822629,
+            "lung": 0.4466415130509058
+          },
+          "Tachycardia \u00d7 Rhonchi": {
+            "heart": -0.0389256902977535,
+            "lung": -0.06299294824848545
+          }
+        },
+        "worst_pair_source_delta_db": -0.10856488448439094
+      },
+      "pass": false,
+      "result": {
+        "runs": [
+          {
+            "endpoint_sha256": "961d25eacb8cc96fc6acd367a8b807fb34b8b7ff4e3d630095b0c561ca4945bf",
+            "failures": 0,
+            "fold": "f1",
+            "initial_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+            "optimizer_updates": 576,
+            "parameter_count": 171313,
+            "peak_rss_mib": 1028.12890625,
+            "provenance_sha256": "b0822f133c73ef5e508614d8cd4fc8c3c5fe5b8b8ad90e5c8bbad4aa1e036efc",
+            "run_id": "b-tcn-spectral-f1-seed20260928",
+            "runtime_seconds": 107.14576056902297,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "B",
+            "validation_rows": 420,
+            "validation_summary": {
+              "conditions": 420,
+              "failures": 0,
+              "family_pair_groups": 1,
+              "heart_family_mean_si_sdri_db": 1.8988648094819918,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 1.8926765559718384,
+                "pooled_iqr": 10.3259955068353,
+                "pooled_mean": 1.8926765559718384,
+                "pooled_median": 3.3955797668531895
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 1.8988648094819918,
+                "pooled_iqr": 3.575107178694464,
+                "pooled_mean": 1.8988648094819918,
+                "pooled_median": 0.971129626938954
+              },
+              "lung_family_mean_si_sdri_db": 1.446345760719827,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 1.4401580556712166,
+                "pooled_iqr": 10.899890589531822,
+                "pooled_mean": 1.4401580556712166,
+                "pooled_median": 1.3934641862477775
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 1.4463457607198271,
+                "pooled_iqr": 3.774229688611083,
+                "pooled_mean": 1.4463457607198271,
+                "pooled_median": 1.0914554681690825
+              },
+              "runtime_seconds": 24.303889187052846,
+              "selection_q_db": 1.446345760719827,
+              "tie_break_mean_db": 1.6726052851009094
+            }
+          },
+          {
+            "endpoint_sha256": "656b645018127fdbf092e4485add3a2ac596ddd9d904847e7ad9a8ffaa7513ec",
+            "failures": 0,
+            "fold": "f2",
+            "initial_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+            "optimizer_updates": 576,
+            "parameter_count": 171313,
+            "peak_rss_mib": 1034.99609375,
+            "provenance_sha256": "d6afc47a34840acb0ae3834983367ec367219f9aefedb19c55f9f05e3ddb1117",
+            "run_id": "b-tcn-spectral-f2-seed20260928",
+            "runtime_seconds": 104.43739259603899,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "B",
+            "validation_rows": 405,
+            "validation_summary": {
+              "conditions": 405,
+              "failures": 0,
+              "family_pair_groups": 1,
+              "heart_family_mean_si_sdri_db": 1.5038518740210294,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 1.530451529271089,
+                "pooled_iqr": 9.333688680218774,
+                "pooled_mean": 1.530451529271089,
+                "pooled_median": 2.244023278244538
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 1.5038518740210294,
+                "pooled_iqr": 3.3745950262996276,
+                "pooled_mean": 1.5038518740210294,
+                "pooled_median": 1.1722157946077019
+              },
+              "lung_family_mean_si_sdri_db": 1.589035177186078,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 1.6156338259667935,
+                "pooled_iqr": 11.235925397718011,
+                "pooled_mean": 1.6156338259667935,
+                "pooled_median": 2.638306643582255
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 1.589035177186078,
+                "pooled_iqr": 3.5750919045127576,
+                "pooled_mean": 1.589035177186078,
+                "pooled_median": 1.2010778123037582
+              },
+              "runtime_seconds": 24.556473130942322,
+              "selection_q_db": 1.5038518740210294,
+              "tie_break_mean_db": 1.5464435256035536
+            }
+          },
+          {
+            "endpoint_sha256": "929af7be8b68bba6ba0a25755dc330c05125d2b83d213ff88f5fed07e04c36c4",
+            "failures": 0,
+            "fold": "f3",
+            "initial_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+            "optimizer_updates": 576,
+            "parameter_count": 171313,
+            "peak_rss_mib": 1040.6484375,
+            "provenance_sha256": "127061f33f05821dad98a6ae116e541ef162e55f2c443aa732b9de35d0c90dfa",
+            "run_id": "b-tcn-spectral-f3-seed20260928",
+            "runtime_seconds": 104.11641213390976,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "B",
+            "validation_rows": 360,
+            "validation_summary": {
+              "conditions": 360,
+              "failures": 0,
+              "family_pair_groups": 2,
+              "heart_family_mean_si_sdri_db": 1.6033388713251697,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 1.6094724980971975,
+                "pooled_iqr": 11.662183612005983,
+                "pooled_mean": 1.5162301151885225,
+                "pooled_median": 1.6690619453965874
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 1.6033388713251695,
+                "pooled_iqr": 2.481706145133164,
+                "pooled_mean": 1.5143428274500934,
+                "pooled_median": 0.9850883361250163
+              },
+              "lung_family_mean_si_sdri_db": 1.2891734768191538,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 1.2953077869824878,
+                "pooled_iqr": 9.327253529062657,
+                "pooled_mean": 1.1555682625507209,
+                "pooled_median": 1.702440184248359
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 1.2891734768191538,
+                "pooled_iqr": 3.1319400430542155,
+                "pooled_mean": 1.1536801062206394,
+                "pooled_median": 1.0410311464534785
+              },
+              "runtime_seconds": 22.925936148967594,
+              "selection_q_db": 1.2891734768191538,
+              "tie_break_mean_db": 1.4462561740721618
+            }
+          },
+          {
+            "endpoint_sha256": "600e204a3e1c359f37e7f646f2f087c14404beb7e561f391b76a78104fe7379d",
+            "failures": 0,
+            "fold": "f4",
+            "initial_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+            "optimizer_updates": 576,
+            "parameter_count": 171313,
+            "peak_rss_mib": 1044.55859375,
+            "provenance_sha256": "ec7927ef97ae3fdc8b091ff98db47ea66f4f5fa886d49e0593a3a2630edd7c2c",
+            "run_id": "b-tcn-spectral-f4-seed20260928",
+            "runtime_seconds": 101.95476374099962,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "B",
+            "validation_rows": 315,
+            "validation_summary": {
+              "conditions": 315,
+              "failures": 0,
+              "family_pair_groups": 2,
+              "heart_family_mean_si_sdri_db": 1.6230283032388486,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 1.6372474339679615,
+                "pooled_iqr": 10.036907882819438,
+                "pooled_mean": 1.495448008002443,
+                "pooled_median": 2.1481191499348133
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 1.6230283032388488,
+                "pooled_iqr": 3.7012448278916468,
+                "pooled_mean": 1.4838961253551577,
+                "pooled_median": 1.2889561133433187
+              },
+              "lung_family_mean_si_sdri_db": 1.7919309408011952,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 1.8061495535053838,
+                "pooled_iqr": 9.74392006250996,
+                "pooled_mean": 1.7093628615898178,
+                "pooled_median": 2.416399846392762
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 1.7919309408011952,
+                "pooled_iqr": 3.146082411608732,
+                "pooled_mean": 1.6978114973355263,
+                "pooled_median": 1.496328278943306
+              },
+              "runtime_seconds": 20.55093373300042,
+              "selection_q_db": 1.6230283032388486,
+              "tie_break_mean_db": 1.707479622020022
+            }
+          },
+          {
+            "endpoint_sha256": "dc57096bb691daa24d4df272f3a6496caac05ef1963587ddb6afbb44b4ede059",
+            "failures": 0,
+            "fold": "f5",
+            "initial_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+            "optimizer_updates": 576,
+            "parameter_count": 171313,
+            "peak_rss_mib": 1043.7578125,
+            "provenance_sha256": "f40cc739d97aa1c78baa50cbdac230ce5eb8a6df7d122c9e74c8e601283b6219",
+            "run_id": "b-tcn-spectral-f5-seed20260928",
+            "runtime_seconds": 107.35077810508665,
+            "seed": 20260928,
+            "status": "COMPLETE_FIXED_ENDPOINT",
+            "treatment": "B",
+            "validation_rows": 275,
+            "validation_summary": {
+              "conditions": 275,
+              "failures": 0,
+              "family_pair_groups": 2,
+              "heart_family_mean_si_sdri_db": 3.3983474677917465,
+              "heart_si_sdr_db": {
+                "family_balanced_mean": 3.4024821463813875,
+                "pooled_iqr": 12.153585530599262,
+                "pooled_mean": 3.3719405514084735,
+                "pooled_median": 3.900335101292601
+              },
+              "heart_si_sdri_db": {
+                "family_balanced_mean": 3.3983474677917465,
+                "pooled_iqr": 3.25048155760766,
+                "pooled_mean": 3.364172426644667,
+                "pooled_median": 2.5452077089166094
+              },
+              "lung_family_mean_si_sdri_db": 3.470110428970067,
+              "lung_si_sdr_db": {
+                "family_balanced_mean": 3.4742441217820095,
+                "pooled_iqr": 6.506507056245905,
+                "pooled_mean": 3.4319701419409334,
+                "pooled_median": 3.499610972769853
+              },
+              "lung_si_sdri_db": {
+                "family_balanced_mean": 3.470110428970067,
+                "pooled_iqr": 5.86133790276852,
+                "pooled_mean": 3.4242029830940104,
+                "pooled_median": 3.721099176712711
+              },
+              "runtime_seconds": 27.337608634028584,
+              "selection_q_db": 3.3983474677917465,
+              "tie_break_mean_db": 3.4342289483809068
+            }
+          }
+        ]
+      }
+    }
+  },
+  "winner": "CONTROL"
+}

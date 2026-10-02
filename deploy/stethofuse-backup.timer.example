@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily encrypted StethoFuse off-host backup
+
+[Timer]
+OnCalendar=*-*-* 03:15:00
+RandomizedDelaySec=45m
+Persistent=true
+Unit=stethofuse-backup.service
+
+[Install]
+WantedBy=timers.target

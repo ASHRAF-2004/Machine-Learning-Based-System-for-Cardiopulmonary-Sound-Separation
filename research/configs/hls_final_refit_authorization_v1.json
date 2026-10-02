@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "kind": "AUTHORIZED_HLS_ONLY_FALLBACK_REFIT",
+  "accepted": true,
+  "selected_strategy": "C_HLS_ONLY",
+  "plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7",
+  "selected_optimizer_updates": 576,
+  "seed": 20260928,
+  "initialization": "fresh_library_default_no_checkpoint_loading",
+  "control_decision_sha256": "0d8893d61d9ed9517d0227781f33b3357b1c41f85d4ee80228f1691545d47dbe",
+  "rejected_external_transfer_receipt_sha256": "596859fdaa6456369e8b6d876bfc18ba813e837f2844d4e06771a5cb79a34e41",
+  "external_transfer_accepted": false,
+  "external_weights_used": false,
+  "eligible_heart_sources": 45,
+  "eligible_lung_sources": 41,
+  "endpoint_only": true,
+  "validation_checkpoint_selection": false,
+  "test_access": false,
+  "reason": "External pilot failed frozen target-transfer gate; HLS-only grouped control passed its predeclared absolute gate at earliest stable budget"
+}

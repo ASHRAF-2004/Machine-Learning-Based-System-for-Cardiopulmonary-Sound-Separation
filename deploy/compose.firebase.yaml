@@ -1,0 +1,18 @@
+# Firebase identity overlay. FastAPI verifies JWT signatures locally, then
+# checks current-user/revocation state using Firebase Auth REST over HTTPS.
+# No Google credential file or developer ADC is mounted into this runtime.
+services:
+  api:
+    environment:
+      STETHOFUSE_FIREBASE_ENABLED: "1"
+      STETHOFUSE_FIREBASE_API_KEY: "${STETHOFUSE_FIREBASE_API_KEY:?Set the Firebase Web API key restricted to Identity Toolkit}"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import json, urllib.request; data=json.load(urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)); assert data.get('storage_configured') and data.get('provider_configured')
+      interval: 30s
+      timeout: 4s
+      start_period: 35s
+      retries: 3

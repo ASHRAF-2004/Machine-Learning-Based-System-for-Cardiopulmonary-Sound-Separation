@@ -1,0 +1,44 @@
+[Unit]
+Description=Encrypted StethoFuse off-host backup
+Wants=network-online.target docker.service
+After=network-online.target docker.service
+Requires=docker.service
+ConditionPathExists=/etc/stethofuse/backup.env
+ConditionPathExists=/etc/stethofuse/restic-password
+ConditionPathExists=/etc/stethofuse/b2-application-key-id
+ConditionPathExists=/etc/stethofuse/b2-application-key-secret
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+UMask=0077
+EnvironmentFile=/etc/stethofuse/backup.env
+LoadCredential=restic-password:/etc/stethofuse/restic-password
+LoadCredential=b2-application-key-id:/etc/stethofuse/b2-application-key-id
+LoadCredential=b2-application-key-secret:/etc/stethofuse/b2-application-key-secret
+Environment=RESTIC_PASSWORD_FILE=%d/restic-password
+Environment=STETHOFUSE_B2_ACCESS_KEY_ID_FILE=%d/b2-application-key-id
+Environment=STETHOFUSE_B2_SECRET_ACCESS_KEY_FILE=%d/b2-application-key-secret
+ExecStart=/usr/local/libexec/stethofuse/backup-restic.sh
+TimeoutStartSec=2h
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=strict
+CacheDirectory=stethofuse-restic
+ReadWritePaths=/run/docker.sock
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native

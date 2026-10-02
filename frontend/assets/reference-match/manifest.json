@@ -1,0 +1,109 @@
+{
+  "source": "/home/ashraf/Downloads/StethoFuse_updated_20",
+  "method": "Unchanged source pixels in lossless WebP; SVG viewBox framing in ReferenceArt.tsx. Not screenshots used in place of interactive UI.",
+  "assets": [
+    {
+      "name": "dashboard",
+      "source": "/home/ashraf/Downloads/StethoFuse_updated_20/04_frosted_ensemble_processing_dashboard.png",
+      "source_sha256": "89a0231f10aa7a4cbe3e8f2beed981bb22b6afcdfe49a53a7e99a6aefb64d022",
+      "size": [
+        1586,
+        992
+      ],
+      "source_bytes": 1639996,
+      "output_bytes": 1224358,
+      "pixel_identical": true
+    },
+    {
+      "name": "collection",
+      "source": "/home/ashraf/Downloads/StethoFuse_updated_20/06_stethofuse_winter_research_dashboard.png",
+      "source_sha256": "2624d318ac8bb79773740442a00420d7538e58becf102c4ec01b0b982b4aa13a",
+      "size": [
+        1586,
+        992
+      ],
+      "source_bytes": 1429789,
+      "output_bytes": 1065874,
+      "pixel_identical": true
+    },
+    {
+      "name": "recording-collection",
+      "source": "/home/ashraf/Downloads/StethoFuse_updated_20/05_stethofuse_winter_processing_history.png",
+      "source_sha256": "624f824a7ed7ae9e0b2c2972f29a15489a176fb2133bdbad1d62570ec91476ba",
+      "size": [
+        1586,
+        992
+      ],
+      "source_bytes": 1432569,
+      "output_bytes": 1064630,
+      "pixel_identical": true
+    },
+    {
+      "name": "ensemble",
+      "source": "/home/ashraf/Downloads/StethoFuse_updated_20/09_stethofuse_ensemble_configuration_dashboard.png",
+      "source_sha256": "e9e8c716fb7298624789a7ca5a4b408f1dad74962928cda6fcaaede009858d89",
+      "size": [
+        1586,
+        992
+      ],
+      "source_bytes": 1625489,
+      "output_bytes": 1216482,
+      "pixel_identical": true
+    },
+    {
+      "name": "assigned",
+      "source": "/home/ashraf/Downloads/StethoFuse_updated_20/13_frosted_winter_assignment_dashboard.png",
+      "source_sha256": "af26bac4d7f4281f70aaa5e6875fb26541f997c2960cc47cb6396cb260058981",
+      "size": [
+        1586,
+        992
+      ],
+      "source_bytes": 1451821,
+      "output_bytes": 1089070,
+      "pixel_identical": true
+    },
+    {
+      "name": "shared",
+      "source": "/home/ashraf/Downloads/StethoFuse_updated_20/19_stethofuse_shared_workspace_dashboard.png",
+      "source_sha256": "be60ac8efcca987d9e975a6e8296e6347d14ac460a69ea40544f67fa85d9bc2f",
+      "size": [
+        1586,
+        992
+      ],
+      "source_bytes": 1364919,
+      "output_bytes": 1013932,
+      "pixel_identical": true
+    },
+    {
+      "name": "settings",
+      "source": "/home/ashraf/Downloads/StethoFuse_updated_20/20_stethofuse_winter_appearance_settings.png",
+      "source_sha256": "005e8b99494ea9db8c1691b156b84694cd397e88e86aa754c8e90c3b9ff20b69",
+      "size": [
+        1586,
+        992
+      ],
+      "source_bytes": 1515160,
+      "output_bytes": 1126900,
+      "pixel_identical": true
+    },
+    {
+      "name": "utility",
+      "source": "/home/ashraf/Downloads/StethoFuse_updated_20/11_stethofuse_frosted_403_private_access_page.png",
+      "source_sha256": "f50835d52d0f3335cb2fb57d6b65a5e645ce2a79f289f2c3be93fa8c38edb14f",
+      "size": [
+        1586,
+        992
+      ],
+      "source_bytes": 1557094,
+      "output_bytes": 1154694,
+      "pixel_identical": true
+    }
+  ],
+  "background": {
+    "source": "/home/ashraf/Documents/StethoFuse/implementation/frontend/assets/reference-match/mountain-background-inpaint.png",
+    "role": "Background reconstruction of scenery obscured by UI; NOT an exact recovered original.",
+    "tool": "built-in image_gen",
+    "reference": "13_frosted_winter_assignment_dashboard.png",
+    "prompt": "Remove interface, text, logo and panels only. Preserve jagged snowy mountain, pine forest, right snowy trees, icy colour and diffuse light. Reconstruct scenery hidden by overlays. No owl, lake, folders or typography."
+  }
+}

@@ -1,0 +1,507 @@
+{
+  "audio_bytes_opened": false,
+  "registry_path": "research/manifests/hls_native_triplets_v1.json",
+  "registry_sha256": "56f958996682fd61e598efc07c1084c8d41a2d5fdf8c453802dc27d8109fb0ae",
+  "rows": [
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "S3",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0004.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0004.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0004.wav",
+      "triplet_id": "M0004"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0005.wav",
+      "lung_family": "Fine Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0005.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0005.wav",
+      "triplet_id": "M0005"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Early Systolic Murmur",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0010.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0010.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0010.wav",
+      "triplet_id": "M0010"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0011.wav",
+      "lung_family": "Normal",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0011.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0011.wav",
+      "triplet_id": "M0011"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0012.wav",
+      "lung_family": "Rhonchi",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0012.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0012.wav",
+      "triplet_id": "M0012"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0015.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0015.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0015.wav",
+      "triplet_id": "M0015"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "S3",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0017.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0017.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0017.wav",
+      "triplet_id": "M0017"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0021.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0021.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0021.wav",
+      "triplet_id": "M0021"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0022.wav",
+      "lung_family": "Fine Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0022.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0022.wav",
+      "triplet_id": "M0022"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0024.wav",
+      "lung_family": "Wheezing",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0024.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0024.wav",
+      "triplet_id": "M0024"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0027.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0027.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0027.wav",
+      "triplet_id": "M0027"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block",
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0028.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0028.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0028.wav",
+      "triplet_id": "M0028"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0030.wav",
+      "lung_family": "Pleural Rub",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0030.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0030.wav",
+      "triplet_id": "M0030"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Early Systolic Murmur",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0034.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0034.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0034.wav",
+      "triplet_id": "M0034"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0035.wav",
+      "lung_family": "Fine Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0035.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0035.wav",
+      "triplet_id": "M0035"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0037.wav",
+      "lung_family": "Normal",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0037.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0037.wav",
+      "triplet_id": "M0037"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Mid Systolic Murmur",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0042.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0042.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0042.wav",
+      "triplet_id": "M0042"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Normal",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0044.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0044.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0044.wav",
+      "triplet_id": "M0044"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0048.wav",
+      "lung_family": "Wheezing",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0048.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0048.wav",
+      "triplet_id": "M0048"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0049.wav",
+      "lung_family": "Rhonchi",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0049.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0049.wav",
+      "triplet_id": "M0049"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0053.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0053.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0053.wav",
+      "triplet_id": "M0053"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0056.wav",
+      "lung_family": "Rhonchi",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0056.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0056.wav",
+      "triplet_id": "M0056"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Late Diastolic Murmur",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0057.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0057.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0057.wav",
+      "triplet_id": "M0057"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0058.wav",
+      "lung_family": "Rhonchi",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0058.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0058.wav",
+      "triplet_id": "M0058"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0061.wav",
+      "lung_family": "Rhonchi",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0061.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0061.wav",
+      "triplet_id": "M0061"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Tachycardia",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0062.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0062.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0062.wav",
+      "triplet_id": "M0062"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0063.wav",
+      "lung_family": "Pleural Rub",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0063.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0063.wav",
+      "triplet_id": "M0063"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0064.wav",
+      "lung_family": "Pleural Rub",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0064.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0064.wav",
+      "triplet_id": "M0064"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0069.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0069.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0069.wav",
+      "triplet_id": "M0069"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Tachycardia",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0079.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0079.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0079.wav",
+      "triplet_id": "M0079"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0083.wav",
+      "lung_family": "Pleural Rub",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0083.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0083.wav",
+      "triplet_id": "M0083"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Atrial Fibrillation",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0087.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0087.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0087.wav",
+      "triplet_id": "M0087"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0088.wav",
+      "lung_family": "Rhonchi",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0088.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0088.wav",
+      "triplet_id": "M0088"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0092.wav",
+      "lung_family": "Wheezing",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0092.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0092.wav",
+      "triplet_id": "M0092"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block",
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0093.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0093.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0093.wav",
+      "triplet_id": "M0093"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0099.wav",
+      "lung_family": "Fine Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0099.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0099.wav",
+      "triplet_id": "M0099"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "Late Systolic Murmur",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0100.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0100.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0100.wav",
+      "triplet_id": "M0100"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4",
+        "T9_RESERVED_LS_FAMILY:Coarse Crackles"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0116.wav",
+      "lung_family": "Coarse Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0116.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0116.wav",
+      "triplet_id": "M0116"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0121.wav",
+      "lung_family": "Wheezing",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0121.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0121.wav",
+      "triplet_id": "M0121"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0124.wav",
+      "lung_family": "Wheezing",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0124.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0124.wav",
+      "triplet_id": "M0124"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0131.wav",
+      "lung_family": "Fine Crackles",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0131.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0131.wav",
+      "triplet_id": "M0131"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0134.wav",
+      "lung_family": "Normal",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0134.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0134.wav",
+      "triplet_id": "M0134"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0135.wav",
+      "lung_family": "Normal",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0135.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0135.wav",
+      "triplet_id": "M0135"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:S4"
+      ],
+      "heart_family": "S4",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0141.wav",
+      "lung_family": "Wheezing",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0141.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0141.wav",
+      "triplet_id": "M0141"
+    },
+    {
+      "exclusion_reasons": [
+        "T9_RESERVED_HS_FAMILY:AV Block"
+      ],
+      "heart_family": "AV Block",
+      "heart_reference_file": "datasets/hls_cmds/raw/Mix/H0144.wav",
+      "lung_family": "Normal",
+      "lung_reference_file": "datasets/hls_cmds/raw/Mix/L0144.wav",
+      "mixture_file": "datasets/hls_cmds/raw/Mix/M0144.wav",
+      "triplet_id": "M0144"
+    }
+  ],
+  "schema_version": 1,
+  "test_audio_access_allowed": false
+}

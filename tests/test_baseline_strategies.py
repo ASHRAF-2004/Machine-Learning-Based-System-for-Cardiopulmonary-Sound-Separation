@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from app.ml.audio_utils import is_effectively_silent, load_wav_mono, save_wav_mono
+from app.ml.audio_utils import is_effectively_silent, istft, load_wav_mono, save_wav_mono, stft
 from app.ml.strategies.fixed_filter_strategy import FixedFilterSeparationStrategy
 from app.ml.strategies.nmf_strategy import NmfSeparationStrategy
 from app.ml.strategies.vmd_strategy import (
@@ -21,6 +21,16 @@ def create_synthetic_mix(path: Path, duration_sec: float = 1.0) -> None:
     heart_like = 0.55 * np.sin(2 * np.pi * 80.0 * time_axis)
     lung_like = 0.28 * np.sin(2 * np.pi * 650.0 * time_axis)
     save_wav_mono(path, heart_like + lung_like, sample_rate_hz)
+
+
+def test_stft_round_trip_preserves_boundary_samples() -> None:
+    audio = np.zeros(4097, dtype=np.float32)
+    audio[0] = 0.8
+    audio[-1] = -0.6
+    audio[100:300] = 0.2
+    restored = istft(stft(audio, 4000))
+    assert restored.shape == audio.shape
+    assert np.max(np.abs(restored - audio)) <= 1e-5
 
 
 def assert_playable_not_silent(path: Path, expected_sample_rate_hz: int = 4000) -> None:

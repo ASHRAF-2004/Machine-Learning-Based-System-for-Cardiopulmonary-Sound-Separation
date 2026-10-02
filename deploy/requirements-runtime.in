@@ -1,0 +1,9 @@
+# Production API runtime only. Direct versions match the existing tested M1 contract.
+# Resolve this input to requirements-runtime.lock.txt before building an image.
+fastapi==0.136.0
+uvicorn==0.45.0
+python-multipart==0.0.26
+google-auth==2.58.1
+cachecontrol==0.14.4
+requests==2.34.2
+httpx==0.28.1

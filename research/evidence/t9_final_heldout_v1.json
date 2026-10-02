@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "status": "T9_VALID_AND_COMPLETE",
+  "run_id": "t9-final-heldout-v1",
+  "implementation_sha_opening_test": "e343102692efa0187d1c2e0b75e53c318b579f85",
+  "documentation_start_sha": "944a646e09da466040d22b6de0af6e05fe3b0d77",
+  "first_test_audio_access_utc": "2026-09-28T21:42:52.641041+00:00",
+  "first_source": "HS/M_AVB_A",
+  "separator_spec_sha256": "2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b",
+  "checkpoint_sha256": "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+  "source_manifest_sha256": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+  "test_protocol_sha256": "c2c884211a2a7361aedcea7eaadb2ab752a853200b10e6ca244c4dee3692822c",
+  "conditions": {
+    "heart_sources": 5,
+    "lung_sources": 9,
+    "levels_lung_to_heart_db": [-10, -5, 0, 5, 10],
+    "conditions": 225,
+    "method_condition_rows": 900,
+    "failures": {
+      "mixture_baseline": 0,
+      "fixed_filter": 0,
+      "generic_nmf": 0,
+      "final_t8_v2_convtasnet": 0
+    }
+  },
+  "environment": {
+    "python": "3.14.4",
+    "torch": "2.11.0+cpu",
+    "torchaudio": "2.11.0+cpu",
+    "numpy": "2.4.4",
+    "scipy": "1.17.0",
+    "device": "cpu",
+    "torch_threads": 2,
+    "interop_threads": 1,
+    "deterministic_algorithms": true
+  },
+  "aggregate_metrics_db": {
+    "mixture_baseline": {
+      "heart_si_sdr": -0.036918277677503095,
+      "heart_si_sdri": 0.0,
+      "lung_si_sdr": -0.036918507826409694,
+      "lung_si_sdri": 0.0
+    },
+    "fixed_filter": {
+      "heart_si_sdr": 0.3251963550311976,
+      "heart_si_sdri": 0.3621146327087007,
+      "lung_si_sdr": -2.483806128678114,
+      "lung_si_sdri": -2.4468876208517045
+    },
+    "generic_nmf": {
+      "heart_si_sdr": -2.5028667922513907,
+      "heart_si_sdri": -2.4659485145738875,
+      "lung_si_sdr": -3.4438203914401697,
+      "lung_si_sdri": -3.4069018836137603
+    },
+    "final_t8_v2_convtasnet": {
+      "heart_si_sdr": 1.8125269450115011,
+      "heart_si_sdri": 1.8494452226890037,
+      "lung_si_sdr": 2.295689267858606,
+      "lung_si_sdri": 2.3326077756850148,
+      "balanced_mean_sdri": 2.0910264991870093
+    }
+  },
+  "tcn_distribution": {
+    "heart_sdri_median": 2.1463291459178526,
+    "heart_sdri_iqr": 3.331808027574366,
+    "lung_sdri_median": 1.690996030349921,
+    "lung_sdri_iqr": 4.974903678417081
+  },
+  "tcn_family_pairs": {
+    "AV Block x Coarse Crackles": {
+      "heart_si_sdr": 0.741541199765421,
+      "heart_si_sdri": 0.7840561794115265,
+      "lung_si_sdr": 1.068139741965449,
+      "lung_si_sdri": 1.1106547521361512,
+      "balanced_mean_sdri": 0.9473554657738388,
+      "conditions": 135
+    },
+    "S4 x Coarse Crackles": {
+      "heart_si_sdr": 2.8835126902575814,
+      "heart_si_sdri": 2.9148342659664808,
+      "lung_si_sdr": 3.5232387937517626,
+      "lung_si_sdri": 3.5545607992338786,
+      "balanced_mean_sdri": 3.2346975326001797,
+      "conditions": 90
+    }
+  },
+  "tcn_relative_levels": {
+    "-10": {"heart_sdri": -1.744199121488608, "lung_sdri": 3.862026068376715, "balanced": 1.0589134734440537, "conditions": 45},
+    "-5": {"heart_sdri": 0.9819051666410091, "lung_sdri": 3.602183877872814, "balanced": 2.2920445222569117, "conditions": 45},
+    "0": {"heart_sdri": 2.6265742262217873, "lung_sdri": 2.949547407993118, "balanced": 2.7880608171074526, "conditions": 45},
+    "5": {"heart_sdri": 3.205192309577878, "lung_sdri": 1.40156253190513, "balanced": 2.303377420741504, "conditions": 45},
+    "10": {"heart_sdri": 3.112364489215475, "lung_sdri": -1.3742340312715653, "balanced": 0.8690652289719549, "conditions": 45}
+  },
+  "hardest_tcn_heart_level_db": -10,
+  "hardest_tcn_lung_level_db": 10,
+  "runtime_seconds": {
+    "fixed_filter_total": 1.0770119648659602,
+    "fixed_filter_mean_per_condition": 0.004786719843848712,
+    "generic_nmf_total": 4.180380579549819,
+    "generic_nmf_mean_per_condition": 0.01857946924244364,
+    "convtasnet_total": 11.140135790454224,
+    "convtasnet_mean_per_condition": 0.049511714624241,
+    "model_initialization": 0.03371178591623902,
+    "overall_wall": 18.842153255012818
+  },
+  "ignored_artifacts": {
+    "directory": ".local/training/stethofuse-tcn-v1/t9/t9-final-heldout-v1/",
+    "run_preflight_sha256": "da5d2b6846bcd73da0799b3be45ce592e3af20c01a45fb14f7c4a25c8ae5b592",
+    "first_access_marker_sha256": "97bf6f4a5dbd51b2259d5a8bd15d66a9754887e9811fc7c094bad5b929ffb618",
+    "recipe_manifest_sha256": "1de947075c1feb73376f131c7a76284df9f5e945b02428e750bb88cc51c59f28",
+    "raw_results_sha256": "b4491f1443cff869353cfde0c798d6d50c8065f6714b927b77ec14ecef65749c",
+    "summary_sha256": "c2f91be43ca607fd920477008179553377c10d4b2a2dd45577f49b5651966221",
+    "completion_receipt_sha256": "a67501d11e1030021a194cd7d33d2c3a2ea5c7925152b36c267d653421cd846b"
+  },
+  "treatment_a_status": "PROMISING_NON_TEST_RESULT_NOT_SELECTED_NOT_RUN_ON_T9",
+  "production_touched": false,
+  "frontend_touched": false,
+  "tuning_after_test_access": false,
+  "additional_comparators": false
+}

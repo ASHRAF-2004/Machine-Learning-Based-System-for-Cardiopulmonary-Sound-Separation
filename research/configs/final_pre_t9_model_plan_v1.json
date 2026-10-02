@@ -1,0 +1,315 @@
+{
+  "schema_version": 1,
+  "status": "DESIGNED_NOT_EXECUTED",
+  "decision": "TWO_FINAL_BOUNDED_TREATMENTS",
+  "test_access_allowed": false,
+  "production_changes_allowed": false,
+  "max_full_treatment_protocols": 2,
+  "max_grouped_training_fits": 10,
+  "max_final_refits": 1,
+  "extra_seeds_allowed": 0,
+  "rescue_treatments_allowed": 0,
+  "fallback": {
+    "specification": "research/configs/final_separator_v2.json",
+    "spec_sha256": "2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b",
+    "checkpoint_sha256": "1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658",
+    "preserve_v1_v2_bytes": true
+  },
+  "data": {
+    "eligible_manifest": ".local/training/stethofuse-tcn-v1/t7-small-seed20260928/eligible_split.csv",
+    "eligible_manifest_sha256": "82e677af9f27256aa163b8aa80ca096874bc5cc37da10f29d029f7fee93999dd",
+    "source_manifest_sha256": "39d5456477b07772bdc24b86ee73dee17c44fd1e0837b62b96eab8c19a1b65e4",
+    "fold_manifest": "research/manifests/pre_t9_family_cv_v1.csv",
+    "fold_manifest_sha256": "630bb9935f4720fbed66df6f1858d47f0561e89f4894fe7635ed24977e317e58",
+    "base_plan": "research/configs/pre_t9_family_refit_plan_v1.json",
+    "base_plan_sha256": "87e82ab7b08deec11075f30c4b584bff04a67749bc1f846bd51248af8fe7c3e7",
+    "standalone_heart": 45,
+    "standalone_lung": 41,
+    "allowed_stream": "exact_synthetic_HLS_only",
+    "external_native_audio_forbidden": true,
+    "recipe": "exact first2304 realized control training recipes for each fold; no new random recipes",
+    "training_crop_samples": 32000,
+    "sample_rate_hz": 4000,
+    "relative_db": "unchanged_uniform[-10,+10]"
+  },
+  "environment": {
+    "python": "3.14.4",
+    "torch": "2.11.0+cpu",
+    "torchaudio": "2.11.0+cpu",
+    "device": "cpu",
+    "threads": 2,
+    "interop_threads": 1,
+    "deterministic_algorithms": true
+  },
+  "training": {
+    "seed": 20260928,
+    "batch_size": 4,
+    "optimizer_updates": 576,
+    "initialization": "fresh_library_default; no checkpoint initialization; construct model immediately after reseeding",
+    "optimizer": {
+      "name": "AdamW",
+      "lr": 0.001,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-8,
+      "weight_decay": 0.0001,
+      "gradient_clip_norm": 5
+    },
+    "lr_schedule": [
+      {
+        "from_update_inclusive": 1,
+        "through_update_inclusive": 576,
+        "lr": 0.001
+      }
+    ],
+    "scheduler": null,
+    "early_stopping": false,
+    "validation_updates": [
+      576
+    ],
+    "checkpoint_selection": "endpoint_only",
+    "loss_existing": "mean_batch_source(-SI_SDR_dB + 5*mean_time_abs_error/(target_RMS+1e-6))"
+  },
+  "stft": {
+    "n_fft": 256,
+    "win_length": 256,
+    "hop_length": 64,
+    "window": "periodic_Hann",
+    "center": true,
+    "pad_mode": "constant_zero",
+    "normalized": false,
+    "onesided": true,
+    "return_complex": true,
+    "bins": 129,
+    "window_energy": 96,
+    "frequency_grid_hz": 15.625,
+    "window_ms": 64,
+    "hop_ms": 16,
+    "istft": "same parameters; explicit original length; no waveform crop/phase alignment"
+  },
+  "treatments": {
+    "A": {
+      "name": "COMPACT_COMPLEX_TF_UNET",
+      "architecture_version": "stethofuse-tfcomplex-4k-v1",
+      "class_path": "app/ml/stethofuse_tf.py::StethoFuseComplexTFUNet",
+      "prototype": "research/probes/final_representation_complex_v1.py",
+      "prototype_sha256": "600a9e1d42091c6ea2e40ce35fcb4678621880c8c8d48101affaa613276cda67",
+      "dependency_prototype": "research/probes/final_representation_v1.py",
+      "dependency_prototype_sha256": "ef97941b4f0a10607cf400ae256c8682d051060450ce895ac23eeff2e222367f",
+      "parameter_count": 390450,
+      "initial_state_sha256": "8d617e4199c55ce0f0e1502ca7413305e1600c701f70e585f6dd41bd1584d687",
+      "input_channels": [
+        "log1p(abs(X)/sqrt(96))",
+        "real(X)/max(abs(X),1e-6)",
+        "imag(X)/max(abs(X),1e-6)",
+        "frequency_bin_index/128"
+      ],
+      "input_padding": "zero-pad high-frequency and right-time edges to multiples16; retain all129 true bins; remove artificial bins/frames before reconstruction",
+      "encoder_widths": [
+        8,
+        16,
+        32,
+        64
+      ],
+      "block": "Conv2d3x3 biasFalse -> GroupNorm(1,C,eps1e-8,affineTrue) -> SiLU -> Conv2d3x3 biasFalse -> same norm -> SiLU",
+      "downsample": "AvgPool2d2 stride2 after each of4 encoders",
+      "bottleneck": {
+        "channels": 96,
+        "first_dilation": [
+          1,
+          1
+        ],
+        "second_dilation": [
+          1,
+          8
+        ],
+        "second_padding": [
+          1,
+          8
+        ]
+      },
+      "decoder": "four nearest-repeat2 upsamplings then concat encoder skip then same two-conv block; widths64,32,16,8; incoming channels160,96,48,24",
+      "head": "Conv2d8->2 kernel1 biasTrue; library default initialization; no output nonlinearity, dropout, mask clipping or explicit ratio targets",
+      "mask": "Mheart=0.5+u+i*v; Mlung=1-Mheart; force v=0 at DC and Nyquist; negative and >1 real masks permitted",
+      "reconstruction": "complex products Mh*X and Ml*X; ISTFT each then unchanged equal-residual waveform correction",
+      "loss": "existing_fixed_label_waveform_loss_only; no spectral auxiliary for A",
+      "mask_conv_temporal_support_frames": [
+        412,
+        428
+      ],
+      "mask_analysis_span_ms": [
+        6640,
+        6896
+      ],
+      "normalization_context": "whole spectrogram window; this is computational dependence not guaranteed learned effective context"
+    },
+    "B": {
+      "name": "TCN_SINGLE_RESOLUTION_LOG1P_SPECTRAL",
+      "architecture_version": "stethofuse-convtasnet-4k-small-v1",
+      "class_path": "app/ml/stethofuse_tcn.py::StethoFuseConvTasNet",
+      "parameter_count": 171313,
+      "initial_state_sha256": "7171ef15eadc33e001c833271bd8e1301145e974af64337fdbb2ef51c205f9b9",
+      "loss_module": "app/ml/spectral_objective.py::spectral_log1p_loss",
+      "loss_prototype": "research/probes/final_representation_v1.py::spectral_log1p_loss",
+      "loss": "L_existing + 6.0*L_spectral",
+      "spectral_loss": "rho=RMS(target)+1e-6; A(z)=abs(STFT(z/rho))/sqrt(96); L_spectral=mean_batch_source_frequency_frame(abs(log1p(A(estimate))-log1p(A(target))))",
+      "lambda": 6,
+      "lambda_alternates": [],
+      "lambda_rule": "floor2significant(min(0.2*median(norm_base/norm_spectral),0.5*min(norm_base/norm_spectral))) on3 fixed development batches at-10/0/+10dB, fresh seed; no validation performance used",
+      "consistency": "unchanged_inside_forward_before_all_losses_and_inference"
+    }
+  },
+  "inference": {
+    "external_wrapper": "exact StethoFuseConvTasNet.separate_recording behavior; same global shared-peak and cosine overlap",
+    "window_samples": 40000,
+    "hop_samples": 32000,
+    "overlap_samples": 8000,
+    "output_order": [
+      "heart",
+      "lung"
+    ],
+    "mixture_consistency": "target_free_equal_waveform_residual_in_forward_before_loss",
+    "reference_usage": false,
+    "extra_projection": false,
+    "ensemble": false,
+    "zero_input": "two zeros",
+    "invalid_input": "reject nonfinite/nonempty-contract violations and near-silent nonzero records as existing wrapper"
+  },
+  "tf_capacity_gate": {
+    "required_before_A_cv": true,
+    "seed": 20260928,
+    "pairs": [
+      [
+        "F_AF_A",
+        "F_N_LLA"
+      ],
+      [
+        "F_ESM_LLSB",
+        "F_PR_LLA"
+      ]
+    ],
+    "source_split": "original_development_only",
+    "crop_start": 0,
+    "crop_samples": 32000,
+    "level_db": 0,
+    "batch_size": 2,
+    "max_updates": 400,
+    "max_seconds": 600,
+    "optimizer": "AdamW lr.001 betas(.9,.999) eps1e-8 decay0 clip5; constant no scheduler",
+    "loss": "A_existing_waveform_loss",
+    "evaluate_at_updates": "0 then every20 through400; stop at firstPASS",
+    "every_source_every_case_si_sdri_min_db": 10,
+    "every_source_every_case_normalized_l1_reduction_min_fraction": 0.5,
+    "fail_policy": "A rejected; no alternate architecture/mask/STFT/budget; B remains eligible",
+    "checkpoint_use": "gate checkpoint never initializes any fold/refit"
+  },
+  "control": {
+    "root": ".local/training/stethofuse-tcn-v1/pre-t9-family-refit-v1",
+    "runs": "cv-{fold}-seed20260928",
+    "receipt": "research/evidence/external_hls_control_decision_v1.json",
+    "receipt_sha256": "0d8893d61d9ed9517d0227781f33b3357b1c41f85d4ee80228f1691545d47dbe",
+    "selected_updates": 576,
+    "heart_sdri": 2.012519064941707,
+    "lung_sdri": 1.9134161560248084,
+    "Q": 1.9134161560248084,
+    "M": 1.9629676104832576,
+    "failures": 0,
+    "reuse": "reuse saved validation-0576.jsonl after hash/recipe/environment/optimizer proof; B exact fresh-state hash; A necessarily different topology/weights at same seed, explicitly not equal initialization or matched parameter count; no control rerun"
+  },
+  "validation": {
+    "folds": [
+      "f1",
+      "f2",
+      "f3",
+      "f4",
+      "f5"
+    ],
+    "conditions": 1775,
+    "family_pairs": 8,
+    "recipes": "same stored control cv_recipes.json with hash verification, no regeneration",
+    "aggregation": "equal mean of8 pair means, not fold or condition average",
+    "Q": "min(macro_heart_sdri,macro_lung_sdri)",
+    "M": "mean(macro_heart_sdri,macro_lung_sdri)",
+    "report": [
+      "source_SI_SDR",
+      "source_SI_SDRi",
+      "Q",
+      "M",
+      "family_pair_and_fold",
+      "fixed_levels_-10_-5_0_5_10",
+      "negative_condition_rates",
+      "median_IQR",
+      "failures",
+      "CPU_runtime"
+    ]
+  },
+  "adoption_gate": {
+    "all_required": true,
+    "delta_Q_min_db": 0.5,
+    "delta_M_min_db": 0.5,
+    "delta_heart_min_db": 0.25,
+    "delta_lung_min_db": 0.25,
+    "min_positive_pair_M_count": 6,
+    "min_positive_fold_Q_count": 4,
+    "max_either_source_pair_regression_db": 0.5,
+    "max_negative_rate_increase_percentage_points": 5,
+    "failures": 0,
+    "absolute_heart_lung_macro_each_min_db": 1,
+    "absolute_each_pair_source_min_db": 0,
+    "missing_conditions": "invalid; never discard or compute partial favorable aggregate"
+  },
+  "selection": {
+    "none_pass": "retain_v2_stop_model_development",
+    "one_pass": "select_that_treatment",
+    "both_pass": "Q then M then count_positive_pair_M then count_positive_fold_Q; differences<=1e-6dB treatedasmetric tie; exact remainingtie chooseB for smaller model/unchanged inference",
+    "max_final_refits": 1,
+    "posthoc_seeds_or_variants": false
+  },
+  "final_refit": {
+    "only_after_valid_winner_receipt": true,
+    "source_counts": {
+      "heart": 45,
+      "lung": 41
+    },
+    "initialization": "fresh seed20260928; never fold/capacity/v2/external checkpoint",
+    "optimizer_updates": 576,
+    "learning_rate": 0.001,
+    "schedule": "constant",
+    "batch_size": 4,
+    "loss": "selected treatment unchanged",
+    "training_stream": "exact synthetic all-non-test prefix2304; compare recipecontenthash toexistingv2",
+    "checkpoint": "sole endpoint576",
+    "validation": false,
+    "native_or_external_data": false,
+    "new_spec": "research/configs/final_separator_v3.json",
+    "supersession": "record v2 supersession insidev3 only; preservev1/v2 bytes",
+    "stop_before_T9": true
+  },
+  "artifacts": {
+    "root": ".local/training/stethofuse-representation-v1/",
+    "gate_run": "tf-capacity-seed20260928",
+    "cv_run_pattern": "{a-tfcomplex|b-tcn-spectral}-{fold}-seed20260928",
+    "refit_pattern": "{selected-arm}-refit-all-nontest-seed20260928",
+    "keep": [
+      "plan_copy_and_hash",
+      "source_and_recipe_hashes",
+      "clean_start_commit",
+      "environment",
+      "initial_state_hash",
+      "resume_state_including_RNG_optimizer_cursor",
+      "history",
+      "endpoint_checkpoint_and_sha256",
+      "validation_rows_summary_runtime",
+      "decision_receipt"
+    ]
+  },
+  "resources": {
+    "max_rss_gib": 8,
+    "max_capacity_seconds": 600,
+    "max_cv_fold_minutes": 20,
+    "max_final_refit_minutes": 20
+  },
+  "stop_policy": "No metrics at intermediate updates; stop on nonfinite/corruption/leakage/resource failure, preserve evidence, diagnose once. A capacityFAIL does not cancel B. A genuine invalidating bug requires explicit documented correction, never silent changed-experiment retry. No routine early stop for mediocre validation. Never T9."
+}
