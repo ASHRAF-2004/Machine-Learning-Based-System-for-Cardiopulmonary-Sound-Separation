@@ -1,5 +1,15 @@
 # Frost Studio v1.1 — owner-approved handoff, bounded LOCAL progress
 
+## Current LIVE completion — 3 October 2026
+
+The releasable increment is deployed at `b6ee625`; real Firebase owner/Analyst/
+Admin acceptance and post-acceptance encrypted backup/restore are now verified.
+See `FROST_RELEASE_COMPLETION.md` and snapshot `31779753`. This supersedes the
+dated sign-in gates below, not unresolved account-retention/provider policy,
+avatar/notification services, secure handle login or genuine flight assets.
+No runtime/auth/model/design change was needed to finish acceptance. Do not
+replay deployment or the consumed T9 test; no new owner hands-on approval is claimed.
+
 ## Current continuation and releasable progress — 2 October 2026
 
 The owner said “Done” and explicitly requested continued work, push/merge and

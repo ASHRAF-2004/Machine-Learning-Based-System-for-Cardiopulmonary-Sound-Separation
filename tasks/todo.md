@@ -14,20 +14,23 @@
   standalone builds0. 174 passes +26 subtests/4 optional skips;8 client checks.
 - [x] Five-axis review; required packaging defect fixed with red/green regression
   and isolated image migration gate. Source/evidence commits pushed.
-- [ ] Final evidence/FYP2/PAUSE and exact remote merge receipt.
-- [ ] Merge existing PR9/2 only after release readiness; no force push.
-- [ ] Verified backup/rollback/migration, isolated StethoFuse deploy/live acceptance.
-- [ ] Post-release backup/service recovery/evidence; frozen ML/T9/Axora unchanged.
+- [x] Final evidence/FYP2 prepared; exact Git/PAUSE receipt recorded at handoff.
+- [x] Existing PR9/2 merged after release readiness; normal evidence updates only, no force push.
+- [x] Verified backup/rollback/migration, isolated StethoFuse deploy/live acceptance.
+- [x] Post-acceptance backup/service recovery/evidence; frozen ML/T9/Axora unchanged.
 
 Operational release `b6ee625` is now healthy, schema3, all original fields/private
 files preserved. Pre/post encrypted snapshots and small isolated restore verified;
-worker resumed. Signed-in Frost acceptance awaits actual Staff sign-in. Do not
-check the combined deployment/acceptance box or account gates on this basis alone.
+worker resumed. On3October real Firebase Staff/Analyst/Admin acceptance completed:
+recorded non-patient M0001 workflow, exact Heart/review scopes, saved feedback,
+revocation cleanup and Admin denial. Snapshot31779753 covers the final state;
+small isolated DB/model restore and remote audio hashes verified, services resumed.
+See `docs/FROST_RELEASE_COMPLETION.md`; do not mark account/asset gates complete.
 
 Avatar/lifecycle/notification/handle-login/flight are still explicitly gated. The
 owner's retention answer is pending; never check these boxes merely because the
 current tested interface has been released. No avatar/lifecycle/flight completion
-or new signed-in live acceptance is implied by the operational deployment.
+is implied by the completed bounded deployment/acceptance.
 
 # Preserved Frost Studio prototype tasks
 

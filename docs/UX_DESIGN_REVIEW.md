@@ -1,5 +1,13 @@
 # Frost Studio v1.1 — OWNER APPROVED
 
+3 October live completion: the unchanged approved interface is deployed at
+`b6ee625`. Real Firebase Staff/Analyst/Admin checks passed, including exact-source
+isolation, saved feedback/history, revocation cleanup and Admin privacy.
+Post-acceptance encrypted snapshot `31779753` and a small isolated restore are
+verified; services resumed. See `FROST_RELEASE_COMPLETION.md`. No new owner
+hands-on or clinical approval is inferred. The dated pending entries below retain
+their checkpoint scope; account-policy, notification and flight gates remain.
+
 2 October continued execution: `FROST_RELEASE_COMPLETION.md` records connected
 saved-review history/own-Library Insights and inspected final-v3 screenshots under
 `frontend/output/playwright/workspace-completion/`. The first capture revealed a

@@ -1,5 +1,11 @@
 # StethoFuse UX direction: Frost Studio
 
+3 October verified live status: deployed source `b6ee625` retains the approved
+design. Real-account collaboration/privacy checks and post-acceptance encrypted
+backup/restore passed; see `FROST_RELEASE_COMPLETION.md`. This supersedes dated
+pending sign-in entries below. No new design, model, auth policy or clinical
+claim; remaining account/device/flight gates are unchanged.
+
 2 October continuation: the owner waived intermediate reviews and requested
 push/merge/deployment of completed work. Frost Studio polish-v1 remains approved;
 no visual decision reopened. `FROST_RELEASE_COMPLETION.md` adds real bounded saved

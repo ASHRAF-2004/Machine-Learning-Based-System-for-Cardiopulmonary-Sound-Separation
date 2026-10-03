@@ -1,9 +1,10 @@
 # Frozen separator worker — deployed operations reference
 
-**CURRENT OPERATIONAL STATUS (2 October 2026):** the reviewed Frost interface is
-deployed at `b6ee625`, schema3, with pre/post encrypted recovery anchors verified.
-The frozen model/worker contract below is unchanged. New signed-in Frost live
-acceptance awaits owner sign-in; see
+**CURRENT OPERATIONAL STATUS (3 October 2026):** the reviewed Frost interface is
+deployed at `b6ee625`, schema3. Real-account Staff/Analyst/Admin acceptance and
+post-acceptance encrypted snapshot `31779753` are verified, including a small
+isolated DB/model restore, media hashes and worker resume. The frozen model/worker
+contract below is unchanged; see
 [`Frost release receipt`](../docs/FROST_RELEASE_COMPLETION.md) for the corrected
 image gate, original packaging failure/rollback and data-preservation proof.
 Do not replay the historical deployment, rerun T9 or infer clinical qualification.

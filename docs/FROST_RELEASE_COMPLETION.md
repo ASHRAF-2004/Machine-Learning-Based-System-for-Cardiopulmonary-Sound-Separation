@@ -1,5 +1,89 @@
 # Frost Studio completion / release contract — 2 October 2026
 
+## Current status — live acceptance and backup verified, 3 October 2026
+
+**PRODUCTION ML DEPLOYMENT COMPLETE — LIVE ACCEPTANCE AND BACKUP VERIFIED.**
+This dated completion supersedes the pending Staff/Analyst/backup checkpoints
+preserved below. Actual deployed source remains
+`b6ee625abe0f4d8d5b2b136398656b4c810e8f83`; this completion changes evidence only,
+not the frontend, backend, authorization, frozen separator or deployment.
+
+### Real-account collaboration and privacy
+
+The owner entered credentials in separate ordinary Brave windows for the existing
+Staff `@ivoryfinch`, Analyst `@blueheron` and Admin `@bluefox`. Real Firebase is used;
+no fictional SDK/verifier, token extraction, browser-security bypass or provider
+change. Native window-scoped screenshots were personally inspected. DevTools
+request-status capture was unavailable; the authenticated observations below are
+actual protected-request UI behavior, not invented HTTP status measurements.
+
+| Focused live case | Actual result |
+|---|---|
+| Owner workflow | Earlier current-run upload/Ready/three-source playback/download/refresh proof retained |
+| Anonymous Heart/Lung | Both protected endpoints returned 401 |
+| Exact Heart read | Analyst automatically loads Heart audio and its measured waveform/spectrogram; Original/Lung are not exposed |
+| Exact result review | Assignment `ASN-133J-S0Q42V` permits metadata/notes, not sibling audio authority |
+| Saved observations/history | Analyst saves the explicitly nonclinical acceptance note as Reviewed; SQLite and `review.updated` audit persist; current saved history reloads |
+| Owner feedback | Staff sees the saved note and real author before revocation |
+| Heart revocation | Subsequent protected request denied; audio, plots, metrics and download clear; independently granted review metadata remains usable without audio |
+| Review revocation | Explicit Refresh access denied; title/result/notes/audio/analysis clear; Analyst saved history becomes empty |
+| Unassigned authenticated Analyst | Fresh post-revocation access remains denied; no extra account needed |
+| Admin without grant | Direct `/app/results/d714c18abf274a8d80e6fb7f77fb5239` shows permission denial and no private content |
+| Owner/audit retention | Full refresh retains the saved Reviewed note marked Access revoked; both `grant.revoked` audits persist |
+
+Only the two acceptance grants were revoked through the owner UI: Heart
+`GRT-67DT-NTPQ1F` at1790986075, exact review `GRT-46T1-XX9Z6J` at1790986165.
+All five historical/current grants are now revoked; no active temporary permission
+remains. Original recordings, outputs and earlier saved reviews were retained.
+Revocation protects subsequent requests; it cannot recall already downloaded bytes.
+No authorization defect was found or security semantics changed.
+
+### Focused post-acceptance recovery proof
+
+Existing encrypted Restic/B2 `stethofuse-backup.service` ran once, on 3 October at
+08:22:30–08:22:51+08; Result=success, ExecMainStatus=0. It quiesced only StethoFuse
+web/API/one ML worker, then resumed web/API healthy and worker ready. Axora was
+not stopped or modified. Worker startup model-load observation after resume:
+0.428080s, not a job-latency/SLA measurement. Backup timer and StethoFuse tunnel
+remain active; public StethoFuse API and actual Axora host both return 200.
+
+Remote snapshot **`31779753cf3e23348e7f05a6713428d11ce1388479a0ff9a20604ec05453809d`**
+(snapshot timestamp 08:22:32+08) contains data/private/models/runtime configuration.
+Read-only remote listing verified 15 private files, including the new original and
+both outputs. Remote content hashes match the stored original, Heart and Lung
+hashes in the preceding Staff evidence, plus both complete frozen artifact hashes:
+
+- Checkpoint: `1f7e549ba53240bc085221e4eed1f935bb7c330e9a66cfab4c183c8f096c2658`.
+- Separator specification: `2573ae06b11aafc595a4cdb179e3ab0c9f7fbe37859863dcd36a5d8c70210b1b`.
+
+Small restore of SQLite/model bundle to root-only
+`/var/backups/stethofuse/frost-release-20261002.jkTawY/restored-live-20261003.B5HyeT`
+proved schema 3/integrity ok, zero foreign-key errors, 3 users/7 recordings/
+19 resources/5 grants/4 jobs/4 results/2 reviews. The completed acceptance job,
+saved reviewed note, both revoked grants, source provenance and exact model hashes
+are present. Remote verification exited 0. Live data was never overwritten; old
+recovery anchors retained, pruning still disabled, no snapshot deleted. Backup
+credentials stayed in existing root-protected systemd credentials, never in Git
+or printed output. No SSH connection/trust bypass was needed for this local-host
+backup invocation.
+
+Immutable ignored partial receipts remain unchanged. Final ignored receipt
+`frontend/output/playwright/frost-production-live-v1/completion-receipt.json`,
+SHA-256 `07ca30f68c27749e3c7948fcb8e68f32960dc0642a969a729906abf0b538ad7e`,
+references them, the personally inspected Admin-denial capture and backup proof.
+No broad tests/builds/research were rerun for this evidence-only completion.
+Five-axis evidence review: assertions match observed UI/audits/remote hashes;
+dated partial checkpoints remain explicit; no runtime coupling, secrets, binary
+artifacts or performance changes; no outstanding Critical/Required finding.
+
+This is agent-operated live acceptance with owner-entered sign-ins, not a newly
+reported owner hands-on approval, patient evaluation or clinical validation.
+Avatar persistence, real notifications, export/unlink/delete and secure handle
+login remain unavailable. Deletion/retention/provider policy still requires owner
+direction; flight remains **ASSET-GATED — NOT IMPLEMENTED**. Physical microphone/
+stethoscope qualification remains separate. No training, T9 reuse, model/inference
+change, new algorithm, owl/design alteration or Axora mutation occurred.
+
 ## Authority and assumptions
 
 The owner accepted continuation of the local feedback work (“Done”) and requested
